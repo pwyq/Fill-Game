@@ -2,9 +2,7 @@
 #export CMAKE_PREFIX_PATH=/home/pwyq/Qt5.12.8/5.12.8/gcc_64
 #export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:/usr/include/x86_64-linux-gnu/qt5
 mkdir -p build
-cmake \
-   -DCMAKE_PREFIX_PATH=/home/pwyq/Qt5.1.2.8/5.15.8/gcc_64/lib/cmake \
-   -S . -B build
+cmake -S . -B build
 cd build
 make
 
