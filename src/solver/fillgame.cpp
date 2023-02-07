@@ -3,9 +3,9 @@
 #include <sstream>
 #include <string>
 
-#include "constraint.h"
-#include "dfpn.h"
-#include "game.h"
+#include "solver/constraint.h"
+#include "solver/dfpn.h"
+#include "solver/game.h"
 
 using std::cout;
 using std::endl;
@@ -43,7 +43,6 @@ void testTimeLimit() { // SIGXCPU
         cout << "time limit test\n";
     }
 }
-**/
 
 int main(int argc, char** argv) {
     if (argc != 3) {
@@ -64,3 +63,4 @@ int main(int argc, char** argv) {
     }
     return 0;
 }
+**/

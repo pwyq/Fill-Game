@@ -1,4 +1,4 @@
-#include "game.h"
+#include "solver/game.h"
 #include <ostream>
 #include <stdexcept>
 

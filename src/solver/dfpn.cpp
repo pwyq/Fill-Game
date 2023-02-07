@@ -1,7 +1,7 @@
 #include <csignal>
 #include <iostream>
 
-#include "dfpn.h"
+#include "solver/dfpn.h"
 
 Timer<> g_timer{};     // total time used
 size_t g_counter = 0;  // num node visited

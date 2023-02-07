@@ -1,4 +1,4 @@
-#include "node.h"
+#include "solver/node.h"
 
 Node::Node(const Game& game) : game(game), phi(INF), delta(INF), is_expanded(false) {
     id = this->game.toString();
