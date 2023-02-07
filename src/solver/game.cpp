@@ -2,11 +2,21 @@
 #include <ostream>
 #include <stdexcept>
 
-Game::Game(const std::string& input) : width(0), height(0), to_play(PLAYER::BLACK), is_expanded(false) {
+Game::Game(const std::string& input) : 
+    width(0),
+    height(0),
+    is_expanded(false),
+    to_play(PLAYER::BLACK)
+{
     parseGameString(input);
 }
 
-Game::Game(const Game& other) : width(other.width), height(other.height), to_play(other.to_play), is_expanded(false) {
+Game::Game(const Game& other) : 
+    width(other.width),
+    height(other.height),
+    is_expanded(false),
+    to_play(other.to_play)
+{
     data = other.data;
 }
 

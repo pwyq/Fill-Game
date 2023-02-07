@@ -1,12 +1,8 @@
-set(SRC_INCLUDE ${CMAKE_SOURCE_DIR}/include/solver)
-
-include_directories(${SRC_INCLUDE})
+include_directories(${FILLGAME_HEADER_DIR}/solver)
 
 set(BINARY_NAME test_main)
 
 file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
-
-# set(SOURCES ${TEST_SOURCES})
 
 add_executable(${BINARY_NAME} ${TEST_SOURCES})
 

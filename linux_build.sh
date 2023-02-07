@@ -8,7 +8,7 @@ cmake \
 cd build
 make
 
-#cd ..
+cd ..
 #cp ./build/src/fillgame .
 
 #time ./fillgame 1.*.3 1

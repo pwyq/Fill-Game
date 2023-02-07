@@ -8,12 +8,14 @@ public:
 
     Node(const Game& game, const Pos& pos, uint8_t value);
 
-    Move move;
-    bool is_expanded;
+    Game game;
     uint32_t phi;
     uint32_t delta;
+    bool is_expanded;
+
+    Move move;
     std::string id;
-    Game game;
+
     std::vector<Node> children{};
 
     void evaluate();
