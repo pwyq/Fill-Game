@@ -1,7 +1,3 @@
-# This workflow will triage pull requests and apply a label based on the
-# paths that are modified in the pull request.
-#
-
 name: "Pull Request Labeler"
 on:
   pull_request_target:
