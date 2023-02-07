@@ -1,5 +1,6 @@
 # Fill-Game
 
+[![build](https://github.com/pwyq/Fill-Game/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/pwyq/Fill-Game/actions/workflows/c-cpp.yml)
 
 ## Build
 ```
