@@ -18,7 +18,8 @@ PopupSelection::PopupSelection(std::vector<uint8_t> available_moves)
 
 PopupSelection::~PopupSelection()
 {
-
+    delete _layout;
+    delete _widget;
 }
 
 void PopupSelection::initUI(std::vector<uint8_t> available_moves)

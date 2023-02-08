@@ -10,7 +10,8 @@
 #include <iostream>
 #include <vector>
 
-#include <gui/board_cell.h>
+#include "gui/board_cell.h"
+#include "solver/game.h"
 
 
 namespace GUI
@@ -35,6 +36,9 @@ class MainWindow: public QMainWindow
         std::vector<BoardCell*> _boardVec;
 
         void onBoardCellPressed(BoardCell* cell);
+    private:
+        Game* _game;    // TODO: std::auto_ptr, std::shared_ptr
+        std::string _gameString;
 };
 
 
