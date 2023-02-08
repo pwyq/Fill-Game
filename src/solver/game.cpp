@@ -2,6 +2,7 @@
 #include <ostream>
 #include <stdexcept>
 
+
 Game::Game(const std::string& input) : 
     width(0),
     height(0),

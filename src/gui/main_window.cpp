@@ -1,41 +1,107 @@
-// Qt include
-// #include <QDesktopWidget>
+// Qt
+#include <QMenu>
+#include <QMessageBox>
 
 // own include
 #include "gui/main_window.h"
+#include "gui/popup_selection.h"
+
 
 namespace GUI
 {
 
 
-MainWindow::MainWindow(const std::string& title, const std::string& htmlPath)
+MainWindow::MainWindow()
 {
-    // UI elements
-    layout_     = new QGridLayout();
-    widget_     = new QWidget();
-    browser_    = new QTextBrowser(this);
+    // temporary
+    _boardHeight = 2;
+    _boardWidth  = 2;
 
-    this->initUI(title, htmlPath);
+    // UI elements
+    _layout     = new QGridLayout();
+    _widget     = new QWidget();
+    _menuBar    = new QMenuBar();
+
+    // Solver elements
+    std::string _gameString = "";
+    for (uint8_t row = 0; row < _boardHeight; row++) {
+        for (uint8_t col = 0; col < _boardWidth; col++) {
+            _gameString += ".";
+        }
+        _gameString += "*";
+    }
+    _gameString.pop_back();
+    _game       = new Game(_gameString);
+
+    this->initUI();
     this->setAttribute( Qt::WA_DeleteOnClose );
 }
 
 MainWindow::~MainWindow()
 {
-    // any possible clean up here
+    delete _layout;
+    delete _widget;
+    delete _menuBar;
+    for (auto p : _boardVec) {
+        delete p;
+    }
+    _boardVec.clear();
 }
 
-void MainWindow::initUI(const std::string& title, const std::string& htmlPath)
+void MainWindow::initUI()
 {
-    this->setWindowTitle(QString::fromStdString(title));
+    this->setWindowTitle(QString::fromStdString("Fill Game"));
 
     this->setWindowSize(0.56, 0.50);
 
-    browser_->setOpenExternalLinks(false);
-    browser_->setSource(QUrl(QString::fromStdString(htmlPath)));
-    layout_->addWidget(browser_, 0, 0);
+    // TODO: menu bar
+    QMenu* boardMenu = new QMenu();
+    boardMenu->addMenu("&Board");
+    _menuBar->addMenu(boardMenu);
 
-    widget_->setLayout(layout_);
-    this->setCentralWidget(widget_);
+    for (uint8_t row = 0; row < _boardHeight; row++) {
+        for (uint8_t col = 0; col < _boardWidth; col++) {
+            QString t = "";
+            BoardCell* button = new BoardCell(t, QPoint(col, row), this);   // note that col=x, row=y, from top down
+            _boardVec.push_back(button);
+            connect(button, &QPushButton::pressed, [button, this](){
+                this->onBoardCellPressed(button);
+            });
+
+            _layout->addWidget(button, row, col, 1, 1);
+        }
+    }
+
+    _widget->setLayout(_layout);
+    this->setCentralWidget(_widget);
+}
+
+void MainWindow::onBoardCellPressed(BoardCell* cell)
+{
+    Pos cellPos = Pos{
+        static_cast<uint8_t>(cell->getPos().y()),
+        static_cast<uint8_t>(cell->getPos().x())
+    };
+
+    auto allMoves = _game->getPossibleMoves();
+    if (allMoves.find(cellPos) == allMoves.end()) {
+        QMessageBox msgBox;
+        msgBox.setText("No Possible Move");
+        msgBox.exec();
+        return;
+    }
+    auto moves = allMoves.at(cellPos);
+
+    PopupSelection* a = new PopupSelection(moves);
+    connect(a, &PopupSelection::selectedNumber, [cell, cellPos, this](QString s){
+        cell->setText(s);
+        this->_game->unsafePlay(cellPos, static_cast<uint8_t>(s.toInt()));
+        this->_gameString = this->_game->toString();
+        delete this->_game;
+        this->_game = new Game(this->_gameString);
+    });
+    a->move(QCursor::pos());
+    a->show();
 }
 
 /**

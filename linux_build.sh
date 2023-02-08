@@ -7,7 +7,7 @@ cd build
 make
 
 cd ..
-#cp ./build/src/fillgame .
+./build/src/fillgame
 
 #time ./fillgame 1.*.3 1
 #time ./fillgame 13*.3 1
