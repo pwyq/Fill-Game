@@ -18,6 +18,7 @@
 
 #include "gui/board_cell.h"
 #include "gui/input_dialog.h"
+#include "gui/popup_selection.h"
 #include "solver/game.h"
 
 
@@ -57,12 +58,19 @@ class MainWindow: public QMainWindow
         // slots
         void onBoardCellPressed(BoardCell* cell);
     private:
+        Solver::Game* _game = nullptr;    // TODO: std::auto_ptr, std::shared_ptr?
+
+        PopupSelection* _popupSelection = nullptr;
+
+        std::string _gameString;
+
+        int _moveCounter = 1;
+
+        bool _isSelectionFinished = true;
+
         // template<class T>
         // void clearLayout(T* layoutType, bool deleteWidgets);
         void clearBoardLayout();
-        Solver::Game* _game = nullptr;    // TODO: std::auto_ptr, std::shared_ptr?
-        std::string _gameString;
-        int _moveCounter = 1;
 };
 
 

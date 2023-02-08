@@ -3,7 +3,6 @@
 
 // own include
 #include "gui/main_window.h"
-#include "gui/popup_selection.h"
 #include "gui/helper.h"
 
 
@@ -173,9 +172,12 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height)
     this->drawBoard();
     this->updateCurrentPlayer(this->_game->to_play);
     _browser->clear();
+    // TODO: resize window to board
+    this->adjustSize(); // TODO: not working
 }
 
-// TODO: How to make a type T*& becomes T*?? 
+// TODO: How to make a type T*& becomes T*??
+// https://stackoverflow.com/questions/48023441/qt-type-as-parameter-of-function
 // template<class T>
 // void MainWindow::clearLayout(T* layout, bool deleteWidgets = true)
 // void MainWindow::clearLayout(QGridLayout* layout, bool deleteWidgets = true)
@@ -236,6 +238,7 @@ QString MainWindow::getMoveMessage(Solver::Pos p, QString val)
 
 void MainWindow::onBoardCellPressed(BoardCell* cell)
 {
+    // _mainWidget->setEnabled(false);    // prevent from clicking another cell
     Solver::Pos cellPos = Solver::Pos{
         static_cast<uint8_t>(cell->getPos().y()),
         static_cast<uint8_t>(cell->getPos().x())
@@ -251,8 +254,14 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
     }
     auto moves = allMoves.at(cellPos);
 
-    PopupSelection* a = new PopupSelection(moves);
-    connect(a, &PopupSelection::selectedNumber, [cell, cellPos, a, this](QString moveValue){
+    if (true == _isSelectionFinished) {
+        _isSelectionFinished = false;
+    } else {
+        _popupSelection->deleteLater();
+        delete _popupSelection;
+    }
+    _popupSelection = PopupSelection::GetInstance(moves);
+    connect(_popupSelection, &PopupSelection::selectedNumber, [cell, cellPos, this](QString moveValue){
         cell->setText(moveValue);
         this->_game->unsafePlay(cellPos, QStringToUint8(moveValue));
         this->_gameString = this->_game->toString();
@@ -261,7 +270,7 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
 
         if (this->_game->getPossibleMoves().size() == 0) {
             // user clicked a dead cell
-            a->close();
+            _popupSelection->close();
             for (auto c : this->_boardVec) {
                 c->setEnabled(false);
             }
@@ -273,11 +282,12 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
             cell->setEnabled(false);
             this->_browser->append(this->getMoveMessage(cellPos, moveValue));
             this->updateCurrentPlayer(this->_game->to_play);
-            a->close();
+            _popupSelection->close();
         }
+        this->_isSelectionFinished = true;
     });
-    a->move(QCursor::pos());
-    a->show();
+    _popupSelection->move(QCursor::pos());
+    _popupSelection->show();
 }
 
 
