@@ -31,7 +31,7 @@ class MainWindow: public QMainWindow
     Q_OBJECT
     public:
         MainWindow();
-        ~MainWindow();
+        // ~MainWindow();   // No need of destructor; otherwise double free(); the rule of 3/5/0
         void initUI();
         void startNewGame();
         void changeGameSize(uint8_t width, uint8_t height);

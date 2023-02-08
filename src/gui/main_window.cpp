@@ -32,49 +32,8 @@ MainWindow::MainWindow():
     _boardMenu = this->menuBar()->addMenu("&Board");
     this->initUI();
     this->setWindowFlags(windowFlags() &(~Qt::WindowMaximizeButtonHint));   // TODO: allow proportionally resize in the future
-    this->setAttribute( Qt::WA_DeleteOnClose );
-}
-
-MainWindow::~MainWindow()
-{
-    qDebug() << "1";
-    for (auto p : _boardVec) {
-        p->deleteLater();
-        delete p;
-    }
-    _boardVec.clear();
-    qDebug() << "2";
-
-    // qDebug() << _currPlayer;
-    // qDebug() << _browser;
-    // qDebug() << _gameMenu;
-    // qDebug() << _boardMenu;
-
-    // delete _currPlayer;
-    // delete _browser;
-    // delete _gameMenu;
-    // delete _boardMenu;
-    if (_game != nullptr) {
-        qDebug() << _game;
-        delete _game;
-    }
-    if (_popupSelection != nullptr) {
-        qDebug() << _popupSelection;
-        delete _popupSelection;
-    }
-    qDebug() << "3";
-    if (_boardLayout != nullptr)
-        delete _boardLayout;
-    qDebug() << "4";
-    if (_infoLayout != nullptr)
-        delete _infoLayout;
-    qDebug() << "5";
-    if (_mainLayout != nullptr)
-        delete _mainLayout;
-    qDebug() << "6";
-    if (_mainWidget != nullptr)
-        delete _mainWidget;
-    qDebug() << "7";
+    // https://en.cppreference.com/w/cpp/language/rule_of_three rule of 3/5/0
+    // this->setAttribute( Qt::WA_DeleteOnClose );
 }
 
 void MainWindow::initUI()

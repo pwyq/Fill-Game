@@ -23,7 +23,6 @@ BoardCell::BoardCell(QString& text, const QPoint& pos, QWidget* parent):
 
 BoardCell::~BoardCell()
 {
-    qDebug() << "b1";
 }
 
 uint8_t BoardCell::getValue()
