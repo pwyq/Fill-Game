@@ -1,5 +1,4 @@
 // Qt
-#include <QMenu>
 #include <QMessageBox>
 
 // own include
@@ -12,33 +11,26 @@ namespace GUI
 {
 
 
-MainWindow::MainWindow()
+MainWindow::MainWindow():
+    _boardWidth(5),
+    _boardHeight(5)
 {
-    // temporary
-    _boardHeight = 4;
-    _boardWidth  = 4;
+    // TODO: cell color
 
     // UI elements
     _mainLayout     = new QHBoxLayout();
     _boardLayout    = new QGridLayout();
     _infoLayout     = new QGridLayout();
     _mainWidget     = new QWidget();
-
-    _menuBar        = new QMenuBar();
     _currPlayer     = new QLabel();
     _browser        = new QTextBrowser();
 
     // Solver elements
-    std::string _gameString = "";
-    for (uint8_t row = 0; row < _boardHeight; row++) {
-        for (uint8_t col = 0; col < _boardWidth; col++) {
-            _gameString += ".";
-        }
-        _gameString += "*";
-    }
-    _gameString.pop_back();
-    _game       = new Solver::Game(_gameString);
+    this->startNewGame();
 
+    // UI related
+    _gameMenu  = this->menuBar()->addMenu("&Game");
+    _boardMenu = this->menuBar()->addMenu("&Board");
     this->initUI();
     this->setAttribute( Qt::WA_DeleteOnClose );
 }
@@ -46,8 +38,9 @@ MainWindow::MainWindow()
 MainWindow::~MainWindow()
 {
     delete _boardLayout;
+    delete _infoLayout;
+    delete _mainLayout;
     delete _mainWidget;
-    delete _menuBar;
     for (auto p : _boardVec) {
         delete p;
     }
@@ -57,14 +50,152 @@ MainWindow::~MainWindow()
 void MainWindow::initUI()
 {
     this->setWindowTitle(QString::fromStdString("Fill Game"));
+    this->initGameMenu();
+    this->initBoardMenu(); 
 
-    this->setWindowSize(0.56, 0.50);
 
-    // TODO: menu bar
-    QMenu* boardMenu = new QMenu();
-    boardMenu->addMenu("&Board");
-    _menuBar->addMenu(boardMenu);
+    this->drawBoard();
+    // init info layout
+    _infoLayout->addWidget(new QLabel("Current Player"), 0, 0, 1, 1);
+    this->updateCurrentPlayer(this->_game->to_play);
+    _infoLayout->addWidget(_currPlayer, 0, 1, 1, 1);
+    _infoLayout->addWidget(_browser, 1, 0, 2, 2);
 
+    _mainLayout->addLayout(_boardLayout);
+    _mainLayout->addLayout(_infoLayout);
+    _mainWidget->setLayout(_mainLayout);
+    this->setCentralWidget(_mainWidget);
+}
+
+void MainWindow::initGameMenu()
+{
+    QAction* startNewGame = new QAction("Start &New Game", _gameMenu);
+    connect(startNewGame, &QAction::triggered, [this](){
+        this->startNewGame();
+    });
+    _gameMenu->addAction(startNewGame);
+
+    _gameMenu->addSeparator();
+
+    QAction* quit = new QAction("&Quit", _gameMenu);
+    connect(quit, &QAction::triggered, [this](){
+        this->close();
+    });
+    _gameMenu->addAction(quit);
+}
+
+void MainWindow::initBoardMenu()
+{
+    QAction* three = new QAction("3 x 3", _boardMenu);
+    connect(three, &QAction::triggered, [this]() {
+        this->changeGameSize(3, 3);
+    });
+    _boardMenu->addAction(three);
+
+    QAction* five  = new QAction("5 x 5", _boardMenu);
+    connect(five, &QAction::triggered, [this]() {
+        this->changeGameSize(5, 5);
+    });
+    _boardMenu->addAction(five);
+
+    QAction* seven = new QAction("7 x 7", _boardMenu);
+    connect(seven, &QAction::triggered, [this]() {
+        this->changeGameSize(7, 7);
+    });
+    _boardMenu->addAction(seven);
+
+    QAction* ten   = new QAction("10 x 10", _boardMenu);
+    connect(ten, &QAction::triggered, [this]() {
+        this->changeGameSize(10, 10);
+    });
+    _boardMenu->addAction(ten);
+    /*
+    QAction* custom = new QAction("&Custom Board Size", _boardMenu);
+    connect(ten, &QAction::triggered, [this]() {
+        QStringList list = InputDialog::getStrings(this);
+        if (!list.isEmpty()) {
+            // use list
+        }
+        emit this->changeGameSize(10, 10);
+    });
+    _boardMenu->addAction(custom);
+    */
+}
+
+void MainWindow::startNewGame()
+{
+    std::string _gameString = "";
+    for (uint8_t row = 0; row < _boardHeight; row++) {
+        for (uint8_t col = 0; col < _boardWidth; col++) {
+            _gameString += ".";
+        }
+        _gameString += "*";
+    }
+    _gameString.pop_back();
+
+    if (_game != nullptr) {
+        _game = nullptr;
+        delete _game;
+    }
+    _game = new Solver::Game(_gameString);
+
+    // clear UI
+    for (auto c : _boardVec) {
+        c->setEnabled(true);
+        c->setText("");
+    }
+    this->updateCurrentPlayer(this->_game->to_play);
+    _browser->clear();
+}
+
+void MainWindow::changeGameSize(uint8_t width, uint8_t height)
+{
+    _boardHeight = height;
+    _boardWidth  = width;
+    std::string _gameString = "";
+    for (uint8_t row = 0; row < _boardHeight; row++) {
+        for (uint8_t col = 0; col < _boardWidth; col++) {
+            _gameString += ".";
+        }
+        _gameString += "*";
+    }
+    _gameString.pop_back();
+
+    if (_game != nullptr) {
+        _game = nullptr;
+        delete _game;
+    }
+    _game = new Solver::Game(_gameString);
+
+    // redraw & clear UI
+    // for (auto c : _boardVec) {
+    //     delete c;
+    // }
+    _boardVec.clear();
+    this->clearLayout<QGridLayout*&>(_boardLayout);
+    this->drawBoard();
+    this->updateCurrentPlayer(this->_game->to_play);
+    _browser->clear();
+}
+
+template<class T>
+void MainWindow::clearLayout(T*& layout, bool deleteWidgets = true)
+{
+    while (QLayoutItem* item = layout->takeAt(0))
+    {
+        if (deleteWidgets)
+        {
+            if (QWidget* widget = item->widget())
+                widget->deleteLater();
+        }
+        if (QLayout* childLayout = item->layout())
+            clearLayout(childLayout, deleteWidgets);
+        delete item;
+    }
+}
+
+void MainWindow::drawBoard()
+{
     // init board x y axis
     for (uint8_t col = 1; col < _boardWidth+1; col++) {
         char c = 64 + col;  // ascii 'A' = 65
@@ -88,16 +219,6 @@ void MainWindow::initUI()
             _boardLayout->addWidget(button, row+1, col+1, 1, 1);
         }
     }
-    // init info layout
-    _infoLayout->addWidget(new QLabel("Current Player"), 0, 0, 1, 1);
-    this->updateCurrentPlayer(this->_game->to_play);
-    _infoLayout->addWidget(_currPlayer, 0, 1, 1, 1);
-    _infoLayout->addWidget(_browser, 1, 0, 2, 2);
-
-    _mainLayout->addLayout(_boardLayout);
-    _mainLayout->addLayout(_infoLayout);
-    _mainWidget->setLayout(_mainLayout);
-    this->setCentralWidget(_mainWidget);
 }
 
 void MainWindow::updateCurrentPlayer(Solver::PLAYER p)
@@ -145,6 +266,7 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
         this->_game = new Solver::Game(this->_gameString);
 
         if (this->_game->getPossibleMoves().size() == 0) {
+            // user clicked a dead cell
             a->close();
             for (auto c : this->_boardVec) {
                 c->setEnabled(false);
@@ -153,6 +275,8 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
             msgBox.setText("Winner: " + this->_currPlayer->text());
             msgBox.exec();
         } else {
+            // the move was successful
+            cell->setEnabled(false);
             this->_browser->append(this->getMoveMessage(cellPos, moveValue));
             this->updateCurrentPlayer(this->_game->to_play);
             a->close();
@@ -160,22 +284,6 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
     });
     a->move(QCursor::pos());
     a->show();
-}
-
-/**
- * @brief set window size based on width/height ratio to user screen resolution
- * 
- * @param widthRatio 
- * @param heightRatio 
- */
-void MainWindow::setWindowSize(const float& widthRatio, const float& heightRatio)
-{
-    assert(0 <= widthRatio  && widthRatio  < 1);
-    assert(0 <= heightRatio && heightRatio < 1);
-    // QDesktopWidget dw;
-    // float ww = widthRatio * dw.availableGeometry().width();
-    // float hh = heightRatio * dw.availableGeometry().height();
-    // this->setFixedSize(QSize(ww, hh));
 }
 
 
