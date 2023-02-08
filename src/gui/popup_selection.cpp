@@ -1,5 +1,5 @@
 #include <QPushButton>
-
+#include <QDebug>
 #include "gui/popup_selection.h"
 
 
@@ -23,9 +23,16 @@ PopupSelection::PopupSelection(std::vector<uint8_t> available_moves)
 
 PopupSelection::~PopupSelection()
 {
+    qDebug() << "p1";
     delete _layout;
+    qDebug() << "p2";
+
     delete _widget;
+    qDebug() << "p3";
+
     pinstance_ = nullptr;
+    qDebug() << "p4";
+
 }
 
 PopupSelection* PopupSelection::GetInstance(std::vector<uint8_t> available_moves)

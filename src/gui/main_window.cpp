@@ -11,8 +11,8 @@ namespace GUI
 
 
 MainWindow::MainWindow():
-    _boardWidth(5),
-    _boardHeight(5)
+    _boardWidth(3),
+    _boardHeight(3)
 {
     // TODO: cell color
 
@@ -31,19 +31,50 @@ MainWindow::MainWindow():
     _gameMenu  = this->menuBar()->addMenu("&Game");
     _boardMenu = this->menuBar()->addMenu("&Board");
     this->initUI();
+    this->setWindowFlags(windowFlags() &(~Qt::WindowMaximizeButtonHint));   // TODO: allow proportionally resize in the future
     this->setAttribute( Qt::WA_DeleteOnClose );
 }
 
 MainWindow::~MainWindow()
 {
-    delete _boardLayout;
-    delete _infoLayout;
-    delete _mainLayout;
-    delete _mainWidget;
+    qDebug() << "1";
     for (auto p : _boardVec) {
+        p->deleteLater();
         delete p;
     }
     _boardVec.clear();
+    qDebug() << "2";
+
+    // qDebug() << _currPlayer;
+    // qDebug() << _browser;
+    // qDebug() << _gameMenu;
+    // qDebug() << _boardMenu;
+
+    // delete _currPlayer;
+    // delete _browser;
+    // delete _gameMenu;
+    // delete _boardMenu;
+    if (_game != nullptr) {
+        qDebug() << _game;
+        delete _game;
+    }
+    if (_popupSelection != nullptr) {
+        qDebug() << _popupSelection;
+        delete _popupSelection;
+    }
+    qDebug() << "3";
+    if (_boardLayout != nullptr)
+        delete _boardLayout;
+    qDebug() << "4";
+    if (_infoLayout != nullptr)
+        delete _infoLayout;
+    qDebug() << "5";
+    if (_mainLayout != nullptr)
+        delete _mainLayout;
+    qDebug() << "6";
+    if (_mainWidget != nullptr)
+        delete _mainWidget;
+    qDebug() << "7";
 }
 
 void MainWindow::initUI()
@@ -173,7 +204,12 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height)
     this->updateCurrentPlayer(this->_game->to_play);
     _browser->clear();
     // TODO: resize window to board
-    this->adjustSize(); // TODO: not working
+    // qDebug() << this->_mainWidget->size();
+    // qDebug() << this->_mainWidget->sizeHint();
+    // qDebug() << this->_mainWidget->minimumSizeHint();
+    // this->resize(this->_mainWidget->minimumSizeHint());
+    for (uint8_t i = 0; i < 2; i++)
+        this->adjustSize(); // TODO: not fully working; if the board change form large to small for the first time, it will not work; all other cases work fine. Current work around is to start with the smallest board
 }
 
 // TODO: How to make a type T*& becomes T*??
