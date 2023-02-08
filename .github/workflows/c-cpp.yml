@@ -26,3 +26,7 @@ jobs:
         cmake -S . -B build
         cd build
         make
+    - name: run unit tests (gtest)
+      run: |
+        chmod +x ./build/test/test_main
+        ./build/test/test_main
