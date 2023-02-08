@@ -1,4 +1,6 @@
+// Qt
 #include <QMenu>
+#include <QMessageBox>
 
 // own include
 #include "gui/main_window.h"
@@ -84,7 +86,9 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
 
     auto allMoves = _game->getPossibleMoves();
     if (allMoves.find(cellPos) == allMoves.end()) {
-        // TODO: show warning
+        QMessageBox msgBox;
+        msgBox.setText("No Possible Move");
+        msgBox.exec();
         return;
     }
     auto moves = allMoves.at(cellPos);
