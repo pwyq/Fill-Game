@@ -26,6 +26,7 @@ MainWindow::MainWindow()
 
     _menuBar        = new QMenuBar();
     _currPlayer     = new QLabel();
+    _browser        = new QTextBrowser();
 
     // Solver elements
     std::string _gameString = "";
@@ -91,6 +92,7 @@ void MainWindow::initUI()
     _infoLayout->addWidget(new QLabel("Current Player"), 0, 0, 1, 1);
     this->updateCurrentPlayer(this->_game->to_play);
     _infoLayout->addWidget(_currPlayer, 0, 1, 1, 1);
+    _infoLayout->addWidget(_browser, 1, 0, 2, 2);
 
     _mainLayout->addLayout(_boardLayout);
     _mainLayout->addLayout(_infoLayout);
@@ -104,6 +106,17 @@ void MainWindow::updateCurrentPlayer(Solver::PLAYER p)
         this->_currPlayer->setText("BLACK");
     else
         this->_currPlayer->setText("WHITE");
+}
+
+QString MainWindow::getMoveMessage(Solver::Pos p, QString val)
+{
+    QString res = QString::number(this->_moveCounter++) + ". " + this->_currPlayer->text() + ": ";
+    char c = 65 + p.col;    // 'A' = 65
+    res += QChar(c);
+    res += uint8ToQstring(p.row+1);
+    res += " - ";
+    res += val;
+    return res;
 }
 
 void MainWindow::onBoardCellPressed(BoardCell* cell)
@@ -124,9 +137,9 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
     auto moves = allMoves.at(cellPos);
 
     PopupSelection* a = new PopupSelection(moves);
-    connect(a, &PopupSelection::selectedNumber, [cell, cellPos, a, this](QString s){
-        cell->setText(s);
-        this->_game->unsafePlay(cellPos, QStringToUint8(s));
+    connect(a, &PopupSelection::selectedNumber, [cell, cellPos, a, this](QString moveValue){
+        cell->setText(moveValue);
+        this->_game->unsafePlay(cellPos, QStringToUint8(moveValue));
         this->_gameString = this->_game->toString();
         delete this->_game;
         this->_game = new Solver::Game(this->_gameString);
@@ -140,6 +153,7 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
             msgBox.setText("Winner: " + this->_currPlayer->text());
             msgBox.exec();
         } else {
+            this->_browser->append(this->getMoveMessage(cellPos, moveValue));
             this->updateCurrentPlayer(this->_game->to_play);
             a->close();
         }

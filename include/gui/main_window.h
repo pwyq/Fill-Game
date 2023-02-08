@@ -9,6 +9,7 @@
 #include <QWidget>
 #include <QMenuBar>
 #include <QLabel>
+#include <QTextBrowser>
 
 #include <iostream>
 #include <vector>
@@ -30,24 +31,27 @@ class MainWindow: public QMainWindow
         void initUI();
         void setWindowSize(const float& widthRatio, const float& heightRatio);
     protected:
-        QHBoxLayout* _mainLayout;
-        QGridLayout* _boardLayout;
-        QGridLayout* _infoLayout;
-        QWidget* _mainWidget;
-        QMenuBar* _menuBar;
-        QLabel* _currPlayer;
+        QHBoxLayout*    _mainLayout;
+        QGridLayout*    _boardLayout;
+        QGridLayout*    _infoLayout;
+        QWidget*        _mainWidget;
+        QMenuBar*       _menuBar;
+        QLabel*         _currPlayer;
+        QTextBrowser*   _browser;
 
         uint8_t _boardWidth;
         uint8_t _boardHeight;
         std::vector<BoardCell*> _boardVec;
 
-        void updateCurrentPlayer(Solver::PLAYER);
+        void updateCurrentPlayer(Solver::PLAYER player);
+        QString getMoveMessage(Solver::Pos pos, QString moveValue);
 
         // slots
         void onBoardCellPressed(BoardCell* cell);
     private:
-        Solver::Game* _game;    // TODO: std::auto_ptr, std::shared_ptr
+        Solver::Game* _game;    // TODO: std::auto_ptr, std::shared_ptr?
         std::string _gameString;
+        int _moveCounter = 1;
 };
 
 
