@@ -31,7 +31,6 @@ MainWindow::MainWindow()
         _gameString += "*";
     }
     _gameString.pop_back();
-    std::cout << _gameString << std::endl;
     _game       = new Game(_gameString);
 
     this->initUI();
