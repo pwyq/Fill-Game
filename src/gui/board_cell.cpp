@@ -1,7 +1,7 @@
 #include "gui/board_cell.h"
 #include "gui/helper.h"
 
-#include <iostream>
+#include <QDebug>
 
 namespace GUI
 {
@@ -23,7 +23,6 @@ BoardCell::BoardCell(QString& text, const QPoint& pos, QWidget* parent):
 
 BoardCell::~BoardCell()
 {
-
 }
 
 uint8_t BoardCell::getValue()

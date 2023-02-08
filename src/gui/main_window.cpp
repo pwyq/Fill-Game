@@ -11,8 +11,8 @@ namespace GUI
 
 
 MainWindow::MainWindow():
-    _boardWidth(5),
-    _boardHeight(5)
+    _boardWidth(3),
+    _boardHeight(3)
 {
     // TODO: cell color
 
@@ -31,19 +31,9 @@ MainWindow::MainWindow():
     _gameMenu  = this->menuBar()->addMenu("&Game");
     _boardMenu = this->menuBar()->addMenu("&Board");
     this->initUI();
-    this->setAttribute( Qt::WA_DeleteOnClose );
-}
-
-MainWindow::~MainWindow()
-{
-    delete _boardLayout;
-    delete _infoLayout;
-    delete _mainLayout;
-    delete _mainWidget;
-    for (auto p : _boardVec) {
-        delete p;
-    }
-    _boardVec.clear();
+    this->setWindowFlags(windowFlags() &(~Qt::WindowMaximizeButtonHint));   // TODO: allow proportionally resize in the future
+    // https://en.cppreference.com/w/cpp/language/rule_of_three rule of 3/5/0
+    // this->setAttribute( Qt::WA_DeleteOnClose );
 }
 
 void MainWindow::initUI()
@@ -173,7 +163,12 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height)
     this->updateCurrentPlayer(this->_game->to_play);
     _browser->clear();
     // TODO: resize window to board
-    this->adjustSize(); // TODO: not working
+    // qDebug() << this->_mainWidget->size();
+    // qDebug() << this->_mainWidget->sizeHint();
+    // qDebug() << this->_mainWidget->minimumSizeHint();
+    // this->resize(this->_mainWidget->minimumSizeHint());
+    for (uint8_t i = 0; i < 2; i++)
+        this->adjustSize(); // TODO: not fully working; if the board change form large to small for the first time, it will not work; all other cases work fine. Current work around is to start with the smallest board
 }
 
 // TODO: How to make a type T*& becomes T*??
