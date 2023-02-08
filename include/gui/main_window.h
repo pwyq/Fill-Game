@@ -11,6 +11,7 @@
 #include <QTextBrowser>
 #include <QMenuBar>
 #include <QMenu>
+#include <QDebug>
 
 #include <iostream>
 #include <vector>
@@ -56,9 +57,9 @@ class MainWindow: public QMainWindow
         // slots
         void onBoardCellPressed(BoardCell* cell);
     private:
-        template<class T>
-        void clearLayout(T*& layoutType, bool deleteWidgets);
-        // void clearLayout(QLayout* layout, bool deleteWidgets);
+        // template<class T>
+        // void clearLayout(T* layoutType, bool deleteWidgets);
+        void clearBoardLayout();
         Solver::Game* _game = nullptr;    // TODO: std::auto_ptr, std::shared_ptr?
         std::string _gameString;
         int _moveCounter = 1;

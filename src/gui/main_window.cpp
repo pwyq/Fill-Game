@@ -168,28 +168,22 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height)
     _game = new Solver::Game(_gameString);
 
     // redraw & clear UI
-    // for (auto c : _boardVec) {
-    //     delete c;
-    // }
+    this->clearBoardLayout();
     _boardVec.clear();
-    this->clearLayout<QGridLayout*&>(_boardLayout);
     this->drawBoard();
     this->updateCurrentPlayer(this->_game->to_play);
     _browser->clear();
 }
 
-template<class T>
-void MainWindow::clearLayout(T*& layout, bool deleteWidgets = true)
+// TODO: How to make a type T*& becomes T*?? 
+// template<class T>
+// void MainWindow::clearLayout(T* layout, bool deleteWidgets = true)
+// void MainWindow::clearLayout(QGridLayout* layout, bool deleteWidgets = true)
+void MainWindow::clearBoardLayout()
 {
-    while (QLayoutItem* item = layout->takeAt(0))
-    {
-        if (deleteWidgets)
-        {
-            if (QWidget* widget = item->widget())
-                widget->deleteLater();
-        }
-        if (QLayout* childLayout = item->layout())
-            clearLayout(childLayout, deleteWidgets);
+    while (_boardLayout->count() > 0) {
+        auto item = _boardLayout->itemAt(0)->widget();
+        item->deleteLater();
         delete item;
     }
 }
