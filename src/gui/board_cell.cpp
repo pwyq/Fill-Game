@@ -4,6 +4,7 @@
 
 namespace GUI
 {
+
 BoardCell::BoardCell(QString& text, const QPoint& pos, QWidget* parent):
     QPushButton(text, parent),
     _pos(pos)

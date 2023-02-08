@@ -25,5 +25,4 @@ private:
 } // namespace GUI
 
 
-
 #endif

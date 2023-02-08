@@ -7,7 +7,7 @@
 #include <QWidget>
 #include <QMenuBar>
 
-#include <iostream>
+// #include <iostream>
 #include <vector>
 
 #include "gui/board_cell.h"
