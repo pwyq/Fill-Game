@@ -2,6 +2,7 @@
 
 // own include
 #include "gui/main_window.h"
+#include "gui/popup_selection.h"
 
 
 namespace GUI
@@ -57,7 +58,15 @@ void MainWindow::initUI()
 
 void MainWindow::onBoardCellPressed(BoardCell* cell)
 {
-    std::cout << "pressed" << cell->getPos().x() << ", " << cell->getPos().y() << std::endl;
+    // std::cout << "pressed" << cell->getPos().x() << ", " << cell->getPos().y() << std::endl;
+    // TODO: get possible moves;
+    std::vector<uint8_t> available_moves = {1,2,3,4,5,6,7,8,9};
+    PopupSelection* a = new PopupSelection(available_moves);
+    connect(a, &PopupSelection::selectedNumber, [cell](QString s){
+        cell->setText(s);
+    });
+    a->move(QCursor::pos());
+    a->show();
 }
 
 /**

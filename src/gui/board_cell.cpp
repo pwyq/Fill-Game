@@ -12,7 +12,7 @@ BoardCell::BoardCell(QString& text, const QPoint& pos, QWidget* parent):
         _value = 0;
     } else {
         _value = static_cast<uint8_t>(text.toInt());
-        assert (_value >= 0 && _value <= 9);
+        assert (_value >= 1 && _value <= 9);
     }
 
     const QSize BUTTON_SIZE = QSize(50, 50);
