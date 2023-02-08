@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QScreen>
 
 #include "gui/main_window.h"
 
@@ -14,7 +15,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Fill Game");
 
     GUI::MainWindow mainWindow;
-    mainWindow.move(QApplication::desktop()->screen()->rect().center() - mainWindow.frameGeometry().center());
+    QScreen* screen = QGuiApplication::screenAt(QCursor::pos());
+    mainWindow.move(screen->availableGeometry().center() - mainWindow.frameGeometry().center());
     mainWindow.show();
 
     return app.exec();
