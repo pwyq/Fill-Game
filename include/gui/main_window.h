@@ -3,10 +3,14 @@
 
 // Qt includes
 #include <QMainWindow>
-// #include <qt5/QtWidgets/QMainWindow>
 #include <QGridLayout>
 #include <QWidget>
-#include <QTextBrowser>
+#include <QMenuBar>
+
+#include <iostream>
+#include <vector>
+
+#include <gui/board_cell.h>
 
 
 namespace GUI
@@ -17,14 +21,20 @@ class MainWindow: public QMainWindow
 {
     Q_OBJECT
     public:
-        MainWindow(const std::string& title, const std::string& htmlPath);
+        MainWindow();
         ~MainWindow();
-        void initUI(const std::string& title, const std::string& htmlPath);
+        void initUI();
         void setWindowSize(const float& widthRatio, const float& heightRatio);
     protected:
-        QGridLayout* layout_;
-        QWidget* widget_;
-        QTextBrowser *browser_;
+        QGridLayout* _layout;
+        QWidget* _widget;
+        QMenuBar* _menuBar;
+        
+        uint8_t _boardWidth;
+        uint8_t _boardHeight;
+        std::vector<BoardCell*> _boardVec;
+
+        void onBoardCellPressed(BoardCell* cell);
 };
 
 

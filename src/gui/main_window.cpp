@@ -1,21 +1,21 @@
-// Qt include
-// #include <QDesktopWidget>
+#include <QMenu>
 
 // own include
 #include "gui/main_window.h"
+
 
 namespace GUI
 {
 
 
-MainWindow::MainWindow(const std::string& title, const std::string& htmlPath)
+MainWindow::MainWindow()
 {
     // UI elements
-    layout_     = new QGridLayout();
-    widget_     = new QWidget();
-    browser_    = new QTextBrowser(this);
+    _layout     = new QGridLayout();
+    _widget     = new QWidget();
+    _menuBar    = new QMenuBar();
 
-    this->initUI(title, htmlPath);
+    this->initUI();
     this->setAttribute( Qt::WA_DeleteOnClose );
 }
 
@@ -24,18 +24,40 @@ MainWindow::~MainWindow()
     // any possible clean up here
 }
 
-void MainWindow::initUI(const std::string& title, const std::string& htmlPath)
+void MainWindow::initUI()
 {
-    this->setWindowTitle(QString::fromStdString(title));
+    this->setWindowTitle(QString::fromStdString("Fill Game"));
 
     this->setWindowSize(0.56, 0.50);
 
-    browser_->setOpenExternalLinks(false);
-    browser_->setSource(QUrl(QString::fromStdString(htmlPath)));
-    layout_->addWidget(browser_, 0, 0);
+    QMenu* boardMenu = new QMenu();
+    boardMenu->addMenu("&Board");
+    _menuBar->addMenu(boardMenu);
 
-    widget_->setLayout(layout_);
-    this->setCentralWidget(widget_);
+    // temporary
+    _boardHeight = 10;
+    _boardWidth  = 10;
+
+    for (uint8_t row = 0; row < _boardHeight; row++) {
+        for (uint8_t col = 0; col < _boardWidth; col++) {
+            QString t = "";
+            BoardCell* button = new BoardCell(t, QPoint(row, col), this);
+            _boardVec.push_back(button);
+            connect(button, &QPushButton::pressed, [button, this](){
+                this->onBoardCellPressed(button);
+            });
+
+            _layout->addWidget(button, row, col, 1, 1);
+        }
+    }
+
+    _widget->setLayout(_layout);
+    this->setCentralWidget(_widget);
+}
+
+void MainWindow::onBoardCellPressed(BoardCell* cell)
+{
+    std::cout << "pressed" << cell->getPos().x() << ", " << cell->getPos().y() << std::endl;
 }
 
 /**
