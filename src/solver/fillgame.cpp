@@ -10,6 +10,10 @@
 using std::cout;
 using std::endl;
 
+namespace Solver
+{
+    
+
 // 1024 * 1024 * 1024 = 1073741824 Bytes = 1GB
 #define MEMORY_LIMIT (1073741824)
 
@@ -64,3 +68,6 @@ int main(int argc, char** argv) {
     return 0;
 }
 **/
+
+
+} // namespace Solver

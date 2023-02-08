@@ -7,6 +7,10 @@
 
 #include "helper.h"
 
+namespace Solver
+{
+    
+
 class Game {
     typedef std::unordered_set<Pos, Pos::Hash> PosSet;
 
@@ -61,3 +65,6 @@ public:
 
     std::vector<Pos> getFilledPositions() const;
 };
+
+
+} // namespace Solver

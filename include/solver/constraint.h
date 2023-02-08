@@ -5,6 +5,10 @@
 #include <cstdlib>
 #include <functional>
 
+namespace Solver
+{
+
+
 class Constraint {
 public:
     Constraint(size_t memory_limit, size_t time_limit);
@@ -19,3 +23,8 @@ private:
 
     void setSigStack();
 };
+
+
+} // namespace Solver
+
+

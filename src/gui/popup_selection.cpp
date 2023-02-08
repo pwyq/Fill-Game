@@ -6,6 +6,11 @@
 namespace GUI
 {
 
+// Singleton stuff
+PopupSelection* PopupSelection::pinstance_{nullptr};
+std::mutex PopupSelection::mutex_;
+
+
 PopupSelection::PopupSelection(std::vector<uint8_t> available_moves)
 {
     // UI elements
@@ -20,6 +25,16 @@ PopupSelection::~PopupSelection()
 {
     delete _layout;
     delete _widget;
+    pinstance_ = nullptr;
+}
+
+PopupSelection* PopupSelection::GetInstance(std::vector<uint8_t> available_moves)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (pinstance_ == nullptr) {
+        pinstance_ = new PopupSelection(available_moves);
+    }
+    return pinstance_;
 }
 
 void PopupSelection::initUI(std::vector<uint8_t> available_moves)
@@ -35,7 +50,6 @@ void PopupSelection::initUI(std::vector<uint8_t> available_moves)
         }
         connect(button, &QPushButton::pressed, [button, this](){
             emit this->selectedNumber(button->text());
-            this->close();
         });
     }
     _widget->setLayout(_layout);
