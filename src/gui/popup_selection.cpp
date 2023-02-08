@@ -35,7 +35,6 @@ void PopupSelection::initUI(std::vector<uint8_t> available_moves)
         }
         connect(button, &QPushButton::pressed, [button, this](){
             emit this->selectedNumber(button->text());
-            this->close();
         });
     }
     _widget->setLayout(_layout);
