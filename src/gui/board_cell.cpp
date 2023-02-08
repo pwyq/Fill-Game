@@ -1,4 +1,5 @@
-#include <gui/board_cell.h>
+#include "gui/board_cell.h"
+#include "gui/helper.h"
 
 #include <iostream>
 
@@ -12,7 +13,7 @@ BoardCell::BoardCell(QString& text, const QPoint& pos, QWidget* parent):
     if (text == "") {
         _value = 0;
     } else {
-        _value = static_cast<uint8_t>(text.toInt());
+        _value = QStringToUint8(text);
         assert (_value >= 1 && _value <= 9);
     }
 
@@ -32,7 +33,7 @@ uint8_t BoardCell::getValue()
 
 QString BoardCell::getText()
 {
-    return QString::number(_value);
+    return uint8ToQstring(_value);
 }
 
 const QPoint BoardCell::getPos()

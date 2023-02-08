@@ -5,6 +5,7 @@
 // own include
 #include "gui/main_window.h"
 #include "gui/popup_selection.h"
+#include "gui/helper.h"
 
 
 namespace GUI
@@ -63,7 +64,17 @@ void MainWindow::initUI()
     boardMenu->addMenu("&Board");
     _menuBar->addMenu(boardMenu);
 
-    // init board layout
+    // init board x y axis
+    for (uint8_t col = 1; col < _boardWidth+1; col++) {
+        char c = 64 + col;  // ascii 'A' = 65
+        QLabel* l = new QLabel(QChar(c));
+        l->setAlignment(Qt::AlignCenter);
+        _boardLayout->addWidget(l, 0, col, 1, 1);
+    }
+    for (uint8_t row = 1; row < _boardHeight+1; row++) {
+        _boardLayout->addWidget(new QLabel(uint8ToQstring(row)), row, 0, 1, 1);
+    }
+    // init board cells
     for (uint8_t row = 0; row < _boardHeight; row++) {
         for (uint8_t col = 0; col < _boardWidth; col++) {
             QString t = "";
@@ -72,8 +83,8 @@ void MainWindow::initUI()
             connect(button, &QPushButton::pressed, [button, this](){
                 this->onBoardCellPressed(button);
             });
-
-            _boardLayout->addWidget(button, row, col, 1, 1);
+            // offset each cell because of the x-y axis labels
+            _boardLayout->addWidget(button, row+1, col+1, 1, 1);
         }
     }
     // init info layout
@@ -115,7 +126,7 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
     PopupSelection* a = new PopupSelection(moves);
     connect(a, &PopupSelection::selectedNumber, [cell, cellPos, a, this](QString s){
         cell->setText(s);
-        this->_game->unsafePlay(cellPos, static_cast<uint8_t>(s.toInt()));
+        this->_game->unsafePlay(cellPos, QStringToUint8(s));
         this->_gameString = this->_game->toString();
         delete this->_game;
         this->_game = new Solver::Game(this->_gameString);
