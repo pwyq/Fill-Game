@@ -5,6 +5,10 @@
 
 #include "node.h"
 
+namespace Solver
+{
+
+    
 extern size_t g_counter;
 
 class DFPN {
@@ -36,3 +40,8 @@ private:
 
     uint32_t computeSumPhi(Node& node);
 };
+
+
+} // namespace Solver
+
+

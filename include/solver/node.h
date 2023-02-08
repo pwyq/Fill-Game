@@ -2,6 +2,10 @@
 
 #include "game.h"
 
+namespace Solver
+{
+
+
 class Node {
 public:
     explicit Node(const Game& game);
@@ -22,3 +26,8 @@ public:
 
     void generateChildren();
 };
+
+
+} // namespace Solver
+
+

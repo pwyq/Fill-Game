@@ -1,5 +1,9 @@
 #include "solver/node.h"
 
+namespace Solver
+{
+
+
 Node::Node(const Game& game) : 
     game(game),
     phi(INF),
@@ -38,3 +42,6 @@ void Node::generateChildren() {
         }
     }
 }
+
+
+} // namespace Solver

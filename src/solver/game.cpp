@@ -2,6 +2,9 @@
 #include <ostream>
 #include <stdexcept>
 
+namespace Solver
+{
+    
 
 Game::Game(const std::string& input) : 
     width(0),
@@ -305,3 +308,6 @@ std::string Game::toString() const {
     ret.pop_back();
     return ret;
 }
+
+
+} // namespace Solver

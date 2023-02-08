@@ -5,6 +5,10 @@
 #include <functional>
 #include <string>
 
+namespace Solver
+{
+    
+
 #define INF UINT16_MAX
 
 struct Pos {
@@ -58,3 +62,6 @@ public:
 };
 
 extern Timer<> g_timer;
+
+
+} // namespace Solver

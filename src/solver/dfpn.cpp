@@ -3,6 +3,10 @@
 
 #include "solver/dfpn.h"
 
+namespace Solver
+{
+    
+
 Timer<> g_timer{};     // total time used
 size_t g_counter = 0;  // num node visited
 
@@ -169,3 +173,6 @@ std::string DFPN::formatResult() const {
     }
     return ret;
 }
+
+
+} // namespace Solver

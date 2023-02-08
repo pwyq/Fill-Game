@@ -14,8 +14,8 @@ namespace GUI
 MainWindow::MainWindow()
 {
     // temporary
-    _boardHeight = 2;
-    _boardWidth  = 2;
+    _boardHeight = 4;
+    _boardWidth  = 4;
 
     // UI elements
     _mainLayout     = new QHBoxLayout();
@@ -35,7 +35,7 @@ MainWindow::MainWindow()
         _gameString += "*";
     }
     _gameString.pop_back();
-    _game       = new Game(_gameString);
+    _game       = new Solver::Game(_gameString);
 
     this->initUI();
     this->setAttribute( Qt::WA_DeleteOnClose );
@@ -87,9 +87,9 @@ void MainWindow::initUI()
     this->setCentralWidget(_mainWidget);
 }
 
-void MainWindow::updateCurrentPlayer(PLAYER p)
+void MainWindow::updateCurrentPlayer(Solver::PLAYER p)
 {
-    if (p == PLAYER::BLACK)
+    if (p == Solver::PLAYER::BLACK)
         this->_currPlayer->setText("BLACK");
     else
         this->_currPlayer->setText("WHITE");
@@ -97,7 +97,7 @@ void MainWindow::updateCurrentPlayer(PLAYER p)
 
 void MainWindow::onBoardCellPressed(BoardCell* cell)
 {
-    Pos cellPos = Pos{
+    Solver::Pos cellPos = Solver::Pos{
         static_cast<uint8_t>(cell->getPos().y()),
         static_cast<uint8_t>(cell->getPos().x())
     };
@@ -118,7 +118,7 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
         this->_game->unsafePlay(cellPos, static_cast<uint8_t>(s.toInt()));
         this->_gameString = this->_game->toString();
         delete this->_game;
-        this->_game = new Game(this->_gameString);
+        this->_game = new Solver::Game(this->_gameString);
 
         if (this->_game->getPossibleMoves().size() == 0) {
             a->close();

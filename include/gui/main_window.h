@@ -41,12 +41,12 @@ class MainWindow: public QMainWindow
         uint8_t _boardHeight;
         std::vector<BoardCell*> _boardVec;
 
-        void updateCurrentPlayer(PLAYER);
+        void updateCurrentPlayer(Solver::PLAYER);
 
         // slots
         void onBoardCellPressed(BoardCell* cell);
     private:
-        Game* _game;    // TODO: std::auto_ptr, std::shared_ptr
+        Solver::Game* _game;    // TODO: std::auto_ptr, std::shared_ptr
         std::string _gameString;
 };
 
