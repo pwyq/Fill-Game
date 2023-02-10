@@ -23,11 +23,14 @@ git clone --recurse-submodules https://github.com/pwyq/Fill-Game.git
 
 ## Development
 
-- Follows [Google C++ Guide](https://google.github.io/styleguide/cppguide.html)
-- Formatter ` find . -iname *.h -o -iname *.cpp | xargs clang-format-12 -i`
-
-### Environment & Tools
-- Ubuntu 22.04, VS Code
+- Ubuntu 22.04
+- VS Code
 - C++ 20
-- Qt5
-- [Google Test](https://github.com/google/googletest), clang-format-12
+- GUI Framework: Qt5
+- Unit test: [Google Test](https://github.com/google/googletest)
+- Formatter: clang-format-12
+- Profiler: Valgrind, kcachegrind
+
+### Guide
+- Follows [Google C++ Guide](https://google.github.io/styleguide/cppguide.html)
+- Profiler: `valgrind --tool=callgrind ./(Your binary)` && `kcachegrind callgrind.out.x`

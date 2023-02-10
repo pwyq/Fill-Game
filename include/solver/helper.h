@@ -12,7 +12,7 @@
 #include <functional>
 #include <string>
 
-namespace Solver {
+namespace solver {
 
 #define INF UINT16_MAX
 
@@ -56,25 +56,25 @@ class Timer {
   using time_point = typename ClockT::time_point;
 
  protected:
-  time_point _start = ClockT::now();
-  time_point _end = {};
+  time_point start_ = ClockT::now();
+  time_point end_ = {};
 
  public:
   void start() {
-    _end = time_point{};
-    _start = ClockT::now();
+    end_ = time_point{};
+    start_ = ClockT::now();
   }
 
-  void stop() { _end = ClockT::now(); }
+  void stop() { end_ = ClockT::now(); }
 
   auto duration() const {
-    assert(_end != time_point{} && "stop the gTimer first");
-    return std::chrono::duration<double>(_end - _start);
+    assert(end_ != time_point{} && "stop the gTimer first");
+    return std::chrono::duration<double>(end_ - start_);
   }
 };
 
 extern Timer<> g_timer;
 
-}  // namespace Solver
+}  // namespace solver
 
 #endif  // FG_SOLVER_HELPER_H_

@@ -30,7 +30,7 @@
 #include "solver/dfpn.h"
 #include "solver/game.h"
 
-namespace GUI {
+namespace gui {
 
 // TODO: singleton
 class MainWindow : public QMainWindow {
@@ -44,43 +44,43 @@ class MainWindow : public QMainWindow {
   void changeGameSize(uint8_t width, uint8_t height);
 
  protected:
-  QHBoxLayout *_mainLayout;
-  QGridLayout *_boardLayout;
-  QGridLayout *_infoLayout;
-  QWidget *_mainWidget;
-  QLabel *_currPlayer;
-  QTextBrowser *_browser;
+  QHBoxLayout *main_layout_;
+  QGridLayout *board_layout_;
+  QGridLayout *info_layout_;
+  QWidget *main_widget_;
+  QLabel *curr_player_label_;
+  QTextBrowser *browser_;
 
-  QMenu *_gameMenu;
-  QMenu *_boardMenu;
-  uint8_t _boardWidth;
-  uint8_t _boardHeight;
-  bool _isAI = false;
-  std::vector<BoardCell *> _boardVec;
+  QMenu *game_menu_;
+  QMenu *board_menu_;
+  uint8_t board_width_;
+  uint8_t board_height_;
+  bool is_AI_ = false;
+  std::vector<BoardCell *> board_cells_;
 
   void initGameMenu();
   void initBoardMenu();
   void drawBoard();
   void playByAI();
-  inline void updateCurrentPlayer(Solver::PLAYER player);
+  inline void updateCurrentPlayer(solver::PLAYER player);
   inline void displayMessage(QString s);
-  inline QString getMoveMessage(Solver::Pos pos, QString moveValue);
+  inline QString getMoveMessage(solver::Pos pos, QString moveValue);
 
   // slots
   void onBoardCellPressed(BoardCell *cell);
 
  private:
-  Solver::Game *_game = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
+  solver::Game *game_ = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
 
-  PopupSelection *_popupSelection = nullptr;
-  Solver::DFPN *_dfpnAgent = nullptr;
+  PopupSelection *pop_selection_ = nullptr;
+  solver::DFPN *agent_dfpn_ = nullptr;
 
-  std::string _gameString;
+  std::string game_string_;
 
-  int _moveCounter = 1;
+  int move_counter_ = 1;
 
-  bool _isSelectionFinished = true;
-  bool _isGameEnd = false;
+  bool is_select_done_ = true;
+  bool is_game_end_ = false;
 
   // template<class T>
   // void clearLayout(T* layoutType, bool deleteWidgets);
@@ -88,16 +88,16 @@ class MainWindow : public QMainWindow {
 };
 
 // inline function declaration
-inline void MainWindow::updateCurrentPlayer(Solver::PLAYER p) {
-  if (p == Solver::PLAYER::BLACK)
-    this->_currPlayer->setText("BLACK");
+inline void MainWindow::updateCurrentPlayer(solver::PLAYER p) {
+  if (p == solver::PLAYER::BLACK)
+    this->curr_player_label_->setText("BLACK");
   else
-    this->_currPlayer->setText("WHITE");
+    this->curr_player_label_->setText("WHITE");
 }
 
-inline QString MainWindow::getMoveMessage(Solver::Pos p, QString val) {
-  QString res = QString::number(this->_moveCounter++) + ". " +
-                this->_currPlayer->text() + ": ";
+inline QString MainWindow::getMoveMessage(solver::Pos p, QString val) {
+  QString res = QString::number(this->move_counter_++) + ". " +
+                this->curr_player_label_->text() + ": ";
   char c = 65 + p.col;  // 'A' = 65
   res += QChar(c);
   res += uint8ToQstring(p.row + 1);
@@ -112,6 +112,6 @@ inline void MainWindow::displayMessage(QString s) {
   msgBox.exec();
 }
 
-}  // namespace GUI
+}  // namespace gui
 
 #endif  // FG_GUI_MAIN_WINDOW_H_

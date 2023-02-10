@@ -14,28 +14,26 @@
 #include "gui/main_window.h"
 #include "gui/popup_selection.h"
 
-namespace GUI {
+namespace gui {
 
-MainWindow::MainWindow() : _boardWidth(2), _boardHeight(3), _isAI(true) {
+MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   // UI elements
-  _mainLayout = new QHBoxLayout();
-  _boardLayout = new QGridLayout();
-  _infoLayout = new QGridLayout();
-  _mainWidget = new QWidget();
-  _currPlayer = new QLabel();
-  _browser = new QTextBrowser();
+  main_layout_ = new QHBoxLayout();
+  board_layout_ = new QGridLayout();
+  info_layout_ = new QGridLayout();
+  main_widget_ = new QWidget();
+  curr_player_label_ = new QLabel();
+  browser_ = new QTextBrowser();
 
   // Solver elements
   this->startNewGame();
 
   // UI related
-  _gameMenu = this->menuBar()->addMenu("&Game");
-  _boardMenu = this->menuBar()->addMenu("&Board");
+  game_menu_ = this->menuBar()->addMenu("&Game");
+  board_menu_ = this->menuBar()->addMenu("&Board");
   this->initUI();
-  this->setWindowFlags(
-      windowFlags() &
-      (~Qt::WindowMaximizeButtonHint));  // TODO: allow proportionally resize in
-                                         // the future
+  // TODO: allow proportionally resize in the future
+  this->setWindowFlags(windowFlags() & (~Qt::WindowMaximizeButtonHint));
   // https://en.cppreference.com/w/cpp/language/rule_of_three rule of 3/5/0
   // this->setAttribute( Qt::WA_DeleteOnClose );
 }
@@ -47,46 +45,46 @@ void MainWindow::initUI() {
 
   this->drawBoard();
   // init info layout
-  _infoLayout->addWidget(new QLabel("Current Player"), 0, 0, 1, 1);
-  this->updateCurrentPlayer(this->_game->to_play);
-  _infoLayout->addWidget(_currPlayer, 0, 1, 1, 1);
-  _infoLayout->addWidget(_browser, 1, 0, 2, 2);
+  info_layout_->addWidget(new QLabel("Current Player"), 0, 0, 1, 1);
+  this->updateCurrentPlayer(this->game_->to_play_);
+  info_layout_->addWidget(curr_player_label_, 0, 1, 1, 1);
+  info_layout_->addWidget(browser_, 1, 0, 2, 2);
 
-  _mainLayout->addLayout(_boardLayout);
-  _mainLayout->addLayout(_infoLayout);
-  _mainWidget->setLayout(_mainLayout);
-  this->setCentralWidget(_mainWidget);
+  main_layout_->addLayout(board_layout_);
+  main_layout_->addLayout(info_layout_);
+  main_widget_->setLayout(main_layout_);
+  this->setCentralWidget(main_widget_);
 }
 
 void MainWindow::initGameMenu() {
-  QAction *startNewGame = new QAction("Start &New Game", _gameMenu);
+  QAction *startNewGame = new QAction("Start &New Game", game_menu_);
   connect(startNewGame, &QAction::triggered,
           [this]() { this->startNewGame(); });
-  _gameMenu->addAction(startNewGame);
+  game_menu_->addAction(startNewGame);
 
-  _gameMenu->addSeparator();
+  game_menu_->addSeparator();
 
-  QAction *quit = new QAction("&Quit", _gameMenu);
+  QAction *quit = new QAction("&Quit", game_menu_);
   connect(quit, &QAction::triggered, [this]() { this->close(); });
-  _gameMenu->addAction(quit);
+  game_menu_->addAction(quit);
 }
 
 void MainWindow::initBoardMenu() {
-  QAction *three = new QAction("3 x 3", _boardMenu);
+  QAction *three = new QAction("3 x 3", board_menu_);
   connect(three, &QAction::triggered, [this]() { this->changeGameSize(3, 3); });
-  _boardMenu->addAction(three);
+  board_menu_->addAction(three);
 
-  QAction *five = new QAction("5 x 5", _boardMenu);
+  QAction *five = new QAction("5 x 5", board_menu_);
   connect(five, &QAction::triggered, [this]() { this->changeGameSize(5, 5); });
-  _boardMenu->addAction(five);
+  board_menu_->addAction(five);
 
-  QAction *seven = new QAction("7 x 7", _boardMenu);
+  QAction *seven = new QAction("7 x 7", board_menu_);
   connect(seven, &QAction::triggered, [this]() { this->changeGameSize(7, 7); });
-  _boardMenu->addAction(seven);
+  board_menu_->addAction(seven);
 
-  QAction *ten = new QAction("10 x 10", _boardMenu);
+  QAction *ten = new QAction("10 x 10", board_menu_);
   connect(ten, &QAction::triggered, [this]() { this->changeGameSize(10, 10); });
-  _boardMenu->addAction(ten);
+  board_menu_->addAction(ten);
   /*
   QAction* custom = new QAction("&Custom Board Size", _boardMenu);
   connect(ten, &QAction::triggered, [this]() {
@@ -101,56 +99,56 @@ void MainWindow::initBoardMenu() {
 }
 
 void MainWindow::startNewGame() {
-  this->_isGameEnd = false;
+  this->is_game_end_ = false;
   std::string _gameString = "";
-  for (uint8_t row = 0; row < _boardHeight; row++) {
-    for (uint8_t col = 0; col < _boardWidth; col++) {
+  for (uint8_t row = 0; row < board_height_; row++) {
+    for (uint8_t col = 0; col < board_width_; col++) {
       _gameString += ".";
     }
     _gameString += "*";
   }
   _gameString.pop_back();
 
-  if (_game != nullptr) {
-    _game = nullptr;
-    delete _game;
+  if (game_ != nullptr) {
+    game_ = nullptr;
+    delete game_;
   }
-  _game = new Solver::Game(_gameString);
+  game_ = new solver::Game(_gameString);
 
   // clear UI
-  for (auto c : _boardVec) {
+  for (auto c : board_cells_) {
     c->setEnabled(true);
     c->setText("");
   }
-  this->updateCurrentPlayer(this->_game->to_play);
-  _browser->clear();
+  this->updateCurrentPlayer(this->game_->to_play_);
+  browser_->clear();
 }
 
 void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
-  _isGameEnd = false;
-  _boardHeight = height;
-  _boardWidth = width;
+  is_game_end_ = false;
+  board_height_ = height;
+  board_width_ = width;
   std::string _gameString = "";
-  for (uint8_t row = 0; row < _boardHeight; row++) {
-    for (uint8_t col = 0; col < _boardWidth; col++) {
+  for (uint8_t row = 0; row < board_height_; row++) {
+    for (uint8_t col = 0; col < board_width_; col++) {
       _gameString += ".";
     }
     _gameString += "*";
   }
   _gameString.pop_back();
 
-  if (_game != nullptr) {
-    _game = nullptr;
-    delete _game;
+  if (game_ != nullptr) {
+    game_ = nullptr;
+    delete game_;
   }
-  _game = new Solver::Game(_gameString);
+  game_ = new solver::Game(_gameString);
 
   // redraw & clear UI
   this->clearBoardLayout();
-  _boardVec.clear();
+  board_cells_.clear();
   this->drawBoard();
-  this->updateCurrentPlayer(this->_game->to_play);
-  _browser->clear();
+  this->updateCurrentPlayer(this->game_->to_play_);
+  browser_->clear();
   // TODO: resize window to board
   // qDebug() << this->_mainWidget->size();
   // qDebug() << this->_mainWidget->sizeHint();
@@ -169,8 +167,8 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
 // void MainWindow::clearLayout(T* layout, bool deleteWidgets = true)
 // void MainWindow::clearLayout(QGridLayout* layout, bool deleteWidgets = true)
 void MainWindow::clearBoardLayout() {
-  while (_boardLayout->count() > 0) {
-    auto item = _boardLayout->itemAt(0)->widget();
+  while (board_layout_->count() > 0) {
+    auto item = board_layout_->itemAt(0)->widget();
     item->deleteLater();
     delete item;
   }
@@ -178,50 +176,50 @@ void MainWindow::clearBoardLayout() {
 
 void MainWindow::drawBoard() {
   // init board x y axis
-  for (uint8_t col = 1; col < _boardWidth + 1; col++) {
+  for (uint8_t col = 1; col < board_width_ + 1; col++) {
     char c = 64 + col;  // ascii 'A' = 65
     QLabel *l = new QLabel(QChar(c));
     l->setAlignment(Qt::AlignCenter);
-    _boardLayout->addWidget(l, 0, col, 1, 1);
+    board_layout_->addWidget(l, 0, col, 1, 1);
   }
-  for (uint8_t row = 1; row < _boardHeight + 1; row++) {
-    _boardLayout->addWidget(new QLabel(uint8ToQstring(row)), row, 0, 1, 1);
+  for (uint8_t row = 1; row < board_height_ + 1; row++) {
+    board_layout_->addWidget(new QLabel(uint8ToQstring(row)), row, 0, 1, 1);
   }
   // init board cells
-  for (uint8_t row = 0; row < _boardHeight; row++) {
-    for (uint8_t col = 0; col < _boardWidth; col++) {
+  for (uint8_t row = 0; row < board_height_; row++) {
+    for (uint8_t col = 0; col < board_width_; col++) {
       QString t = "";
       BoardCell *button = new BoardCell(
           t, QPoint(col, row), this);  // note that col=x, row=y, from top down
-      _boardVec.push_back(button);
+      board_cells_.push_back(button);
       connect(button, &QPushButton::pressed,
               [button, this]() { this->onBoardCellPressed(button); });
       // offset each cell because of the x-y axis labels
-      _boardLayout->addWidget(button, row + 1, col + 1, 1, 1);
+      board_layout_->addWidget(button, row + 1, col + 1, 1, 1);
     }
   }
 }
 
 void MainWindow::playByAI() {
   // TODO: optimization, every time we are creating a new game and a new solver
-  if (_dfpnAgent != nullptr) {
-    _dfpnAgent = nullptr;
-    delete _dfpnAgent;
+  if (agent_dfpn_ != nullptr) {
+    agent_dfpn_ = nullptr;
+    delete agent_dfpn_;
   }
-  _dfpnAgent = new Solver::DFPN(*_game);
-  _dfpnAgent->solve();
-  Solver::Move nextMove = _dfpnAgent->best_move;
+  agent_dfpn_ = new solver::DFPN(*game_);
+  agent_dfpn_->solve();
+  solver::Move nextMove = agent_dfpn_->best_move_;
   if (nextMove.value == 0) {  // This may not be reached at all
     qDebug() << "no possible moves";
     return;
   }
 
   // Play
-  this->_game->unsafePlay(nextMove.pos, nextMove.value);
+  this->game_->unsafePlay(nextMove.pos, nextMove.value);
 
   // GUI update
   BoardCell *cell = nullptr;
-  for (auto c : this->_boardVec) {
+  for (auto c : this->board_cells_) {
     if (c->getPos().y() == nextMove.pos.row &&
         c->getPos().x() == nextMove.pos.col) {
       cell = c;
@@ -230,31 +228,31 @@ void MainWindow::playByAI() {
   QString moveValue = uint8ToQstring(nextMove.value);
   cell->setText(moveValue);
   cell->setEnabled(false);
-  this->_browser->append(this->getMoveMessage(nextMove.pos, moveValue));
-  this->updateCurrentPlayer(this->_game->to_play);
+  this->browser_->append(this->getMoveMessage(nextMove.pos, moveValue));
+  this->updateCurrentPlayer(this->game_->to_play_);
 
   // Game update
-  this->_gameString = this->_game->toString();
-  delete this->_game;
-  this->_game = new Solver::Game(this->_gameString);
-  if (_game->getPossibleMoves().size() == 0) {
-    this->_isGameEnd = true;
+  this->game_string_ = this->game_->toString();
+  delete this->game_;
+  this->game_ = new solver::Game(this->game_string_);
+  if (game_->getPossibleMoves().size() == 0) {
+    this->is_game_end_ = true;
     QString s = "AI wins!";
     this->displayMessage(s);
   }
 }
 
 void MainWindow::onBoardCellPressed(BoardCell *cell) {
-  if (this->_isGameEnd) {
+  if (this->is_game_end_) {
     QString s = "Game is ended. Please start a new game.";
     this->displayMessage(s);
     return;
   }
   // _mainWidget->setEnabled(false);    // prevent from clicking another cell
-  Solver::Pos cellPos = Solver::Pos{static_cast<uint8_t>(cell->getPos().y()),
+  solver::Pos cellPos = solver::Pos{static_cast<uint8_t>(cell->getPos().y()),
                                     static_cast<uint8_t>(cell->getPos().x())};
 
-  auto allMoves = _game->getPossibleMoves();
+  auto allMoves = game_->getPossibleMoves();
   if (allMoves.find(cellPos) == allMoves.end()) {
     this->displayMessage("No Possible Move");
     cell->setEnabled(false);
@@ -262,41 +260,41 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
   }
   auto moves = allMoves.at(cellPos);
 
-  if (true == _isSelectionFinished) {
-    _isSelectionFinished = false;
+  if (true == is_select_done_) {
+    is_select_done_ = false;
   } else {
-    _popupSelection->deleteLater();
-    delete _popupSelection;
+    pop_selection_->deleteLater();
+    delete pop_selection_;
   }
-  _popupSelection = PopupSelection::GetInstance(moves);
-  connect(_popupSelection, &PopupSelection::selectedNumber,
+  pop_selection_ = PopupSelection::GetInstance(moves);
+  connect(pop_selection_, &PopupSelection::selectedNumber,
           [cell, cellPos, this](QString moveValue) {
             cell->setText(moveValue);
-            this->_game->unsafePlay(cellPos, QStringToUint8(moveValue));
-            this->_gameString = this->_game->toString();
-            delete this->_game;
-            this->_game = new Solver::Game(this->_gameString);
+            this->game_->unsafePlay(cellPos, QStringToUint8(moveValue));
+            this->game_string_ = this->game_->toString();
+            delete this->game_;
+            this->game_ = new solver::Game(this->game_string_);
 
-            this->_browser->append(this->getMoveMessage(cellPos, moveValue));
-            if (this->_game->getPossibleMoves().size() == 0) {
+            this->browser_->append(this->getMoveMessage(cellPos, moveValue));
+            if (this->game_->getPossibleMoves().size() == 0) {
               // user clicked a dead cell
-              _popupSelection->close();
-              this->_isGameEnd = true;
-              QString s = "Winner: " + this->_currPlayer->text();
+              pop_selection_->close();
+              this->is_game_end_ = true;
+              QString s = "Winner: " + this->curr_player_label_->text();
               this->displayMessage(s);
             } else {
               // the move was successful
               cell->setEnabled(false);
-              this->updateCurrentPlayer(this->_game->to_play);
-              _popupSelection->close();
+              this->updateCurrentPlayer(this->game_->to_play_);
+              pop_selection_->close();
             }
-            this->_isSelectionFinished = true;
-            if (true == this->_isAI) {
+            this->is_select_done_ = true;
+            if (true == this->is_AI_) {
               this->playByAI();
             }
           });
-  _popupSelection->move(QCursor::pos());
-  _popupSelection->show();
+  pop_selection_->move(QCursor::pos());
+  pop_selection_->show();
 }
 
-}  // namespace GUI
+}  // namespace gui

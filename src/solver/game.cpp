@@ -10,20 +10,20 @@
 #include <ostream>
 #include <stdexcept>
 
-namespace Solver {
+namespace solver {
 
 Game::Game(const std::string &input)
-    : width(0), height(0), is_expanded(false), to_play(PLAYER::BLACK) {
+    : to_play_(PLAYER::BLACK), width_(0), height_(0), is_expanded_(false) {
   // std::cout << input;
   parseGameString(input);
 }
 
 Game::Game(const Game &other)
-    : width(other.width),
-      height(other.height),
-      is_expanded(false),
-      to_play(other.to_play) {
-  data = other.data;
+    : to_play_(other.to_play_),
+      width_(other.width_),
+      height_(other.height_),
+      is_expanded_(false) {
+  data_ = other.data_;
 }
 
 void Game::unsafePlay(const Pos &pos, uint8_t value) {
@@ -107,11 +107,11 @@ bool Game::isTerminal() { return getPossibleMoves().empty(); }
 
 std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash>
 Game::getPossibleMoves() {
-  if (!is_expanded && possible_moves.empty()) {
-    is_expanded = true;
-    if (width == 1 && height == 1 && get(0, 0) == 0) {
-      possible_moves[Pos{0, 0}] = {1};
-      return possible_moves;
+  if (!is_expanded_ && possible_moves_.empty()) {
+    is_expanded_ = true;
+    if (width_ == 1 && height_ == 1 && get(0, 0) == 0) {
+      possible_moves_[Pos{0, 0}] = {1};
+      return possible_moves_;
     }
     PosSet examined;
     std::vector<Pos> empty_positions = getEmptyPositions();
@@ -144,19 +144,19 @@ Game::getPossibleMoves() {
         }
       }
       if (!values.empty()) {
-        possible_moves[pos] = values;
+        possible_moves_[pos] = values;
       }
       examined.insert(pos);
       if (!pos.is_important) {
         if (examined.find(pos) == examined.end()) {
           // We haven't explored this node already
           // It's an unimportant position, it can have every possibility
-          possible_moves[pos] = {1, 2, 3, 4};
+          possible_moves_[pos] = {1, 2, 3, 4};
         }
       }
     }
   }
-  return possible_moves;
+  return possible_moves_;
 }
 
 bool Game::isValidGameString(const std::string &game_string) {
@@ -185,17 +185,17 @@ void Game::parseGameString(const std::string &game_string) {
     throw std::invalid_argument("Invalid game string");
   }
   bool width_found = false;
-  width = 0;
-  height = 1;
+  width_ = 0;
+  height_ = 1;
   for (char c : game_string) {
     if (c == '*') {
-      ++height;
+      ++height_;
       width_found = true;
     } else if (!width_found) {
-      ++width;
+      ++width_;
     }
   }
-  data = std::valarray<uint8_t>((uint8_t)0, width * height);
+  data_ = std::valarray<uint8_t>((uint8_t)0, width_ * height_);
   uint8_t row = 0;
   uint8_t col = 0;
   for (char c : game_string) {
@@ -203,7 +203,7 @@ void Game::parseGameString(const std::string &game_string) {
       ++row;
       col = 0;
     } else if (c != '.') {
-      data[row * width + col] = c - '0';
+      data_[row * width_ + col] = c - '0';
       changeToPlay();
       ++col;
     } else {
@@ -213,8 +213,8 @@ void Game::parseGameString(const std::string &game_string) {
 }
 
 std::ostream &operator<<(std::ostream &os, const Game &game) {
-  for (uint8_t row = 0; row < game.height; ++row) {
-    for (uint8_t col = 0; col < game.width; ++col) {
+  for (uint8_t row = 0; row < game.height_; ++row) {
+    for (uint8_t col = 0; col < game.width_; ++col) {
       uint8_t value = game.get(row, col);
       if (value != 0) {
         os << (size_t)value << " ";
@@ -228,18 +228,18 @@ std::ostream &operator<<(std::ostream &os, const Game &game) {
 }
 
 uint8_t Game::get(uint8_t row, uint8_t col) const {
-  return data[row * width + col];
+  return data_[row * width_ + col];
 }
 
 uint8_t Game::get(const Pos &pos) const {
-  return data[pos.row * width + pos.col];
+  return data_[pos.row * width_ + pos.col];
 }
 
 void Game::set(const Pos &pos, uint8_t value) {
-  data[pos.row * width + pos.col] = value;
+  data_[pos.row * width_ + pos.col] = value;
 }
 
-void Game::reset(const Pos &pos) { data[pos.row * width + pos.col] = 0; }
+void Game::reset(const Pos &pos) { data_[pos.row * width_ + pos.col] = 0; }
 
 std::vector<Pos> Game::getNeighbours(const Pos &pos) const {
   uint8_t row = pos.row;
@@ -248,13 +248,13 @@ std::vector<Pos> Game::getNeighbours(const Pos &pos) const {
   if (row > 0) {
     ret.push_back(Pos{(uint8_t)(row - 1), col});
   }
-  if (row < height - 1) {
+  if (row < height_ - 1) {
     ret.push_back(Pos{(uint8_t)(row + 1), col});
   }
   if (col > 0) {
     ret.push_back(Pos{row, (uint8_t)(col - 1)});
   }
-  if (col < width - 1) {
+  if (col < width_ - 1) {
     ret.push_back(Pos{row, (uint8_t)(col + 1)});
   }
   return ret;
@@ -262,8 +262,8 @@ std::vector<Pos> Game::getNeighbours(const Pos &pos) const {
 
 std::vector<Pos> Game::getEmptyPositions() const {
   std::vector<Pos> ret;
-  for (uint8_t row = 0; row < height; ++row) {
-    for (uint8_t col = 0; col < width; ++col) {
+  for (uint8_t row = 0; row < height_; ++row) {
+    for (uint8_t col = 0; col < width_; ++col) {
       if (get(row, col) == 0) {
         Pos p = Pos{row, col};
         for (auto neighbour : getNeighbours(p)) {
@@ -281,8 +281,8 @@ std::vector<Pos> Game::getEmptyPositions() const {
 
 std::vector<Pos> Game::getFilledPositions() const {
   std::vector<Pos> ret;
-  for (uint8_t row = 0; row < height; ++row) {
-    for (uint8_t col = 0; col < width; ++col) {
+  for (uint8_t row = 0; row < height_; ++row) {
+    for (uint8_t col = 0; col < width_; ++col) {
       if (get(row, col) != 0) {
         ret.push_back(Pos{row, col});
       }
@@ -293,8 +293,8 @@ std::vector<Pos> Game::getFilledPositions() const {
 
 std::string Game::toString() const {
   std::string ret;
-  for (size_t row = 0; row < height; ++row) {
-    for (size_t col = 0; col < width; ++col) {
+  for (size_t row = 0; row < height_; ++row) {
+    for (size_t col = 0; col < width_; ++col) {
       uint8_t value = get(row, col);
       if (value != 0) {
         ret += std::to_string(value);
@@ -308,4 +308,4 @@ std::string Game::toString() const {
   return ret;
 }
 
-}  // namespace Solver
+}  // namespace solver

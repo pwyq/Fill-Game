@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
   QCoreApplication::setApplicationName("Fill Game");
 
-  GUI::MainWindow mainWindow;
+  gui::MainWindow mainWindow;
   QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
   mainWindow.move(screen->availableGeometry().center() -
                   mainWindow.frameGeometry().center());

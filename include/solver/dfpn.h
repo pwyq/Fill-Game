@@ -13,15 +13,15 @@
 // local
 #include "node.h"
 
-namespace Solver {
+namespace solver {
 
 extern size_t g_counter;
 
 class DFPN {
  public:
-  Node root;
-  PROOF_VALUE result = UNKNOWN;
-  Move best_move;
+  Node root_;
+  PROOF_VALUE result_ = UNKNOWN;
+  Move best_move_;
 
   explicit DFPN(const Game &game);
 
@@ -51,9 +51,9 @@ class DFPN {
 // inline function declaration
 inline void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi,
                                               uint32_t delta) {
-  tt[node.id] = std::make_pair(phi, delta);
+  tt[node.id_] = std::make_pair(phi, delta);
 }
 
-}  // namespace Solver
+}  // namespace solver
 
 #endif  // FG_SOLVER_DFPN_H_

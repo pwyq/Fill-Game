@@ -7,4 +7,4 @@
 // local
 #include "gui/helper.h"
 
-namespace GUI {}  // namespace GUI
+namespace gui {}  // namespace gui

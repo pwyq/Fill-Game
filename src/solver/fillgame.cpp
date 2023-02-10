@@ -17,7 +17,7 @@
 using std::cout;
 using std::endl;
 
-namespace Solver {
+namespace solver {
 
 // 1024 * 1024 * 1024 = 1073741824 Bytes = 1GB
 #define MEMORY_LIMIT (1073741824)
@@ -74,4 +74,4 @@ g_timer.duration().count() << " " << g_counter << endl;
 }
 **/
 
-}  // namespace Solver
+}  // namespace solver

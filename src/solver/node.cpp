@@ -7,42 +7,42 @@
 // local
 #include "solver/node.h"
 
-namespace Solver {
+namespace solver {
 
 Node::Node(const Game &game)
-    : game(game), phi(INF), delta(INF), is_expanded(false) {
-  id = this->game.toString();
+    : game_(game), phi_(INF), delta_(INF), is_expanded_(false) {
+  id_ = this->game_.toString();
 }
 
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
-    : game(game), phi(1), delta(1), is_expanded(false) {
-  move = {pos, value};
-  this->game.unsafePlay(pos, value);
-  id = this->game.toString();
+    : game_(game), phi_(1), delta_(1), is_expanded_(false) {
+  move_ = {pos, value};
+  this->game_.unsafePlay(pos, value);
+  id_ = this->game_.toString();
   evaluate();
 }
 
 void Node::evaluate() {
-  if (game.isTerminal()) {
-    phi = INF;
-    delta = 0;
+  if (game_.isTerminal()) {
+    phi_ = INF;
+    delta_ = 0;
   } else {
-    phi = 1;
-    delta = 1;
+    phi_ = 1;
+    delta_ = 1;
   }
 }
 
 void Node::generateChildren() {
-  if (is_expanded) {
+  if (is_expanded_) {
     return;
   }
-  is_expanded = true;
-  auto possible_moves = game.getPossibleMoves();
+  is_expanded_ = true;
+  auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
-      children.emplace_back(game, possible_move.first, value);
+      children_.emplace_back(game_, possible_move.first, value);
     }
   }
 }
 
-}  // namespace Solver
+}  // namespace solver

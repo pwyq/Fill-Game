@@ -13,7 +13,7 @@
 // local
 #include "gui/helper.h"
 
-namespace GUI {
+namespace gui {
 
 class BoardCell : public QPushButton {
  public:
@@ -25,16 +25,17 @@ class BoardCell : public QPushButton {
   inline const QPoint getPos();
 
  private:
-  uint8_t _value;
-  QPoint _pos;
+  uint8_t value_;
+  QPoint pos_;
+  const QSize BUTTON_SIZE_ = QSize(50, 50);
 };
 
-inline uint8_t BoardCell::getValue() { return _value; }
+inline uint8_t BoardCell::getValue() { return value_; }
 
-inline QString BoardCell::getText() { return uint8ToQstring(_value); }
+inline QString BoardCell::getText() { return uint8ToQstring(value_); }
 
-inline const QPoint BoardCell::getPos() { return _pos; }
+inline const QPoint BoardCell::getPos() { return pos_; }
 
-}  // namespace GUI
+}  // namespace gui
 
 #endif  // FG_GUI_BOARD_CELL_H_

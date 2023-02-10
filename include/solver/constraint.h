@@ -14,7 +14,7 @@
 #include <cstdlib>
 #include <functional>
 
-namespace Solver {
+namespace solver {
 
 class Constraint {
  public:
@@ -31,6 +31,6 @@ class Constraint {
   void setSigStack();
 };
 
-}  // namespace Solver
+}  // namespace solver
 
 #endif  // FG_SOLVER_CONSTRAINT_H

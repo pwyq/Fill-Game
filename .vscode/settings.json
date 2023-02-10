@@ -163,7 +163,22 @@
         "qmainwindow": "cpp",
         "qmenubar": "cpp",
         "qscreen": "cpp",
-        "qmessagebox": "cpp"
+        "qmessagebox": "cpp",
+        "camera": "cpp",
+        "displaysettings": "cpp",
+        "matrixd": "cpp",
+        "matrixf": "cpp",
+        "viewport": "cpp",
+        "fast_back_stack": "cpp",
+        "notify": "cpp",
+        "node": "cpp",
+        "nodevisitor": "cpp",
+        "math": "cpp",
+        "boundingsphere": "cpp",
+        "core": "cpp",
+        "clearnode": "cpp",
+        "stateattribute": "cpp",
+        "transform": "cpp"
     },
     "cmake.configureOnOpen": true
 }

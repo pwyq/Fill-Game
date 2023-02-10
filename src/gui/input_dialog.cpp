@@ -7,7 +7,7 @@
 // local
 #include "gui/input_dialog.h"
 
-namespace GUI {
+namespace gui {
 
 InputDialog::InputDialog(QWidget *parent) : QDialog(parent) {
   QFormLayout *lytMain = new QFormLayout(this);
@@ -17,7 +17,7 @@ InputDialog::InputDialog(QWidget *parent) : QDialog(parent) {
     QLineEdit *tLine = new QLineEdit(this);
     lytMain->addRow(tLabel, tLine);
 
-    fields << tLine;
+    fields_ << tLine;
   }
 
   QDialogButtonBox *buttonBox = new QDialogButtonBox(
@@ -43,7 +43,7 @@ QStringList InputDialog::getStrings(QWidget *parent, bool *ok) {
   if (ok) *ok = !!ret;
 
   if (ret) {
-    foreach (auto field, dialog->fields) { list << field->text(); }
+    foreach (auto field, dialog->fields_) { list << field->text(); }
   }
 
   dialog->deleteLater();
@@ -51,4 +51,4 @@ QStringList InputDialog::getStrings(QWidget *parent, bool *ok) {
   return list;
 }
 
-}  // namespace GUI
+}  // namespace gui

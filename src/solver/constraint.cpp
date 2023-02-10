@@ -10,7 +10,7 @@
 #include <cstring>
 #include <iostream>
 
-namespace Solver {
+namespace solver {
 
 Constraint::Constraint(size_t memory_limit, size_t time_limit)
     : memory_limit({memory_limit, memory_limit + SIGSTKSZ}),
@@ -57,4 +57,4 @@ void Constraint::setSigStack() {
   set_sigaction(SIGALRM, &sa);
 }
 
-}  // namespace Solver
+}  // namespace solver

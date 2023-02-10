@@ -17,7 +17,7 @@
 #include <thread>
 #include <vector>
 
-namespace GUI {
+namespace gui {
 
 class PopupSelection : public QMainWindow {
   Q_OBJECT
@@ -36,8 +36,8 @@ class PopupSelection : public QMainWindow {
   ~PopupSelection();
   /////////////////////////////////////
  protected:
-  QGridLayout *_layout;
-  QWidget *_widget;
+  QGridLayout *layout_;
+  QWidget *widget_;
 
  private:
   void initUI(std::vector<uint8_t> available_moves);
@@ -45,6 +45,6 @@ class PopupSelection : public QMainWindow {
   void selectedNumber(QString s);
 };
 
-}  // namespace GUI
+}  // namespace gui
 
 #endif  // FG_GUI_POPUP_SELECTION_H_

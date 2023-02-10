@@ -15,24 +15,13 @@
 // local
 #include "helper.h"
 
-namespace Solver {
+namespace solver {
 
 class Game {
   typedef std::unordered_set<Pos, Pos::Hash> PosSet;
 
- private:
-  uint8_t width : 4;
-  uint8_t height : 4;
-  std::valarray<uint8_t> data;
-
-  std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> possible_moves;
-  bool is_expanded = false;
-
-  void floodFill(const Pos &starting_pos, PosSet &filled_visited,
-                 PosSet &empty_visited) const;
-
  public:
-  PLAYER to_play;
+  PLAYER to_play_;
 
   explicit Game(const std::string &input);
 
@@ -71,13 +60,24 @@ class Game {
   std::vector<Pos> getEmptyPositions() const;
 
   std::vector<Pos> getFilledPositions() const;
+
+ private:
+  uint8_t width_ : 4;
+  uint8_t height_ : 4;
+  std::valarray<uint8_t> data_;
+
+  std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> possible_moves_;
+  bool is_expanded_ = false;
+
+  void floodFill(const Pos &starting_pos, PosSet &filled_visited,
+                 PosSet &empty_visited) const;
 };
 
 // inline function declaration
 inline void Game::changeToPlay() {
-  to_play = (to_play == PLAYER::BLACK) ? PLAYER::WHITE : PLAYER::BLACK;
+  to_play_ = (to_play_ == PLAYER::BLACK) ? PLAYER::WHITE : PLAYER::BLACK;
 }
 
-}  // namespace Solver
+}  // namespace solver
 
 #endif  // FG_SOLVER_GAME_H_

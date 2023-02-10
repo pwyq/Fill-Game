@@ -10,7 +10,7 @@
 // local
 #include "game.h"
 
-namespace Solver {
+namespace solver {
 
 class Node {
  public:
@@ -18,21 +18,21 @@ class Node {
 
   Node(const Game &game, const Pos &pos, uint8_t value);
 
-  Game game;
-  uint32_t phi;
-  uint32_t delta;
-  bool is_expanded;
+  Game game_;
+  uint32_t phi_;
+  uint32_t delta_;
+  bool is_expanded_;
 
-  Move move;
-  std::string id;
+  Move move_;
+  std::string id_;
 
-  std::vector<Node> children{};
+  std::vector<Node> children_{};
 
   void evaluate();
 
   void generateChildren();
 };
 
-}  // namespace Solver
+}  // namespace solver
 
 #endif  // FG_SOLVER_NODE_H_

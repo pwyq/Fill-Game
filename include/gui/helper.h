@@ -10,7 +10,7 @@
 // Qt
 #include <QString>
 
-namespace GUI {
+namespace gui {
 
 // inline function declarations
 inline QString uint8ToQstring(uint8_t x) { return QString::number(x); }
@@ -19,6 +19,6 @@ inline uint8_t QStringToUint8(QString s) {
   return static_cast<uint8_t>(s.toInt());
 }
 
-}  // namespace GUI
+}  // namespace gui
 
 #endif  // FG_GUI_HELPER_H_

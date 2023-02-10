@@ -11,7 +11,7 @@
 #include "dfpn.h"
 #include "game.h"
 
-namespace Solver {
+namespace solver {
 
 /**
  * @brief We are testing against the WIN/LOSS/UNKNOWN result.
@@ -296,7 +296,7 @@ TEST(LARGE, 4) {
   EXPECT_EQ(dfpn.formatResult().substr(0, 7), "W 7 9 3");
 }
 
-}  // namespace Solver
+}  // namespace solver
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

@@ -14,7 +14,7 @@
 #include <QLabel>
 #include <QLineEdit>
 
-namespace GUI {
+namespace gui {
 
 // class QLineEdit; // forward declaration
 // class QLabel;
@@ -28,9 +28,9 @@ class InputDialog : public QDialog {
   static QStringList getStrings(QWidget *parent, bool *ok = nullptr);
 
  private:
-  QList<QLineEdit *> fields;
+  QList<QLineEdit *> fields_;
 };
 
-}  // namespace GUI
+}  // namespace gui
 
 #endif  // FG_INPUT_DIALOG_H_
