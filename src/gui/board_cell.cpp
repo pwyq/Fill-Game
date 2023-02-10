@@ -4,10 +4,10 @@
  * @create date 2023-02-10 05:31:33
  * @modify date 2023-02-10 05:31:33
  */
-// std
+#include "gui/board_cell.h"
+// Qt
 #include <QDebug>
 // local
-#include "gui/board_cell.h"
 #include "gui/helper.h"
 
 namespace GUI {

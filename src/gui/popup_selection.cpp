@@ -4,11 +4,10 @@
  * @create date 2023-02-10 05:33:17
  * @modify date 2023-02-10 05:33:17
  */
+#include "gui/popup_selection.h"
 // Qt
 #include <QDebug>
 #include <QPushButton>
-// local
-#include "gui/popup_selection.h"
 
 namespace GUI {
 

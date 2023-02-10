@@ -4,12 +4,11 @@
  * @create date 2023-02-10 05:34:37
  * @modify date 2023-02-10 05:34:37
  */
+#include "solver/game.h"
 // std
 #include <iostream>
 #include <ostream>
 #include <stdexcept>
-// local
-#include "solver/game.h"
 
 namespace Solver {
 

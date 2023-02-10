@@ -8,10 +8,10 @@
  * TODO: save/load a game
  * TODO: timer on each side
  */
+#include "gui/board_cell.h"
 // Qt
 #include <QMessageBox>
 // local
-#include "gui/board_cell.h"
 #include "gui/helper.h"
 #include "gui/main_window.h"
 #include "gui/popup_selection.h"

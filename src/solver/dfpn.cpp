@@ -4,11 +4,11 @@
  * @create date 2023-02-10 05:33:41
  * @modify date 2023-02-10 05:33:41
  */
+#include "solver/dfpn.h"
 // std
 #include <csignal>
 #include <iostream>
 // local
-#include "solver/dfpn.h"
 #include "solver/game.h"
 #include "solver/node.h"
 

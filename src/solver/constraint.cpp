@@ -4,12 +4,11 @@
  * @create date 2023-02-10 05:33:32
  * @modify date 2023-02-10 05:33:32
  */
+#include "solver/constraint.h"
 // std
 #include <csignal>
 #include <cstring>
 #include <iostream>
-// local
-#include "solver/constraint.h"
 
 namespace Solver {
 
