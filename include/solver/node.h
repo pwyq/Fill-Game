@@ -1,37 +1,31 @@
 #ifndef FG_SOLVER_NODE_H_
 #define FG_SOLVER_NODE_H_
 
-
 #include "game.h"
 
-
-namespace Solver
-{
-
+namespace Solver {
 
 class Node {
 public:
-    explicit Node(const Game& game);
+  explicit Node(const Game &game);
 
-    Node(const Game& game, const Pos& pos, uint8_t value);
+  Node(const Game &game, const Pos &pos, uint8_t value);
 
-    Game game;
-    uint32_t phi;
-    uint32_t delta;
-    bool is_expanded;
+  Game game;
+  uint32_t phi;
+  uint32_t delta;
+  bool is_expanded;
 
-    Move move;
-    std::string id;
+  Move move;
+  std::string id;
 
-    std::vector<Node> children{};
+  std::vector<Node> children{};
 
-    void evaluate();
+  void evaluate();
 
-    void generateChildren();
+  void generateChildren();
 };
-
 
 } // namespace Solver
 
-
-#endif  // FG_SOLVER_NODE_H_
+#endif // FG_SOLVER_NODE_H_

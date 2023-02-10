@@ -1,57 +1,48 @@
 #include "gui/input_dialog.h"
 
-namespace GUI
-{
+namespace GUI {
 
+InputDialog::InputDialog(QWidget *parent) : QDialog(parent) {
+  QFormLayout *lytMain = new QFormLayout(this);
 
-InputDialog::InputDialog(QWidget *parent) : QDialog(parent)
-{
-    QFormLayout *lytMain = new QFormLayout(this);
+  for (int i = 0; i < 4; ++i) {
+    QLabel *tLabel = new QLabel(QString("Text_%1:").arg(i), this);
+    QLineEdit *tLine = new QLineEdit(this);
+    lytMain->addRow(tLabel, tLine);
 
-    for (int i = 0; i < 4; ++i)
-    {
-        QLabel *tLabel = new QLabel(QString("Text_%1:").arg(i), this);
-        QLineEdit *tLine = new QLineEdit(this);
-        lytMain->addRow(tLabel, tLine);
+    fields << tLine;
+  }
 
-        fields << tLine;
-    }
+  QDialogButtonBox *buttonBox = new QDialogButtonBox(
+      QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this);
+  lytMain->addWidget(buttonBox);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox
-            ( QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-              Qt::Horizontal, this );
-    lytMain->addWidget(buttonBox);
+  bool conn = connect(buttonBox, &QDialogButtonBox::accepted, this,
+                      &InputDialog::accept);
+  Q_ASSERT(conn);
+  conn = connect(buttonBox, &QDialogButtonBox::rejected, this,
+                 &InputDialog::reject);
+  Q_ASSERT(conn);
 
-    bool conn = connect(buttonBox, &QDialogButtonBox::accepted,
-                   this, &InputDialog::accept);
-    Q_ASSERT(conn);
-    conn = connect(buttonBox, &QDialogButtonBox::rejected,
-                   this, &InputDialog::reject);
-    Q_ASSERT(conn);
-
-    setLayout(lytMain);
+  setLayout(lytMain);
 }
 
-QStringList InputDialog::getStrings(QWidget *parent, bool *ok)
-{
-    InputDialog *dialog = new InputDialog(parent);
+QStringList InputDialog::getStrings(QWidget *parent, bool *ok) {
+  InputDialog *dialog = new InputDialog(parent);
 
-    QStringList list;
+  QStringList list;
 
-    const int ret = dialog->exec();
-    if (ok)
-        *ok = !!ret;
+  const int ret = dialog->exec();
+  if (ok)
+    *ok = !!ret;
 
-    if (ret) {
-        foreach (auto field, dialog->fields) {
-            list << field->text();
-        }
-    }
+  if (ret) {
+    foreach (auto field, dialog->fields) { list << field->text(); }
+  }
 
-    dialog->deleteLater();
+  dialog->deleteLater();
 
-    return list;
+  return list;
 }
-
 
 } // namespace GUI

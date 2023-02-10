@@ -24,6 +24,7 @@ git clone --recurse-submodules https://github.com/pwyq/Fill-Game.git
 ## Development
 
 - Follows [Google C++ Guide](https://google.github.io/styleguide/cppguide.html)
+- Formatter ` find . -iname *.h -o -iname *.cpp | xargs clang-format-12 -i`
 
 ### Environment & Tools
 - Ubuntu 22.04, VS Code

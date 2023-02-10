@@ -1,34 +1,28 @@
 #ifndef FG_SOLVER_CONSTRAINT_H
 #define FG_SOLVER_CONSTRAINT_H
 
-
-#include <sys/resource.h>
 #include <csignal>
 #include <cstdlib>
 #include <functional>
+#include <sys/resource.h>
 
-
-namespace Solver
-{
-
+namespace Solver {
 
 class Constraint {
 public:
-    Constraint(size_t memory_limit, size_t time_limit);
+  Constraint(size_t memory_limit, size_t time_limit);
 
-    void apply();
+  void apply();
 
-    std::function<void(int)> signalHandler;
+  std::function<void(int)> signalHandler;
 
 private:
-    struct rlimit memory_limit;
-    struct rlimit time_limit;
+  struct rlimit memory_limit;
+  struct rlimit time_limit;
 
-    void setSigStack();
+  void setSigStack();
 };
-
 
 } // namespace Solver
 
-
-#endif  // FG_SOLVER_CONSTRAINT_H
+#endif // FG_SOLVER_CONSTRAINT_H
