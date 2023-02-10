@@ -1,44 +1,29 @@
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:31:33
+ * @modify date 2023-02-10 05:31:33
+ */
 #include "gui/board_cell.h"
+// Qt
+#include <QDebug>
+// local
 #include "gui/helper.h"
 
-#include <QDebug>
+namespace gui {
 
-namespace GUI
-{
+BoardCell::BoardCell(QString &text, const QPoint &pos, QWidget *parent)
+    : QPushButton(text, parent), pos_(pos) {
+  if (text == "") {
+    value_ = 0;
+  } else {
+    value_ = QStringToUint8(text);
+    assert(value_ >= 1 && value_ <= 9);
+  }
 
-BoardCell::BoardCell(QString& text, const QPoint& pos, QWidget* parent):
-    QPushButton(text, parent),
-    _pos(pos)
-{
-    if (text == "") {
-        _value = 0;
-    } else {
-        _value = QStringToUint8(text);
-        assert (_value >= 1 && _value <= 9);
-    }
-
-    const QSize BUTTON_SIZE = QSize(50, 50);
-    this->setFixedSize(BUTTON_SIZE);
+  this->setFixedSize(BUTTON_SIZE_);
 }
 
-BoardCell::~BoardCell()
-{
-}
+BoardCell::~BoardCell() {}
 
-uint8_t BoardCell::getValue()
-{
-    return _value;
-}
-
-QString BoardCell::getText()
-{
-    return uint8ToQstring(_value);
-}
-
-const QPoint BoardCell::getPos()
-{
-    return _pos;
-}
-    
-} // namespace GUI
-
+}  // namespace gui

@@ -1,86 +1,117 @@
-#ifndef __MAIN_WINDOW_H__
-#define __MAIN_WINDOW_H__
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:27:13
+ * @modify date 2023-02-10 05:27:13
+ * @desc GUI's Main window, including title bar, menu bar, game board, info
+ * panel
+ */
+#ifndef FG_GUI_MAIN_WINDOW_H_
+#define FG_GUI_MAIN_WINDOW_H_
 
-// Qt includes
-#include <QMainWindow>
+// Qt
+#include <QDebug>
 #include <QGridLayout>
 #include <QHBoxLayout>
-// #include <QVBoxLayout>
-#include <QWidget>
 #include <QLabel>
-#include <QTextBrowser>
-#include <QMenuBar>
+#include <QMainWindow>
 #include <QMenu>
-#include <QDebug>
-
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QTextBrowser>
+#include <QWidget>
+// std
 #include <iostream>
 #include <vector>
-
+// local
 #include "gui/board_cell.h"
 #include "gui/input_dialog.h"
 #include "gui/popup_selection.h"
-#include "solver/game.h"
 #include "solver/dfpn.h"
+#include "solver/game.h"
 
-
-namespace GUI
-{
+namespace gui {
 
 // TODO: singleton
-class MainWindow: public QMainWindow
-{
-    Q_OBJECT
-    public:
-        MainWindow();
-        // ~MainWindow();   // No need of destructor; otherwise double free(); the rule of 3/5/0
-        void initUI();
-        void startNewGame();
-        void changeGameSize(uint8_t width, uint8_t height);
-    protected:
-        QHBoxLayout*    _mainLayout;
-        QGridLayout*    _boardLayout;
-        QGridLayout*    _infoLayout;
-        QWidget*        _mainWidget;
-        QLabel*         _currPlayer;
-        QTextBrowser*   _browser;
+class MainWindow : public QMainWindow {
+  Q_OBJECT
+ public:
+  MainWindow();
+  // ~MainWindow();   // No need of destructor; otherwise double free(); the
+  // rule of 3/5/0
+  void initUI();
+  void startNewGame();
+  void changeGameSize(uint8_t width, uint8_t height);
 
-        QMenu* _gameMenu;
-        QMenu* _boardMenu;
-        uint8_t _boardWidth;
-        uint8_t _boardHeight;
-        bool _isAI = false;
-        std::vector<BoardCell*> _boardVec;
+ protected:
+  QHBoxLayout *main_layout_;
+  QGridLayout *board_layout_;
+  QGridLayout *info_layout_;
+  QWidget *main_widget_;
+  QLabel *curr_player_label_;
+  QTextBrowser *browser_;
 
-        void initGameMenu();
-        void initBoardMenu();
-        void drawBoard();
-        void updateCurrentPlayer(Solver::PLAYER player);
-        void playByAI();
-        void displayMessage(QString s);
-        QString getMoveMessage(Solver::Pos pos, QString moveValue);
+  QMenu *game_menu_;
+  QMenu *board_menu_;
+  uint8_t board_width_;
+  uint8_t board_height_;
+  bool is_AI_ = false;
+  std::vector<BoardCell *> board_cells_;
 
-        // slots
-        void onBoardCellPressed(BoardCell* cell);
-    private:
-        Solver::Game* _game = nullptr;    // TODO: std::auto_ptr, std::shared_ptr?
+  void initGameMenu();
+  void initBoardMenu();
+  void drawBoard();
+  void playByAI();
+  inline void updateCurrentPlayer(solver::PLAYER player);
+  inline void displayMessage(QString s);
+  inline QString getMoveMessage(solver::Pos pos, QString moveValue);
 
-        PopupSelection* _popupSelection = nullptr;
-        Solver::DFPN* _dfpnAgent = nullptr;
+  // slots
+  void onBoardCellPressed(BoardCell *cell);
 
-        std::string _gameString;
+ private:
+  solver::Game *game_ = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
 
-        int _moveCounter = 1;
+  PopupSelection *pop_selection_ = nullptr;
+  solver::DFPN *agent_dfpn_ = nullptr;
 
-        bool _isSelectionFinished = true;
-        bool _isGameEnd = false;
+  std::string game_string_;
 
-        // template<class T>
-        // void clearLayout(T* layoutType, bool deleteWidgets);
-        void clearBoardLayout();
+  int move_counter_ = 1;
+
+  bool is_select_done_ = true;
+  bool is_game_end_ = false;
+
+  // template<class T>
+  // void clearLayout(T* layoutType, bool deleteWidgets);
+  void clearBoardLayout();
 };
 
+// inline function declaration
+inline void MainWindow::updateCurrentPlayer(solver::PLAYER p) {
+  if (p == solver::PLAYER::BLACK)
+    this->curr_player_label_->setText("BLACK");
+  else
+    this->curr_player_label_->setText("WHITE");
+}
 
-} // namespace GUI
+inline QString MainWindow::getMoveMessage(solver::Pos p, QString val) {
+  QString res = QString::number(this->move_counter_++) + ". " +
+                this->curr_player_label_->text() + ": ";
+  char c = 65 + p.col;  // 'A' = 65
+  res += QChar(c);
+  res += uint8ToQstring(p.row + 1);
+  res += " - ";
+  res += val;
+  return res;
+}
 
+inline void MainWindow::displayMessage(QString s) {
+  QMessageBox msgBox;
+  msgBox.setText(s);
+  msgBox.exec();
+}
 
-#endif
+}  // namespace gui
+
+#endif  // FG_GUI_MAIN_WINDOW_H_

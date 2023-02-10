@@ -1,70 +1,83 @@
-#pragma once
-
+/**
+ * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:29:55
+ * @modify date 2023-02-10 05:29:55
+ * @desc Game class,responsible for play, find possible_moves
+ */
+#ifndef FG_SOLVER_GAME_H_
+#define FG_SOLVER_GAME_H_
+// std
 #include <unordered_map>
 #include <unordered_set>
 #include <valarray>
 #include <vector>
-
+// local
 #include "helper.h"
 
-namespace Solver
-{
-    
+namespace solver {
 
 class Game {
-    typedef std::unordered_set<Pos, Pos::Hash> PosSet;
+  typedef std::unordered_set<Pos, Pos::Hash> PosSet;
 
-private:
-    uint8_t width : 4;
-    uint8_t height : 4;
-    std::valarray<uint8_t> data;
+ public:
+  PLAYER to_play_;
 
-    std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> possible_moves;
-    bool is_expanded = false;
+  explicit Game(const std::string &input);
 
-    void floodFill(const Pos& starting_pos, PosSet& filled_visited, PosSet& empty_visited) const;
+  Game(const Game &other);
 
-public:
-    PLAYER to_play;
+  std::string toString() const;
 
-    explicit Game(const std::string& input);
+  friend std::ostream &operator<<(std::ostream &os, const Game &game);
 
-    Game(const Game& other);
+  static bool isValidGameString(const std::string &game_string);
 
-    std::string toString() const;
+  void parseGameString(const std::string &game_string);
 
-    friend std::ostream& operator<<(std::ostream& os, const Game& game);
+  void unsafePlay(const Pos &pos, uint8_t value);
 
-    static bool isValidGameString(const std::string& game_string);
+  void undo(const Pos &pos);
 
-    void parseGameString(const std::string& game_string);
+  inline void changeToPlay();
 
-    void unsafePlay(const Pos& pos, uint8_t value);
+  bool isValid() const;
 
-    void undo(const Pos& pos);
+  bool isTerminal();
 
-    void changeToPlay();
+  std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> getPossibleMoves();
 
-    bool isValid() const;
+  uint8_t get(uint8_t row, uint8_t col) const;
 
-    bool isTerminal();
-    
-    std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> getPossibleMoves();
+  uint8_t get(const Pos &pos) const;
 
-    uint8_t get(uint8_t row, uint8_t col) const;
+  void set(const Pos &pos, uint8_t value);
 
-    uint8_t get(const Pos& pos) const;
+  void reset(const Pos &pos);
 
-    void set(const Pos& pos, uint8_t value);
+  std::vector<Pos> getNeighbours(const Pos &pos) const;
 
-    void reset(const Pos& pos);
+  std::vector<Pos> getEmptyPositions() const;
 
-    std::vector<Pos> getNeighbours(const Pos& pos) const;
+  std::vector<Pos> getFilledPositions() const;
 
-    std::vector<Pos> getEmptyPositions() const;
+ private:
+  uint8_t width_ : 4;
+  uint8_t height_ : 4;
+  std::valarray<uint8_t> data_;
 
-    std::vector<Pos> getFilledPositions() const;
+  std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> possible_moves_;
+  bool is_expanded_ = false;
+
+  void floodFill(const Pos &starting_pos, PosSet &filled_visited,
+                 PosSet &empty_visited) const;
 };
 
+// inline function declaration
+inline void Game::changeToPlay() {
+  to_play_ = (to_play_ == PLAYER::BLACK) ? PLAYER::WHITE : PLAYER::BLACK;
+}
 
-} // namespace Solver
+}  // namespace solver
+
+#endif  // FG_SOLVER_GAME_H_

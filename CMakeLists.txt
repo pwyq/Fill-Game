@@ -1,4 +1,10 @@
-# This is the top-level CMakeLists.txt
+# ##
+# @author      Yanqing Wu
+# @email       meet.yanqing.wu@gmail.com
+# @create date 2023-02-10 05:37:39
+# @modify date 2023-02-10 05:37:49
+# @desc This is the top-level CMakeLists.txt
+# ##
 
 cmake_minimum_required(VERSION 3.10)
 
@@ -26,9 +32,9 @@ set(CMAKE_AUTORCC ON)
 # # There may be a way to tell up front if Qt5 is going to be found, but I haven't found
 # # a foolproof way to do it yet, so settle for the default error message for now.
 # if(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
-#    message(WARNING "CMAKE_PREFIX_PATH is not defined, so find_package may not work. Set the CMAKE_PREFIX_PATH "
-#            "environment variable to the install prefix of Qt 5, either on the command line as "
-#            "-DCMAKE_PREFIX_PATH=\"path/to/Qt5/lib/cmake\" or with set(CMAKE_PREFIX_PATH path/to/Qt5/lib/cmake)")
+# message(WARNING "CMAKE_PREFIX_PATH is not defined, so find_package may not work. Set the CMAKE_PREFIX_PATH "
+# "environment variable to the install prefix of Qt 5, either on the command line as "
+# "-DCMAKE_PREFIX_PATH=\"path/to/Qt5/lib/cmake\" or with set(CMAKE_PREFIX_PATH path/to/Qt5/lib/cmake)")
 # endif(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
 
 # Make this a GUI application on Windows
@@ -45,4 +51,3 @@ set(FILLGAME_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 # sub directory's CMakeLists.txt
 add_subdirectory(src)
 add_subdirectory(test)
-

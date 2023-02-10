@@ -1,33 +1,38 @@
-#pragma once
-
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:31:05
+ * @modify date 2023-02-10 05:31:05
+ * @desc Node for Game class
+ */
+#ifndef FG_SOLVER_NODE_H_
+#define FG_SOLVER_NODE_H_
+// local
 #include "game.h"
 
-namespace Solver
-{
-
+namespace solver {
 
 class Node {
-public:
-    explicit Node(const Game& game);
+ public:
+  explicit Node(const Game &game);
 
-    Node(const Game& game, const Pos& pos, uint8_t value);
+  Node(const Game &game, const Pos &pos, uint8_t value);
 
-    Game game;
-    uint32_t phi;
-    uint32_t delta;
-    bool is_expanded;
+  Game game_;
+  uint32_t phi_;
+  uint32_t delta_;
+  bool is_expanded_;
 
-    Move move;
-    std::string id;
+  Move move_;
+  std::string id_;
 
-    std::vector<Node> children{};
+  std::vector<Node> children_{};
 
-    void evaluate();
+  void evaluate();
 
-    void generateChildren();
+  void generateChildren();
 };
 
+}  // namespace solver
 
-} // namespace Solver
-
-
+#endif  // FG_SOLVER_NODE_H_

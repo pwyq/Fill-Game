@@ -1,8 +1,15 @@
+/**
+ * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:34:19
+ * @modify date 2023-02-10 05:34:19
+ */
+// std
 #include <exception>
 #include <iostream>
 #include <sstream>
 #include <string>
-
+// local
 #include "solver/constraint.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
@@ -10,25 +17,23 @@
 using std::cout;
 using std::endl;
 
-namespace Solver
-{
-    
+namespace solver {
 
 // 1024 * 1024 * 1024 = 1073741824 Bytes = 1GB
 #define MEMORY_LIMIT (1073741824)
 
-void startSolver(std::string& input, size_t time_limit) {
-    Game game(input);
-    // cout << game << endl;
+void startSolver(std::string &input, size_t time_limit) {
+  Game game(input);
+  // cout << game << endl;
 
-    DFPN dfpn(game);
+  DFPN dfpn(game);
 
-    Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
-    constraint.signalHandler = DFPN::signalHandler;
-    constraint.apply();
+  Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
+  constraint.signalHandler = DFPN::signalHandler;
+  constraint.apply();
 
-    dfpn.solve();
-    cout << dfpn.formatResult() << endl;
+  dfpn.solve();
+  cout << dfpn.formatResult() << endl;
 }
 
 /**
@@ -61,13 +66,12 @@ int main(int argc, char** argv) {
         // testStackMemoryLimit();
         // testHeapMemoryLimit();
         // testTimeLimit();
-    } catch (const std::bad_alloc& e) {  // if a 'new' operator failed, it will throw a bad_alloc exception
-        g_timer.stop();
-        cout << "? None " << g_timer.duration().count() << " " << g_counter << endl;
+    } catch (const std::bad_alloc& e) {  // if a 'new' operator failed, it will
+throw a bad_alloc exception g_timer.stop(); cout << "? None " <<
+g_timer.duration().count() << " " << g_counter << endl;
     }
     return 0;
 }
 **/
 
-
-} // namespace Solver
+}  // namespace solver
