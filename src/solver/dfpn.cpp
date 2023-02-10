@@ -9,6 +9,8 @@
 #include <iostream>
 // local
 #include "solver/dfpn.h"
+#include "solver/game.h"
+#include "solver/node.h"
 
 namespace Solver {
 
