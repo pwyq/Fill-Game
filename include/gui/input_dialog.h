@@ -1,11 +1,13 @@
-#ifndef __INPUT_DIALOG_H__
-#define __INPUT_DIALOG_H__
+#ifndef FG_INPUT_DIALOG_H_
+#define FG_INPUT_DIALOG_H_
+
 
 #include <QDialog>
 #include <QLabel>
 #include <QLineEdit>
 #include <QDialogButtonBox>
 #include <QFormLayout>
+
 
 namespace GUI
 {
@@ -31,4 +33,4 @@ private:
 } // namespace GUI
 
 
-#endif
+#endif  // FG_INPUT_DIALOG_H_

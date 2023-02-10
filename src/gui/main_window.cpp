@@ -17,6 +17,7 @@ MainWindow::MainWindow():
 {
     // TODO: cell color (disabled cell)
     // TODO: save/load a game
+    // TODO: timer on each side
 
     // UI elements
     _mainLayout     = new QHBoxLayout();
@@ -251,24 +252,23 @@ void MainWindow::playByAI()
     }
 
     // Play
+    this->_game->unsafePlay(nextMove.pos, nextMove.value);
+
+    // GUI update
     BoardCell* cell = nullptr;
     for (auto c : this->_boardVec) {
         if (c->getPos().y() == nextMove.pos.row && c->getPos().x() == nextMove.pos.col) {
             cell = c;
         }
     }
-
     QString moveValue = uint8ToQstring(nextMove.value);
     cell->setText(moveValue);
     cell->setEnabled(false);
-    this->_game->unsafePlay(nextMove.pos, nextMove.value);
-    this->_gameString = this->_game->toString();
-
-    // GUI update
     this->_browser->append(this->getMoveMessage(nextMove.pos, moveValue));
     this->updateCurrentPlayer(this->_game->to_play);
 
     // Game update
+    this->_gameString = this->_game->toString();
     delete this->_game;
     this->_game = new Solver::Game(this->_gameString);
     if (_game->getPossibleMoves().size() == 0) {

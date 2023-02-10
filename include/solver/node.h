@@ -1,6 +1,9 @@
-#pragma once
+#ifndef FG_SOLVER_NODE_H_
+#define FG_SOLVER_NODE_H_
+
 
 #include "game.h"
+
 
 namespace Solver
 {
@@ -31,3 +34,4 @@ public:
 } // namespace Solver
 
 
+#endif  // FG_SOLVER_NODE_H_

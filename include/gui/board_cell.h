@@ -1,7 +1,9 @@
-#ifndef __BOARD_CELL_H__
-#define __BOARD_CELL_H__
+#ifndef FG_GUI_BOARD_CELL_H_
+#define FG_GUI_BOARD_CELL_H_
+
 
 #include <QPushButton>
+
 
 namespace GUI
 {
@@ -25,4 +27,4 @@ private:
 } // namespace GUI
 
 
-#endif
+#endif  // FG_GUI_BOARD_CELL_H_

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FG_SOLVER_GAME_H_
+#define FG_SOLVER_GAME_H_
+
 
 #include <unordered_map>
 #include <unordered_set>
@@ -6,6 +8,7 @@
 #include <vector>
 
 #include "helper.h"
+
 
 namespace Solver
 {
@@ -68,3 +71,5 @@ public:
 
 
 } // namespace Solver
+
+#endif  // FG_SOLVER_GAME_H_

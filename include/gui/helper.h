@@ -1,7 +1,9 @@
-#ifndef __GUI_HELPER_H__
-#define __GUI_HELPER_H__
+#ifndef FG_GUI_HELPER_H_
+#define FG_GUI_HELPER_H_
+
 
 #include <QString>
+
 
 namespace GUI
 {
@@ -15,4 +17,4 @@ uint8_t QStringToUint8(QString s);
 } // namespace GUI
 
 
-#endif
+#endif  // FG_GUI_HELPER_H_

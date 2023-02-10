@@ -1,9 +1,12 @@
-#pragma once
+#ifndef FG_SOLVER_CONSTRAINT_H
+#define FG_SOLVER_CONSTRAINT_H
+
 
 #include <sys/resource.h>
 #include <csignal>
 #include <cstdlib>
 #include <functional>
+
 
 namespace Solver
 {
@@ -28,3 +31,4 @@ private:
 } // namespace Solver
 
 
+#endif  // FG_SOLVER_CONSTRAINT_H

@@ -1,5 +1,6 @@
-#ifndef __POPUP_SELECITON_H__
-#define __POPUP_SELECITON_H__
+#ifndef FG_GUI_POPUP_SELECTION_H_
+#define FG_GUI_POPUP_SELECTION_H_
+
 
 #include <QMainWindow>
 #include <QGridLayout>
@@ -39,4 +40,4 @@ signals:
 } // namespace GUI
 
 
-#endif
+#endif  // FG_GUI_POPUP_SELECTION_H_

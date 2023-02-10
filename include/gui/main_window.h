@@ -1,5 +1,5 @@
-#ifndef __MAIN_WINDOW_H__
-#define __MAIN_WINDOW_H__
+#ifndef FG_GUI_MAIN_WINDOW_H_
+#define FG_GUI_MAIN_WINDOW_H_
 
 // Qt includes
 #include <QMainWindow>
@@ -83,4 +83,4 @@ class MainWindow: public QMainWindow
 } // namespace GUI
 
 
-#endif
+#endif  // FG_GUI_MAIN_WINDOW_H_

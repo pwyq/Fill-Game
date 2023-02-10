@@ -1,9 +1,12 @@
-#pragma once
+#ifndef FG_SOLVER_DFPN_H_
+#define FG_SOLVER_DFPN_H_
+
 
 #include <unordered_map>
 #include <utility>
 
 #include "node.h"
+
 
 namespace Solver
 {
@@ -45,3 +48,4 @@ private:
 } // namespace Solver
 
 
+#endif  // FG_SOLVER_DFPN_H_

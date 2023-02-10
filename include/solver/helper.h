@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FG_SOLVER_HELPER_H_
+#define FG_SOLVER_HELPER_H_
+
 
 #include <cassert>
 #include <chrono>
@@ -65,3 +67,6 @@ extern Timer<> g_timer;
 
 
 } // namespace Solver
+
+
+#endif  // FG_SOLVER_HELPER_H_
