@@ -1,6 +1,7 @@
 #include "solver/game.h"
 #include <ostream>
 #include <stdexcept>
+#include <iostream>
 
 namespace Solver
 {
@@ -12,6 +13,7 @@ Game::Game(const std::string& input) :
     is_expanded(false),
     to_play(PLAYER::BLACK)
 {
+    // std::cout << input;
     parseGameString(input);
 }
 
@@ -30,8 +32,9 @@ void Game::changeToPlay() {
 
 void Game::unsafePlay(const Pos& pos, uint8_t value) {
     if (get(pos) > 0) {
+        // std::cout << this->toString() << std::endl;
         std::string reason = "Cannot play at " + pos.toString() + " with value " + std::to_string((unsigned int)value) +
-                             ", which is already filled.";
+                             ", which is already filled." + " Full game = " + this->toString();
         throw std::invalid_argument(reason);
     }
     set(pos, value);
