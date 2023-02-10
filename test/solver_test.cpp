@@ -1,5 +1,13 @@
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:38:30
+ * @modify date 2023-02-10 05:38:30
+ * @desc Unit tests for DFPN solver
+ */
+// gtest
 #include <gtest/gtest.h>
-
+// local
 #include "dfpn.h"
 #include "game.h"
 
@@ -288,7 +296,7 @@ TEST(LARGE, 4) {
   EXPECT_EQ(dfpn.formatResult().substr(0, 7), "W 7 9 3");
 }
 
-} // namespace Solver
+}  // namespace Solver
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

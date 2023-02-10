@@ -1,12 +1,19 @@
+/**
+ * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:33:41
+ * @modify date 2023-02-10 05:33:41
+ */
+// std
 #include <csignal>
 #include <iostream>
-
+// local
 #include "solver/dfpn.h"
 
 namespace Solver {
 
-Timer<> g_timer{};    // total time used
-size_t g_counter = 0; // num node visited
+Timer<> g_timer{};     // total time used
+size_t g_counter = 0;  // num node visited
 
 DFPN::DFPN(const Game &game) : root(game) {}
 
@@ -44,7 +51,7 @@ void DFPN::solve() {
   g_timer.stop();
 }
 
-void DFPN::MID(Node &node) { // NOLINT
+void DFPN::MID(Node &node) {  // NOLINT
   ++g_counter;
   if (node.game.isTerminal()) {
     saveProofAndDisproofNumbers(node, node.phi, node.delta);
@@ -160,21 +167,21 @@ uint32_t DFPN::computeSumPhi(Node &node) {
 std::string DFPN::formatResult() const {
   std::string ret;
   switch (result) {
-  case WIN:
-    ret += "W ";
-    ret += best_move.toString() + " ";
-    ret += std::to_string(g_timer.duration().count()) + " ";
-    ret += std::to_string(g_counter);
-    break;
-  case LOSS:
-    ret += "L None ";
-    ret += std::to_string(g_timer.duration().count()) + " ";
-    ret += std::to_string(g_counter);
-    break;
-  default: // Handled by signal handler
-    break;
+    case WIN:
+      ret += "W ";
+      ret += best_move.toString() + " ";
+      ret += std::to_string(g_timer.duration().count()) + " ";
+      ret += std::to_string(g_counter);
+      break;
+    case LOSS:
+      ret += "L None ";
+      ret += std::to_string(g_timer.duration().count()) + " ";
+      ret += std::to_string(g_counter);
+      break;
+    default:  // Handled by signal handler
+      break;
   }
   return ret;
 }
 
-} // namespace Solver
+}  // namespace Solver

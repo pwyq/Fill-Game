@@ -1,3 +1,10 @@
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:35:05
+ * @modify date 2023-02-10 05:35:05
+ */
+// local
 #include "solver/node.h"
 
 namespace Solver {
@@ -38,4 +45,4 @@ void Node::generateChildren() {
   }
 }
 
-} // namespace Solver
+}  // namespace Solver

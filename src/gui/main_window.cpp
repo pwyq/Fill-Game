@@ -1,17 +1,22 @@
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:32:27
+ * @modify date 2023-02-10 05:32:27
+ *
+ * TODO: cell color (disabled cell)
+ * TODO: save/load a game
+ * TODO: timer on each side
+ */
 // Qt
 #include <QMessageBox>
-
-// own include
+// local
 #include "gui/helper.h"
 #include "gui/main_window.h"
 
 namespace GUI {
 
 MainWindow::MainWindow() : _boardWidth(2), _boardHeight(3), _isAI(true) {
-  // TODO: cell color (disabled cell)
-  // TODO: save/load a game
-  // TODO: timer on each side
-
   // UI elements
   _mainLayout = new QHBoxLayout();
   _boardLayout = new QGridLayout();
@@ -29,8 +34,8 @@ MainWindow::MainWindow() : _boardWidth(2), _boardHeight(3), _isAI(true) {
   this->initUI();
   this->setWindowFlags(
       windowFlags() &
-      (~Qt::WindowMaximizeButtonHint)); // TODO: allow proportionally resize in
-                                        // the future
+      (~Qt::WindowMaximizeButtonHint));  // TODO: allow proportionally resize in
+                                         // the future
   // https://en.cppreference.com/w/cpp/language/rule_of_three rule of 3/5/0
   // this->setAttribute( Qt::WA_DeleteOnClose );
 }
@@ -152,10 +157,10 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
   // qDebug() << this->_mainWidget->minimumSizeHint();
   // this->resize(this->_mainWidget->minimumSizeHint());
   for (uint8_t i = 0; i < 2; i++)
-    this->adjustSize(); // TODO: not fully working; if the board change form
-                        // large to small for the first time, it will not work;
-                        // all other cases work fine. Current work around is to
-                        // start with the smallest board
+    this->adjustSize();  // TODO: not fully working; if the board change form
+                         // large to small for the first time, it will not work;
+                         // all other cases work fine. Current work around is to
+                         // start with the smallest board
 }
 
 // TODO: How to make a type T*& becomes T*??
@@ -174,7 +179,7 @@ void MainWindow::clearBoardLayout() {
 void MainWindow::drawBoard() {
   // init board x y axis
   for (uint8_t col = 1; col < _boardWidth + 1; col++) {
-    char c = 64 + col; // ascii 'A' = 65
+    char c = 64 + col;  // ascii 'A' = 65
     QLabel *l = new QLabel(QChar(c));
     l->setAlignment(Qt::AlignCenter);
     _boardLayout->addWidget(l, 0, col, 1, 1);
@@ -187,7 +192,7 @@ void MainWindow::drawBoard() {
     for (uint8_t col = 0; col < _boardWidth; col++) {
       QString t = "";
       BoardCell *button = new BoardCell(
-          t, QPoint(col, row), this); // note that col=x, row=y, from top down
+          t, QPoint(col, row), this);  // note that col=x, row=y, from top down
       _boardVec.push_back(button);
       connect(button, &QPushButton::pressed,
               [button, this]() { this->onBoardCellPressed(button); });
@@ -207,7 +212,7 @@ void MainWindow::updateCurrentPlayer(Solver::PLAYER p) {
 QString MainWindow::getMoveMessage(Solver::Pos p, QString val) {
   QString res = QString::number(this->_moveCounter++) + ". " +
                 this->_currPlayer->text() + ": ";
-  char c = 65 + p.col; // 'A' = 65
+  char c = 65 + p.col;  // 'A' = 65
   res += QChar(c);
   res += uint8ToQstring(p.row + 1);
   res += " - ";
@@ -224,7 +229,7 @@ void MainWindow::playByAI() {
   _dfpnAgent = new Solver::DFPN(*_game);
   _dfpnAgent->solve();
   Solver::Move nextMove = _dfpnAgent->best_move;
-  if (nextMove.value == 0) { // This may not be reached at all
+  if (nextMove.value == 0) {  // This may not be reached at all
     qDebug() << "no possible moves";
     return;
   }
@@ -320,4 +325,4 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
   _popupSelection->show();
 }
 
-} // namespace GUI
+}  // namespace GUI

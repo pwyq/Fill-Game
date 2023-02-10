@@ -1,6 +1,14 @@
-#include "gui/popup_selection.h"
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:33:17
+ * @modify date 2023-02-10 05:33:17
+ */
+// Qt
 #include <QDebug>
 #include <QPushButton>
+// local
+#include "gui/popup_selection.h"
 
 namespace GUI {
 
@@ -20,8 +28,8 @@ PopupSelection::PopupSelection(std::vector<uint8_t> available_moves) {
 
 PopupSelection::~PopupSelection() { pinstance_ = nullptr; }
 
-PopupSelection *
-PopupSelection::GetInstance(std::vector<uint8_t> available_moves) {
+PopupSelection *PopupSelection::GetInstance(
+    std::vector<uint8_t> available_moves) {
   std::lock_guard<std::mutex> lock(mutex_);
   if (pinstance_ == nullptr) {
     pinstance_ = new PopupSelection(available_moves);
@@ -47,4 +55,4 @@ void PopupSelection::initUI(std::vector<uint8_t> available_moves) {
   this->setCentralWidget(_widget);
 }
 
-} // namespace GUI
+}  // namespace GUI

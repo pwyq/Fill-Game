@@ -1,21 +1,28 @@
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:27:13
+ * @modify date 2023-02-10 05:27:13
+ * @desc GUI's Main window, including title bar, menu bar, game board, info
+ * panel
+ */
 #ifndef FG_GUI_MAIN_WINDOW_H_
 #define FG_GUI_MAIN_WINDOW_H_
 
-// Qt includes
+// Qt
+#include <QDebug>
 #include <QGridLayout>
 #include <QHBoxLayout>
-#include <QMainWindow>
-// #include <QVBoxLayout>
-#include <QDebug>
 #include <QLabel>
+#include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
 #include <QTextBrowser>
 #include <QWidget>
-
+// std
 #include <iostream>
 #include <vector>
-
+// local
 #include "gui/board_cell.h"
 #include "gui/input_dialog.h"
 #include "gui/popup_selection.h"
@@ -27,7 +34,7 @@ namespace GUI {
 // TODO: singleton
 class MainWindow : public QMainWindow {
   Q_OBJECT
-public:
+ public:
   MainWindow();
   // ~MainWindow();   // No need of destructor; otherwise double free(); the
   // rule of 3/5/0
@@ -35,7 +42,7 @@ public:
   void startNewGame();
   void changeGameSize(uint8_t width, uint8_t height);
 
-protected:
+ protected:
   QHBoxLayout *_mainLayout;
   QGridLayout *_boardLayout;
   QGridLayout *_infoLayout;
@@ -61,8 +68,8 @@ protected:
   // slots
   void onBoardCellPressed(BoardCell *cell);
 
-private:
-  Solver::Game *_game = nullptr; // TODO: std::auto_ptr, std::shared_ptr?
+ private:
+  Solver::Game *_game = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
 
   PopupSelection *_popupSelection = nullptr;
   Solver::DFPN *_dfpnAgent = nullptr;
@@ -79,6 +86,6 @@ private:
   void clearBoardLayout();
 };
 
-} // namespace GUI
+}  // namespace GUI
 
-#endif // FG_GUI_MAIN_WINDOW_H_
+#endif  // FG_GUI_MAIN_WINDOW_H_

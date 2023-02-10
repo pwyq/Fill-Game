@@ -1,3 +1,10 @@
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:32:16
+ * @modify date 2023-02-10 05:32:16
+ */
+// local
 #include "gui/input_dialog.h"
 
 namespace GUI {
@@ -33,8 +40,7 @@ QStringList InputDialog::getStrings(QWidget *parent, bool *ok) {
   QStringList list;
 
   const int ret = dialog->exec();
-  if (ok)
-    *ok = !!ret;
+  if (ok) *ok = !!ret;
 
   if (ret) {
     foreach (auto field, dialog->fields) { list << field->text(); }
@@ -45,4 +51,4 @@ QStringList InputDialog::getStrings(QWidget *parent, bool *ok) {
   return list;
 }
 
-} // namespace GUI
+}  // namespace GUI

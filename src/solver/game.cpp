@@ -1,7 +1,15 @@
-#include "solver/game.h"
+/**
+ * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:34:37
+ * @modify date 2023-02-10 05:34:37
+ */
+// std
 #include <iostream>
 #include <ostream>
 #include <stdexcept>
+// local
+#include "solver/game.h"
 
 namespace Solver {
 
@@ -12,7 +20,9 @@ Game::Game(const std::string &input)
 }
 
 Game::Game(const Game &other)
-    : width(other.width), height(other.height), is_expanded(false),
+    : width(other.width),
+      height(other.height),
+      is_expanded(false),
       to_play(other.to_play) {
   data = other.data;
 }
@@ -40,7 +50,7 @@ void Game::undo(const Pos &pos) {
 }
 
 void Game::floodFill(const Pos &starting_pos, PosSet &filled_visited,
-                     PosSet &empty_visited) const { // NOLINT
+                     PosSet &empty_visited) const {  // NOLINT
   filled_visited.insert(starting_pos);
   uint8_t value = get(starting_pos);
   for (auto neighbour : getNeighbours(starting_pos)) {
@@ -303,4 +313,4 @@ std::string Game::toString() const {
   return ret;
 }
 
-} // namespace Solver
+}  // namespace Solver

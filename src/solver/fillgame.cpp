@@ -1,8 +1,15 @@
+/**
+ * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:34:19
+ * @modify date 2023-02-10 05:34:19
+ */
+// std
 #include <exception>
 #include <iostream>
 #include <sstream>
 #include <string>
-
+// local
 #include "solver/constraint.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
@@ -67,4 +74,4 @@ g_timer.duration().count() << " " << g_counter << endl;
 }
 **/
 
-} // namespace Solver
+}  // namespace Solver

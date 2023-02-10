@@ -1,12 +1,19 @@
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:31:05
+ * @modify date 2023-02-10 05:31:05
+ * @desc Node for Game class
+ */
 #ifndef FG_SOLVER_NODE_H_
 #define FG_SOLVER_NODE_H_
-
+// local
 #include "game.h"
 
 namespace Solver {
 
 class Node {
-public:
+ public:
   explicit Node(const Game &game);
 
   Node(const Game &game, const Pos &pos, uint8_t value);
@@ -26,6 +33,6 @@ public:
   void generateChildren();
 };
 
-} // namespace Solver
+}  // namespace Solver
 
-#endif // FG_SOLVER_NODE_H_
+#endif  // FG_SOLVER_NODE_H_

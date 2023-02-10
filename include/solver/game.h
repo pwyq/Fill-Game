@@ -1,11 +1,18 @@
+/**
+ * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:29:55
+ * @modify date 2023-02-10 05:29:55
+ * @desc Game class,responsible for play, find possible_moves
+ */
 #ifndef FG_SOLVER_GAME_H_
 #define FG_SOLVER_GAME_H_
-
+// std
 #include <unordered_map>
 #include <unordered_set>
 #include <valarray>
 #include <vector>
-
+// local
 #include "helper.h"
 
 namespace Solver {
@@ -13,7 +20,7 @@ namespace Solver {
 class Game {
   typedef std::unordered_set<Pos, Pos::Hash> PosSet;
 
-private:
+ private:
   uint8_t width : 4;
   uint8_t height : 4;
   std::valarray<uint8_t> data;
@@ -24,7 +31,7 @@ private:
   void floodFill(const Pos &starting_pos, PosSet &filled_visited,
                  PosSet &empty_visited) const;
 
-public:
+ public:
   PLAYER to_play;
 
   explicit Game(const std::string &input);
@@ -66,6 +73,6 @@ public:
   std::vector<Pos> getFilledPositions() const;
 };
 
-} // namespace Solver
+}  // namespace Solver
 
-#endif // FG_SOLVER_GAME_H_
+#endif  // FG_SOLVER_GAME_H_

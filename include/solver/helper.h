@@ -1,6 +1,12 @@
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:30:34
+ * @modify date 2023-02-10 05:30:34
+ */
 #ifndef FG_SOLVER_HELPER_H_
 #define FG_SOLVER_HELPER_H_
-
+// std
 #include <cassert>
 #include <chrono>
 #include <functional>
@@ -45,14 +51,15 @@ enum PLAYER { BLACK = 0, WHITE = 1 };
 enum PROOF_VALUE { WIN = 1, LOSS = 0, UNKNOWN = -1 };
 
 // https://stackoverflow.com/a/21995693
-template <class ClockT = std::chrono::steady_clock> class Timer {
+template <class ClockT = std::chrono::steady_clock>
+class Timer {
   using time_point = typename ClockT::time_point;
 
-protected:
+ protected:
   time_point _start = ClockT::now();
   time_point _end = {};
 
-public:
+ public:
   void start() {
     _end = time_point{};
     _start = ClockT::now();
@@ -68,6 +75,6 @@ public:
 
 extern Timer<> g_timer;
 
-} // namespace Solver
+}  // namespace Solver
 
-#endif // FG_SOLVER_HELPER_H_
+#endif  // FG_SOLVER_HELPER_H_

@@ -1,7 +1,13 @@
-#include "gui/board_cell.h"
-
+/**
+ * @author      Yanqing Wu
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:31:33
+ * @modify date 2023-02-10 05:31:33
+ */
+// std
 #include <QDebug>
-
+// local
+#include "gui/board_cell.h"
 #include "gui/helper.h"
 
 namespace GUI {
@@ -27,4 +33,4 @@ QString BoardCell::getText() { return uint8ToQstring(_value); }
 
 const QPoint BoardCell::getPos() { return _pos; }
 
-} // namespace GUI
+}  // namespace GUI

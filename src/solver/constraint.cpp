@@ -1,7 +1,15 @@
-#include "solver/constraint.h"
+/**
+ * @author      Yanqing Wu, Junwen Shen
+ * @email       meet.yanqing.wu@gmail.com
+ * @create date 2023-02-10 05:33:32
+ * @modify date 2023-02-10 05:33:32
+ */
+// std
 #include <csignal>
 #include <cstring>
 #include <iostream>
+// local
+#include "solver/constraint.h"
 
 namespace Solver {
 
@@ -50,4 +58,4 @@ void Constraint::setSigStack() {
   set_sigaction(SIGALRM, &sa);
 }
 
-} // namespace Solver
+}  // namespace Solver
