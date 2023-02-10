@@ -26,10 +26,6 @@ Game::Game(const Game &other)
   data = other.data;
 }
 
-inline void Game::changeToPlay() {
-  to_play = (to_play == PLAYER::BLACK) ? PLAYER::WHITE : PLAYER::BLACK;
-}
-
 void Game::unsafePlay(const Pos &pos, uint8_t value) {
   if (get(pos) > 0) {
     // std::cout << this->toString() << std::endl;

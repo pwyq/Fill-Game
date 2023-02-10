@@ -9,8 +9,6 @@
  * TODO: timer on each side
  */
 #include "gui/board_cell.h"
-// Qt
-#include <QMessageBox>
 // local
 #include "gui/helper.h"
 #include "gui/main_window.h"
@@ -204,24 +202,6 @@ void MainWindow::drawBoard() {
   }
 }
 
-inline void MainWindow::updateCurrentPlayer(Solver::PLAYER p) {
-  if (p == Solver::PLAYER::BLACK)
-    this->_currPlayer->setText("BLACK");
-  else
-    this->_currPlayer->setText("WHITE");
-}
-
-inline QString MainWindow::getMoveMessage(Solver::Pos p, QString val) {
-  QString res = QString::number(this->_moveCounter++) + ". " +
-                this->_currPlayer->text() + ": ";
-  char c = 65 + p.col;  // 'A' = 65
-  res += QChar(c);
-  res += uint8ToQstring(p.row + 1);
-  res += " - ";
-  res += val;
-  return res;
-}
-
 void MainWindow::playByAI() {
   // TODO: optimization, every time we are creating a new game and a new solver
   if (_dfpnAgent != nullptr) {
@@ -264,12 +244,6 @@ void MainWindow::playByAI() {
   }
 }
 
-inline void MainWindow::displayMessage(QString s) {
-  QMessageBox msgBox;
-  msgBox.setText(s);
-  msgBox.exec();
-}
-
 void MainWindow::onBoardCellPressed(BoardCell *cell) {
   if (this->_isGameEnd) {
     QString s = "Game is ended. Please start a new game.";
@@ -282,9 +256,7 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
 
   auto allMoves = _game->getPossibleMoves();
   if (allMoves.find(cellPos) == allMoves.end()) {
-    QMessageBox msgBox;
-    msgBox.setText("No Possible Move");
-    msgBox.exec();
+    this->displayMessage("No Possible Move");
     cell->setEnabled(false);
     return;
   }

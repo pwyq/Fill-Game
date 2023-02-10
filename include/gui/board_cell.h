@@ -10,6 +10,8 @@
 
 // Qt
 #include <QPushButton>
+// local
+#include "gui/helper.h"
 
 namespace GUI {
 
@@ -18,14 +20,20 @@ class BoardCell : public QPushButton {
   BoardCell(QString &text, const QPoint &pos, QWidget *parent = 0);
   ~BoardCell();
 
-  uint8_t getValue();
-  QString getText();
-  const QPoint getPos();
+  inline uint8_t getValue();
+  inline QString getText();
+  inline const QPoint getPos();
 
  private:
   uint8_t _value;
   QPoint _pos;
 };
+
+inline uint8_t BoardCell::getValue() { return _value; }
+
+inline QString BoardCell::getText() { return uint8ToQstring(_value); }
+
+inline const QPoint BoardCell::getPos() { return _pos; }
 
 }  // namespace GUI
 

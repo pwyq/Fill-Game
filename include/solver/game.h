@@ -50,7 +50,7 @@ class Game {
 
   void undo(const Pos &pos);
 
-  void changeToPlay();
+  inline void changeToPlay();
 
   bool isValid() const;
 
@@ -72,6 +72,11 @@ class Game {
 
   std::vector<Pos> getFilledPositions() const;
 };
+
+// inline function declaration
+inline void Game::changeToPlay() {
+  to_play = (to_play == PLAYER::BLACK) ? PLAYER::WHITE : PLAYER::BLACK;
+}
 
 }  // namespace Solver
 

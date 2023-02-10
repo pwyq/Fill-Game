@@ -17,6 +17,7 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <QMenuBar>
+#include <QMessageBox>
 #include <QTextBrowser>
 #include <QWidget>
 // std
@@ -60,10 +61,10 @@ class MainWindow : public QMainWindow {
   void initGameMenu();
   void initBoardMenu();
   void drawBoard();
-  void updateCurrentPlayer(Solver::PLAYER player);
   void playByAI();
-  void displayMessage(QString s);
-  QString getMoveMessage(Solver::Pos pos, QString moveValue);
+  inline void updateCurrentPlayer(Solver::PLAYER player);
+  inline void displayMessage(QString s);
+  inline QString getMoveMessage(Solver::Pos pos, QString moveValue);
 
   // slots
   void onBoardCellPressed(BoardCell *cell);
@@ -85,6 +86,31 @@ class MainWindow : public QMainWindow {
   // void clearLayout(T* layoutType, bool deleteWidgets);
   void clearBoardLayout();
 };
+
+// inline function declaration
+inline void MainWindow::updateCurrentPlayer(Solver::PLAYER p) {
+  if (p == Solver::PLAYER::BLACK)
+    this->_currPlayer->setText("BLACK");
+  else
+    this->_currPlayer->setText("WHITE");
+}
+
+inline QString MainWindow::getMoveMessage(Solver::Pos p, QString val) {
+  QString res = QString::number(this->_moveCounter++) + ". " +
+                this->_currPlayer->text() + ": ";
+  char c = 65 + p.col;  // 'A' = 65
+  res += QChar(c);
+  res += uint8ToQstring(p.row + 1);
+  res += " - ";
+  res += val;
+  return res;
+}
+
+inline void MainWindow::displayMessage(QString s) {
+  QMessageBox msgBox;
+  msgBox.setText(s);
+  msgBox.exec();
+}
 
 }  // namespace GUI
 

@@ -12,9 +12,12 @@
 
 namespace GUI {
 
-QString uint8ToQstring(uint8_t x);
+// inline function declarations
+inline QString uint8ToQstring(uint8_t x) { return QString::number(x); }
 
-uint8_t QStringToUint8(QString s);
+inline uint8_t QStringToUint8(QString s) {
+  return static_cast<uint8_t>(s.toInt());
+}
 
 }  // namespace GUI
 

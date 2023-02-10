@@ -40,13 +40,19 @@ class DFPN {
 
   void saveProofAndDisproofNumbers(Node &node, uint32_t phi, uint32_t delta);
 
-  void retrieveProofAndDisproofNumbers(Node &node, uint32_t &phi,
-                                       uint32_t &delta);
+  inline void retrieveProofAndDisproofNumbers(Node &node, uint32_t &phi,
+                                              uint32_t &delta);
 
   uint32_t computeMinDelta(Node &node);
 
   uint32_t computeSumPhi(Node &node);
 };
+
+// inline function declaration
+inline void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi,
+                                              uint32_t delta) {
+  tt[node.id] = std::make_pair(phi, delta);
+}
 
 }  // namespace Solver
 
