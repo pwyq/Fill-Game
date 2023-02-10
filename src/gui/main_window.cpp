@@ -11,10 +11,12 @@ namespace GUI
 
 
 MainWindow::MainWindow():
-    _boardWidth(3),
-    _boardHeight(3)
+    _boardWidth(2),
+    _boardHeight(3),
+    _isAI(true)
 {
-    // TODO: cell color
+    // TODO: cell color (disabled cell)
+    // TODO: save/load a game
 
     // UI elements
     _mainLayout     = new QHBoxLayout();
@@ -113,6 +115,7 @@ void MainWindow::initBoardMenu()
 
 void MainWindow::startNewGame()
 {
+    this->_isGameEnd = false;
     std::string _gameString = "";
     for (uint8_t row = 0; row < _boardHeight; row++) {
         for (uint8_t col = 0; col < _boardWidth; col++) {
@@ -231,8 +234,59 @@ QString MainWindow::getMoveMessage(Solver::Pos p, QString val)
     return res;
 }
 
+void MainWindow::playByAI()
+{
+    if (_dfpnAgent == nullptr) {
+        _dfpnAgent = new Solver::DFPN(*_game);
+    }
+    _dfpnAgent->solve();
+    Solver::Move nextMove = _dfpnAgent->best_move;
+    if (nextMove.value == 0) {  // This may not be reached at all
+        qDebug() << "no possible moves";
+        return;
+    }
+
+    // Play
+    BoardCell* cell = nullptr;
+    for (auto c : this->_boardVec) {
+        if (c->getPos().y() == nextMove.pos.row && c->getPos().x() == nextMove.pos.col) {
+            cell = c;
+        }
+    }
+
+    QString moveValue = uint8ToQstring(nextMove.value);
+    cell->setText(moveValue);
+    cell->setEnabled(false);
+    std::cout << "before unsafe play: " << this->_game->toString() << std::endl;
+    this->_game->unsafePlay(nextMove.pos, nextMove.value);
+    this->_gameString = this->_game->toString();
+    qDebug() << "????";
+    std::cout << this->_gameString << std::endl;
+    qDebug() << "????";
+    delete this->_game;
+    this->_game = new Solver::Game(this->_gameString);
+    this->_browser->append(this->getMoveMessage(nextMove.pos, moveValue));
+    if (_game->getPossibleMoves().size() == 0) {
+        this->_isGameEnd = true;
+        QString s = "AI wins!";
+        this->displayMessage(s);
+    }
+}
+
+void MainWindow::displayMessage(QString s)
+{
+    QMessageBox msgBox;
+    msgBox.setText(s);
+    msgBox.exec();
+}
+
 void MainWindow::onBoardCellPressed(BoardCell* cell)
 {
+    if (this->_isGameEnd) {
+        QString s = "Game is ended. Please start a new game.";
+        this->displayMessage(s);
+        return;
+    }
     // _mainWidget->setEnabled(false);    // prevent from clicking another cell
     Solver::Pos cellPos = Solver::Pos{
         static_cast<uint8_t>(cell->getPos().y()),
@@ -263,23 +317,23 @@ void MainWindow::onBoardCellPressed(BoardCell* cell)
         delete this->_game;
         this->_game = new Solver::Game(this->_gameString);
 
+        this->_browser->append(this->getMoveMessage(cellPos, moveValue));
         if (this->_game->getPossibleMoves().size() == 0) {
             // user clicked a dead cell
             _popupSelection->close();
-            for (auto c : this->_boardVec) {
-                c->setEnabled(false);
-            }
-            QMessageBox msgBox;
-            msgBox.setText("Winner: " + this->_currPlayer->text());
-            msgBox.exec();
+            this->_isGameEnd = true;
+            QString s = "Winner: " + this->_currPlayer->text();
+            this->displayMessage(s);
         } else {
             // the move was successful
             cell->setEnabled(false);
-            this->_browser->append(this->getMoveMessage(cellPos, moveValue));
             this->updateCurrentPlayer(this->_game->to_play);
             _popupSelection->close();
         }
         this->_isSelectionFinished = true;
+        if (true == this->_isAI) {
+            this->playByAI();
+        }
     });
     _popupSelection->move(QCursor::pos());
     _popupSelection->show();

@@ -20,6 +20,7 @@
 #include "gui/input_dialog.h"
 #include "gui/popup_selection.h"
 #include "solver/game.h"
+#include "solver/dfpn.h"
 
 
 namespace GUI
@@ -47,12 +48,15 @@ class MainWindow: public QMainWindow
         QMenu* _boardMenu;
         uint8_t _boardWidth;
         uint8_t _boardHeight;
+        bool _isAI = false;
         std::vector<BoardCell*> _boardVec;
 
         void initGameMenu();
         void initBoardMenu();
         void drawBoard();
         void updateCurrentPlayer(Solver::PLAYER player);
+        void playByAI();
+        void displayMessage(QString s);
         QString getMoveMessage(Solver::Pos pos, QString moveValue);
 
         // slots
@@ -61,12 +65,14 @@ class MainWindow: public QMainWindow
         Solver::Game* _game = nullptr;    // TODO: std::auto_ptr, std::shared_ptr?
 
         PopupSelection* _popupSelection = nullptr;
+        Solver::DFPN* _dfpnAgent = nullptr;
 
         std::string _gameString;
 
         int _moveCounter = 1;
 
         bool _isSelectionFinished = true;
+        bool _isGameEnd = false;
 
         // template<class T>
         // void clearLayout(T* layoutType, bool deleteWidgets);
