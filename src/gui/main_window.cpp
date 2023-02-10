@@ -142,6 +142,7 @@ void MainWindow::startNewGame()
 
 void MainWindow::changeGameSize(uint8_t width, uint8_t height)
 {
+    _isGameEnd = false;
     _boardHeight = height;
     _boardWidth  = width;
     std::string _gameString = "";
@@ -236,9 +237,12 @@ QString MainWindow::getMoveMessage(Solver::Pos p, QString val)
 
 void MainWindow::playByAI()
 {
-    if (_dfpnAgent == nullptr) {
-        _dfpnAgent = new Solver::DFPN(*_game);
+    // TODO: optimization, every time we are creating a new game and a new solver
+    if (_dfpnAgent != nullptr) {
+        _dfpnAgent = nullptr;
+        delete _dfpnAgent;
     }
+    _dfpnAgent = new Solver::DFPN(*_game);
     _dfpnAgent->solve();
     Solver::Move nextMove = _dfpnAgent->best_move;
     if (nextMove.value == 0) {  // This may not be reached at all
@@ -257,15 +261,16 @@ void MainWindow::playByAI()
     QString moveValue = uint8ToQstring(nextMove.value);
     cell->setText(moveValue);
     cell->setEnabled(false);
-    std::cout << "before unsafe play: " << this->_game->toString() << std::endl;
     this->_game->unsafePlay(nextMove.pos, nextMove.value);
     this->_gameString = this->_game->toString();
-    qDebug() << "????";
-    std::cout << this->_gameString << std::endl;
-    qDebug() << "????";
+
+    // GUI update
+    this->_browser->append(this->getMoveMessage(nextMove.pos, moveValue));
+    this->updateCurrentPlayer(this->_game->to_play);
+
+    // Game update
     delete this->_game;
     this->_game = new Solver::Game(this->_gameString);
-    this->_browser->append(this->getMoveMessage(nextMove.pos, moveValue));
     if (_game->getPossibleMoves().size() == 0) {
         this->_isGameEnd = true;
         QString s = "AI wins!";
