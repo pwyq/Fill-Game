@@ -204,14 +204,14 @@ void MainWindow::drawBoard() {
   }
 }
 
-void MainWindow::updateCurrentPlayer(Solver::PLAYER p) {
+inline void MainWindow::updateCurrentPlayer(Solver::PLAYER p) {
   if (p == Solver::PLAYER::BLACK)
     this->_currPlayer->setText("BLACK");
   else
     this->_currPlayer->setText("WHITE");
 }
 
-QString MainWindow::getMoveMessage(Solver::Pos p, QString val) {
+inline QString MainWindow::getMoveMessage(Solver::Pos p, QString val) {
   QString res = QString::number(this->_moveCounter++) + ". " +
                 this->_currPlayer->text() + ": ";
   char c = 65 + p.col;  // 'A' = 65
@@ -264,7 +264,7 @@ void MainWindow::playByAI() {
   }
 }
 
-void MainWindow::displayMessage(QString s) {
+inline void MainWindow::displayMessage(QString s) {
   QMessageBox msgBox;
   msgBox.setText(s);
   msgBox.exec();

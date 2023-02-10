@@ -125,8 +125,8 @@ size_t DFPN::selectChild(Node &node, uint32_t &child_phi, uint32_t &delta_2) {
   return best_child_index;
 }
 
-void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi,
-                                       uint32_t delta) {
+inline void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi,
+                                              uint32_t delta) {
   tt[node.id] = std::make_pair(phi, delta);
 }
 

@@ -16,7 +16,7 @@
 
 namespace GUI {
 
-// class QLineEdit;
+// class QLineEdit; // forward declaration
 // class QLabel;
 
 // https://stackoverflow.com/questions/17512542/getting-multiple-inputs-from-qinputdialog-in-qt

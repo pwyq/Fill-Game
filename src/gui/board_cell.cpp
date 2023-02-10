@@ -27,10 +27,10 @@ BoardCell::BoardCell(QString &text, const QPoint &pos, QWidget *parent)
 
 BoardCell::~BoardCell() {}
 
-uint8_t BoardCell::getValue() { return _value; }
+inline uint8_t BoardCell::getValue() { return _value; }
 
-QString BoardCell::getText() { return uint8ToQstring(_value); }
+inline QString BoardCell::getText() { return uint8ToQstring(_value); }
 
-const QPoint BoardCell::getPos() { return _pos; }
+inline const QPoint BoardCell::getPos() { return _pos; }
 
 }  // namespace GUI

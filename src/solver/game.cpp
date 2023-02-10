@@ -27,7 +27,7 @@ Game::Game(const Game &other)
   data = other.data;
 }
 
-void Game::changeToPlay() {
+inline void Game::changeToPlay() {
   to_play = (to_play == PLAYER::BLACK) ? PLAYER::WHITE : PLAYER::BLACK;
 }
 
