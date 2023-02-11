@@ -2,35 +2,39 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-02-10 05:32:27
+ * @modify date 2023-02-11 11:45:33
  *
  * TODO: cell color (disabled cell)
  * TODO: save/load a game
  * TODO: timer on each side
  */
-#include "gui/board_cell.h"
-// local
-#include "gui/helper.h"
 #include "gui/main_window.h"
+// Qt
+#include <QApplication>
+// local
+#include "gui/board_cell.h"
+#include "gui/helper.h"
 #include "gui/popup_selection.h"
+#include "gui/popup_window.h"
 
 namespace gui {
 
 MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   // UI elements
-  main_layout_ = new QHBoxLayout();
-  board_layout_ = new QGridLayout();
-  info_layout_ = new QGridLayout();
-  main_widget_ = new QWidget();
+  main_layout_       = new QHBoxLayout();
+  board_layout_      = new QGridLayout();
+  info_layout_       = new QGridLayout();
+  main_widget_       = new QWidget();
   curr_player_label_ = new QLabel();
-  browser_ = new QTextBrowser();
+  browser_           = new QTextBrowser();
 
   // Solver elements
   this->startNewGame();
 
   // UI related
-  game_menu_ = this->menuBar()->addMenu("&Game");
+  game_menu_  = this->menuBar()->addMenu("&Game");
   board_menu_ = this->menuBar()->addMenu("&Board");
+  help_menu_  = this->menuBar()->addMenu("&Help");
   this->initUI();
   // TODO: allow proportionally resize in the future
   this->setWindowFlags(windowFlags() & (~Qt::WindowMaximizeButtonHint));
@@ -42,6 +46,7 @@ void MainWindow::initUI() {
   this->setWindowTitle(QString::fromStdString("Fill Game"));
   this->initGameMenu();
   this->initBoardMenu();
+  this->initHelpMenu();
 
   this->drawBoard();
   // init info layout
@@ -98,8 +103,19 @@ void MainWindow::initBoardMenu() {
   */
 }
 
+void MainWindow::initHelpMenu() {
+  QAction *about = new QAction("&About", help_menu_);
+  connect(about, &QAction::triggered, []() {
+    PopupWindow *a = new PopupWindow("About", "qrc:/resource/html/about.html");
+    a->setWindowSize(0.3, 0.6);
+    a->move(QApplication::desktop()->screen()->rect().center() - a->frameGeometry().center());
+    a->show();
+  });
+  help_menu_->addAction(about);
+}
+
 void MainWindow::startNewGame() {
-  this->is_game_end_ = false;
+  this->is_game_end_      = false;
   std::string _gameString = "";
   for (uint8_t row = 0; row < board_height_; row++) {
     for (uint8_t col = 0; col < board_width_; col++) {
@@ -125,9 +141,9 @@ void MainWindow::startNewGame() {
 }
 
 void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
-  is_game_end_ = false;
-  board_height_ = height;
-  board_width_ = width;
+  is_game_end_            = false;
+  board_height_           = height;
+  board_width_            = width;
   std::string _gameString = "";
   for (uint8_t row = 0; row < board_height_; row++) {
     for (uint8_t col = 0; col < board_width_; col++) {
@@ -177,7 +193,7 @@ void MainWindow::clearBoardLayout() {
 void MainWindow::drawBoard() {
   // init board x y axis
   for (uint8_t col = 1; col < board_width_ + 1; col++) {
-    char c = 64 + col;  // ascii 'A' = 65
+    char c    = 64 + col;  // ascii 'A' = 65
     QLabel *l = new QLabel(QChar(c));
     l->setAlignment(Qt::AlignCenter);
     board_layout_->addWidget(l, 0, col, 1, 1);
@@ -188,12 +204,10 @@ void MainWindow::drawBoard() {
   // init board cells
   for (uint8_t row = 0; row < board_height_; row++) {
     for (uint8_t col = 0; col < board_width_; col++) {
-      QString t = "";
-      BoardCell *button = new BoardCell(
-          t, QPoint(col, row), this);  // note that col=x, row=y, from top down
+      QString t         = "";
+      BoardCell *button = new BoardCell(t, QPoint(col, row), this);  // note that col=x, row=y, from top down
       board_cells_.push_back(button);
-      connect(button, &QPushButton::pressed,
-              [button, this]() { this->onBoardCellPressed(button); });
+      connect(button, &QPushButton::pressed, [button, this]() { this->onBoardCellPressed(button); });
       // offset each cell because of the x-y axis labels
       board_layout_->addWidget(button, row + 1, col + 1, 1, 1);
     }
@@ -237,7 +251,7 @@ void MainWindow::playByAI() {
   this->game_ = new solver::Game(this->game_string_);
   if (game_->getPossibleMoves().size() == 0) {
     this->is_game_end_ = true;
-    QString s = "AI wins!";
+    QString s          = "AI wins!";
     this->displayMessage(s);
   }
 }
@@ -280,7 +294,7 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
               // user clicked a dead cell
               pop_selection_->close();
               this->is_game_end_ = true;
-              QString s = "Winner: " + this->curr_player_label_->text();
+              QString s          = "Winner: " + this->curr_player_label_->text();
               this->displayMessage(s);
             } else {
               // the move was successful
