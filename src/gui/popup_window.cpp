@@ -27,7 +27,7 @@ void PopupWindow::initUI(const QString& title, const QString& htmlPath) {
 
   this->setWindowSize(0.56, 0.50);
 
-  browser_->setOpenExternalLinks(false);
+  browser_->setOpenExternalLinks(true);
   browser_->setSource(QUrl(htmlPath));
   layout_->addWidget(browser_, 0, 0);
 
