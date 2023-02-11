@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:27:59
- * @modify date 2023-02-10 05:27:59
+ * @modify date 2023-02-11 11:49:04
  * @desc Popup selection for moves.
  *
  * TODO: keyboard input
@@ -39,7 +39,6 @@ class PopupSelection : public QMainWindow {
   QGridLayout *layout_;
   QWidget *widget_;
 
- private:
   void initUI(std::vector<uint8_t> available_moves);
  signals:
   void selectedNumber(QString s);

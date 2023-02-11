@@ -18,6 +18,7 @@ int main(int argc, char *argv[]) {
   font.setStyleHint(
       QFont::Monospace);  // need this; otherwise tooltip format is disgusting
   app.setFont(font);
+  app.setWindowIcon(QIcon(":/resource/icons/fill_game_logo.ico"));
 
   QCoreApplication::setApplicationName("Fill Game");
 

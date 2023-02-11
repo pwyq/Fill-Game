@@ -4,7 +4,7 @@
     },
     "editor.formatOnSave": true,
     "clang-format.executable": "/usr/bin/clang-format-12",
-    "clang-format.style": "google",
+    "clang-format.style": "file",
     "clang-format.language.c.enable": true,
     "[c]": {
         "editor.defaultFormatter": "xaver.clang-format",
