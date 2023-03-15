@@ -18,6 +18,10 @@ git clone --recurse-submodules https://github.com/pwyq/Fill-Game.git
 ```
 
 ```
+# To build with GUI (requires set up Qt5.12.8)
+./linux_build.sh --gui
+
+# To build without GUI
 ./linux_build.sh
 ```
 

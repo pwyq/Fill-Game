@@ -2,7 +2,7 @@
 # @author      Yanqing Wu
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-03-15 13:07:45
+# @modify date 2023-03-15 13:25:44
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 3.10)
 project(fillgame VERSION 0.1.0 LANGUAGES CXX)
 
 # IMPORTANT: set if to build with Qt GUI or not! Whenever switched the choice; do `rm -rf build/`
-set(IS_BUILD_GUI OFF)
+option(IS_BUILD_GUI "to build with Qt GUI or not" OFF)
 
 if(IS_BUILD_GUI)
   message(STATUS "\nBuilding with Qt GUI...\n")
