@@ -2,7 +2,7 @@
 # @author      Yanqing Wu
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-03-15 13:25:44
+# @modify date 2023-03-15 13:34:23
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -42,11 +42,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 # Find includes in the build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# # Turn on automatic invocation of the MOC, UIC & RCC
-# set(CMAKE_AUTOMOC ON)
-# set(CMAKE_AUTOUIC ON)
-# set(CMAKE_AUTORCC ON)
-
 # # There may be a way to tell up front if Qt5 is going to be found, but I haven't found
 # # a foolproof way to do it yet, so settle for the default error message for now.
 # if(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
@@ -60,9 +55,7 @@ if(WIN32)
   set(CMAKE_WIN32_EXECUTABLE ON)
 endif()
 
-# # Find the QtWidgets library
-# find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Core Gui REQUIRED)
-# find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui REQUIRED)
+# Set directory variables for usage in child CMakeLists.txt
 set(FILLGAME_PROJ_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(FILLGAME_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
