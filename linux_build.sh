@@ -24,5 +24,8 @@ make
 
 ## run
 cd ..
-./build/src/fillgame
-#./build/test/test_main
+if [ -f ./build/src/fillgame_gui ]; then
+    mv ./build/src/fillgame_gui .
+elif [ -f ./build/src/fillgame_cli ]; then
+    mv ./build/src/fillgame_cli .
+fi
