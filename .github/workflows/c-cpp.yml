@@ -23,7 +23,7 @@ jobs:
     - name: compile
       run: |
         mkdir -p build
-        cmake -S . -B build
+        cmake -DIS_BUILD_GUI:BOOL=ON -S . -B build
         cd build
         make
     - name: run unit tests (gtest)

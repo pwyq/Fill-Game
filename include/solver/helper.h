@@ -13,6 +13,7 @@
 #include <string>
 
 namespace solver {
+namespace helper {
 
 #define INF UINT16_MAX
 
@@ -46,9 +47,12 @@ struct Move {
   }
 };
 
-enum PLAYER { BLACK = 0, WHITE = 1 };
+enum PLAYER { BLACK = 0,
+              WHITE = 1 };
 
-enum PROOF_VALUE { WIN = 1, LOSS = 0, UNKNOWN = -1 };
+enum PROOF_VALUE { WIN     = 1,
+                   LOSS    = 0,
+                   UNKNOWN = -1 };
 
 // https://stackoverflow.com/a/21995693
 template <class ClockT = std::chrono::steady_clock>
@@ -57,11 +61,11 @@ class Timer {
 
  protected:
   time_point start_ = ClockT::now();
-  time_point end_ = {};
+  time_point end_   = {};
 
  public:
   void start() {
-    end_ = time_point{};
+    end_   = time_point{};
     start_ = ClockT::now();
   }
 
@@ -75,6 +79,7 @@ class Timer {
 
 extern Timer<> g_timer;
 
+}  // namespace helper
 }  // namespace solver
 
 #endif  // FG_SOLVER_HELPER_H_

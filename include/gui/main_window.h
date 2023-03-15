@@ -30,6 +30,9 @@
 #include "solver/dfpn.h"
 #include "solver/game.h"
 
+using solver::helper::PLAYER;
+using solver::helper::Pos;
+
 namespace gui {
 
 // TODO: singleton
@@ -64,9 +67,9 @@ class MainWindow : public QMainWindow {
   void initHelpMenu();
   void drawBoard();
   void playByAI();
-  inline void updateCurrentPlayer(solver::PLAYER player);
+  inline void updateCurrentPlayer(PLAYER player);
   inline void displayMessage(QString s);
-  inline QString getMoveMessage(solver::Pos pos, QString moveValue);
+  inline QString getMoveMessage(Pos pos, QString moveValue);
 
   // slots
   void onBoardCellPressed(BoardCell *cell);
@@ -74,15 +77,15 @@ class MainWindow : public QMainWindow {
  private:
   solver::Game *game_ = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
 
-  PopupSelection *pop_selection_ = nullptr;
-  solver::DFPN *agent_dfpn_ = nullptr;
+  PopupSelection *pop_selection_  = nullptr;
+  solver::dfpn::DFPN *agent_dfpn_ = nullptr;
 
   std::string game_string_;
 
   int move_counter_ = 1;
 
   bool is_select_done_ = true;
-  bool is_game_end_ = false;
+  bool is_game_end_    = false;
 
   // template<class T>
   // void clearLayout(T* layoutType, bool deleteWidgets);
@@ -90,14 +93,14 @@ class MainWindow : public QMainWindow {
 };
 
 // inline function declaration
-inline void MainWindow::updateCurrentPlayer(solver::PLAYER p) {
-  if (p == solver::PLAYER::BLACK)
+inline void MainWindow::updateCurrentPlayer(PLAYER p) {
+  if (p == PLAYER::BLACK)
     this->curr_player_label_->setText("BLACK");
   else
     this->curr_player_label_->setText("WHITE");
 }
 
-inline QString MainWindow::getMoveMessage(solver::Pos p, QString val) {
+inline QString MainWindow::getMoveMessage(Pos p, QString val) {
   QString res = QString::number(this->move_counter_++) + ". " +
                 this->curr_player_label_->text() + ": ";
   char c = 65 + p.col;  // 'A' = 65

@@ -17,6 +17,8 @@
 #include "gui/popup_selection.h"
 #include "gui/popup_window.h"
 
+using solver::helper::Move;
+
 namespace gui {
 
 MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
@@ -229,9 +231,9 @@ void MainWindow::playByAI() {
     agent_dfpn_ = nullptr;
     delete agent_dfpn_;
   }
-  agent_dfpn_ = new solver::DFPN(*game_);
+  agent_dfpn_ = new solver::dfpn::DFPN(*game_);
   agent_dfpn_->solve();
-  solver::Move nextMove = agent_dfpn_->best_move_;
+  Move nextMove = agent_dfpn_->best_move_;
   if (nextMove.value == 0) {  // This may not be reached at all
     qDebug() << "no possible moves";
     return;
@@ -272,8 +274,8 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
     return;
   }
   // _mainWidget->setEnabled(false);    // prevent from clicking another cell
-  solver::Pos cellPos = solver::Pos{static_cast<uint8_t>(cell->getPos().y()),
-                                    static_cast<uint8_t>(cell->getPos().x())};
+  Pos cellPos = Pos{static_cast<uint8_t>(cell->getPos().y()),
+                    static_cast<uint8_t>(cell->getPos().x())};
 
   auto allMoves = game_->getPossibleMoves();
   if (allMoves.find(cellPos) == allMoves.end()) {

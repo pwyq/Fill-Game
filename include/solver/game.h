@@ -15,6 +15,9 @@
 // local
 #include "helper.h"
 
+using solver::helper::PLAYER;
+using solver::helper::Pos;
+
 namespace solver {
 
 class Game {

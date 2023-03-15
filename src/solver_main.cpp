@@ -13,6 +13,7 @@
 #include "solver/constraint.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
+#include "solver/minimax.h"
 
 using std::cout;
 using std::endl;
@@ -24,16 +25,19 @@ namespace solver {
 
 void startSolver(std::string& input, size_t time_limit) {
   Game game(input);
-  // cout << game << endl;
+  cout << game << endl;
 
-  DFPN dfpn(game);
+  dfpn::DFPN dfpn(game);
 
-  Constraint constraint    = Constraint(MEMORY_LIMIT, time_limit);
-  constraint.signalHandler = DFPN::signalHandler;
-  constraint.apply();
+  // Constraint constraint    = Constraint(MEMORY_LIMIT, time_limit);
+  // constraint.signalHandler = DFPN::signalHandler;
+  // constraint.apply();
 
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
+
+  minimax::Minimax minimax;
+  minimax.solve();
 }
 
 void testStackMemoryLimit() {  // SIGSEGV
@@ -68,7 +72,7 @@ int main(int argc, char** argv) {
     // testHeapMemoryLimit();
     // testTimeLimit();
   } catch (const std::bad_alloc& e) {  // if a 'new' operator failed, it will throw a bad_alloc exception g_timer.stop();
-    cout << "? None " << solver::g_timer.duration().count() << " " << solver::g_counter << endl;
+    cout << "? None " << solver::dfpn::g_timer.duration().count() << " " << solver::dfpn::g_counter << endl;
   }
   return 0;
 }

@@ -12,6 +12,7 @@
 #include "game.h"
 
 namespace solver {
+namespace dfpn {
 
 /**
  * @brief We are testing against the WIN/LOSS/UNKNOWN result.
@@ -296,6 +297,7 @@ TEST(LARGE, 4) {
   EXPECT_EQ(dfpn.formatResult().substr(0, 7), "W 7 9 3");
 }
 
+}  // namespace dfpn
 }  // namespace solver
 
 int main(int argc, char **argv) {

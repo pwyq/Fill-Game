@@ -12,10 +12,14 @@
 #include "solver/game.h"
 #include "solver/node.h"
 
-namespace solver {
+using solver::helper::LOSS;
+using solver::helper::WIN;
 
-Timer<> g_timer{};     // total time used
-size_t g_counter = 0;  // num node visited
+namespace solver {
+namespace dfpn {
+
+helper::Timer<> g_timer{};  // total time used
+size_t g_counter = 0;       // num node visited
 
 DFPN::DFPN(const Game &game) : root_(game) {}
 
@@ -61,7 +65,7 @@ void DFPN::MID(Node &node) {  // NOLINT
   }
   node.generateChildren();
 
-  uint32_t phi = computeSumPhi(node);
+  uint32_t phi   = computeSumPhi(node);
   uint32_t delta = computeMinDelta(node);
   uint32_t child_phi, delta_2;
   // the node must have at least one child at this point; otherwise it's a
@@ -72,7 +76,7 @@ void DFPN::MID(Node &node) {  // NOLINT
   while (node.phi_ > delta && node.delta_ > phi) {
     best_child_index = selectChild(node, child_phi, delta_2);
     auto &best_child = node.children_[best_child_index];
-    best_child.phi_ = node.delta_ + child_phi - phi;
+    best_child.phi_  = node.delta_ + child_phi - phi;
     if (best_child.phi_ > INF) {
       best_child.phi_ = INF;
     }
@@ -81,13 +85,13 @@ void DFPN::MID(Node &node) {  // NOLINT
     }
     best_child.delta_ = std::min(node.phi_, delta_2);
     MID(best_child);
-    phi = computeSumPhi(node);
+    phi   = computeSumPhi(node);
     delta = computeMinDelta(node);
   }
   // store search results
-  node.phi_ = delta;
+  node.phi_   = delta;
   node.delta_ = phi;
-  best_move_ = node.children_[best_child_index].move_;
+  best_move_  = node.children_[best_child_index].move_;
   /*
   if (best_child_index != UINT16_MAX) {
       best_move = node.children[best_child_index].move;
@@ -101,17 +105,17 @@ void DFPN::MID(Node &node) {  // NOLINT
 
 size_t DFPN::selectChild(Node &node, uint32_t &child_phi, uint32_t &delta_2) {
   size_t best_child_index = 0;
-  child_phi = INF;
-  uint32_t child_delta = INF;
+  child_phi               = INF;
+  uint32_t child_delta    = INF;
   uint32_t phi, delta;
   for (size_t i = 0; i < node.children_.size(); ++i) {
     auto &child = node.children_[i];
     retrieveProofAndDisproofNumbers(child, phi, delta);
     if (delta < child_delta) {
       best_child_index = i;
-      delta_2 = child_delta;
-      child_phi = phi;
-      child_delta = delta;
+      delta_2          = child_delta;
+      child_phi        = phi;
+      child_delta      = delta;
     } else if (delta < delta_2) {
       delta_2 = delta;
     }
@@ -129,10 +133,10 @@ void DFPN::retrieveProofAndDisproofNumbers(Node &node, uint32_t &phi,
                                            uint32_t &delta) {
   if (tt.find(node.id_) != tt.end()) {
     auto &v = tt[node.id_];
-    phi = v.first;
-    delta = v.second;
+    phi     = v.first;
+    delta   = v.second;
   } else {
-    phi = node.phi_;
+    phi   = node.phi_;
     delta = node.delta_;
   }
 }
@@ -181,4 +185,5 @@ std::string DFPN::formatResult() const {
   return ret;
 }
 
+}  // namespace dfpn
 }  // namespace solver
