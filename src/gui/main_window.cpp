@@ -104,10 +104,19 @@ void MainWindow::initBoardMenu() {
 }
 
 void MainWindow::initHelpMenu() {
+  QAction *rules = new QAction("&Rules", help_menu_);
+  connect(rules, &QAction::triggered, []() {
+    PopupWindow *a = new PopupWindow("Rules", "qrc:/resource/html/rules.html");
+    a->setWindowSize(0.2, 0.4);
+    a->move(QApplication::desktop()->screen()->rect().center() - a->frameGeometry().center());
+    a->show();
+  });
+  help_menu_->addAction(rules);
+
   QAction *about = new QAction("&About", help_menu_);
   connect(about, &QAction::triggered, []() {
     PopupWindow *a = new PopupWindow("About", "qrc:/resource/html/about.html");
-    a->setWindowSize(0.3, 0.6);
+    a->setWindowSize(0.6, 0.8);
     a->move(QApplication::desktop()->screen()->rect().center() - a->frameGeometry().center());
     a->show();
   });

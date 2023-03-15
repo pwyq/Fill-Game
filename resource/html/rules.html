@@ -1,0 +1,76 @@
+<!--
+@author Yanqing Wu
+@email meet.yanqing.wu@gmail.com
+@create date 2023-02-11 11:19:16
+@modify date 2023-02-11 22:39:59
+@desc [description]
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+        body {
+            background-color: white;
+            text-align: left;
+        }
+
+        ul {
+            text-align: left;
+        }
+
+        a {
+            text-align: left;
+        }
+
+        img {
+            max-width: 160px;
+            max-height: auto;
+            width: 36%;
+        }
+    </style>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+<body>
+    <br>
+    <br>
+    <img src=":/resource/icons/fill_game_logo.png" width="64" height="64" alt="Fill-Game Logo">
+    <br>
+    <h1 style="color: black;">Rules - Fill-Game</h1>
+    <br>
+    <b>Rules of Fillomino and Fill-game:</b>
+    Fill-game is an adversarial two player version of the popular puzzle called Fillomino. In Fillomino, the player
+    tries to
+    fill a grid with numbers while satisfying constraints on these numbers. Roughly speaking, each region of
+    same-numbered
+    squares must have as many squares as the label on those squares indicates.
+    The pictures below, from Wikipedia, show a puzzle and its solution.
+
+    <div class="container">
+        <img width="256" alt="Fillomino" src=":/resource/images/Polyominous.png">
+        <img width="256" alt="Solved 9x9 Fillomino" src=":/resource/images/Solved_9x9_Fillomino.png">
+    </div>
+
+    To understand this puzzle in detail, please refer to the <a href="https://en.wikipedia.org/wiki/Fillomino">wikipedia
+        Fillomino page</a>.
+    </p>
+    Fill-game is an adversarial two player game loosely based on Fillomino. The goal is to make the last move, or
+    equivalently, to set up a position where the opponent has no legal move left on their turn.
+    </p>
+    <p>The differences in the rules to make it a meaningful two player game are:
+    </p>
+    <ol>
+        <li>The only numbers allowed are 1, 2, 3 and 4.</li>
+        <li>The constraint on the moves is that a number that you place may not <b>immediately violate the Fillomino
+                rules</b>. For example, you cannot play a 1 next to another 1, or a 2 next to two other 2, etc. You also
+            cannot create a region that is fully surrounded and has the wrong number on it, such as a fully surrounded
+            region of only two '3'. Also see the example below.</li>
+        <li>It is OK to play a move that will make the puzzle impossible to solve in the future. In fact, doing this
+            well is
+            the main strategy for winning the game.</li>
+    </ol>
+</body>
+
+</html>
