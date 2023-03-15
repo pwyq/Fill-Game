@@ -53,6 +53,7 @@ class MainWindow : public QMainWindow {
 
   QMenu *game_menu_;
   QMenu *board_menu_;
+  QMenu *help_menu_;
   uint8_t board_width_;
   uint8_t board_height_;
   bool is_AI_ = false;
@@ -60,6 +61,7 @@ class MainWindow : public QMainWindow {
 
   void initGameMenu();
   void initBoardMenu();
+  void initHelpMenu();
   void drawBoard();
   void playByAI();
   inline void updateCurrentPlayer(solver::PLAYER player);

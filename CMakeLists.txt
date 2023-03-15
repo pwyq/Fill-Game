@@ -2,7 +2,7 @@
 # @author      Yanqing Wu
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-02-10 05:37:49
+# @modify date 2023-02-11 11:30:34
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -46,6 +46,7 @@ endif()
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Core Gui REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui REQUIRED)
 
+set(FILLGAME_PROJ_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(FILLGAME_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # sub directory's CMakeLists.txt
