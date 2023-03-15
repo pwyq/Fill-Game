@@ -10,6 +10,9 @@
 #include <ostream>
 #include <stdexcept>
 
+using solver::helper::PLAYER;
+using solver::helper::Pos;
+
 namespace solver {
 
 Game::Game(const std::string &input)
@@ -116,7 +119,7 @@ Game::getPossibleMoves() {
     PosSet examined;
     std::vector<Pos> empty_positions = getEmptyPositions();
     for (auto pos : empty_positions) {
-      uint8_t counts[4] = {0};
+      uint8_t counts[4]     = {0};
       uint8_t num_liberties = 0;
       for (Pos neighbor : getNeighbours(pos)) {
         uint8_t neighbor_value = get(neighbor);
@@ -161,7 +164,7 @@ Game::getPossibleMoves() {
 
 bool Game::isValidGameString(const std::string &game_string) {
   uint8_t last_row_length = UINT8_MAX;
-  uint8_t last_num_chars = 0;
+  uint8_t last_num_chars  = 0;
   for (auto c : game_string) {
     if (c != '1' && c != '2' && c != '3' && c != '4' && c != '.' && c != '*') {
       return false;
@@ -185,8 +188,8 @@ void Game::parseGameString(const std::string &game_string) {
     throw std::invalid_argument("Invalid game string");
   }
   bool width_found = false;
-  width_ = 0;
-  height_ = 1;
+  width_           = 0;
+  height_          = 1;
   for (char c : game_string) {
     if (c == '*') {
       ++height_;
@@ -195,7 +198,7 @@ void Game::parseGameString(const std::string &game_string) {
       ++width_;
     }
   }
-  data_ = std::valarray<uint8_t>((uint8_t)0, width_ * height_);
+  data_       = std::valarray<uint8_t>((uint8_t)0, width_ * height_);
   uint8_t row = 0;
   uint8_t col = 0;
   for (char c : game_string) {

@@ -178,7 +178,8 @@
         "core": "cpp",
         "clearnode": "cpp",
         "stateattribute": "cpp",
-        "transform": "cpp"
+        "transform": "cpp",
+        "timer": "cpp"
     },
     "cmake.configureOnOpen": true
 }

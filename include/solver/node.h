@@ -12,18 +12,32 @@
 
 namespace solver {
 
+/////////////////////////////////////
+//  Basic Node Class
+/////////////////////////////////////
+// TODO: generalize?
+class Node {
+ public:
+  Node();
+};
+
+/////////////////////////////////////
+//  DFPN Node Class
+/////////////////////////////////////
+namespace dfpn {
+// class Node : public solver::Node {
 class Node {
  public:
   explicit Node(const Game &game);
 
-  Node(const Game &game, const Pos &pos, uint8_t value);
+  Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
   Game game_;
   uint32_t phi_;
   uint32_t delta_;
   bool is_expanded_;
 
-  Move move_;
+  helper::Move move_;
   std::string id_;
 
   std::vector<Node> children_{};
@@ -32,6 +46,19 @@ class Node {
 
   void generateChildren();
 };
+}  // namespace dfpn
+
+/////////////////////////////////////
+//  Minimax Node Class
+/////////////////////////////////////
+namespace minimax {
+// TODO: implementation
+// class Node : public solver::Node {
+class Node {
+ public:
+  Node();
+};
+}  // namespace minimax
 
 }  // namespace solver
 

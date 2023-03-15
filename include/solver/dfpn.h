@@ -14,14 +14,16 @@
 #include "node.h"
 
 namespace solver {
+namespace dfpn {
 
+extern helper::Timer<> g_timer;
 extern size_t g_counter;
 
 class DFPN {
  public:
   Node root_;
-  PROOF_VALUE result_ = UNKNOWN;
-  Move best_move_;
+  helper::PROOF_VALUE result_ = helper::UNKNOWN;
+  helper::Move best_move_;
 
   explicit DFPN(const Game &game);
 
@@ -54,6 +56,7 @@ inline void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi,
   tt[node.id_] = std::make_pair(phi, delta);
 }
 
+}  // namespace dfpn
 }  // namespace solver
 
 #endif  // FG_SOLVER_DFPN_H_
