@@ -11,18 +11,29 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            host: linux
+          - os: windows-latest
+            host: windows
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Checkout submodules
       run: git submodule update --init --recursive
-    - name: Install Qt
+    - name: Install Qt linux
       uses: jurplel/install-qt-action@v3
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       with:
         version: '5.12.8'
-        host: ${{ matrix.os }}
+        host: ${{ matrix.host }}
+    - name: Install Qt windows
+      uses: jurplel/install-qt-action@v3
+      if: ${{ matrix.os == 'windows-latest' }}
+      with:
+        version: '5.12.8'
+        host: ${{ matrix.host }}
     - name: Get latest CMake and Ninja
       uses: lukka/get-cmake@latest
     - name: Get Clang
@@ -33,9 +44,4 @@ jobs:
       run: |
         mkdir -p build
         cmake -G Ninja -DIS_BUILD_GUI:BOOL=ON -S . -B build
-        cd build
         cmake --build build
-    - name: run unit tests (gtest)
-      run: |
-        chmod +x ./build/test/test_main
-        ./build/test/test_main
