@@ -10,7 +10,7 @@
 #include <sstream>
 #include <string>
 // local
-#include "solver/constraint.h"
+//#include "solver/constraint.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
 #include "solver/minimax.h"

@@ -1,8 +1,8 @@
 # ##
-# @author      Yanqing Wu
+# @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-03-15 13:34:23
+# @modify date 2023-03-16 22:03:23
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -30,7 +30,16 @@ else()
 endif()
 
 # 3rd party; should be above our own settings
-add_subdirectory(lib/googletest)
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        b796f7d44681514f58a683a3a71ff17c94edb0c1 # release-1.13.0
+)
+if (WIN32)
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+endif()
+FetchContent_MakeAvailable(googletest)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -41,19 +50,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 
 # Find includes in the build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-# # There may be a way to tell up front if Qt5 is going to be found, but I haven't found
-# # a foolproof way to do it yet, so settle for the default error message for now.
-# if(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
-# message(WARNING "CMAKE_PREFIX_PATH is not defined, so find_package may not work. Set the CMAKE_PREFIX_PATH "
-# "environment variable to the install prefix of Qt 5, either on the command line as "
-# "-DCMAKE_PREFIX_PATH=\"path/to/Qt5/lib/cmake\" or with set(CMAKE_PREFIX_PATH path/to/Qt5/lib/cmake)")
-# endif(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
-
-# Make this a GUI application on Windows
-if(WIN32)
-  set(CMAKE_WIN32_EXECUTABLE ON)
-endif()
 
 # Set directory variables for usage in child CMakeLists.txt
 set(FILLGAME_PROJ_DIR ${CMAKE_CURRENT_SOURCE_DIR})
