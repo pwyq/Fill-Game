@@ -297,10 +297,10 @@ TEST(LARGE, 4) {
   EXPECT_EQ(dfpn.formatResult().substr(0, 7), "W 7 9 3");
 }
 
+}  // namespace dfpn
 }  // namespace solver
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
-}
 }
