@@ -19,14 +19,14 @@ short Negamax::getResult() {
   if (root_.game_.isTerminal()) {
     return -1;
   }
-  return solve(root_, helper::PLAYER::BLACK);
+  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
 short Negamax::getAlphaBetaResult() {
   if (root_.game_.isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**
@@ -36,15 +36,15 @@ short Negamax::getAlphaBetaResult() {
  * @param player 
  * @return short  1 for WIN, -1 for LOSS
  */
-short Negamax::solve(Node& node, helper::PLAYER player) {
-  if (node.game_.isTerminal()) {
+short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
+  if (depth == 0 || node.game_.isTerminal()) {
     return -1;
   }
   node.generateChildren(player);
 
   short best_eval = -INF_SHORT;
   for (auto& child : node.children_) {
-    short eval = -solve(child, swapPlayer(player));
+    short eval = -solve(child, depth - 1, swapPlayer(player));
     best_eval  = std::max(best_eval, eval);
   }
   return best_eval;
@@ -59,9 +59,26 @@ short Negamax::solve(Node& node, helper::PLAYER player) {
  * @param player 
  * @return short  1 for WIN, -1 for LOSS
  */
-short Negamax::solveAlphaBeta(Node& node, short alpha, short beta, helper::PLAYER player) {
-  // TODO: implementation
+short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   return -2;
+}
+
+/**
+ * @brief count the number of empty cells in the root node
+ *        The return is used for the starting `depth`
+ * 
+ *        TODO: optimum depth for minimax?
+ * @param node 
+ * @return uint16_t 
+ */
+uint16_t Negamax::countEmptyCells(Node& node) {
+  uint16_t res = 0;
+  for (auto& c : node.game_.toString()) {
+    if (c == '.') {
+      res += 1;
+    }
+  }
+  return res;
 }
 
 helper::PLAYER Negamax::swapPlayer(helper::PLAYER curr_player) {

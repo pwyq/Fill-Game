@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
       "DFPN_*:"
       "*MINIMAX_SIMPLE*:"
       "*MINIMAX_LARGE*:"
-      "*MINIMAX_ALPHABETA_*"
-      "NEGAMAX_";
+      "*MINIMAX_ALPHABETA_*:"
+      "*NEGAMAX_*:";
   return RUN_ALL_TESTS();
 }
