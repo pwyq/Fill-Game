@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-03-18 11:44:07
+ * @modify date 2023-03-18 16:43:30
  */
 #include "solver/minimax.h"
 // std
@@ -26,6 +26,14 @@ short Minimax::getAlphaBetaResult(helper::PLAYER root_player) {
     return -1;
   }
   return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+}
+
+short Minimax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
+  if (root_.game_.isTerminal()) {
+    return -1;
+  }
+  NodeTT rootTT_(root_.game_);
+  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
 /**
@@ -107,6 +115,84 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
 }
 
 /**
+ * @brief This is the Minimax with alpha-beta pruning + transposition table
+ * 
+ * @param node 
+ * @param depth 
+ * @param alpha 
+ * @param beta 
+ * @param player 
+ * @return short  1 for WIN, -1 for LOSS
+ */
+short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
+  short old_alpha = alpha;
+
+  // get tt entry
+  ttEntry entry = transpositionTableLookup(node);
+  if (true == entry.is_valid && entry.depth >= depth) {
+    switch (entry.flag) {
+      case EntryFlag::EXACT:
+        return entry.value;
+      case EntryFlag::L_BOUND:
+        alpha = std::max(alpha, entry.value);
+        break;
+      case EntryFlag::U_BOUND:
+        beta = std::min(beta, entry.value);
+        break;
+      default:
+        break;
+    }
+    if (alpha >= beta) {
+      return entry.value;
+    }
+  }
+
+  node.evaluate(player);
+  if (depth == 0 || node.game_.isTerminal()) {
+    return node.eval_val_;
+  }
+  node.generateChildren();
+
+  short best_eval = (player == helper::PLAYER::BLACK) ? -INF_SHORT : INF_SHORT;
+  if (player == helper::PLAYER::BLACK) {
+    for (auto& child : node.children_) {
+      short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
+      best_eval  = std::max(best_eval, eval);
+
+      alpha = std::max(alpha, eval);
+      if (beta <= alpha) {
+        break;
+      }
+    }
+  } else {
+    // if it's minimizing player
+    for (auto& child : node.children_) {
+      short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
+      best_eval  = std::min(best_eval, eval);
+
+      beta = std::min(beta, eval);
+      if (beta <= alpha) {
+        break;
+      }
+    }
+  }
+
+  // store tt entry
+  entry.value = best_eval;
+  if (best_eval <= old_alpha) {
+    entry.flag = EntryFlag::U_BOUND;
+  } else if (best_eval >= beta) {
+    entry.flag = EntryFlag::L_BOUND;
+  } else {
+    entry.flag = EntryFlag::EXACT;
+  }
+  entry.depth = depth;
+  transpositionTableStore(node, entry);
+
+  return best_eval;
+}
+
+/**
  * @brief count the number of empty cells in the root node
  *        The return is used for the starting `depth`
  * 
@@ -122,6 +208,15 @@ uint16_t Minimax::countEmptyCells(Node& node) {
     }
   }
   return res;
+}
+
+ttEntry Minimax::transpositionTableLookup(NodeTT& node) {
+  if (tt_.find(node.id_) != tt_.end()) {
+    return tt_[node.id_];
+  } else {
+    ttEntry temp;
+    return temp;
+  }
 }
 
 }  // namespace minimax

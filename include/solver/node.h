@@ -63,6 +63,18 @@ class Node {
   helper::Move move_;
   std::vector<Node> children_{};
 };
+
+class NodeTT : public Node {
+ public:
+  explicit NodeTT(const Game &game);
+  NodeTT(const Game &game, const helper::Pos &pos, uint8_t value);
+
+  void generateChildren();
+
+  std::string id_;
+  std::vector<NodeTT> children_{};
+};
+
 }  // namespace minimax
 
 /////////////////////////////////////

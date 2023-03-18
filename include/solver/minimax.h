@@ -16,18 +16,44 @@
 namespace solver {
 namespace minimax {
 
+// This TT setup is only for alpha-beta
+enum EntryFlag {
+  EXACT   = 0,
+  L_BOUND = 1,
+  U_BOUND = 2
+};
+
+struct ttEntry {
+  bool is_valid  = false;
+  uint16_t depth = 0;
+  uint8_t flag   = 0;
+  short value    = 0;
+};
+
 class Minimax {
  public:
   Node root_;
   explicit Minimax(const Game& game);
   short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
+  short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
  private:
+  std::unordered_map<std::string, ttEntry> tt_;
+  ttEntry transpositionTableLookup(NodeTT& node);
+  inline void transpositionTableStore(NodeTT& node, ttEntry entry);
+
   short solve(Node& node, uint16_t depth, helper::PLAYER player);
   short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
+  short solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   uint16_t countEmptyCells(Node& node);
 };
+
+inline void Minimax::transpositionTableStore(NodeTT& node, ttEntry entry) {
+  entry.is_valid = true;
+
+  tt_[node.id_] = entry;
+}
 
 }  // namespace minimax
 }  // namespace solver

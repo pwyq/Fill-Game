@@ -39,13 +39,14 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using minimax..." << endl;
   minimax::Minimax minimax(game);
   // cout << minimax.getResult() << endl;
-  cout << minimax.getAlphaBetaResult() << endl;
+  cout << minimax.getAlphaBetaResult()
+       << minimax.getAlphaBetaTranspositionTableResult() << endl;
 
   cout << "using negamax..." << endl;
   negamax::Negamax negamax(game);
   // cout << negamax.getResult() << endl;
-  cout << negamax.getAlphaBetaResult() << endl;
-  cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
+  cout << negamax.getAlphaBetaResult()
+       << negamax.getAlphaBetaTranspositionTableResult() << endl;
 }
 
 /*
