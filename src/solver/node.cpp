@@ -102,17 +102,39 @@ namespace negamax {
 
 Node::Node(const Game &game)
     : game_(game), is_expanded_(false) {
-  id_ = this->game_.toString();
 }
 
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), is_expanded_(false) {
   move_ = {pos, value};
   this->game_.unsafePlay(pos, value);
-  id_ = this->game_.toString();
 }
 
 void Node::generateChildren() {
+  if (is_expanded_) {
+    return;
+  }
+  is_expanded_        = true;
+  auto possible_moves = game_.getPossibleMoves();
+  for (auto &possible_move : possible_moves) {
+    for (auto &value : possible_move.second) {
+      children_.emplace_back(game_, possible_move.first, value);
+    }
+  }
+}
+
+//////////////////////////////////////////
+
+NodeTT::NodeTT(const Game &game) : Node(game) {
+  id_ = this->game_.toString();
+}
+
+NodeTT::NodeTT(const Game &game, const Pos &pos, uint8_t value) : Node(game, pos, value) {
+  id_ = this->game_.toString();
+}
+
+// TODO: combine Node and NodeTT's generateChildren with template
+void NodeTT::generateChildren() {
   if (is_expanded_) {
     return;
   }

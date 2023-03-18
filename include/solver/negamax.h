@@ -46,17 +46,17 @@ class Negamax {
  private:
   std::unordered_map<std::string, ttEntry> tt_;
 
-  ttEntry transpositionTableLookup(Node& node);
-  inline void transpositionTableStore(Node& node, ttEntry entry);
+  ttEntry transpositionTableLookup(NodeTT& node);
+  inline void transpositionTableStore(NodeTT& node, ttEntry entry);
 
   short solve(Node& node, uint16_t depth, helper::PLAYER player);
   short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
-  short solveAlphaBetaTranspositionTable(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
+  short solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   uint16_t countEmptyCells(Node& node);
   helper::PLAYER swapPlayer(helper::PLAYER curr_player);
 };
 
-inline void Negamax::transpositionTableStore(Node& node, ttEntry entry) {
+inline void Negamax::transpositionTableStore(NodeTT& node, ttEntry entry) {
   entry.is_valid = true;
 
   tt_[node.id_] = entry;
