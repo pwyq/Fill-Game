@@ -99,10 +99,8 @@ short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
 short Negamax::solveAlphaBetaTranspositionTable(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   short old_alpha = alpha;
 
-  // cerr << "alpha = " << alpha << ", beta = " << beta << endl;
   // get tt entry
   ttEntry entry = transpositionTableLookup(node);
-  // debugEntry(entry);
   if (true == entry.is_valid && entry.depth >= depth) {
     switch (entry.flag) {
       case EntryFlag::EXACT:
@@ -180,10 +178,6 @@ ttEntry Negamax::transpositionTableLookup(Node& node) {
     return temp;
   }
 }
-
-// void Negamax::debugEntry(ttEntry entry) {
-//   cerr << entry.is_valid << " " << entry.flag << " " << entry.depth << " " << entry.value << endl;
-// }
 
 }  // namespace negamax
 }  // namespace solver

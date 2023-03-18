@@ -44,7 +44,6 @@ class Negamax {
   short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
  private:
-  // tt < id, [depth, flag, value] >
   std::unordered_map<std::string, ttEntry> tt_;
 
   ttEntry transpositionTableLookup(Node& node);
@@ -55,13 +54,9 @@ class Negamax {
   short solveAlphaBetaTranspositionTable(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   uint16_t countEmptyCells(Node& node);
   helper::PLAYER swapPlayer(helper::PLAYER curr_player);
-
-  // void debugEntry(ttEntry entry);
 };
 
 inline void Negamax::transpositionTableStore(Node& node, ttEntry entry) {
-  // cerr << "storing " << node.id_ << endl;
-  // debugEntry(entry);
   entry.is_valid = true;
 
   tt_[node.id_] = entry;

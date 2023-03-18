@@ -79,7 +79,9 @@ class Node {
   Game game_;
   bool is_expanded_;
   helper::Move move_;
-  std::string id_;  // only for transposition table
+  // the id_ is only used in transposition table;
+  //  TODO: during comparison, would it be unfair for the vanilla negamax and negamax-ab to have this redundant member? because of extra memory usage
+  std::string id_;
 
   std::vector<Node> children_{};
 
