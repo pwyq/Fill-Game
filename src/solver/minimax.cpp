@@ -17,10 +17,6 @@ Minimax::Minimax(const Game& game) : root_(game) {
     std::cerr << "result of minimax is " << -1 << std::endl;
     return;
   }
-  root_.eval_val_ = 0;
-
-  // initial call
-  // std::cerr << "result of minimax is " << getResult() << std::endl;
 }
 
 int Minimax::getResult() {
@@ -28,25 +24,16 @@ int Minimax::getResult() {
 }
 
 int Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
-  // std::cerr << "\n--------------------------" << std::endl;
-  // std::cerr << "depth = " << depth << ", player = " << player << std::endl;
-  // std::cerr << "game = " << node.game_.toString() << std::endl;
   node.evaluate(player);
-  // std::cerr << "node eval = " << node.eval_val_ << std::endl;
   if (depth == 0 || node.game_.isTerminal()) {
-    // std::cerr << "Reaching terminal..." << std::endl;
-    // std::cerr << "node eval = " << node.eval_val_ << std::endl;
     return node.eval_val_;
   }
   node.generateChildren(player);
 
   if (player == helper::PLAYER::BLACK) {
-    // if it's maximizing player
     int max_eval = -INF;
     for (auto& child : node.children_) {
-      // std::cerr << "child game = " << child.game_.toString() << std::endl;
       int eval = solve(child, depth - 1, helper::PLAYER::WHITE);
-      // std::cerr << "child eval = " << eval << std::endl;
       max_eval = std::max(max_eval, eval);
     }
     return max_eval;
@@ -54,9 +41,7 @@ int Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
     // if it's minimizing player
     int min_eval = INF;
     for (auto& child : node.children_) {
-      // std::cerr << "child game = " << child.game_.toString() << std::endl;
       int eval = solve(child, depth - 1, helper::PLAYER::BLACK);
-      // std::cerr << "child eval = " << eval << std::endl;
       min_eval = std::min(min_eval, eval);
     }
     return min_eval;

@@ -299,8 +299,3 @@ TEST(DFPN_LARGE, 4) {
 
 }  // namespace dfpn
 }  // namespace solver
-
-// int main(int argc, char **argv) {
-//   ::testing::InitGoogleTest(&argc, argv);
-//   return RUN_ALL_TESTS();
-// }

@@ -67,7 +67,6 @@ Node::Node(const Game &game, const Pos &pos, uint8_t value)
 }
 
 void Node::evaluate(helper::PLAYER player) {
-  // TODO: not sure if this the correct way
   if (game_.isTerminal()) {
     eval_val_ = (player == helper::PLAYER::WHITE) ? 1 : -1;
   } else {
@@ -84,7 +83,6 @@ void Node::generateChildren(helper::PLAYER player) {
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
       children_.emplace_back(game_, possible_move.first, value);
-      // evaluate(player); // bug here seems not updating the terminal state??
     }
   }
 }

@@ -39,6 +39,7 @@ void startSolver(std::string& input, size_t time_limit) {
 
   std::cout << "using minimax..." << std::endl;
   minimax::Minimax minimax(game);
+  cout << minimax.getResult() << endl;
 }
 
 /*
