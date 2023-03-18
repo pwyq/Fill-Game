@@ -43,7 +43,7 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   if (depth == 0 || node.game_.isTerminal()) {
     return node.eval_val_;
   }
-  node.generateChildren(player);
+  node.generateChildren();
 
   if (player == helper::PLAYER::BLACK) {
     short max_eval = -INF_SHORT;
@@ -78,7 +78,7 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
   if (depth == 0 || node.game_.isTerminal()) {
     return node.eval_val_;
   }
-  node.generateChildren(player);
+  node.generateChildren();
 
   if (player == helper::PLAYER::BLACK) {
     short max_eval = -INF_SHORT;

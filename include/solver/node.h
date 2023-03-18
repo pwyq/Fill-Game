@@ -63,7 +63,7 @@ class Node {
   std::vector<Node> children_{};
 
   void evaluate(helper::PLAYER player);
-  void generateChildren(helper::PLAYER player);
+  void generateChildren();
 };
 }  // namespace minimax
 
@@ -81,7 +81,7 @@ class Node {
   helper::Move move_;
   std::vector<Node> children_{};
 
-  void generateChildren(helper::PLAYER player);
+  void generateChildren();
 };
 }  // namespace negamax
 

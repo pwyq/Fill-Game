@@ -79,7 +79,7 @@ void Node::evaluate(helper::PLAYER player) {
   }
 }
 
-void Node::generateChildren(helper::PLAYER player) {
+void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
@@ -110,7 +110,7 @@ Node::Node(const Game &game, const Pos &pos, uint8_t value)
   this->game_.unsafePlay(pos, value);
 }
 
-void Node::generateChildren(helper::PLAYER player) {
+void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }

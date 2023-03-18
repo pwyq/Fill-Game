@@ -41,7 +41,7 @@ short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   if (depth == 0 || node.game_.isTerminal()) {
     return -1;
   }
-  node.generateChildren(player);
+  node.generateChildren();
 
   short best_eval = -INF_SHORT;
   for (auto& child : node.children_) {
@@ -65,7 +65,7 @@ short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
   if (depth == 0 || node.game_.isTerminal()) {
     return -1;
   }
-  node.generateChildren(player);
+  node.generateChildren();
 
   short best_eval = -INF_SHORT;
   for (auto& child : node.children_) {
