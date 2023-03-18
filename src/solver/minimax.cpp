@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-03-18 00:52:17
+ * @modify date 2023-03-18 11:44:07
  */
 #include "solver/minimax.h"
 // std
@@ -13,6 +13,8 @@ namespace minimax {
 
 Minimax::Minimax(const Game& game) : root_(game) {
 }
+
+// TODO: change the to-player's view to the root's view
 
 short Minimax::getResult() {
   if (root_.game_.isTerminal()) {

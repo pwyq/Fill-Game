@@ -25,7 +25,6 @@ class Node {
 //  DFPN Node Class
 /////////////////////////////////////
 namespace dfpn {
-// class Node : public solver::Node {
 class Node {
  public:
   explicit Node(const Game &game);
@@ -52,8 +51,6 @@ class Node {
 //  Minimax Node Class
 /////////////////////////////////////
 namespace minimax {
-// TODO: implementation
-// class Node : public solver::Node {
 class Node {
  public:
   explicit Node(const Game &game);
@@ -69,6 +66,24 @@ class Node {
   void generateChildren(helper::PLAYER player);
 };
 }  // namespace minimax
+
+/////////////////////////////////////
+//  Negamax Node Class
+/////////////////////////////////////
+namespace negamax {
+class Node {
+ public:
+  explicit Node(const Game &game);
+  Node(const Game &game, const helper::Pos &pos, uint8_t value);
+
+  Game game_;
+  bool is_expanded_;
+  helper::Move move_;
+  std::vector<Node> children_{};
+
+  void generateChildren(helper::PLAYER player);
+};
+}  // namespace negamax
 
 }  // namespace solver
 
