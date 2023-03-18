@@ -44,7 +44,7 @@ jobs:
     - name: Compile
       run: |
         mkdir -p build
-        cmake -G Ninja -DIS_BUILD_GUI:BOOL=ON -S . -B build
+        cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -DIS_BUILD_GUI:BOOL=ON -S . -B build
         cmake --build build
     - name: Run tests (Linux)
       if: ${{ matrix.os == 'ubuntu-latest' }}
