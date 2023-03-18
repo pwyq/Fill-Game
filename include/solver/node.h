@@ -65,8 +65,8 @@ class Node {
   helper::Move move_;
   std::vector<Node> children_{};
 
-  void evaluate();
-  void generateChildren();
+  void evaluate(helper::PLAYER player);
+  void generateChildren(helper::PLAYER player);
 };
 }  // namespace minimax
 

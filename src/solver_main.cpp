@@ -63,7 +63,7 @@ void testTimeLimit() {  // SIGXCPU
 
 int main(int argc, char** argv) {
   if (argc != 3) {
-    cout << "invalid number of arguments" << endl;
+    cout << "invalid number of arguments = " << argc << endl;
     return -1;
   }
   std::string input_sequence = argv[1];

@@ -1,5 +1,7 @@
+# Fill-Game project
 fillgame_gui
 fillgame_cli
+test_main
 .idea
 cmake-*
 ./fillgame

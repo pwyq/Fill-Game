@@ -53,3 +53,4 @@ if [ -f ./build/src/fillgame_gui ]; then
 elif [ -f ./build/src/fillgame_cli ]; then
     mv ./build/src/fillgame_cli .
 fi
+mv ./build/test/test_main .

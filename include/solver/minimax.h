@@ -21,7 +21,9 @@ class Minimax {
   Node root_;
   helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
   explicit Minimax(const Game& game);
-  int solve(Node& node, int depth, helper::PLAYER player);
+  int solve(Node& node, uint16_t depth, helper::PLAYER player);
+  int getResult();
+  uint16_t countEmptyCells(Node& node);
 };
 
 }  // namespace minimax

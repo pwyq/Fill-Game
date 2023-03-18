@@ -63,19 +63,19 @@ Node::Node(const Game &game)
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), is_expanded_(false) {
   move_ = {pos, value};
-  evaluate();
+  this->game_.unsafePlay(pos, value);
 }
 
-void Node::evaluate() {
+void Node::evaluate(helper::PLAYER player) {
   // TODO: not sure if this the correct way
   if (game_.isTerminal()) {
-    eval_val_ = 1;
+    eval_val_ = (player == helper::PLAYER::WHITE) ? 1 : -1;
   } else {
-    eval_val_ = -1;
+    eval_val_ = 0;
   }
 }
 
-void Node::generateChildren() {
+void Node::generateChildren(helper::PLAYER player) {
   if (is_expanded_) {
     return;
   }
@@ -84,6 +84,7 @@ void Node::generateChildren() {
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
       children_.emplace_back(game_, possible_move.first, value);
+      // evaluate(player); // bug here seems not updating the terminal state??
     }
   }
 }
