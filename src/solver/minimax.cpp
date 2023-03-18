@@ -28,6 +28,14 @@ short Minimax::getAlphaBetaResult() {
   return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
+/**
+ * @brief This is the plain Minimax algorithm
+ * 
+ * @param node 
+ * @param depth 
+ * @param player 
+ * @return short  1 for WIN, -1 for LOSS
+ */
 short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game_.isTerminal()) {
@@ -53,6 +61,16 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   }
 }
 
+/**
+ * @brief This is the Minimax with alpha-beta pruning
+ * 
+ * @param node 
+ * @param depth 
+ * @param alpha 
+ * @param beta 
+ * @param player 
+ * @return short  1 for WIN, -1 for LOSS
+ */
 short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game_.isTerminal()) {
