@@ -8,10 +8,16 @@
 
 #ifndef FG_SOLVER_NEGAMAX_H_
 #define FG_SOLVER_NEGAMAX_H_
+// std
+#include <iostream>
+
 //local
 #include "game.h"
 #include "helper.h"
 #include "node.h"
+
+using std::cerr;
+using std::endl;
 
 namespace solver {
 namespace negamax {
@@ -49,9 +55,13 @@ class Negamax {
   short solveAlphaBetaTranspositionTable(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   uint16_t countEmptyCells(Node& node);
   helper::PLAYER swapPlayer(helper::PLAYER curr_player);
+
+  // void debugEntry(ttEntry entry);
 };
 
 inline void Negamax::transpositionTableStore(Node& node, ttEntry entry) {
+  // cerr << "storing " << node.id_ << endl;
+  // debugEntry(entry);
   entry.is_valid = true;
 
   tt_[node.id_] = entry;
