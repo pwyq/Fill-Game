@@ -30,6 +30,7 @@ class Node {
  public:
   explicit Node(const Game &game);
 
+  // value = the number to play
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
   Game game_;
@@ -43,7 +44,6 @@ class Node {
   std::vector<Node> children_{};
 
   void evaluate();
-
   void generateChildren();
 };
 }  // namespace dfpn
@@ -56,7 +56,17 @@ namespace minimax {
 // class Node : public solver::Node {
 class Node {
  public:
-  Node();
+  explicit Node(const Game &game);
+  Node(const Game &game, const helper::Pos &pos, uint8_t value);
+
+  Game game_;
+  int eval_val_;  // evaluation value of the node, can be positive and negative
+  bool is_expanded_;
+  helper::Move move_;
+  std::vector<Node> children_{};
+
+  void evaluate();
+  void generateChildren();
 };
 }  // namespace minimax
 

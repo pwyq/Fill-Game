@@ -179,7 +179,12 @@
         "clearnode": "cpp",
         "stateattribute": "cpp",
         "transform": "cpp",
-        "timer": "cpp"
+        "timer": "cpp",
+        "boundingbox": "cpp",
+        "geometry": "cpp",
+        "vertexarraystate": "cpp",
+        "view": "cpp",
+        "buffered_value": "cpp"
     },
     "cmake.configureOnOpen": true
 }
