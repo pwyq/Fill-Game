@@ -11,6 +11,7 @@
 #include "dfpn_test.h"
 #include "minimax_alphabeta_test.h"
 #include "minimax_test.h"
+#include "negamax_alphabeta_test.h"
 #include "negamax_test.h"
 
 int main(int argc, char **argv) {
@@ -22,6 +23,7 @@ int main(int argc, char **argv) {
       "*MINIMAX_SIMPLE*:"
       "*MINIMAX_LARGE*:"
       "*MINIMAX_ALPHABETA_*:"
-      "*NEGAMAX_*:";
+      "*NEGAMAX_*:"
+      "*NEGAMAX_ALPHABETA_*:";
   return RUN_ALL_TESTS();
 }

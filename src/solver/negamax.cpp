@@ -33,6 +33,7 @@ short Negamax::getAlphaBetaResult() {
  * @brief This is the plain Negamax algorithm
  * 
  * @param node 
+ * @param depth
  * @param player 
  * @return short  1 for WIN, -1 for LOSS
  */
@@ -54,13 +55,29 @@ short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
  * @brief This is the Negamax with alpha-beta pruning
  * 
  * @param node 
+ * @param depth
  * @param alpha 
  * @param beta 
  * @param player 
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
-  return -2;
+  if (depth == 0 || node.game_.isTerminal()) {
+    return -1;
+  }
+  node.generateChildren(player);
+
+  short best_eval = -INF_SHORT;
+  for (auto& child : node.children_) {
+    short eval = -solveAlphaBeta(child, depth - 1, -beta, -alpha, swapPlayer(player));
+    best_eval  = std::max(best_eval, eval);
+
+    alpha = std::max(alpha, eval);
+    if (alpha >= beta) {
+      break;
+    }
+  }
+  return best_eval;
 }
 
 /**

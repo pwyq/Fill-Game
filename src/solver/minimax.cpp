@@ -85,7 +85,8 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
     for (auto& child : node.children_) {
       short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
       max_eval   = std::max(max_eval, eval);
-      alpha      = std::max(alpha, eval);
+
+      alpha = std::max(alpha, eval);
       if (beta <= alpha) {
         break;
       }
@@ -97,7 +98,8 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
     for (auto& child : node.children_) {
       short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
       min_eval   = std::min(min_eval, eval);
-      beta       = std::min(beta, eval);
+
+      beta = std::min(beta, eval);
       if (beta <= alpha) {
         break;
       }
