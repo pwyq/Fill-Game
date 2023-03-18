@@ -7,26 +7,52 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build_linux:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            host: linux
+          - os: windows-latest
+            host: windows
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Checkout submodules
       run: git submodule update --init --recursive
-    # https://github.com/jurplel/install-qt-action
-    - name: Install Qt
+    - name: Install Qt (Linux)
       uses: jurplel/install-qt-action@v3
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       with:
         version: '5.12.8'
-    - name: compile
+        host: ${{ matrix.host }}
+    - name: Install Qt (Windows)
+      uses: jurplel/install-qt-action@v3
+      if: ${{ matrix.os == 'windows-latest' }}
+      with:
+        version: '5.12.8'
+        host: ${{ matrix.host }}
+    - name: Get latest CMake and Ninja
+      uses: lukka/get-cmake@latest
+    - name: Get Clang
+      uses: KyleMayes/install-llvm-action@v1
+      with:
+        version: '15'
+    - name: Compile
       run: |
         mkdir -p build
-        cmake -DIS_BUILD_GUI:BOOL=ON -S . -B build
-        cd build
-        make
-    - name: run unit tests (gtest)
+        cmake -G Ninja -DIS_BUILD_GUI:BOOL=ON -S . -B build
+        cmake --build build
+    - name: Run tests (Linux)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
         chmod +x ./build/test/test_main
         ./build/test/test_main
+    - name: Run tests (Windows)
+      if: ${{ matrix.os == 'windows-latest' }}
+      run: |
+        .\build\test\test_main.exe
+      shell: pwsh

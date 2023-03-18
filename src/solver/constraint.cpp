@@ -4,6 +4,7 @@
  * @create date 2023-02-10 05:33:32
  * @modify date 2023-02-10 05:33:32
  */
+#ifdef __linux__
 #include "solver/constraint.h"
 // std
 #include <csignal>
@@ -58,3 +59,4 @@ void Constraint::setSigStack() {
 }
 
 }  // namespace solver
+#endif

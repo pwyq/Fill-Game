@@ -8,6 +8,7 @@
 #ifndef FG_SOLVER_CONSTRAINT_H
 #define FG_SOLVER_CONSTRAINT_H
 // Std
+#ifdef __linux__
 #include <sys/resource.h>
 
 #include <csignal>
@@ -32,5 +33,6 @@ class Constraint {
 };
 
 }  // namespace solver
-
+#elif _WIN32
+#endif
 #endif  // FG_SOLVER_CONSTRAINT_H
