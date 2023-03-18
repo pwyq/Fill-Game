@@ -39,9 +39,9 @@ fi
 # cmake --build . --target clean
 mkdir -p build
 if [ $IS_GUI -eq 1 ]; then
-    cmake -DIS_BUILD_GUI:BOOL=ON -S . -B build
+    cmake -DCMAKE_BUILD_TYPE=Release -DIS_BUILD_GUI:BOOL=ON -S . -B build
 else
-    cmake -DIS_BUILD_GUI:BOOL=OFF -S . -B build
+    cmake -DCMAKE_BUILD_TYPE=Release -DIS_BUILD_GUI:BOOL=OFF -S . -B build
 fi
 cd build
 make
