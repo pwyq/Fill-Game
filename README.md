@@ -13,9 +13,6 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
 
 
 ## Build
-```
-git clone --recurse-submodules https://github.com/pwyq/Fill-Game.git
-```
 
 ```
 # To build with GUI (requires set up Qt5.12.8)
