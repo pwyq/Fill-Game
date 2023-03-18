@@ -20,10 +20,12 @@ class Negamax {
  public:
   Node root_;
   explicit Negamax(const Game& game);
-  short solve(Node& node, uint16_t depth, helper::PLAYER player);
-  short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
+
+ private:
+  short solve(Node& node, uint16_t depth, helper::PLAYER player);
+  short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   uint16_t countEmptyCells(Node& node);
   helper::PLAYER swapPlayer(helper::PLAYER curr_player);
 };
