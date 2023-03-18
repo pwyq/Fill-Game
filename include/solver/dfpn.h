@@ -38,7 +38,7 @@ class DFPN {
   static void signalHandler([[maybe_unused]] int signum);
 
  private:
-  std::unordered_map<std::string, std::pair<uint32_t, uint32_t>> tt;
+  std::unordered_map<std::string, std::pair<uint32_t, uint32_t>> tt_;
 
   void saveProofAndDisproofNumbers(Node &node, uint32_t phi, uint32_t delta);
 
@@ -53,7 +53,7 @@ class DFPN {
 // inline function declaration
 inline void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi,
                                               uint32_t delta) {
-  tt[node.id_] = std::make_pair(phi, delta);
+  tt_[node.id_] = std::make_pair(phi, delta);
 }
 
 }  // namespace dfpn

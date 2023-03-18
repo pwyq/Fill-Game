@@ -131,8 +131,8 @@ size_t DFPN::selectChild(Node &node, uint32_t &child_phi, uint32_t &delta_2) {
 
 void DFPN::retrieveProofAndDisproofNumbers(Node &node, uint32_t &phi,
                                            uint32_t &delta) {
-  if (tt.find(node.id_) != tt.end()) {
-    auto &v = tt[node.id_];
+  if (tt_.find(node.id_) != tt_.end()) {
+    auto &v = tt_[node.id_];
     phi     = v.first;
     delta   = v.second;
   } else {

@@ -12,6 +12,7 @@
 #include "minimax_alphabeta_test.h"
 #include "minimax_test.h"
 #include "negamax_alphabeta_test.h"
+#include "negamax_alphabeta_tt_test.h"
 #include "negamax_test.h"
 
 int main(int argc, char **argv) {
@@ -25,6 +26,7 @@ int main(int argc, char **argv) {
       "*MINIMAX_ALPHABETA_*:"
       "*NEGAMAX_SIMPLE*:"
       "*NEGAMAX_LARGE*:"
-      "*NEGAMAX_ALPHABETA_*:";
+      "*NEGAMAX_ALPHABETA_*:"
+      "*NEGAMAX_ALPHABETA_TT_*:";
   return RUN_ALL_TESTS();
 }
