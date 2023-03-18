@@ -27,6 +27,7 @@ void startSolver(std::string& input, size_t time_limit) {
   Game game(input);
   cout << game << endl;
 
+  std::cout << "using DFPN..." << std::endl;
   dfpn::DFPN dfpn(game);
 
   // Constraint constraint    = Constraint(MEMORY_LIMIT, time_limit);
@@ -36,10 +37,12 @@ void startSolver(std::string& input, size_t time_limit) {
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
 
-  minimax::Minimax minimax;
-  minimax.solve();
+  std::cout << "using minimax..." << std::endl;
+  minimax::Minimax minimax(game);
+  cout << minimax.getResult() << endl;
 }
 
+/*
 void testStackMemoryLimit() {  // SIGSEGV
   // long long arr[UINTMAX_MAX] = {0};    // this will give direct error;
   long long arr[10000] = {0};
@@ -55,12 +58,13 @@ void testTimeLimit() {  // SIGXCPU
     cout << "time limit test\n";
   }
 }
+*/
 
 }  // namespace solver
 
 int main(int argc, char** argv) {
   if (argc != 3) {
-    cout << "invalid number of arguments" << endl;
+    cout << "invalid number of arguments = " << argc << endl;
     return -1;
   }
   std::string input_sequence = argv[1];

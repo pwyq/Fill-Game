@@ -23,7 +23,7 @@ class DFPN {
  public:
   Node root_;
   helper::PROOF_VALUE result_ = helper::UNKNOWN;
-  helper::Move best_move_;
+  helper::Move best_move_;  // Assignment 1 requirement; also used for selecting next move when playing against Human/Other AI
 
   explicit DFPN(const Game &game);
 

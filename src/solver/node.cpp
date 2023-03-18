@@ -56,7 +56,35 @@ void Node::generateChildren() {
 /////////////////////////////////////
 namespace minimax {
 
-Node::Node() {
+Node::Node(const Game &game)
+    : game_(game), is_expanded_(false) {
+}
+
+Node::Node(const Game &game, const Pos &pos, uint8_t value)
+    : game_(game), is_expanded_(false) {
+  move_ = {pos, value};
+  this->game_.unsafePlay(pos, value);
+}
+
+void Node::evaluate(helper::PLAYER player) {
+  if (game_.isTerminal()) {
+    eval_val_ = (player == helper::PLAYER::WHITE) ? 1 : -1;
+  } else {
+    eval_val_ = 0;
+  }
+}
+
+void Node::generateChildren(helper::PLAYER player) {
+  if (is_expanded_) {
+    return;
+  }
+  is_expanded_        = true;
+  auto possible_moves = game_.getPossibleMoves();
+  for (auto &possible_move : possible_moves) {
+    for (auto &value : possible_move.second) {
+      children_.emplace_back(game_, possible_move.first, value);
+    }
+  }
 }
 
 }  // namespace minimax
