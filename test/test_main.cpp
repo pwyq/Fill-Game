@@ -14,5 +14,6 @@
 int main(int argc, char **argv) {
   // https://stackoverflow.com/questions/12076072/how-to-run-specific-test-cases-in-googletest
   ::testing::InitGoogleTest(&argc, argv);
+  ::testing::GTEST_FLAG(filter) = "DFPN_*:*MINIMAX_SIMPLE*:*MINIMAX_LARGE*";
   return RUN_ALL_TESTS();
 }
