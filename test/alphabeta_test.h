@@ -2,9 +2,12 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 00:44:38
- * @modify date 2023-03-18 00:52:15
+ * @modify date 2023-03-18 11:15:49
  * @desc [description]
  */
+
+#ifndef FG_TEST_ALPHABETA_H_
+#define FG_TEST_ALPHABETA_H_
 
 // gtest
 #include <gtest/gtest.h>
@@ -274,3 +277,5 @@ TEST(ALPHABETA_LARGE, 4) {
 
 }  // namespace minimax
 }  // namespace solver
+
+#endif  // FG_TEST_ALPHABETA_H_

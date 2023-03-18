@@ -2,9 +2,12 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-17 22:25:21
- * @modify date 2023-03-18 00:44:23
+ * @modify date 2023-03-18 11:16:41
  * @desc Unit tests for Minimax solver
  */
+#ifndef FG_TEST_MINIMAX_H_
+#define FG_TEST_MINIMAX_H_
+
 // gtest
 #include <gtest/gtest.h>
 // local
@@ -273,3 +276,5 @@ TEST(MINIMAX_LARGE, 4) {
 
 }  // namespace minimax
 }  // namespace solver
+
+#endif  // FG_TEST_MINIMAX_H_
