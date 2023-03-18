@@ -14,20 +14,18 @@ namespace minimax {
 Minimax::Minimax(const Game& game) : root_(game) {
 }
 
-// TODO: change the to-player's view to the root's view
-
-short Minimax::getResult() {
+short Minimax::getResult(helper::PLAYER root_player) {
   if (root_.game_.isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
+  return solve(root_, countEmptyCells(root_), root_player);
 }
 
-short Minimax::getAlphaBetaResult() {
+short Minimax::getAlphaBetaResult(helper::PLAYER root_player) {
   if (root_.game_.isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
 /**

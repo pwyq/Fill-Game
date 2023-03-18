@@ -15,18 +15,18 @@ namespace negamax {
 Negamax::Negamax(const Game& game) : root_(game) {
 }
 
-short Negamax::getResult() {
+short Negamax::getResult(helper::PLAYER root_player) {
   if (root_.game_.isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
+  return solve(root_, countEmptyCells(root_), root_player);
 }
 
-short Negamax::getAlphaBetaResult() {
+short Negamax::getAlphaBetaResult(helper::PLAYER root_player) {
   if (root_.game_.isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
 /**

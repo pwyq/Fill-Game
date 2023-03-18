@@ -22,8 +22,8 @@ class Negamax {
   explicit Negamax(const Game& game);
   short solve(Node& node, uint16_t depth, helper::PLAYER player);
   short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
-  short getResult();
-  short getAlphaBetaResult();
+  short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
+  short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   uint16_t countEmptyCells(Node& node);
   helper::PLAYER swapPlayer(helper::PLAYER curr_player);
 };
