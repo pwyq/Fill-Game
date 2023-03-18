@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-03-17 15:52:05
+ * @modify date 2023-03-18 00:52:17
  */
 #include "solver/minimax.h"
 // std
@@ -12,18 +12,31 @@ namespace solver {
 namespace minimax {
 
 Minimax::Minimax(const Game& game) : root_(game) {
-  // if given a already end-game board
-  if (root_.game_.isTerminal()) {
-    std::cerr << "result of minimax is " << -1 << std::endl;
-    return;
-  }
 }
 
-int Minimax::getResult() {
+short Minimax::getResult() {
+  if (root_.game_.isTerminal()) {
+    return -1;
+  }
   return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
-int Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
+short Minimax::getAlphaBetaResult() {
+  if (root_.game_.isTerminal()) {
+    return -1;
+  }
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+}
+
+/**
+ * @brief This is the plain Minimax algorithm
+ * 
+ * @param node 
+ * @param depth 
+ * @param player 
+ * @return short  1 for WIN, -1 for LOSS
+ */
+short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game_.isTerminal()) {
     return node.eval_val_;
@@ -31,18 +44,61 @@ int Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   node.generateChildren(player);
 
   if (player == helper::PLAYER::BLACK) {
-    int max_eval = -INF;
+    short max_eval = -INF_SHORT;
     for (auto& child : node.children_) {
-      int eval = solve(child, depth - 1, helper::PLAYER::WHITE);
-      max_eval = std::max(max_eval, eval);
+      short eval = solve(child, depth - 1, helper::PLAYER::WHITE);
+      max_eval   = std::max(max_eval, eval);
     }
     return max_eval;
   } else {
     // if it's minimizing player
-    int min_eval = INF;
+    short min_eval = INF_SHORT;
     for (auto& child : node.children_) {
-      int eval = solve(child, depth - 1, helper::PLAYER::BLACK);
-      min_eval = std::min(min_eval, eval);
+      short eval = solve(child, depth - 1, helper::PLAYER::BLACK);
+      min_eval   = std::min(min_eval, eval);
+    }
+    return min_eval;
+  }
+}
+
+/**
+ * @brief This is the Minimax with alpha-beta pruning
+ * 
+ * @param node 
+ * @param depth 
+ * @param alpha 
+ * @param beta 
+ * @param player 
+ * @return short  1 for WIN, -1 for LOSS
+ */
+short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
+  node.evaluate(player);
+  if (depth == 0 || node.game_.isTerminal()) {
+    return node.eval_val_;
+  }
+  node.generateChildren(player);
+
+  if (player == helper::PLAYER::BLACK) {
+    short max_eval = -INF_SHORT;
+    for (auto& child : node.children_) {
+      short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
+      max_eval   = std::max(max_eval, eval);
+      alpha      = std::max(alpha, eval);
+      if (beta <= alpha) {
+        break;
+      }
+    }
+    return max_eval;
+  } else {
+    // if it's minimizing player
+    short min_eval = INF_SHORT;
+    for (auto& child : node.children_) {
+      short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
+      min_eval   = std::min(min_eval, eval);
+      beta       = std::min(beta, eval);
+      if (beta <= alpha) {
+        break;
+      }
     }
     return min_eval;
   }
