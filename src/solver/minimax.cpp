@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-03-18 00:52:17
+ * @modify date 2023-03-18 11:44:07
  */
 #include "solver/minimax.h"
 // std
@@ -14,18 +14,18 @@ namespace minimax {
 Minimax::Minimax(const Game& game) : root_(game) {
 }
 
-short Minimax::getResult() {
+short Minimax::getResult(helper::PLAYER root_player) {
   if (root_.game_.isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
+  return solve(root_, countEmptyCells(root_), root_player);
 }
 
-short Minimax::getAlphaBetaResult() {
+short Minimax::getAlphaBetaResult(helper::PLAYER root_player) {
   if (root_.game_.isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
 /**
@@ -41,7 +41,7 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   if (depth == 0 || node.game_.isTerminal()) {
     return node.eval_val_;
   }
-  node.generateChildren(player);
+  node.generateChildren();
 
   if (player == helper::PLAYER::BLACK) {
     short max_eval = -INF_SHORT;
@@ -76,14 +76,15 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
   if (depth == 0 || node.game_.isTerminal()) {
     return node.eval_val_;
   }
-  node.generateChildren(player);
+  node.generateChildren();
 
   if (player == helper::PLAYER::BLACK) {
     short max_eval = -INF_SHORT;
     for (auto& child : node.children_) {
       short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
       max_eval   = std::max(max_eval, eval);
-      alpha      = std::max(alpha, eval);
+
+      alpha = std::max(alpha, eval);
       if (beta <= alpha) {
         break;
       }
@@ -95,7 +96,8 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
     for (auto& child : node.children_) {
       short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
       min_eval   = std::min(min_eval, eval);
-      beta       = std::min(beta, eval);
+
+      beta = std::min(beta, eval);
       if (beta <= alpha) {
         break;
       }

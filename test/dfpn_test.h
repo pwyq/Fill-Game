@@ -2,9 +2,12 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:38:30
- * @modify date 2023-02-10 05:38:30
+ * @modify date 2023-03-18 11:15:51
  * @desc Unit tests for DFPN solver
  */
+#ifndef FG_TEST_DFPN_H_
+#define FG_TEST_DFPN_H_
+
 // gtest
 #include <gtest/gtest.h>
 // local
@@ -299,3 +302,5 @@ TEST(DFPN_LARGE, 4) {
 
 }  // namespace dfpn
 }  // namespace solver
+
+#endif  //FG_TEST_DFPN_H_

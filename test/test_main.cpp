@@ -8,15 +8,23 @@
 // gtest
 #include <gtest/gtest.h>
 // local
-#include "alphabeta_test.h"
 #include "dfpn_test.h"
+#include "minimax_alphabeta_test.h"
 #include "minimax_test.h"
+#include "negamax_alphabeta_test.h"
+#include "negamax_test.h"
 
 int main(int argc, char **argv) {
   // https://stackoverflow.com/questions/12076072/how-to-run-specific-test-cases-in-googletest
   ::testing::InitGoogleTest(&argc, argv);
-  ::testing::GTEST_FLAG(filter) = "DFPN_*:*MINIMAX_SIMPLE*:*MINIMAX_LARGE*:*ALPHABETA_*";
-  // Minimax is slow on MEDIUM 5 and 9
-  // ::testing::GTEST_FLAG(filter) = "DFPN_*:*MINIMAX_*:*ALPHABETA_*";
+  // Minimax and Negamax is slow on MEDIUM 5 and 9
+  ::testing::GTEST_FLAG(filter) =
+      "DFPN_*:"
+      "*MINIMAX_SIMPLE*:"
+      "*MINIMAX_LARGE*:"
+      "*MINIMAX_ALPHABETA_*:"
+      "*NEGAMAX_SIMPLE*:"
+      "*NEGAMAX_LARGE*:"
+      "*NEGAMAX_ALPHABETA_*:";
   return RUN_ALL_TESTS();
 }

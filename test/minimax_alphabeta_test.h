@@ -1,12 +1,13 @@
 /**
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
- * @create date 2023-03-17 22:25:21
- * @modify date 2023-03-18 11:16:41
- * @desc Unit tests for Minimax solver
+ * @create date 2023-03-18 00:44:38
+ * @modify date 2023-03-18 11:15:49
+ * @desc Minimax with Alpha-Beta pruning
  */
-#ifndef FG_TEST_MINIMAX_H_
-#define FG_TEST_MINIMAX_H_
+
+#ifndef FG_TEST_MINIMAX_ALPHABETA_H_
+#define FG_TEST_MINIMAX_ALPHABETA_H_
 
 // gtest
 #include <gtest/gtest.h>
@@ -26,202 +27,202 @@ namespace minimax {
  * Midium test: board size between 4x4 and 7x7,
  * Large  test: board size between 8x8 and 10x10; or too many empty cells
  */
-TEST(MINIMAX_SIMPLE, 1) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 1) {
   std::string game_string = "1.*.3";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), -1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), -1);
 }
 
-TEST(MINIMAX_SIMPLE, 2) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 2) {
   std::string game_string = "13*.3";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 3) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 3) {
   std::string game_string = "1.*33";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 4) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 4) {
   std::string game_string = "1.*.2";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 5) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 5) {
   std::string game_string = "1..*.2.";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 6) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 6) {
   std::string game_string = "1..*.2.*2..";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 7) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 7) {
   std::string game_string = "1..*.2.*1..";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 8) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 8) {
   std::string game_string = ".33*.23*121";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 9) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 9) {
   std::string game_string = ".";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 10) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 10) {
   std::string game_string = ".*.*.";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 11) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 11) {
   std::string game_string = "...";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 12) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 12) {
   std::string game_string = "1.1*...*1.1";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 13) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 13) {
   std::string game_string = "3.3*.3.";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), -1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), -1);
 }
 
-TEST(MINIMAX_SIMPLE, 14) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 14) {
   std::string game_string = ".33";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 15) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 15) {
   std::string game_string = ".2";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 16) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 16) {
   std::string game_string = "144*3.4*134";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_SIMPLE, 17) {
+TEST(MINIMAX_ALPHABETA_SIMPLE, 17) {
   std::string game_string = "131*4.2*141";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), -1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), -1);
 }
 
 ///////////////////////////////////////////////////
-///// MINIMAX_MEDIUM
+///// MINIMAX_ALPHABETA_MEDIUM
 ///////////////////////////////////////////////////
 
-TEST(MINIMAX_MEDIUM, 3) {
+TEST(MINIMAX_ALPHABETA_MEDIUM, 3) {
   std::string game_string = "..4.*44.4*..4.";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_MEDIUM, 4) {
+TEST(MINIMAX_ALPHABETA_MEDIUM, 4) {
   std::string game_string = "2241*44.4*2241";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), -1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), -1);
 }
 
-TEST(MINIMAX_MEDIUM, 5) {
+TEST(MINIMAX_ALPHABETA_MEDIUM, 5) {
   // W 1 1 2 ~ 38393
   std::string game_string = "1...*2...*..43";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_MEDIUM, 6) {
+TEST(MINIMAX_ALPHABETA_MEDIUM, 6) {
   // W 3 0 3 ~ 4512
   std::string game_string = "1...*2...";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_MEDIUM, 7) {
+TEST(MINIMAX_ALPHABETA_MEDIUM, 7) {
   // W 2 2 1 ~ 16
   std::string game_string = "33213*2..33*44.22*33314*2244.";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_MEDIUM, 8) {
+TEST(MINIMAX_ALPHABETA_MEDIUM, 8) {
   // W 2 0 2 ~ 533
   std::string game_string = "33..3*2..33*44.22*33314*2244.";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
-TEST(MINIMAX_MEDIUM, 9) {
+TEST(MINIMAX_ALPHABETA_MEDIUM, 9) {
   // W 1 1 3 ~ 504073
   std::string game_string = "..*1.*..*22*..*..";
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
 ///////////////////////////////////////////////////
-///// MINIMAX_LARGE
+///// MINIMAX_ALPHABETA_LARGE
 ///////////////////////////////////////////////////
 
 /**
-TEST(MINIMAX_LARGE, 1) {
+TEST(MINIMAX_ALPHABETA_LARGE, 1) {
     std::string game_string = ".....*.....*.....*.....";
     Game game(game_string);
     Minimax agent(game);
   
-    EXPECT_EQ(agent.getResult(), '?');
+    EXPECT_EQ(agent.getAlphaBetaResult(), '?');
 }
 
-TEST(MINIMAX_LARGE, 2) {
+TEST(MINIMAX_ALPHABETA_LARGE, 2) {
     std::string game_string = ".....*..2..*.2...*.....*.....";
     Game game(game_string);
     Minimax agent(game);
   
-    EXPECT_EQ(agent.getResult(), '?');
+    EXPECT_EQ(agent.getAlphaBetaResult(), '?');
 }
 */
 /*
@@ -238,7 +239,7 @@ TEST(MINIMAX_LARGE, 2) {
  *
  */
 
-TEST(MINIMAX_LARGE, 3) {
+TEST(MINIMAX_ALPHABETA_LARGE, 3) {
   std::string game_string;
   game_string += "1223334444";
   game_string += "*4444223331";
@@ -253,10 +254,10 @@ TEST(MINIMAX_LARGE, 3) {
 
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), -1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), -1);
 }
 
-TEST(MINIMAX_LARGE, 4) {
+TEST(MINIMAX_ALPHABETA_LARGE, 4) {
   std::string game_string;
   game_string += "1223334444";
   game_string += "*4444223331";
@@ -271,10 +272,10 @@ TEST(MINIMAX_LARGE, 4) {
 
   Game game(game_string);
   Minimax agent(game);
-  EXPECT_EQ(agent.getResult(), 1);
+  EXPECT_EQ(agent.getAlphaBetaResult(), 1);
 }
 
 }  // namespace minimax
 }  // namespace solver
 
-#endif  // FG_TEST_MINIMAX_H_
+#endif  // FG_TEST_MINIMAX_ALPHABETA_H_
