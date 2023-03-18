@@ -16,6 +16,7 @@ namespace solver {
 namespace helper {
 
 #define INF UINT16_MAX
+#define INF_SHORT 32767  // SHRT_MAX
 
 struct Pos {
   uint8_t row : 4 {};

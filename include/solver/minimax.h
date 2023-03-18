@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:46
- * @modify date 2023-03-15 15:57:14
+ * @modify date 2023-03-18 00:52:19
  * @desc Minimax implementation
  */
 
@@ -20,8 +20,10 @@ class Minimax {
  public:
   Node root_;
   explicit Minimax(const Game& game);
-  int solve(Node& node, uint16_t depth, helper::PLAYER player);
-  int getResult();
+  short solve(Node& node, uint16_t depth, helper::PLAYER player);
+  short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
+  short getResult();
+  short getAlphaBetaResult();
   uint16_t countEmptyCells(Node& node);
 };
 

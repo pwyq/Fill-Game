@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-17 22:25:21
- * @modify date 2023-03-17 22:25:21
+ * @modify date 2023-03-18 00:44:23
  * @desc Unit tests for Minimax solver
  */
 // gtest
