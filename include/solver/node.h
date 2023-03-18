@@ -16,10 +16,10 @@ namespace solver {
 //  Basic Node Class
 /////////////////////////////////////
 // TODO: generalize?
-class Node {
- public:
-  Node();
-};
+// class Node {
+//  public:
+//   Node();
+// };
 
 /////////////////////////////////////
 //  DFPN Node Class
@@ -28,9 +28,10 @@ namespace dfpn {
 class Node {
  public:
   explicit Node(const Game &game);
-
-  // value = the number to play
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
+
+  void evaluate();
+  void generateChildren();
 
   Game game_;
   uint32_t phi_;
@@ -41,9 +42,6 @@ class Node {
   std::string id_;
 
   std::vector<Node> children_{};
-
-  void evaluate();
-  void generateChildren();
 };
 }  // namespace dfpn
 
@@ -56,19 +54,20 @@ class Node {
   explicit Node(const Game &game);
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
+  void evaluate(helper::PLAYER player);
+  void generateChildren();
+
   Game game_;
   int eval_val_;  // evaluation value of the node, can be positive and negative
   bool is_expanded_;
   helper::Move move_;
   std::vector<Node> children_{};
-
-  void evaluate(helper::PLAYER player);
-  void generateChildren();
 };
 }  // namespace minimax
 
 /////////////////////////////////////
 //  Negamax Node Class
+//    TODO: how can we use template<> for the children vector such that it takes both `Node` and `NodeTT`?
 /////////////////////////////////////
 namespace negamax {
 class Node {
@@ -76,17 +75,25 @@ class Node {
   explicit Node(const Game &game);
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
+  void generateChildren();
+
   Game game_;
   bool is_expanded_;
   helper::Move move_;
-  // the id_ is only used in transposition table;
-  //  TODO: during comparison, would it be unfair for the vanilla negamax and negamax-ab to have this redundant member? because of extra memory usage
-  std::string id_;
-
   std::vector<Node> children_{};
+};
+
+class NodeTT : public Node {
+ public:
+  explicit NodeTT(const Game &game);
+  NodeTT(const Game &game, const helper::Pos &pos, uint8_t value);
 
   void generateChildren();
+
+  std::string id_;
+  std::vector<NodeTT> children_{};
 };
+
 }  // namespace negamax
 
 }  // namespace solver
