@@ -45,6 +45,7 @@ void startSolver(std::string& input, size_t time_limit) {
   negamax::Negamax negamax(game);
   cout << negamax.getResult() << endl;
   cout << negamax.getAlphaBetaResult() << endl;
+  cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
 }
 
 /*
