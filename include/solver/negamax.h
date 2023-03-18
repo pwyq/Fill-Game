@@ -22,6 +22,7 @@ using std::endl;
 namespace solver {
 namespace negamax {
 
+// This TT setup is only for alpha-beta
 enum EntryFlag {
   EXACT   = 0,
   L_BOUND = 1,

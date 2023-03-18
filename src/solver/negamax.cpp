@@ -95,7 +95,7 @@ short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
  * @param alpha 
  * @param beta 
  * @param player 
- * @return short 
+ * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   short old_alpha = alpha;
@@ -119,6 +119,7 @@ short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
       return entry.value;
     }
   }
+
   if (depth == 0 || node.game_.isTerminal()) {
     return -1;
   }
