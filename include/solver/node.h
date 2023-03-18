@@ -79,6 +79,8 @@ class Node {
   Game game_;
   bool is_expanded_;
   helper::Move move_;
+  std::string id_;  // only for transposition table
+
   std::vector<Node> children_{};
 
   void generateChildren();

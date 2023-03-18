@@ -29,7 +29,7 @@ short Negamax::getAlphaBetaResult(helper::PLAYER root_player) {
   return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
-short Negamax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK) {
+short Negamax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
   if (root_.game_.isTerminal()) {
     return -1;
   }
@@ -169,8 +169,8 @@ helper::PLAYER Negamax::swapPlayer(helper::PLAYER curr_player) {
 }
 
 ttEntry Negamax::transpositionTableLookup(Node& node) {
-  if (tt_.find(node) != tt_.end()) {
-    return tt_[node];
+  if (tt_.find(node.id_) != tt_.end()) {
+    return tt_[node.id_];
   } else {
     ttEntry temp;
     return temp;

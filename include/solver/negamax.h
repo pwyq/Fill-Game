@@ -39,7 +39,7 @@ class Negamax {
 
  private:
   // tt < id, [depth, flag, value] >
-  std::unordered_map<Node, ttEntry> tt_;
+  std::unordered_map<std::string, ttEntry> tt_;
 
   ttEntry transpositionTableLookup(Node& node);
   inline void transpositionTableStore(Node& node, ttEntry entry);
@@ -54,7 +54,7 @@ class Negamax {
 inline void Negamax::transpositionTableStore(Node& node, ttEntry entry) {
   entry.is_valid = true;
 
-  tt_[node] = entry;
+  tt_[node.id_] = entry;
 }
 
 }  // namespace negamax

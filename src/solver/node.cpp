@@ -102,12 +102,14 @@ namespace negamax {
 
 Node::Node(const Game &game)
     : game_(game), is_expanded_(false) {
+  id_ = this->game_.toString();
 }
 
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), is_expanded_(false) {
   move_ = {pos, value};
   this->game_.unsafePlay(pos, value);
+  id_ = this->game_.toString();
 }
 
 void Node::generateChildren() {
