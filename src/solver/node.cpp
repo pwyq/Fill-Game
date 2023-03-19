@@ -2,12 +2,55 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:35:05
- * @modify date 2023-02-10 05:35:05
+ * @modify date 2023-03-18 16:58:02
  */
 // local
 #include "solver/node.h"
 
 namespace solver {
+
+/////////////////////////////////////
+//  PNS Node Class
+/////////////////////////////////////
+namespace pns {
+
+Node::Node(const Game &game)
+    : game_(game), is_expanded_(false) {
+  id_ = this->game_.toString();
+}
+
+Node::Node(const Game &game, const Pos &pos, uint8_t value, std::shared_ptr<Node> parent)
+    : game_(game), is_expanded_(false), parent_(parent) {
+  move_ = {pos, value};
+  this->game_.unsafePlay(pos, value);
+  id_ = this->game_.toString();
+  evaluate();
+}
+
+void Node::evaluate() {
+  // TODO: TODO
+  if (game_.isTerminal()) {
+    //
+  } else {
+    //
+  }
+}
+
+void Node::generateChildren() {
+  if (is_expanded_) {
+    return;
+  }
+  is_expanded_        = true;
+  auto possible_moves = game_.getPossibleMoves();
+  for (auto &possible_move : possible_moves) {
+    for (auto &value : possible_move.second) {
+      std::shared_ptr<Node> p = std::make_shared<Node>(this);  // convert from Node to std::shared_ptr<Node>
+      children_.emplace_back(game_, possible_move.first, value, p);
+    }
+  }
+}
+
+}  // namespace pns
 
 /////////////////////////////////////
 //  DFPN Node Class
