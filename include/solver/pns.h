@@ -23,9 +23,9 @@ class PNS {
  protected:
   short solve(helper::PLAYER root_player = helper::PLAYER::BLACK);
   void setProofAndDisproofNumbers(Node& node);
-  Node selectMostProvingNode(Node& node);
+  Node& selectMostProvingNode(Node& node);
   void expandNode(Node& node, helper::PLAYER root_player);
-  Node updateAncestors(Node& node, Node& root);
+  Node& updateAncestors(Node& node, Node& root);
 };
 
 }  // namespace pns
