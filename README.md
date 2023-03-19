@@ -9,7 +9,9 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
     - [x] Two human players
     - [x] Human vs. AI player
 - [ ] Cross-machine play
-- [ ] Cross-platform deployment
+- [x] Cross-platform deployment
+    - [x] Linux
+    - [x] Windows 
 
 
 ## Build
@@ -20,6 +22,18 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
 
 # To build without GUI
 ./linux_build.sh
+```
+
+### Run
+```
+# Start GUI version
+./fillgame_gui
+
+# Start CLI version
+./fillgame_cli
+
+# To test algorithms
+./test_main
 ```
 
 ## Development
