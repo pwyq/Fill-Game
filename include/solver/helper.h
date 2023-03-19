@@ -1,8 +1,8 @@
 /**
- * @author      Yanqing Wu
+ * @author      Yanqing Wu, Junwen Shen
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:30:34
- * @modify date 2023-02-10 05:30:34
+ * @modify date 2023-03-18 17:29:04
  */
 #ifndef FG_SOLVER_HELPER_H_
 #define FG_SOLVER_HELPER_H_
@@ -48,12 +48,16 @@ struct Move {
   }
 };
 
-enum PLAYER { BLACK = 0,
-              WHITE = 1 };
+enum PLAYER {
+  BLACK = 0,  // AND
+  WHITE = 1   // OR
+};
 
-enum PROOF_VALUE { WIN     = 1,
-                   LOSS    = 0,
-                   UNKNOWN = -1 };
+enum PROOF_VALUE {
+  WIN     = 1,  // PROVEN
+  LOSS    = 0,  // DISPROVEN
+  UNKNOWN = -1  // UNKNOWN
+};
 
 // https://stackoverflow.com/a/21995693
 template <class ClockT = std::chrono::steady_clock>
