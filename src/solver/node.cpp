@@ -5,6 +5,8 @@
  * @modify date 2023-03-18 16:58:02
  */
 // local
+#include <utility>
+
 #include "solver/node.h"
 
 namespace solver {
@@ -20,7 +22,7 @@ Node::Node(const Game &game)
 }
 
 Node::Node(const Game &game, const Pos &pos, uint8_t value, std::shared_ptr<Node> parent)
-    : game_(game), is_expanded_(false), parent_(parent) {
+    : game_(game), is_expanded_(false), parent_(std::move(parent)) {
   move_ = {pos, value};
   this->game_.unsafePlay(pos, value);
   id_ = this->game_.toString();
@@ -40,11 +42,11 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
-      std::shared_ptr<Node> p = std::make_shared<Node>(this);  // convert from Node to std::shared_ptr<Node>
+      std::shared_ptr<Node> p = std::make_shared<Node>(*this);  // convert from Node to std::shared_ptr<Node>
       children_.emplace_back(game_, possible_move.first, value, p);
     }
   }
@@ -111,8 +113,8 @@ Node::Node(const Game &game, const Pos &pos, uint8_t value)
 
 /**
  * @brief Minimax evaluates from root player's view. Root is assumed to be black.
- * 
- * @param player 
+ *
+ * @param player
  */
 void Node::evaluate(helper::PLAYER player) {
   if (game_.isTerminal()) {

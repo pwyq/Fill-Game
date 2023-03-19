@@ -40,10 +40,10 @@ class Node {
   bool is_expanded_;
   std::shared_ptr<Node> parent_;
 
-  helper::PLAYER type_;
-  helper::PROOF_VALUE value_;
-  uint16_t pn_;  // proof number in the PNS survey paper
-  uint16_t dn_;  // disproof number
+  helper::PLAYER type_{};
+  helper::PROOF_VALUE value_{};
+  uint16_t pn_{};  // proof number in the PNS survey paper
+  uint16_t dn_{};  // disproof number
   helper::Move move_;
   std::string id_;
   std::vector<Node> children_{};
@@ -80,15 +80,16 @@ namespace minimax {
 class Node {
  public:
   explicit Node(const Game &game);
+  virtual ~Node() = default;
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
   void evaluate(helper::PLAYER player);
-  void generateChildren();
+  virtual void generateChildren();
 
   Game game_;
   bool is_expanded_;
 
-  int eval_val_;  // evaluation value of the node, can be positive and negative
+  int eval_val_{};  // evaluation value of the node, can be positive and negative
   helper::Move move_;
   std::vector<Node> children_{};
 };
@@ -96,9 +97,10 @@ class Node {
 class NodeTT : public Node {
  public:
   explicit NodeTT(const Game &game);
+  virtual ~NodeTT() = default;
   NodeTT(const Game &game, const helper::Pos &pos, uint8_t value);
 
-  void generateChildren();
+  void generateChildren() override;
 
   std::string id_;
   std::vector<NodeTT> children_{};
@@ -114,9 +116,10 @@ namespace negamax {
 class Node {
  public:
   explicit Node(const Game &game);
+  virtual ~Node() = default;
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
-  void generateChildren();
+  virtual void generateChildren();
 
   Game game_;
   bool is_expanded_;
@@ -130,7 +133,7 @@ class NodeTT : public Node {
   explicit NodeTT(const Game &game);
   NodeTT(const Game &game, const helper::Pos &pos, uint8_t value);
 
-  void generateChildren();
+  void generateChildren() override;
 
   std::string id_;
   std::vector<NodeTT> children_{};
