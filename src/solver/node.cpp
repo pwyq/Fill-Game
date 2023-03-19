@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:35:05
- * @modify date 2023-03-18 16:58:02
+ * @modify date 2023-03-19 13:17:41
  */
 // local
 #include "solver/node.h"
@@ -18,26 +18,28 @@ namespace pns {
 
 Node::Node(const Game &game)
     : game_(game), is_expanded_(false) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 Node::Node(const Game &game, const Pos &pos, uint8_t value, std::shared_ptr<Node> parent)
     : game_(game), is_expanded_(false), parent_(std::move(parent)) {
   move_ = {pos, value};
-  this->game_.unsafePlay(pos, value);
-  id_ = this->game_.toString();
+  game_.unsafePlay(pos, value);
+  type_ = game_.to_play_;
+  id_   = game_.toString();
 }
 
 void Node::evaluate(helper::PLAYER root_player) {
-  // TODO: TODO
+  // TODO: this doesn't feels right
   if (game_.isTerminal()) {
-    if (this->type_ == root_player) {
-      this->value_ = helper::PROOF_VALUE::LOSS;
-    } else {
-      this->value_ = helper::PROOF_VALUE::WIN;
-    }
+    // if (game_.to_play_ == root_player) {
+    //   value_ = helper::PROOF_VALUE::LOSS;
+    // } else {
+    //   value_ = helper::PROOF_VALUE::WIN;
+    // }
+    value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
   } else {
-    this->value_ = helper::PROOF_VALUE::UNKNOWN;
+    value_ = helper::PROOF_VALUE::UNKNOWN;
   }
 }
 
@@ -65,14 +67,14 @@ namespace dfpn {
 
 Node::Node(const Game &game)
     : game_(game), phi_(INF), delta_(INF), is_expanded_(false) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), phi_(1), delta_(1), is_expanded_(false) {
   move_ = {pos, value};
-  this->game_.unsafePlay(pos, value);
-  id_ = this->game_.toString();
+  game_.unsafePlay(pos, value);
+  id_ = game_.toString();
   evaluate();
 }
 
@@ -113,7 +115,7 @@ Node::Node(const Game &game)
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), is_expanded_(false) {
   move_ = {pos, value};
-  this->game_.unsafePlay(pos, value);
+  game_.unsafePlay(pos, value);
 }
 
 /**
@@ -146,11 +148,11 @@ void Node::generateChildren() {
 //////////////////////////////////////////
 
 NodeTT::NodeTT(const Game &game) : Node(game) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 NodeTT::NodeTT(const Game &game, const Pos &pos, uint8_t value) : Node(game, pos, value) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 // TODO: combine Node and NodeTT's generateChildren with template
@@ -183,7 +185,7 @@ Node::Node(const Game &game)
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), is_expanded_(false) {
   move_ = {pos, value};
-  this->game_.unsafePlay(pos, value);
+  game_.unsafePlay(pos, value);
 }
 
 void Node::generateChildren() {
@@ -203,11 +205,11 @@ void Node::generateChildren() {
 //////////////////////////////////////////
 
 NodeTT::NodeTT(const Game &game) : Node(game) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 NodeTT::NodeTT(const Game &game, const Pos &pos, uint8_t value) : Node(game, pos, value) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 // TODO: combine Node and NodeTT's generateChildren with template

@@ -26,12 +26,13 @@ short PNS::solve(helper::PLAYER root_player) {
   root_.evaluate(root_player);
   setProofAndDisproofNumbers(root_);
 
-  Node current = root_;
+  Node& current = root_;
 
   while (root_.pn_ != 0 && root_.dn_ != 0) {
     std::cerr << "root.pn = " << root_.pn_ << ", root.dn = " << root_.dn_ << std::endl;
-    Node most_proving_node = selectMostProvingNode(current);
+    Node& most_proving_node = selectMostProvingNode(current);
     expandNode(most_proving_node, root_player);
+    std::cerr << current.game_.toString() << " --> " << most_proving_node.game_.toString() << std::endl;
     current = updateAncestors(most_proving_node, root_);
   }
 
@@ -45,10 +46,13 @@ short PNS::solve(helper::PLAYER root_player) {
 }
 
 void PNS::setProofAndDisproofNumbers(Node& node) {
+  std::cerr << "setProofAndDisproofNumbers for " << node.game_.toString() << std::endl;
   if (node.is_expanded_) {
+    std::cerr << "  node is expanded...\n";
     // internal nodes
 
     if (node.type_ == helper::PLAYER::BLACK) {  // AND type
+      std::cerr << "  node is AND node\n";
       node.pn_ = 0;
       node.dn_ = INF;
       for (auto& child : node.children_) {
@@ -58,6 +62,8 @@ void PNS::setProofAndDisproofNumbers(Node& node) {
         }
       }
     } else {  // OR type
+      std::cerr << "  node is OR node\n";
+
       node.pn_ = INF;
       node.dn_ = 0;
       for (auto& child : node.children_) {
@@ -69,6 +75,7 @@ void PNS::setProofAndDisproofNumbers(Node& node) {
     }
   } else {
     // terminal / non-terminal leaf
+    std::cerr << "node value = " << node.value_ << "\n";
     switch (node.value_) {
       case helper::PROOF_VALUE::WIN:  // PROVEN
         node.pn_ = 0;
@@ -86,37 +93,44 @@ void PNS::setProofAndDisproofNumbers(Node& node) {
         break;
     }
   }
+  std::cerr << "  after setting, node.pn = " << node.pn_ << ", node.dn = " << node.dn_ << "\n\n";
 }
 
-Node PNS::selectMostProvingNode(Node& node) {
-  Node res = node;
+Node& PNS::selectMostProvingNode(Node& node) {
+  Node* res = &node;
   while (node.is_expanded_) {
     uint16_t value = INF;
     if (node.type_ == helper::PLAYER::WHITE) {  // OR type
       for (auto& child : node.children_) {
         if (value > child.pn_) {
           value = child.pn_;
-          res   = child;
+          res   = &child;
         }
       }
     } else {  // AND type
       for (auto& child : node.children_) {
         if (value > child.pn_) {
           value = child.pn_;
-          res   = child;
+          res   = &child;
         }
       }
     }
-    node = res;
+    node = *res;
   }
-  return res;
+  return *res;
 }
 
 void PNS::expandNode(Node& node, helper::PLAYER root_player) {
   node.generateChildren();
+
+  std::cerr << "expanding " << node.game_.toString() << std::endl;
+  std::cerr << " node type = " << node.type_ << std::endl;
+
   for (auto& child : node.children_) {
     child.evaluate(root_player);
     setProofAndDisproofNumbers(child);
+
+    std::cerr << "child = " << child.game_.toString() << " - child.pn = " << child.pn_ << ", child.dn = " << child.dn_ << std::endl;
 
     if ((node.type_ == helper::PLAYER::WHITE && child.pn_ == 0) ||
         (node.type_ == helper::PLAYER::BLACK && child.dn_ == 0)) {
@@ -125,10 +139,14 @@ void PNS::expandNode(Node& node, helper::PLAYER root_player) {
   }
 }
 
-Node PNS::updateAncestors(Node& node, Node& root) {
+Node& PNS::updateAncestors(Node& node, Node& root) {
+  std::cerr << "updateAncestors for " << node.game_.toString() << std::endl;
   while (true) {
     uint16_t old_pn = node.pn_;
     uint16_t old_dn = node.dn_;
+
+    std::cerr << "  node.game = " << node.game_.toString() << ",  root.game = " << root.game_.toString() << std::endl;
+    std::cerr << "  node.id   = " << node.id_ << ",  root.id   = " << root.id_ << std::endl;
 
     setProofAndDisproofNumbers(node);
 

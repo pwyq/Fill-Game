@@ -35,7 +35,7 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
 ./fillgame_gui
 
 # Start CLI version
-./fillgame_cli
+./fillgame_cli <game-board-string> <time-limit>
 
 # To test algorithms
 ./test_main

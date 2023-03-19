@@ -15,6 +15,7 @@
 #include "negamax_alphabeta_test.h"
 #include "negamax_alphabeta_tt_test.h"
 #include "negamax_test.h"
+#include "pns_test.h"
 
 int main(int argc, char **argv) {
   // https://stackoverflow.com/questions/12076072/how-to-run-specific-test-cases-in-googletest
@@ -22,6 +23,7 @@ int main(int argc, char **argv) {
   // Minimax and Negamax is slow on MEDIUM 5 and 9
   ::testing::GTEST_FLAG(filter) =
       "DFPN_*:"
+      "*PNS_*:"
       "*MINIMAX_SIMPLE*:"
       "*MINIMAX_LARGE*:"
       "*MINIMAX_ALPHABETA_*:"
