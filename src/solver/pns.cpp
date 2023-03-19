@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 17:05:59
- * @modify date 2023-03-18 22:14:59
+ * @modify date 2023-03-19 11:47:34
  */
 
 #include "solver/pns.h"
@@ -31,7 +31,7 @@ short PNS::solve(helper::PLAYER root_player) {
   while (root_.pn_ != 0 && root_.dn_ != 0) {
     std::cerr << "root.pn = " << root_.pn_ << ", root.dn = " << root_.dn_ << std::endl;
     Node most_proving_node = selectMostProvingNode(current);
-    most_proving_node.generateChildren();
+    expandNode(most_proving_node, root_player);
     current = updateAncestors(most_proving_node, root_);
   }
 
@@ -110,6 +110,19 @@ Node PNS::selectMostProvingNode(Node& node) {
     node = res;
   }
   return res;
+}
+
+void PNS::expandNode(Node& node, helper::PLAYER root_player) {
+  node.generateChildren();
+  for (auto& child : node.children_) {
+    child.evaluate(root_player);
+    setProofAndDisproofNumbers(child);
+
+    if ((node.type_ == helper::PLAYER::WHITE && child.pn_ == 0) ||
+        (node.type_ == helper::PLAYER::BLACK && child.dn_ == 0)) {
+      break;
+    }
+  }
 }
 
 Node PNS::updateAncestors(Node& node, Node& root) {
