@@ -116,9 +116,13 @@ Game::getPossibleMoves() {
       possible_moves_[Pos{0, 0}] = {1};
       return possible_moves_;
     }
-    PosSet examined;
     std::vector<Pos> empty_positions = getEmptyPositions();
     for (auto pos : empty_positions) {
+      if (pos.is_important == false) {
+        // It's an unimportant position, it can have every possibility
+        possible_moves_[pos] = {1, 2, 3, 4};
+        continue;
+      }
       uint8_t counts[4]     = {0};
       uint8_t num_liberties = 0;
       for (Pos neighbor : getNeighbours(pos)) {
@@ -148,14 +152,6 @@ Game::getPossibleMoves() {
       }
       if (!values.empty()) {
         possible_moves_[pos] = values;
-      }
-      examined.insert(pos);
-      if (!pos.is_important) {
-        if (examined.find(pos) == examined.end()) {
-          // We haven't explored this node already
-          // It's an unimportant position, it can have every possibility
-          possible_moves_[pos] = {1, 2, 3, 4};
-        }
       }
     }
   }
@@ -275,7 +271,7 @@ std::vector<Pos> Game::getEmptyPositions() const {
             break;
           }
         }
-        ret.push_back(Pos{row, col});
+        ret.push_back(p);
       }
     }
   }
