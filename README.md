@@ -12,7 +12,12 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
 - [x] Cross-platform deployment
     - [x] Linux
     - [x] Windows 
+    - [ ] Mac
 
+### Algorithms
+- Depth-First Proof Number Search (DFPN)
+- Minimax, (with alpha-beta pruning and transposition table)
+- Negamax, (with alpha-beta pruning and transposition table)
 
 ## Build
 

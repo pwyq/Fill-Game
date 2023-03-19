@@ -45,7 +45,8 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -89,7 +90,8 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -131,7 +133,8 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -155,7 +158,8 @@ void NodeTT::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -186,7 +190,8 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -210,7 +215,8 @@ void NodeTT::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
