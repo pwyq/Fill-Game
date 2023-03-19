@@ -2,10 +2,12 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 17:05:59
- * @modify date 2023-03-18 17:06:03
+ * @modify date 2023-03-18 22:14:59
  */
 
 #include "solver/pns.h"
+// std
+#include <iostream>
 // local
 #include "solver/game.h"
 #include "solver/node.h"
@@ -15,16 +17,30 @@ namespace pns {
 
 PNS::PNS(const Game& game) : root_(game) {}
 
-void PNS::solve() {
-  root_.evaluate();
+short PNS::getResult(helper::PLAYER root_player) {
+  root_.type_ = root_player;
+  return solve(root_player);
+}
+
+short PNS::solve(helper::PLAYER root_player) {
+  root_.evaluate(root_player);
   setProofAndDisproofNumbers(root_);
 
   Node current = root_;
 
   while (root_.pn_ != 0 && root_.dn_ != 0) {
+    std::cerr << "root.pn = " << root_.pn_ << ", root.dn = " << root_.dn_ << std::endl;
     Node most_proving_node = selectMostProvingNode(current);
     most_proving_node.generateChildren();
     current = updateAncestors(most_proving_node, root_);
+  }
+
+  if (root_.pn_ == 0) {
+    return 1;
+  } else if (root_.dn_ == 0) {
+    return -1;
+  } else {
+    return 0;
   }
 }
 
@@ -111,7 +127,6 @@ Node PNS::updateAncestors(Node& node, Node& root) {
       return node;
     }
 
-    // TODO: how to convert from shared_ptr<Node> to Node? why dereferencing not working
     node = *(node.parent_);
   }
 }

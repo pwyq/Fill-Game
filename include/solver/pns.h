@@ -18,10 +18,10 @@ class PNS {
   Node root_;
 
   explicit PNS(const Game& game);
-
-  void solve();
+  short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
  protected:
+  short solve(helper::PLAYER root_player = helper::PLAYER::BLACK);
   void setProofAndDisproofNumbers(Node& node);
   Node selectMostProvingNode(Node& node);
   Node updateAncestors(Node& node, Node& root);
