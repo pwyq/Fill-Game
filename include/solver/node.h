@@ -33,7 +33,7 @@ class Node {
   explicit Node(const Game &game);
   Node(const Game &game, const helper::Pos &pos, uint8_t value, std::shared_ptr<Node> parent);
 
-  void evaluate();
+  void evaluate(helper::PLAYER root_player);
   void generateChildren();
 
   Game game_;
@@ -84,7 +84,7 @@ class Node {
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
   void evaluate(helper::PLAYER player);
-  virtual void generateChildren();
+  void generateChildren();
 
   Game game_;
   bool is_expanded_;
@@ -100,7 +100,7 @@ class NodeTT : public Node {
   virtual ~NodeTT() = default;
   NodeTT(const Game &game, const helper::Pos &pos, uint8_t value);
 
-  void generateChildren() override;
+  void generateChildren();
 
   std::string id_;
   std::vector<NodeTT> children_{};
@@ -119,7 +119,7 @@ class Node {
   virtual ~Node() = default;
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
-  virtual void generateChildren();
+  void generateChildren();
 
   Game game_;
   bool is_expanded_;
@@ -133,7 +133,7 @@ class NodeTT : public Node {
   explicit NodeTT(const Game &game);
   NodeTT(const Game &game, const helper::Pos &pos, uint8_t value);
 
-  void generateChildren() override;
+  void generateChildren();
 
   std::string id_;
   std::vector<NodeTT> children_{};

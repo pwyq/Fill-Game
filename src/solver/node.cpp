@@ -5,9 +5,9 @@
  * @modify date 2023-03-18 16:58:02
  */
 // local
-#include <utility>
-
 #include "solver/node.h"
+
+#include <utility>
 
 namespace solver {
 
@@ -26,15 +26,18 @@ Node::Node(const Game &game, const Pos &pos, uint8_t value, std::shared_ptr<Node
   move_ = {pos, value};
   this->game_.unsafePlay(pos, value);
   id_ = this->game_.toString();
-  evaluate();
 }
 
-void Node::evaluate() {
+void Node::evaluate(helper::PLAYER root_player) {
   // TODO: TODO
   if (game_.isTerminal()) {
-    //
+    if (this->type_ == root_player) {
+      this->value_ = helper::PROOF_VALUE::LOSS;
+    } else {
+      this->value_ = helper::PROOF_VALUE::WIN;
+    }
   } else {
-    //
+    this->value_ = helper::PROOF_VALUE::UNKNOWN;
   }
 }
 
@@ -42,7 +45,7 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_ = true;
+  is_expanded_        = true;
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
