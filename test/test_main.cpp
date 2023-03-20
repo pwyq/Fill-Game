@@ -22,15 +22,15 @@ int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   // Minimax and Negamax is slow on MEDIUM 5 and 9
   ::testing::GTEST_FLAG(filter) =
-      "DFPN_*:"
+      // "DFPN_*:"
       "*PNS_*:"
-      "*MINIMAX_SIMPLE*:"
-      "*MINIMAX_LARGE*:"
-      "*MINIMAX_ALPHABETA_*:"
-      "*MINIMAX_ALPHABETA_TT_*:"
-      "*NEGAMAX_SIMPLE*:"
-      "*NEGAMAX_LARGE*:"
-      "*NEGAMAX_ALPHABETA_*:"
+      // "*MINIMAX_SIMPLE*:"
+      // "*MINIMAX_LARGE*:"
+      // "*MINIMAX_ALPHABETA_*:"
+      // "*MINIMAX_ALPHABETA_TT_*:"
+      // "*NEGAMAX_SIMPLE*:"
+      // "*NEGAMAX_LARGE*:"
+      // "*NEGAMAX_ALPHABETA_*:"
       "*NEGAMAX_ALPHABETA_TT_*:";
   return RUN_ALL_TESTS();
 }
