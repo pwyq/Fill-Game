@@ -41,6 +41,7 @@ Node::Node(const Game &game, const Pos &pos, uint8_t value, helper::PLAYER to_pl
 
 void Node::evaluate(helper::PLAYER root_player) {
   // TODO: this doesn't feels right
+  std::cerr << "  evaluating " << id_ << ", to-play = " << game_.to_play_ << ", root_player = " << root_player << ", type = " << type_ << std::endl;
   if (game_.isTerminal()) {
     // if (game_.to_play_ == root_player) {
     //   value_ = helper::PROOF_VALUE::LOSS;
@@ -53,7 +54,9 @@ void Node::evaluate(helper::PLAYER root_player) {
     // } else {
     // value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
     // }
-    value_ = (game_.to_play_ == type_) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
+    // value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
+
+    value_ = (type_ == helper::PLAYER::BLACK) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
   } else {
     value_ = helper::PROOF_VALUE::UNKNOWN;
   }
