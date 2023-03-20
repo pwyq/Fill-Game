@@ -75,14 +75,14 @@ void testTimeLimit() {  // SIGXCPU
 }  // namespace solver
 
 int main(int argc, char** argv) {
-  if (argc != 3) {
-    cout << "invalid number of arguments = " << argc << endl;
-    return -1;
-  }
-  std::string input_sequence = argv[1];
-  int time_limit             = std::stoi(argv[2]);
-  // std::string input_sequence = "33213*2..33*44.22*33314*2244.";
-  // int time_limit             = 1;
+  // if (argc != 3) {
+  //   cout << "invalid number of arguments = " << argc << endl;
+  //   return -1;
+  // }
+  // std::string input_sequence = argv[1];
+  // int time_limit             = std::stoi(argv[2]);
+  std::string input_sequence = "1..*.2.";
+  int time_limit             = 1;
 
   try {
     solver::startSolver(input_sequence, time_limit);

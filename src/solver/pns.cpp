@@ -128,8 +128,9 @@ Node* PNS::selectMostProvingNode(Node* node) {
   std::cerr << "selectMostProvingNode for " << node << ", type = " << node->type_ << std::endl;
   Node* new_node = &(*node);
   Node* res      = node;
+  uint16_t value;
   while (new_node->is_expanded_) {
-    uint16_t value = INF;
+    value = INF;
     if (new_node->type_ == helper::PLAYER::BLACK) {  // OR type (1)
       for (auto& child : new_node->children_) {
         std::cerr << "  child = " << &child << ", pn = " << +child.pn_ << ", dn = " << +child.dn_ << std::endl;
@@ -155,6 +156,11 @@ Node* PNS::selectMostProvingNode(Node* node) {
     new_node = res;
     std::cerr << "  @fishy after  " << new_node << " =?= " << res << std::endl;
     std::cerr << "    id = " << new_node->id_ << " is expanded = " << new_node->is_expanded_ << std::endl;
+
+    // TODO: this is a temp fix; not in pseudocode
+    if (new_node->game_.isTerminal()) {
+      break;
+    }
   }
   std::cerr << "node addr = " << node << std::endl;
   std::cerr << +node->pn_ << ", " << +node->dn_ << " vs. " << +res->pn_ << ", " << +res->dn_ << std::endl;
@@ -171,9 +177,10 @@ void PNS::expandNode(Node* node, helper::PLAYER root_player) {
   std::cerr << "expanding " << node->game_.toString() << " " << node << std::endl;
   std::cerr << " node type = " << node->type_ << " , children.size = " << node->children_.size() << std::endl;
 
+  Node* tmp = nullptr;
   for (auto& child : node->children_) {
     child.evaluate(root_player);
-    Node* tmp = &child;
+    tmp = &child;
     setProofAndDisproofNumbers(tmp);
 
     std::cerr << "child = " << &child << ", ";
@@ -184,37 +191,40 @@ void PNS::expandNode(Node* node, helper::PLAYER root_player) {
       break;
     }
   }
+  node->is_expanded_ = true;
 }
 
 Node* PNS::updateAncestors(Node* node) {
   std::cerr << "updateAncestors for " << node->game_.toString() << std::endl;
+  Node* temp = &(*node);
+  uint16_t old_pn, old_dn;
   while (true) {
-    uint16_t old_pn = node->pn_;
-    uint16_t old_dn = node->dn_;
+    old_pn = temp->pn_;
+    old_dn = temp->dn_;
 
-    std::cerr << "  node.game = " << node->game_.toString() << ",  root.game = " << root_.game_.toString() << std::endl;
-    std::cerr << "  node.id   = " << node->id_ << ",  root.id   = " << root_.id_ << std::endl;
+    std::cerr << "  node.game = " << temp->game_.toString() << ",  root.game = " << root_.game_.toString() << std::endl;
+    std::cerr << "  node.id   = " << temp->id_ << ",  root.id   = " << root_.id_ << std::endl;
 
-    setProofAndDisproofNumbers(node);
+    setProofAndDisproofNumbers(temp);
 
-    if (old_pn == node->pn_ && old_dn == node->dn_) {
+    if (old_pn == temp->pn_ && old_dn == temp->dn_) {
       std::cerr << "    old == now, return\n";
-      return node;
+      return temp;
     } else {
       std::cerr << "    old_pn = " << +old_pn << ", old_dn = " << +old_dn << std::endl;
-      std::cerr << "    now_dn = " << +node->pn_ << ", now_dn = " << +node->dn_ << std::endl;
+      std::cerr << "    now_dn = " << +temp->pn_ << ", now_dn = " << +temp->dn_ << std::endl;
     }
 
     // if (node.id_ == root_.id_) {
     // if (&node == &root_) {  // comparing the address instead of the id_
-    if (node == &root_) {  // comparing the address instead of the id_
+    if (temp == &root_) {  // comparing the address instead of the id_
       std::cerr << "    node == root, return\n";
-      return node;
+      return temp;
     }
 
-    std::cerr << "    before go to parent, node = " << node << " , id = " << node->id_ << std::endl;
-    node = node->parent_;
-    std::cerr << "    after  go to parent, node = " << node << " , id = " << node->id_ << std::endl;
+    std::cerr << "    before go to parent, node = " << temp << " , id = " << temp->id_ << std::endl;
+    temp = temp->parent_;
+    std::cerr << "    after  go to parent, node = " << temp << " , id = " << temp->id_ << std::endl;
   }
 }
 

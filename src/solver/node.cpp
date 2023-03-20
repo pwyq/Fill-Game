@@ -66,7 +66,7 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_ = true;
+  // is_expanded_ = true;
 
   auto possible_moves = game_.getPossibleMoves();
 
@@ -77,12 +77,12 @@ void Node::generateChildren() {
       std::cerr << +pm.first.row << "," << +pm.first.col << " = " << +v << std::endl;
   }
 
+  Node *parent_ptr = this;
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
       // std::shared_ptr<Node> p = std::make_shared<Node>(*this);  // convert from Node to std::shared_ptr<Node>
       // children_.emplace_back(game_, possible_move.first, value, p);
-      Node *ptr = this;
-      children_.emplace_back(game_, possible_move.first, value, getOpponent(type_), ptr);
+      children_.emplace_back(game_, possible_move.first, value, getOpponent(type_), parent_ptr);
     }
   }
 
