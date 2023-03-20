@@ -34,25 +34,5 @@ class Constraint {
 
 }  // namespace solver
 #elif _WIN32
-#include <Windows.h>
-#include <functional>
-
-namespace solver {
-
-class Constraint {
-
- public:
-  Constraint(size_t memory_limit, size_t time_limit);
-  ~Constraint();
-  void apply();
-  std::function<void(LPVOID, DWORD, DWORD)> timerAPCProc;
- private:
-  constexpr static size_t SECOND = 10000000;
-  _SYSTEM_INFO systemInfo = SYSTEM_INFO();
-  HANDLE hTimer = nullptr;
-  size_t memory_limit;
-  size_t time_limit;
-};
-} // namespace solver
 #endif
 #endif  // FG_SOLVER_CONSTRAINT_H
