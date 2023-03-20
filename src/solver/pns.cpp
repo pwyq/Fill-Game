@@ -18,6 +18,9 @@ namespace pns {
 PNS::PNS(const Game& game) : root_(game) {}
 
 short PNS::getResult(helper::PLAYER root_player) {
+  if (root_.game_.isTerminal()) {
+    return -1;
+  }
   root_.type_ = root_player;
   return solve(root_player);
 }
@@ -151,6 +154,7 @@ Node* PNS::selectMostProvingNode(Node* node) {
     std::cerr << "  @fishy before " << new_node << " =?= " << res << std::endl;
     new_node = res;
     std::cerr << "  @fishy after  " << new_node << " =?= " << res << std::endl;
+    std::cerr << "    id = " << new_node->id_ << " is expanded = " << new_node->is_expanded_ << std::endl;
   }
   std::cerr << "node addr = " << node << std::endl;
   std::cerr << +node->pn_ << ", " << +node->dn_ << " vs. " << +res->pn_ << ", " << +res->dn_ << std::endl;
