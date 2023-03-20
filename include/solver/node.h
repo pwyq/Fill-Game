@@ -8,6 +8,7 @@
 #ifndef FG_SOLVER_NODE_H_
 #define FG_SOLVER_NODE_H_
 // std
+#include <iostream>
 #include <memory>
 // local
 #include "game.h"
@@ -31,14 +32,16 @@ namespace pns {
 class Node {
  public:
   explicit Node(const Game &game);
-  Node(const Game &game, const helper::Pos &pos, uint8_t value, std::shared_ptr<Node> parent);
+  // Node(const Game &game, const helper::Pos &pos, uint8_t value, std::shared_ptr<Node> parent);
+  Node(const Game &game, const helper::Pos &pos, uint8_t value, Node *parent);
 
   void evaluate(helper::PLAYER root_player);
   void generateChildren();
 
   Game game_;
   bool is_expanded_;
-  std::shared_ptr<Node> parent_;
+  // std::shared_ptr<Node> parent_;
+  Node *parent_;
 
   helper::PLAYER type_{};
   helper::PROOF_VALUE value_{};

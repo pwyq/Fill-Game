@@ -21,12 +21,22 @@ Node::Node(const Game &game)
   id_ = game_.toString();
 }
 
-Node::Node(const Game &game, const Pos &pos, uint8_t value, std::shared_ptr<Node> parent)
-    : game_(game), is_expanded_(false), parent_(std::move(parent)) {
+// Node::Node(const Game &game, const Pos &pos, uint8_t value, std::shared_ptr<Node> parent)
+//     : game_(game), is_expanded_(false), parent_(std::move(parent)) {
+//   move_ = {pos, value};
+//   game_.unsafePlay(pos, value);
+//   type_ = game_.to_play_;
+//   id_   = game_.toString();
+// }
+
+Node::Node(const Game &game, const Pos &pos, uint8_t value, Node *parent)
+    : game_(game), is_expanded_(false), parent_(parent) {
+  // order matters!
   move_ = {pos, value};
-  game_.unsafePlay(pos, value);
   type_ = game_.to_play_;
-  id_   = game_.toString();
+
+  game_.unsafePlay(pos, value);
+  id_ = game_.toString();
 }
 
 void Node::evaluate(helper::PLAYER root_player) {
@@ -37,7 +47,12 @@ void Node::evaluate(helper::PLAYER root_player) {
     // } else {
     //   value_ = helper::PROOF_VALUE::WIN;
     // }
-    value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
+
+    if (type_ == root_player) {
+      value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
+    } else {
+      value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
+    }
   } else {
     value_ = helper::PROOF_VALUE::UNKNOWN;
   }
@@ -50,12 +65,28 @@ void Node::generateChildren() {
   is_expanded_ = true;
 
   auto possible_moves = game_.getPossibleMoves();
+
+  // https://stackoverflow.com/questions/19562103/uint8-t-cant-be-printed-with-cout
+  std::cerr << "getting possible moves for " << game_.toString() << std::endl;
+  for (auto &pm : possible_moves) {
+    for (auto &v : pm.second)
+      std::cerr << +pm.first.row << "," << +pm.first.col << " = " << +v << std::endl;
+  }
+
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
-      std::shared_ptr<Node> p = std::make_shared<Node>(*this);  // convert from Node to std::shared_ptr<Node>
-      children_.emplace_back(game_, possible_move.first, value, p);
+      // std::shared_ptr<Node> p = std::make_shared<Node>(*this);  // convert from Node to std::shared_ptr<Node>
+      // children_.emplace_back(game_, possible_move.first, value, p);
+      Node *ptr = this;
+      children_.emplace_back(game_, possible_move.first, value, ptr);
     }
   }
+
+  std::cerr << "children = ";
+  for (auto &c : children_) {
+    std::cerr << &c << " ";
+  }
+  std::cerr << std::endl;
 }
 
 }  // namespace pns

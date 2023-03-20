@@ -49,8 +49,8 @@ struct Move {
 };
 
 enum PLAYER {
-  BLACK = 0,  // AND
-  WHITE = 1   // OR
+  BLACK = 0,  // OR
+  WHITE = 1   // AND
 };
 
 enum PROOF_VALUE {
