@@ -33,17 +33,18 @@ class Node {
  public:
   explicit Node(const Game &game);
   // Node(const Game &game, const helper::Pos &pos, uint8_t value, std::shared_ptr<Node> parent);
-  Node(const Game &game, const helper::Pos &pos, uint8_t value, Node *parent);
+  Node(const Game &game, const helper::Pos &pos, uint8_t value, helper::PLAYER to_play, Node *parent);
 
   void evaluate(helper::PLAYER root_player);
   void generateChildren();
+  inline helper::PLAYER getOpponent(helper::PLAYER player);
 
   Game game_;
   bool is_expanded_;
   // std::shared_ptr<Node> parent_;
+  helper::PLAYER type_{};
   Node *parent_;
 
-  helper::PLAYER type_{};
   helper::PROOF_VALUE value_{};
   uint16_t pn_{};  // proof number in the PNS survey paper
   uint16_t dn_{};  // disproof number
@@ -51,6 +52,9 @@ class Node {
   std::string id_;
   std::vector<Node> children_{};
 };
+inline helper::PLAYER Node::getOpponent(helper::PLAYER player) {
+  return (player == helper::PLAYER::BLACK) ? helper::PLAYER::WHITE : helper::PLAYER::BLACK;
+}
 }  // namespace pns
 
 /////////////////////////////////////

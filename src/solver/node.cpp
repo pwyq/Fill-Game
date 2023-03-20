@@ -29,11 +29,11 @@ Node::Node(const Game &game)
 //   id_   = game_.toString();
 // }
 
-Node::Node(const Game &game, const Pos &pos, uint8_t value, Node *parent)
-    : game_(game), is_expanded_(false), parent_(parent) {
+Node::Node(const Game &game, const Pos &pos, uint8_t value, helper::PLAYER to_play, Node *parent)
+    : game_(game), is_expanded_(false), type_(to_play), parent_(parent) {
   // order matters!
   move_ = {pos, value};
-  type_ = game_.to_play_;
+  // type_ = game_.to_play_;
 
   game_.unsafePlay(pos, value);
   id_ = game_.toString();
@@ -48,11 +48,12 @@ void Node::evaluate(helper::PLAYER root_player) {
     //   value_ = helper::PROOF_VALUE::WIN;
     // }
 
-    if (type_ == root_player) {
-      value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
-    } else {
-      value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
-    }
+    // if (type_ == root_player)   {
+    // value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
+    // } else {
+    // value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
+    // }
+    value_ = (game_.to_play_ == type_) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
   } else {
     value_ = helper::PROOF_VALUE::UNKNOWN;
   }
@@ -78,7 +79,7 @@ void Node::generateChildren() {
       // std::shared_ptr<Node> p = std::make_shared<Node>(*this);  // convert from Node to std::shared_ptr<Node>
       // children_.emplace_back(game_, possible_move.first, value, p);
       Node *ptr = this;
-      children_.emplace_back(game_, possible_move.first, value, ptr);
+      children_.emplace_back(game_, possible_move.first, value, getOpponent(type_), ptr);
     }
   }
 
