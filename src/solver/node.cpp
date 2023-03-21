@@ -18,14 +18,14 @@ namespace pns {
 
 Node::Node(const Game &game, helper::NODE_TYPE type, Node *parent, helper::PLAYER player)
     : game_(game), type_(type), parent_(parent), player_(player) {
-  this->id_ = game_.toString();
+  // this->id_ = game_.toString();
 }
 
 Node::Node(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node *parent, helper::PLAYER player)
     : game_(game), type_(type), parent_(parent), player_(player) {
   this->move_ = {pos, value};
   this->game_.unsafePlay(pos, value);
-  this->id_ = this->game_.toString();
+  // this->id_ = this->game_.toString();
 }
 
 void Node::addChild(Node *node) {

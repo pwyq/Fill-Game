@@ -47,7 +47,7 @@ class Node {
 
   helper::PROOF_VALUE value_ = helper::PROOF_VALUE::UNKNOWN;
   helper::Move move_;
-  std::string id_;  // also as state
+  // std::string id_;  // also as state
 
   explicit Node(const Game &game, helper::NODE_TYPE type, Node *parent, helper::PLAYER player);
   Node(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node *parent, helper::PLAYER player);
