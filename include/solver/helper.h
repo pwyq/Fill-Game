@@ -12,8 +12,7 @@
 #include <functional>
 #include <string>
 
-namespace solver {
-namespace helper {
+namespace solver::helper {
 
 ///////////////////////////////////////
 //  Constants
@@ -105,7 +104,8 @@ class Timer {
 
 extern Timer<> g_timer;
 
-}  // namespace helper
+size_t getPeakRSS();
+
 }  // namespace solver
 
 #endif  // FG_SOLVER_HELPER_H_
