@@ -7,9 +7,6 @@
  */
 #ifndef FG_SOLVER_NODE_H_
 #define FG_SOLVER_NODE_H_
-// std
-#include <iostream>
-#include <memory>
 // local
 #include "game.h"
 
