@@ -29,56 +29,32 @@ namespace solver {
 /////////////////////////////////////
 
 namespace pns {
+
 class Node {
- public:
-  explicit Node(const Game &game);
-  // Node(const Game &game, const helper::Pos &pos, uint8_t value, std::shared_ptr<Node> parent);
-  Node(const Game &game, const helper::Pos &pos, uint8_t value, helper::PLAYER to_play, Node *parent);
-
-  void evaluate(helper::PLAYER root_player);
-  void generateChildren();
-  inline helper::PLAYER getOpponent(helper::PLAYER player);
-
-  Game game_;
-  bool is_expanded_;
-  // std::shared_ptr<Node> parent_;
-  helper::PLAYER type_{};
-  Node *parent_;
-
-  helper::PROOF_VALUE value_{};
-  uint16_t pn_{};  // proof number in the PNS survey paper
-  uint16_t dn_{};  // disproof number
-  helper::Move move_;
-  std::string id_;
-  std::vector<Node> children_{};
-};
-inline helper::PLAYER Node::getOpponent(helper::PLAYER player) {
-  return (player == helper::PLAYER::BLACK) ? helper::PLAYER::WHITE : helper::PLAYER::BLACK;
-}
-
-class Node2 {
  public:
   Game game_;
   helper::NODE_TYPE type_ = helper::NODE_TYPE::OR;
-  Node2 *parent_          = nullptr;
+  Node *parent_           = nullptr;
   helper::PLAYER player_;
   bool is_expanded_ = false;
 
-  Node2 *children = nullptr;
-  Node2 *sibling  = nullptr;
+  Node *children = nullptr;
+  Node *sibling  = nullptr;
 
-  int pn_                    = 1;
-  int dn_                    = 1;
+  // Note: pn/dn cannot be smaller than uint32_t; otherwise seg fault
+  uint32_t pn_ = 1;
+  uint32_t dn_ = 1;
+
   helper::PROOF_VALUE value_ = helper::PROOF_VALUE::UNKNOWN;
   helper::Move move_;
   std::string id_;  // also as state
 
-  explicit Node2(const Game &game, helper::NODE_TYPE type, Node2 *parent, helper::PLAYER player);
-  Node2(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node2 *parent, helper::PLAYER player);
+  explicit Node(const Game &game, helper::NODE_TYPE type, Node *parent, helper::PLAYER player);
+  Node(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node *parent, helper::PLAYER player);
   void evaluate();
-  void addChild(Node2 *node);
+  void addChild(Node *node);
   void deleteSubtree();
-  ~Node2();
+  ~Node();
 };
 
 }  // namespace pns

@@ -15,31 +15,18 @@ namespace pns {
 
 class PNS {
  public:
-  Node root_;
-
   explicit PNS(const Game& game);
-  short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
+  short getResult();
 
  protected:
-  short solve(helper::PLAYER root_player = helper::PLAYER::BLACK);
+  Node* root_;
+  short solveGame(Node* root);
+  helper::PLAYER changePlayer(helper::PLAYER player);
   void setProofAndDisproofNumbers(Node* node);
   Node* selectMostProvingNode(Node* node);
-  void expandNode(Node* node, helper::PLAYER root_player);
-  Node* updateAncestors(Node* node);
-};
-
-class PNS2 {
- public:
-  Node2* root_;
-  explicit PNS2(const Game& game);
-  short getResult();
-  short solveGame(Node2* root);
-  helper::PLAYER changePlayer(helper::PLAYER player);
-  void setProofAndDisproofNumbers(Node2* node);
-  Node2* selectMostProvingNode(Node2* node);
-  void expandNode(Node2* node);
-  Node2* updateAncestors(Node2* node, Node2* root);
-  void generateChildren(Node2* node);
+  void expandNode(Node* node);
+  Node* updateAncestors(Node* node, Node* root);
+  void generateChildren(Node* node);
 };
 
 }  // namespace pns

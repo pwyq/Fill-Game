@@ -16,98 +16,23 @@ namespace solver {
 /////////////////////////////////////
 namespace pns {
 
-Node::Node(const Game &game)
-    : game_(game), is_expanded_(false) {
-  id_ = game_.toString();
-}
-
-// Node::Node(const Game &game, const Pos &pos, uint8_t value, std::shared_ptr<Node> parent)
-//     : game_(game), is_expanded_(false), parent_(std::move(parent)) {
-//   move_ = {pos, value};
-//   game_.unsafePlay(pos, value);
-//   type_ = game_.to_play_;
-//   id_   = game_.toString();
-// }
-
-Node::Node(const Game &game, const Pos &pos, uint8_t value, helper::PLAYER to_play, Node *parent)
-    : game_(game), is_expanded_(false), type_(to_play), parent_(parent) {
-  // order matters!
-  move_ = {pos, value};
-  // type_ = game_.to_play_;
-
-  game_.unsafePlay(pos, value);
-  id_ = game_.toString();
-}
-
-void Node::evaluate(helper::PLAYER root_player) {
-  // TODO: this doesn't feels right
-  if (game_.isTerminal()) {
-    // if (game_.to_play_ == root_player) {
-    //   value_ = helper::PROOF_VALUE::LOSS;
-    // } else {
-    //   value_ = helper::PROOF_VALUE::WIN;
-    // }
-
-    // if (type_ == root_player)   {
-    // value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
-    // } else {
-    // value_ = (game_.to_play_ == root_player) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
-    // }
-    value_ = (game_.to_play_ == type_) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
-  } else {
-    value_ = helper::PROOF_VALUE::UNKNOWN;
-  }
-}
-
-void Node::generateChildren() {
-  if (is_expanded_) {
-    return;
-  }
-  is_expanded_ = true;
-
-  auto possible_moves = game_.getPossibleMoves();
-
-  // https://stackoverflow.com/questions/19562103/uint8-t-cant-be-printed-with-cout
-  std::cerr << "getting possible moves for " << game_.toString() << std::endl;
-  for (auto &pm : possible_moves) {
-    for (auto &v : pm.second)
-      std::cerr << +pm.first.row << "," << +pm.first.col << " = " << +v << std::endl;
-  }
-
-  for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      // std::shared_ptr<Node> p = std::make_shared<Node>(*this);  // convert from Node to std::shared_ptr<Node>
-      // children_.emplace_back(game_, possible_move.first, value, p);
-      Node *ptr = this;
-      children_.emplace_back(game_, possible_move.first, value, getOpponent(type_), ptr);
-    }
-  }
-
-  std::cerr << "children = ";
-  for (auto &c : children_) {
-    std::cerr << &c << " ";
-  }
-  std::cerr << std::endl;
-}
-
-///////////////////////////////////
-Node2::Node2(const Game &game, helper::NODE_TYPE type, Node2 *parent, helper::PLAYER player)
+Node::Node(const Game &game, helper::NODE_TYPE type, Node *parent, helper::PLAYER player)
     : game_(game), type_(type), parent_(parent), player_(player) {
   this->id_ = game_.toString();
 }
 
-Node2::Node2(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node2 *parent, helper::PLAYER player)
+Node::Node(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node *parent, helper::PLAYER player)
     : game_(game), type_(type), parent_(parent), player_(player) {
   this->move_ = {pos, value};
   this->game_.unsafePlay(pos, value);
   this->id_ = this->game_.toString();
 }
 
-void Node2::addChild(Node2 *node) {
+void Node::addChild(Node *node) {
   if (children == nullptr) {
     children = node;
   } else {
-    Node2 *tmp = children;
+    Node *tmp = children;
     while (tmp->sibling != nullptr) {
       tmp = tmp->sibling;
     }
@@ -115,8 +40,8 @@ void Node2::addChild(Node2 *node) {
   }
 }
 
-void Node2::deleteSubtree() {
-  Node2 *elem = children;
+void Node::deleteSubtree() {
+  Node *elem = children;
   while (children != nullptr) {
     elem     = children;
     children = children->sibling;
@@ -124,7 +49,7 @@ void Node2::deleteSubtree() {
   }
 }
 
-void Node2::evaluate() {
+void Node::evaluate() {
   if (game_.isTerminal()) {
     value_ = (helper::NODE_TYPE::OR == type_) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
   } else {
@@ -132,7 +57,7 @@ void Node2::evaluate() {
   }
 }
 
-Node2::~Node2() {
+Node::~Node() {
   deleteSubtree();
 }
 
