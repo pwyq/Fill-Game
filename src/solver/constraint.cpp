@@ -59,4 +59,44 @@ void Constraint::setSigStack() {
 }
 
 }  // namespace solver
+#elif _WIN32
+
+#include "solver/constraint.h"
+#include <iostream>
+
+namespace solver {
+
+Constraint::Constraint(size_t memory_limit, size_t time_limit)
+    : time_limit(time_limit) {
+  GetSystemInfo(&systemInfo);
+  if (memory_limit < 20 * systemInfo.dwPageSize) {
+    memory_limit = 20 * systemInfo.dwPageSize;
+  }
+  this->memory_limit = memory_limit;
+}
+
+Constraint::~Constraint() {
+  CancelWaitableTimer(hTimer);
+  if (hTimer != nullptr) {
+    CloseHandle(hTimer);
+  }
+}
+
+void Constraint::apply() {
+  SetProcessWorkingSetSize(GetCurrentProcess(), systemInfo.dwPageSize, memory_limit);
+  hTimer = CreateWaitableTimer(nullptr, TRUE, "Time Constraint");
+  if (hTimer == nullptr) {
+    std::cerr << "CreateWaitableTimer failed" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+  LARGE_INTEGER liDueTime;
+  long long qwDueTime = -(long long)(time_limit * SECOND);
+  liDueTime.LowPart = (DWORD)(qwDueTime & 0xFFFFFFFF);
+  liDueTime.HighPart = (LONG)(qwDueTime >> 32);
+  if (!SetWaitableTimer(hTimer, &liDueTime, 0, *timerAPCProc.target<PTIMERAPCROUTINE>(), nullptr, FALSE)) {
+    std::cerr << "SetWaitableTimer failed" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+}
+}  // namespace solver
 #endif

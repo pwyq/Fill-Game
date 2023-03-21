@@ -10,7 +10,7 @@
 #include <sstream>
 #include <string>
 // local
-//#include "solver/constraint.h"
+#include "solver/constraint.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
 #include "solver/minimax.h"
@@ -30,7 +30,7 @@ void startSolver(std::string& input, size_t time_limit) {
 
   cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);
-  // Constraint constraint    = Constraint(MEMORY_LIMIT, time_limit);
+  Constraint constraint    = Constraint(MEMORY_LIMIT, time_limit);
   // constraint.signalHandler = DFPN::signalHandler;
   // constraint.apply();
   dfpn.solve();
