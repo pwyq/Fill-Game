@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:35:05
- * @modify date 2023-03-21 15:23:11
+ * @modify date 2023-03-21 17:17:33
  */
 // local
 #include "solver/node.h"
@@ -14,54 +14,8 @@ namespace solver {
 /////////////////////////////////////
 //  PNS Node Class
 /////////////////////////////////////
-namespace pns {
 
-Node::Node(const Game &game, helper::NODE_TYPE type, Node *parent, helper::PLAYER player)
-    : game_(game), type_(type), parent_(parent), player_(player) {
-  // this->id_ = game_.toString();
-}
-
-Node::Node(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node *parent, helper::PLAYER player)
-    : game_(game), type_(type), parent_(parent), player_(player) {
-  this->move_ = {pos, value};
-  this->game_.unsafePlay(pos, value);
-  // this->id_ = this->game_.toString();
-}
-
-void Node::addChild(Node *node) {
-  if (children == nullptr) {
-    children = node;
-  } else {
-    Node *tmp = children;
-    while (tmp->sibling != nullptr) {
-      tmp = tmp->sibling;
-    }
-    tmp->sibling = node;
-  }
-}
-
-void Node::deleteSubtree() {
-  Node *elem = children;
-  while (children != nullptr) {
-    elem     = children;
-    children = children->sibling;
-    delete elem;
-  }
-}
-
-void Node::evaluate() {
-  if (game_.isTerminal()) {
-    value_ = (helper::NODE_TYPE::OR == type_) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
-  } else {
-    value_ = helper::PROOF_VALUE::UNKNOWN;
-  }
-}
-
-Node::~Node() {
-  deleteSubtree();
-}
-
-}  // namespace pns
+// see src/solver/pns_node.cpp
 
 /////////////////////////////////////
 //  DFPN Node Class

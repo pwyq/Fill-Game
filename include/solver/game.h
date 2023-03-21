@@ -26,6 +26,7 @@ class Game {
  public:
   explicit Game(const std::string &input);
   Game(const Game &other);
+  // TODO: destructor of Game class
 
   friend std::ostream &operator<<(std::ostream &os, const Game &game);
 

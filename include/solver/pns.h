@@ -8,7 +8,7 @@
 #ifndef FG_SOLVER_PNS_H_
 #define FG_SOLVER_PNS_H_
 
-#include "node.h"
+#include "pns_node.h"
 
 namespace solver {
 namespace pns {
@@ -22,7 +22,6 @@ class PNS {
   Node* root_;
 
   short solveGame(Node* root, helper::PLAYER player);
-  void setProofAndDisproofNumbers(Node* node);
   Node* selectMostProvingNode(Node* node);
   void expandNode(Node* node);
   Node* updateAncestors(Node* node, Node* root);

@@ -27,8 +27,8 @@ class DFPN {
   std::string formatResult() const;
   static void signalHandler([[maybe_unused]] int signum);
 
-  helper::PROOF_VALUE result() const { return result_; }
-  helper::Move best_move() const { return best_move_; }
+  inline helper::PROOF_VALUE result() const { return result_; }
+  inline helper::Move best_move() const { return best_move_; }
 
  private:
   Node root_;
@@ -46,8 +46,7 @@ class DFPN {
 };
 
 // inline function declaration
-inline void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi,
-                                              uint32_t delta) {
+inline void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi, uint32_t delta) {
   tt_[node.id_] = std::make_pair(phi, delta);
 }
 
