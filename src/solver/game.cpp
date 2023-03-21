@@ -1,8 +1,8 @@
 /**
- * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
+ * @author      Luke Kapeluck, Yanqing Wu, Junwen Shen
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:34:37
- * @modify date 2023-02-10 05:34:37
+ * @modify date 2023-03-19 11:48:47
  */
 #include "solver/game.h"
 // std

@@ -2,7 +2,7 @@
  * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:34:19
- * @modify date 2023-03-15 13:13:00
+ * @modify date 2023-03-21 15:23:13
  */
 // std
 #include <exception>
@@ -15,6 +15,7 @@
 #include "solver/game.h"
 #include "solver/minimax.h"
 #include "solver/negamax.h"
+#include "solver/pns.h"
 
 using std::cout;
 using std::endl;
@@ -30,7 +31,7 @@ void startSolver(std::string& input, size_t time_limit) {
 
   cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);
-  Constraint constraint    = Constraint(MEMORY_LIMIT, time_limit);
+  Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
   // constraint.signalHandler = DFPN::signalHandler;
   // constraint.apply();
   dfpn.solve();
@@ -39,14 +40,18 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using minimax..." << endl;
   minimax::Minimax minimax(game);
   // cout << minimax.getResult() << endl;
-  cout << minimax.getAlphaBetaResult()
-       << minimax.getAlphaBetaTranspositionTableResult() << endl;
+  cout << minimax.getAlphaBetaResult() << endl;
+  cout << minimax.getAlphaBetaTranspositionTableResult() << endl;
 
   cout << "using negamax..." << endl;
   negamax::Negamax negamax(game);
   // cout << negamax.getResult() << endl;
-  cout << negamax.getAlphaBetaResult()
-       << negamax.getAlphaBetaTranspositionTableResult() << endl;
+  cout << negamax.getAlphaBetaResult() << endl;
+  cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
+
+  cout << "using pns..." << endl;
+  pns::PNS pns(game);
+  cout << pns.getResult() << endl;
 }
 
 /*
@@ -76,6 +81,8 @@ int main(int argc, char** argv) {
   }
   std::string input_sequence = argv[1];
   int time_limit             = std::stoi(argv[2]);
+  // std::string input_sequence = "33213*2..33*44.22*33314*2244.";
+  // int time_limit             = 1;
 
   try {
     solver::startSolver(input_sequence, time_limit);

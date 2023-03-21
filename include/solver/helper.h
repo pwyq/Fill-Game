@@ -1,8 +1,8 @@
 /**
- * @author      Yanqing Wu
+ * @author      Yanqing Wu, Junwen Shen
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:30:34
- * @modify date 2023-02-10 05:30:34
+ * @modify date 2023-03-21 15:27:28
  */
 #ifndef FG_SOLVER_HELPER_H_
 #define FG_SOLVER_HELPER_H_
@@ -15,8 +15,36 @@
 namespace solver {
 namespace helper {
 
+///////////////////////////////////////
+//  Constants
+///////////////////////////////////////
+
 #define INF UINT16_MAX
 #define INF_SHORT 32767  // SHRT_MAX
+
+///////////////////////////////////////
+//  ENUM
+///////////////////////////////////////
+
+enum NODE_TYPE {
+  OR  = 0,
+  AND = 1
+};
+
+enum PLAYER {
+  BLACK = 0,
+  WHITE = 1
+};
+
+enum PROOF_VALUE {
+  WIN     = 1,  // PROVEN
+  LOSS    = 0,  // DISPROVEN
+  UNKNOWN = -1  // UNKNOWN
+};
+
+///////////////////////////////////////
+//  Struct
+///////////////////////////////////////
 
 struct Pos {
   uint8_t row : 4 {};
@@ -48,12 +76,9 @@ struct Move {
   }
 };
 
-enum PLAYER { BLACK = 0,
-              WHITE = 1 };
-
-enum PROOF_VALUE { WIN     = 1,
-                   LOSS    = 0,
-                   UNKNOWN = -1 };
+///////////////////////////////////////
+//  class (Timer)
+///////////////////////////////////////
 
 // https://stackoverflow.com/a/21995693
 template <class ClockT = std::chrono::steady_clock>

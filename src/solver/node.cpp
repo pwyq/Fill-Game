@@ -2,12 +2,66 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:35:05
- * @modify date 2023-02-10 05:35:05
+ * @modify date 2023-03-21 15:23:11
  */
 // local
 #include "solver/node.h"
 
+#include <utility>
+
 namespace solver {
+
+/////////////////////////////////////
+//  PNS Node Class
+/////////////////////////////////////
+namespace pns {
+
+Node::Node(const Game &game, helper::NODE_TYPE type, Node *parent, helper::PLAYER player)
+    : game_(game), type_(type), parent_(parent), player_(player) {
+  // this->id_ = game_.toString();
+}
+
+Node::Node(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node *parent, helper::PLAYER player)
+    : game_(game), type_(type), parent_(parent), player_(player) {
+  this->move_ = {pos, value};
+  this->game_.unsafePlay(pos, value);
+  // this->id_ = this->game_.toString();
+}
+
+void Node::addChild(Node *node) {
+  if (children == nullptr) {
+    children = node;
+  } else {
+    Node *tmp = children;
+    while (tmp->sibling != nullptr) {
+      tmp = tmp->sibling;
+    }
+    tmp->sibling = node;
+  }
+}
+
+void Node::deleteSubtree() {
+  Node *elem = children;
+  while (children != nullptr) {
+    elem     = children;
+    children = children->sibling;
+    delete elem;
+  }
+}
+
+void Node::evaluate() {
+  if (game_.isTerminal()) {
+    value_ = (helper::NODE_TYPE::OR == type_) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
+  } else {
+    value_ = helper::PROOF_VALUE::UNKNOWN;
+  }
+}
+
+Node::~Node() {
+  deleteSubtree();
+}
+
+}  // namespace pns
 
 /////////////////////////////////////
 //  DFPN Node Class
@@ -16,14 +70,14 @@ namespace dfpn {
 
 Node::Node(const Game &game)
     : game_(game), phi_(INF), delta_(INF), is_expanded_(false) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), phi_(1), delta_(1), is_expanded_(false) {
   move_ = {pos, value};
-  this->game_.unsafePlay(pos, value);
-  id_ = this->game_.toString();
+  game_.unsafePlay(pos, value);
+  id_ = game_.toString();
   evaluate();
 }
 
@@ -41,7 +95,8 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -63,13 +118,13 @@ Node::Node(const Game &game)
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), is_expanded_(false) {
   move_ = {pos, value};
-  this->game_.unsafePlay(pos, value);
+  game_.unsafePlay(pos, value);
 }
 
 /**
  * @brief Minimax evaluates from root player's view. Root is assumed to be black.
- * 
- * @param player 
+ *
+ * @param player
  */
 void Node::evaluate(helper::PLAYER player) {
   if (game_.isTerminal()) {
@@ -83,7 +138,8 @@ void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -95,11 +151,11 @@ void Node::generateChildren() {
 //////////////////////////////////////////
 
 NodeTT::NodeTT(const Game &game) : Node(game) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 NodeTT::NodeTT(const Game &game, const Pos &pos, uint8_t value) : Node(game, pos, value) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 // TODO: combine Node and NodeTT's generateChildren with template
@@ -107,7 +163,8 @@ void NodeTT::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -131,14 +188,15 @@ Node::Node(const Game &game)
 Node::Node(const Game &game, const Pos &pos, uint8_t value)
     : game_(game), is_expanded_(false) {
   move_ = {pos, value};
-  this->game_.unsafePlay(pos, value);
+  game_.unsafePlay(pos, value);
 }
 
 void Node::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {
@@ -150,11 +208,11 @@ void Node::generateChildren() {
 //////////////////////////////////////////
 
 NodeTT::NodeTT(const Game &game) : Node(game) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 NodeTT::NodeTT(const Game &game, const Pos &pos, uint8_t value) : Node(game, pos, value) {
-  id_ = this->game_.toString();
+  id_ = game_.toString();
 }
 
 // TODO: combine Node and NodeTT's generateChildren with template
@@ -162,7 +220,8 @@ void NodeTT::generateChildren() {
   if (is_expanded_) {
     return;
   }
-  is_expanded_        = true;
+  is_expanded_ = true;
+
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
     for (auto &value : possible_move.second) {

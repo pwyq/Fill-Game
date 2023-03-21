@@ -184,7 +184,8 @@
         "geometry": "cpp",
         "vertexarraystate": "cpp",
         "view": "cpp",
-        "buffered_value": "cpp"
+        "buffered_value": "cpp",
+        "types": "cpp"
     },
     "cmake.configureOnOpen": true
 }
