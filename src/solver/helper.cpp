@@ -77,4 +77,4 @@ size_t getPeakRSS() {
 #endif
 }
 
-}
+}  // namespace solver::helper

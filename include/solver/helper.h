@@ -106,6 +106,6 @@ extern Timer<> g_timer;
 
 size_t getPeakRSS();
 
-}  // namespace solver
+}  // namespace solver::helper
 
 #endif  // FG_SOLVER_HELPER_H_
