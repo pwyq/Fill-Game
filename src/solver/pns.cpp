@@ -348,7 +348,7 @@ void PNS2::generateChildren(Node2* node) {
       if (node->type_ == helper::NODE_TYPE::OR) {
         node->addChild(new Node2(node->game_, pm.first, v, helper::NODE_TYPE::AND, node, changePlayer(node->player_)));
       } else {
-        node->addChild(new Node2(node->game_, pm.first, v, helper::NODE_TYPE::AND, node, changePlayer(node->player_)));
+        node->addChild(new Node2(node->game_, pm.first, v, helper::NODE_TYPE::OR, node, changePlayer(node->player_)));
       }
     }
   }
