@@ -5,6 +5,7 @@
 Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipedia.org/wiki/Fillomino). It is (probably) first proposed by [Dr. Martin Müller](https://webdocs.cs.ualberta.ca/~mmueller/); if so; this software is the first for Fill-Game.
 
 ## Functions & Goals
+
 - [x] Local play
     - [x] Two human players
     - [x] Human vs. AI player
