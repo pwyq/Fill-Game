@@ -233,7 +233,7 @@ void MainWindow::playByAI() {
   }
   agent_dfpn_ = new solver::dfpn::DFPN(*game_);
   agent_dfpn_->solve();
-  Move nextMove = agent_dfpn_->best_move_;
+  Move nextMove = agent_dfpn_->best_move();
   if (nextMove.value == 0) {  // This may not be reached at all
     qDebug() << "no possible moves";
     return;
