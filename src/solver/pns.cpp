@@ -19,11 +19,11 @@ PNS::PNS(const Game& game) {
   root_ = new Node(game, helper::NODE_TYPE::OR, nullptr, helper::PLAYER::BLACK);
 }
 
-short PNS::getResult() {
-  return solveGame(root_);
+short PNS::getResult(helper::PLAYER root_player) {
+  return solveGame(root_, root_player);
 }
 
-short PNS::solveGame(Node* root) {
+short PNS::solveGame(Node* root, helper::PLAYER player) {
   if (root->game_.isTerminal()) {
     return -1;
   }
@@ -37,9 +37,9 @@ short PNS::solveGame(Node* root) {
   }
 
   if (root->pn_ == 0) {
-    return 1;
+    return (root->player_ == player) ? 1 : -1;
   } else if (root->dn_ == 0) {
-    return -1;
+    return (root->player_ == player) ? -1 : 1;
   } else {
     return 0;
   }

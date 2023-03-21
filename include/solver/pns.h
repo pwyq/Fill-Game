@@ -16,11 +16,11 @@ namespace pns {
 class PNS {
  public:
   explicit PNS(const Game& game);
-  short getResult();
+  short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
  protected:
   Node* root_;
-  short solveGame(Node* root);
+  short solveGame(Node* root, helper::PLAYER player);
   helper::PLAYER changePlayer(helper::PLAYER player);
   void setProofAndDisproofNumbers(Node* node);
   Node* selectMostProvingNode(Node* node);
