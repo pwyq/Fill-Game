@@ -90,6 +90,62 @@ void Node::generateChildren() {
   std::cerr << std::endl;
 }
 
+///////////////////////////////////
+Node2::Node2(const Game &game, helper::NODE_TYPE type, Node2 *parent, helper::PLAYER player)
+    : game_(game), type_(type), parent_(parent), player_(player) {
+  // this->game_   = game;
+  // this->parent_ = parent;
+  this->id_ = game_.toString();
+  // this->player_ = player;
+  // this->type_   = type;
+}
+
+Node2::Node2(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node2 *parent, helper::PLAYER player)
+    : game_(game), type_(type), parent_(parent), player_(player) {
+  this->move_ = {pos, value};
+  // this->game_ = parent->game_;
+  this->game_.unsafePlay(pos, value);
+
+  // this->type_   = type;
+  // this->parent_ = parent;
+  this->id_ = this->game_.toString();
+  // this->player_ = player;
+}
+
+void Node2::addChild(Node2 *node) {
+  if (children == nullptr) {
+    children = node;
+  } else {
+    Node2 *tmp = children;
+    while (tmp->sibling != nullptr) {
+      tmp = tmp->sibling;
+    }
+    tmp->sibling = node;
+  }
+}
+
+void Node2::deleteSubtree() {
+  Node2 *elem = children;
+  while (children != nullptr) {
+    elem     = children;
+    children = children->sibling;
+    delete elem;
+  }
+}
+
+void Node2::evaluate() {
+  if (game_.isTerminal()) {
+    // value_ = (game_.to_play_ == type_) ? helper::PROOF_VALUE::WIN : helper::PROOF_VALUE::LOSS;
+    value_ = (helper::NODE_TYPE::OR == type_) ? helper::PROOF_VALUE::LOSS : helper::PROOF_VALUE::WIN;
+  } else {
+    value_ = helper::PROOF_VALUE::UNKNOWN;
+  }
+}
+
+Node2::~Node2() {
+  deleteSubtree();
+}
+
 }  // namespace pns
 
 /////////////////////////////////////

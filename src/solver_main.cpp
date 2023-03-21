@@ -31,7 +31,7 @@ void startSolver(std::string& input, size_t time_limit) {
 
   cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);
-  Constraint constraint    = Constraint(MEMORY_LIMIT, time_limit);
+  Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
   // constraint.signalHandler = DFPN::signalHandler;
   // constraint.apply();
   dfpn.solve();
@@ -50,8 +50,10 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
 
   cout << "using pns..." << endl;
-  pns::PNS pns(game);
-  cout << pns.getResult() << endl;
+  // pns::PNS pns(game);
+  // cout << pns.getResult() << endl;
+  pns::PNS2 pns2(game);
+  cout << pns2.getResult() << endl;
 }
 
 /*

@@ -55,6 +55,32 @@ class Node {
 inline helper::PLAYER Node::getOpponent(helper::PLAYER player) {
   return (player == helper::PLAYER::BLACK) ? helper::PLAYER::WHITE : helper::PLAYER::BLACK;
 }
+
+class Node2 {
+ public:
+  Game game_;
+  helper::NODE_TYPE type_ = helper::NODE_TYPE::OR;
+  Node2 *parent_          = nullptr;
+  helper::PLAYER player_;
+  bool is_expanded_ = false;
+
+  Node2 *children = nullptr;
+  Node2 *sibling  = nullptr;
+
+  int pn_                    = 1;
+  int dn_                    = 1;
+  helper::PROOF_VALUE value_ = helper::PROOF_VALUE::UNKNOWN;
+  helper::Move move_;
+  std::string id_;  // also as state
+
+  explicit Node2(const Game &game, helper::NODE_TYPE type, Node2 *parent, helper::PLAYER player);
+  Node2(const Game &game, const Pos &pos, uint8_t value, helper::NODE_TYPE type, Node2 *parent, helper::PLAYER player);
+  void evaluate();
+  void addChild(Node2 *node);
+  void deleteSubtree();
+  ~Node2();
+};
+
 }  // namespace pns
 
 /////////////////////////////////////

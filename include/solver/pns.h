@@ -28,6 +28,20 @@ class PNS {
   Node* updateAncestors(Node* node);
 };
 
+class PNS2 {
+ public:
+  Node2* root_;
+  explicit PNS2(const Game& game);
+  short getResult();
+  short solveGame(Node2* root);
+  helper::PLAYER changePlayer(helper::PLAYER player);
+  void setProofAndDisproofNumbers(Node2* node);
+  Node2* selectMostProvingNode(Node2* node);
+  void expandNode(Node2* node);
+  Node2* updateAncestors(Node2* node, Node2* root);
+  void generateChildren(Node2* node);
+};
+
 }  // namespace pns
 }  // namespace solver
 

@@ -48,9 +48,14 @@ struct Move {
   }
 };
 
+enum NODE_TYPE {
+  OR  = 0,
+  AND = 1
+};
+
 enum PLAYER {
-  BLACK = 0,  // OR
-  WHITE = 1   // AND
+  BLACK = 0,
+  WHITE = 1
 };
 
 enum PROOF_VALUE {
