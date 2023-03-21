@@ -52,8 +52,7 @@ class Minimax {
 
 inline void Minimax::transpositionTableStore(NodeTT& node, ttEntry entry) {
   entry.is_valid = true;
-
-  tt_[node.id_] = entry;
+  tt_[node.id()] = entry;
 }
 
 }  // namespace minimax

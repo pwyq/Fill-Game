@@ -57,16 +57,19 @@ namespace minimax {
 class Node {
  public:
   explicit Node(const Game &game);
-  virtual ~Node() = default;
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
   void evaluate(helper::PLAYER player);
   void generateChildren();
 
-  Game game_;
-  bool is_expanded_;
+  inline Game game() const { return game_; }
+  inline std::vector<Node> children() const { return children_; }
 
   int eval_val_{};  // evaluation value of the node, can be positive and negative
+
+ protected:
+  Game game_;
+  bool is_expanded_;
   helper::Move move_;
   std::vector<Node> children_{};
 };
@@ -74,11 +77,14 @@ class Node {
 class NodeTT : public Node {
  public:
   explicit NodeTT(const Game &game);
-  virtual ~NodeTT() = default;
   NodeTT(const Game &game, const helper::Pos &pos, uint8_t value);
 
   void generateChildren();
 
+  inline std::string id() const { return id_; }
+  inline std::vector<NodeTT> children() const { return children_; }
+
+ protected:
   std::string id_;
   std::vector<NodeTT> children_{};
 };
