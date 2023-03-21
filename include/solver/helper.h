@@ -105,6 +105,14 @@ class Timer {
 
 extern Timer<> g_timer;
 
+///////////////////////////////////////
+//  helper functions
+///////////////////////////////////////
+
+inline PLAYER changePlayer(PLAYER player) {
+  return (player == PLAYER::BLACK) ? PLAYER::WHITE : PLAYER::BLACK;
+}
+
 }  // namespace helper
 }  // namespace solver
 

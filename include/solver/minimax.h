@@ -32,14 +32,15 @@ struct ttEntry {
 
 class Minimax {
  public:
-  Node root_;
   explicit Minimax(const Game& game);
   short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
  private:
+  Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
+
   ttEntry transpositionTableLookup(NodeTT& node);
   inline void transpositionTableStore(NodeTT& node, ttEntry entry);
 

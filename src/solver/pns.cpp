@@ -154,16 +154,12 @@ void PNS::generateChildren(Node* node) {
   for (auto& pm : possible_moves) {
     for (auto& v : pm.second) {
       if (node->type_ == helper::NODE_TYPE::OR) {
-        node->addChild(new Node(node->game_, pm.first, v, helper::NODE_TYPE::AND, node, changePlayer(node->player_)));
+        node->addChild(new Node(node->game_, pm.first, v, helper::NODE_TYPE::AND, node, helper::changePlayer(node->player_)));
       } else {
-        node->addChild(new Node(node->game_, pm.first, v, helper::NODE_TYPE::OR, node, changePlayer(node->player_)));
+        node->addChild(new Node(node->game_, pm.first, v, helper::NODE_TYPE::OR, node, helper::changePlayer(node->player_)));
       }
     }
   }
-}
-
-helper::PLAYER PNS::changePlayer(helper::PLAYER player) {
-  return (player == helper::PLAYER::BLACK) ? helper::PLAYER::WHITE : helper::PLAYER::BLACK;
 }
 
 }  // namespace pns

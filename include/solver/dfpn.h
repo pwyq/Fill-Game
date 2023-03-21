@@ -27,11 +27,15 @@ class DFPN {
   std::string formatResult() const;
   static void signalHandler([[maybe_unused]] int signum);
 
-  Node root() const { return root_; }
   helper::PROOF_VALUE result() const { return result_; }
   helper::Move best_move() const { return best_move_; }
 
  private:
+  Node root_;
+  helper::PROOF_VALUE result_ = helper::UNKNOWN;
+  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
+  std::unordered_map<std::string, std::pair<uint32_t, uint32_t>> tt_;
+
   void MID(Node &node);
   size_t selectChild(Node &node, uint32_t &child_phi, uint32_t &delta_2);
   void saveProofAndDisproofNumbers(Node &node, uint32_t phi, uint32_t delta);
@@ -39,11 +43,6 @@ class DFPN {
 
   uint32_t computeMinDelta(Node &node);
   uint32_t computeSumPhi(Node &node);
-
-  Node root_;
-  helper::PROOF_VALUE result_ = helper::UNKNOWN;
-  helper::Move best_move_;  // Assignment 1 requirement; also used for selecting next move when playing against Human/Other AI
-  std::unordered_map<std::string, std::pair<uint32_t, uint32_t>> tt_;
 };
 
 // inline function declaration

@@ -51,7 +51,7 @@ short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
 
   short best_eval = -INF_SHORT;
   for (auto& child : node.children_) {
-    short eval = -solve(child, depth - 1, swapPlayer(player));
+    short eval = -solve(child, depth - 1, helper::changePlayer(player));
     best_eval  = std::max(best_eval, eval);
   }
   return best_eval;
@@ -75,7 +75,7 @@ short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
 
   short best_eval = -INF_SHORT;
   for (auto& child : node.children_) {
-    short eval = -solveAlphaBeta(child, depth - 1, -beta, -alpha, swapPlayer(player));
+    short eval = -solveAlphaBeta(child, depth - 1, -beta, -alpha, helper::changePlayer(player));
     best_eval  = std::max(best_eval, eval);
 
     alpha = std::max(alpha, eval);
@@ -127,7 +127,7 @@ short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
 
   short best_eval = -INF_SHORT;
   for (auto& child : node.children_) {
-    short eval = -solveAlphaBetaTranspositionTable(child, depth - 1, -beta, -alpha, swapPlayer(player));
+    short eval = -solveAlphaBetaTranspositionTable(child, depth - 1, -beta, -alpha, helper::changePlayer(player));
     best_eval  = std::max(best_eval, eval);
 
     alpha = std::max(alpha, eval);
@@ -166,10 +166,6 @@ uint16_t Negamax::countEmptyCells(Node& node) {
     }
   }
   return res;
-}
-
-helper::PLAYER Negamax::swapPlayer(helper::PLAYER curr_player) {
-  return (curr_player == helper::PLAYER::WHITE) ? helper::PLAYER::BLACK : helper::PLAYER::WHITE;
 }
 
 ttEntry Negamax::transpositionTableLookup(NodeTT& node) {

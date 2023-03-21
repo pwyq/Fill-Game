@@ -20,8 +20,8 @@ class PNS {
 
  protected:
   Node* root_;
+
   short solveGame(Node* root, helper::PLAYER player);
-  helper::PLAYER changePlayer(helper::PLAYER player);
   void setProofAndDisproofNumbers(Node* node);
   Node* selectMostProvingNode(Node* node);
   void expandNode(Node* node);

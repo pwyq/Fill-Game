@@ -38,13 +38,13 @@ struct ttEntry {
 
 class Negamax {
  public:
-  Node root_;
   explicit Negamax(const Game& game);
   short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
  private:
+  Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
 
   ttEntry transpositionTableLookup(NodeTT& node);
@@ -54,7 +54,6 @@ class Negamax {
   short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   short solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   uint16_t countEmptyCells(Node& node);
-  helper::PLAYER swapPlayer(helper::PLAYER curr_player);
 };
 
 inline void Negamax::transpositionTableStore(NodeTT& node, ttEntry entry) {
