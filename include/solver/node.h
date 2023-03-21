@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:31:05
- * @modify date 2023-03-18 17:13:57
+ * @modify date 2023-03-21 15:23:08
  * @desc Node for Game class
  */
 #ifndef FG_SOLVER_NODE_H_

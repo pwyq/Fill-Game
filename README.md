@@ -11,36 +11,38 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
     - [x] Human vs. AI player
 - [ ] Cross-machine play
 - [x] Cross-platform deployment
-    - [x] Linux
-    - [x] Windows 
-    - [ ] Mac
 
 ### Algorithms
+
+- Proof Number Search (PNS)
 - Depth-First Proof Number Search (DFPN)
-- Minimax, (with alpha-beta pruning and transposition table)
-- Negamax, (with alpha-beta pruning and transposition table)
+- Minimax (with alpha-beta pruning and transposition table)
+- Negamax (with alpha-beta pruning and transposition table)
 
 ## Build
 
-```
-# To build with GUI (requires set up Qt5.12.8)
-./linux_build.sh --gui
+To build with GUI (requires set up Qt5.12.8)
 
-# To build without GUI
-./linux_build.sh
-```
+> ./linux_build.sh --gui
+
+To build without GUI
+
+> ./linux_build.sh
+
 
 ### Run
-```
-# Start GUI version
-./fillgame_gui
 
-# Start CLI version
-./fillgame_cli <game-board-string> <time-limit>
+Start GUI version
 
-# To test algorithms
-./test_main
-```
+> ./fillgame_gui
+
+Start CLI version
+
+> ./fillgame_cli <game-board-string> <time-limit>
+
+To test algorithms
+
+> ./test_main
 
 ## Development
 

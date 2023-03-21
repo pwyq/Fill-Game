@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 17:03:28
- * @modify date 2023-03-19 11:47:32
+ * @modify date 2023-03-21 15:23:25
  * @desc Proof Number Search
  */
 #ifndef FG_SOLVER_PNS_H_
