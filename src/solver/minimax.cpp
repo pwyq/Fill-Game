@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-03-18 16:43:30
+ * @modify date 2023-03-21 17:59:47
  */
 #include "solver/minimax.h"
 // std
@@ -47,7 +47,7 @@ short Minimax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) 
 short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
-    return node.eval_val_;
+    return node.value();
   }
   node.generateChildren();
 
@@ -82,7 +82,7 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
 short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
-    return node.eval_val_;
+    return node.value();
   }
   node.generateChildren();
 
@@ -149,7 +149,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
 
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
-    return node.eval_val_;
+    return node.value();
   }
   node.generateChildren();
 

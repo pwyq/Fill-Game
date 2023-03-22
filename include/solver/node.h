@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:31:05
- * @modify date 2023-03-21 15:23:08
+ * @modify date 2023-03-21 17:59:39
  * @desc Node for Game class
  */
 #ifndef FG_SOLVER_NODE_H_
@@ -63,13 +63,13 @@ class Node {
   void generateChildren();
 
   inline Game game() const { return game_; }
+  inline int value() const { return eval_val_; }
   inline std::vector<Node> children() const { return children_; }
-
-  int eval_val_{};  // evaluation value of the node, can be positive and negative
 
  protected:
   Game game_;
   bool is_expanded_;
+  int eval_val_{};  // evaluation value of the node, can be positive and negative
   helper::Move move_;
   std::vector<Node> children_{};
 };
@@ -99,14 +99,16 @@ namespace negamax {
 class Node {
  public:
   explicit Node(const Game &game);
-  virtual ~Node() = default;
   Node(const Game &game, const helper::Pos &pos, uint8_t value);
 
   void generateChildren();
 
+  inline Game game() const { return game_; }
+  inline std::vector<Node> children() const { return children_; }
+
+ protected:
   Game game_;
   bool is_expanded_;
-
   helper::Move move_;
   std::vector<Node> children_{};
 };
@@ -118,6 +120,10 @@ class NodeTT : public Node {
 
   void generateChildren();
 
+  inline std::string id() const { return id_; }
+  inline std::vector<NodeTT> children() const { return children_; }
+
+ protected:
   std::string id_;
   std::vector<NodeTT> children_{};
 };

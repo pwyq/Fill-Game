@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:14:21
- * @modify date 2023-03-18 16:58:16
+ * @modify date 2023-03-21 17:59:45
  * @desc Negamax
  */
 
@@ -58,8 +58,7 @@ class Negamax {
 
 inline void Negamax::transpositionTableStore(NodeTT& node, ttEntry entry) {
   entry.is_valid = true;
-
-  tt_[node.id_] = entry;
+  tt_[node.id()] = entry;
 }
 
 }  // namespace negamax
