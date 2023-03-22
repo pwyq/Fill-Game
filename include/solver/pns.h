@@ -2,13 +2,13 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 17:03:28
- * @modify date 2023-03-21 15:23:25
+ * @modify date 2023-03-21 17:59:52
  * @desc Proof Number Search
  */
 #ifndef FG_SOLVER_PNS_H_
 #define FG_SOLVER_PNS_H_
 
-#include "node.h"
+#include "pns_node.h"
 
 namespace solver {
 namespace pns {
@@ -20,9 +20,8 @@ class PNS {
 
  protected:
   Node* root_;
+
   short solveGame(Node* root, helper::PLAYER player);
-  helper::PLAYER changePlayer(helper::PLAYER player);
-  void setProofAndDisproofNumbers(Node* node);
   Node* selectMostProvingNode(Node* node);
   void expandNode(Node* node);
   Node* updateAncestors(Node* node, Node* root);

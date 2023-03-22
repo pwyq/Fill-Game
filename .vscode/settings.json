@@ -185,7 +185,8 @@
         "vertexarraystate": "cpp",
         "view": "cpp",
         "buffered_value": "cpp",
-        "types": "cpp"
+        "types": "cpp",
+        "qdesktopwidget": "cpp"
     },
     "cmake.configureOnOpen": true
 }

@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:14:21
- * @modify date 2023-03-18 16:58:16
+ * @modify date 2023-03-21 17:59:45
  * @desc Negamax
  */
 
@@ -38,13 +38,13 @@ struct ttEntry {
 
 class Negamax {
  public:
-  Node root_;
   explicit Negamax(const Game& game);
   short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
  private:
+  Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
 
   ttEntry transpositionTableLookup(NodeTT& node);
@@ -54,13 +54,11 @@ class Negamax {
   short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   short solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   uint16_t countEmptyCells(Node& node);
-  helper::PLAYER swapPlayer(helper::PLAYER curr_player);
 };
 
 inline void Negamax::transpositionTableStore(NodeTT& node, ttEntry entry) {
   entry.is_valid = true;
-
-  tt_[node.id_] = entry;
+  tt_[node.id()] = entry;
 }
 
 }  // namespace negamax

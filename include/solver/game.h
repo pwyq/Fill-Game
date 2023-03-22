@@ -24,47 +24,37 @@ class Game {
   typedef std::unordered_set<Pos, Pos::Hash> PosSet;
 
  public:
-  PLAYER to_play_;
-
   explicit Game(const std::string &input);
-
   Game(const Game &other);
-
-  std::string toString() const;
+  // TODO: destructor of Game class
 
   friend std::ostream &operator<<(std::ostream &os, const Game &game);
 
+  std::string toString() const;
   static bool isValidGameString(const std::string &game_string);
-
   void parseGameString(const std::string &game_string);
-
   void unsafePlay(const Pos &pos, uint8_t value);
-
   void undo(const Pos &pos);
-
   inline void changeToPlay();
 
   bool isValid() const;
-
   bool isTerminal();
 
   std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> getPossibleMoves();
 
   uint8_t get(uint8_t row, uint8_t col) const;
-
   uint8_t get(const Pos &pos) const;
-
   void set(const Pos &pos, uint8_t value);
-
   void reset(const Pos &pos);
 
   std::vector<Pos> getNeighbours(const Pos &pos) const;
-
   std::vector<Pos> getEmptyPositions() const;
-
   std::vector<Pos> getFilledPositions() const;
 
+  PLAYER toPlay() const { return to_play_; }
+
  private:
+  PLAYER to_play_;
   uint8_t width_ : 4;
   uint8_t height_ : 4;
   std::valarray<uint8_t> data_;

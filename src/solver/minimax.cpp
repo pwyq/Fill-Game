@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-03-18 16:43:30
+ * @modify date 2023-03-21 17:59:47
  */
 #include "solver/minimax.h"
 // std
@@ -15,24 +15,24 @@ Minimax::Minimax(const Game& game) : root_(game) {
 }
 
 short Minimax::getResult(helper::PLAYER root_player) {
-  if (root_.game_.isTerminal()) {
+  if (root_.game().isTerminal()) {
     return -1;
   }
   return solve(root_, countEmptyCells(root_), root_player);
 }
 
 short Minimax::getAlphaBetaResult(helper::PLAYER root_player) {
-  if (root_.game_.isTerminal()) {
+  if (root_.game().isTerminal()) {
     return -1;
   }
   return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
 short Minimax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
-  if (root_.game_.isTerminal()) {
+  if (root_.game().isTerminal()) {
     return -1;
   }
-  NodeTT rootTT_(root_.game_);
+  NodeTT rootTT_(root_.game());
   return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
@@ -46,14 +46,14 @@ short Minimax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) 
  */
 short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   node.evaluate(player);
-  if (depth == 0 || node.game_.isTerminal()) {
-    return node.eval_val_;
+  if (depth == 0 || node.game().isTerminal()) {
+    return node.value();
   }
   node.generateChildren();
 
   if (player == helper::PLAYER::BLACK) {
     short max_eval = -INF_SHORT;
-    for (auto& child : node.children_) {
+    for (auto& child : node.children()) {
       short eval = solve(child, depth - 1, helper::PLAYER::WHITE);
       max_eval   = std::max(max_eval, eval);
     }
@@ -61,7 +61,7 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   } else {
     // if it's minimizing player
     short min_eval = INF_SHORT;
-    for (auto& child : node.children_) {
+    for (auto& child : node.children()) {
       short eval = solve(child, depth - 1, helper::PLAYER::BLACK);
       min_eval   = std::min(min_eval, eval);
     }
@@ -81,14 +81,14 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
  */
 short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   node.evaluate(player);
-  if (depth == 0 || node.game_.isTerminal()) {
-    return node.eval_val_;
+  if (depth == 0 || node.game().isTerminal()) {
+    return node.value();
   }
   node.generateChildren();
 
   if (player == helper::PLAYER::BLACK) {
     short max_eval = -INF_SHORT;
-    for (auto& child : node.children_) {
+    for (auto& child : node.children()) {
       short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
       max_eval   = std::max(max_eval, eval);
 
@@ -101,7 +101,7 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
   } else {
     // if it's minimizing player
     short min_eval = INF_SHORT;
-    for (auto& child : node.children_) {
+    for (auto& child : node.children()) {
       short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
       min_eval   = std::min(min_eval, eval);
 
@@ -148,14 +148,14 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
   }
 
   node.evaluate(player);
-  if (depth == 0 || node.game_.isTerminal()) {
-    return node.eval_val_;
+  if (depth == 0 || node.game().isTerminal()) {
+    return node.value();
   }
   node.generateChildren();
 
   short best_eval = (player == helper::PLAYER::BLACK) ? -INF_SHORT : INF_SHORT;
   if (player == helper::PLAYER::BLACK) {
-    for (auto& child : node.children_) {
+    for (auto& child : node.children()) {
       short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
       best_eval  = std::max(best_eval, eval);
 
@@ -166,7 +166,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
     }
   } else {
     // if it's minimizing player
-    for (auto& child : node.children_) {
+    for (auto& child : node.children()) {
       short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
       best_eval  = std::min(best_eval, eval);
 
@@ -202,7 +202,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
  */
 uint16_t Minimax::countEmptyCells(Node& node) {
   uint16_t res = 0;
-  for (auto& c : node.game_.toString()) {
+  for (auto& c : node.game().toString()) {
     if (c == '.') {
       res += 1;
     }
@@ -211,8 +211,8 @@ uint16_t Minimax::countEmptyCells(Node& node) {
 }
 
 ttEntry Minimax::transpositionTableLookup(NodeTT& node) {
-  if (tt_.find(node.id_) != tt_.end()) {
-    return tt_[node.id_];
+  if (tt_.find(node.id()) != tt_.end()) {
+    return tt_[node.id()];
   } else {
     ttEntry temp;
     return temp;
