@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 import os
 from typing import Dict, List, Tuple, Optional
-import pprint
 import json
 
-LOG_FOLDER = "../logs"
+LOG_FOLDER = "logs"
 Values = List[Tuple[int, float]]
 Data = Dict[str, Values]
 Log = Dict[str, Data]
@@ -26,7 +25,6 @@ def parse() -> Optional[Log]:
                     values.append((int(contents[i + 1].strip()), float(contents[i + 2].strip())))
                 logs[file_name.replace(".log", "")] = data
         json.dump(logs, open(os.path.join(LOG_FOLDER, "data.json"), "w"), indent=2)
-        pprint.pprint(logs)
         print("Logs parsed and saved to data.json")
         return logs
     else:

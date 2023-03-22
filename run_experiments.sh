@@ -1,7 +1,24 @@
 #!/usr/bin/env bash
-mkdir -p build
-cmake -DCMAKE_BUILD_TYPE=Release -DIS_BUILD_GUI:BOOL=OFF -S . -B build
-cmake --build build --config Release
+build_dir="experiment-build"
+mkdir -p $build_dir
+# https://stackoverflow.com/a/677212
+if command -v ninja &> /dev/null
+then
+  if command -v clang &> /dev/null && command -v clang++ &> /dev/null
+  then
+    cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release -DIS_BUILD_GUI:BOOL=OFF -G Ninja -S . -B $build_dir
+  else
+    cmake -DCMAKE_BUILD_TYPE=Release -DIS_BUILD_GUI:BOOL=OFF -G Ninja -S . -B $build_dir
+  fi
+else
+  if command -v clang &> /dev/null && command -v clang++ &> /dev/null
+    then
+      cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release -DIS_BUILD_GUI:BOOL=OFF -S . -B $build_dir
+    else
+      cmake -DCMAKE_BUILD_TYPE=Release -DIS_BUILD_GUI:BOOL=OFF -S . -B $build_dir
+  fi
+fi
+cmake --build $build_dir -j 4
 declare -a algorithms=(
 "pns" "dfpn" "minimax" "minimax_alphabeta" "minimax_alphabeta_tt"
 "negamax" "negamax_alphabeta" "negamax_alphabeta_tt"
@@ -21,9 +38,10 @@ do
     do
         for _ in {1..10};
         do
-            ./build/test/experiments "$game_string" "$algorithm"
+            ./$build_dir/test/experiments "$game_string" "$algorithm"
         done
     done
 done
 mkdir -p logs
 mv -- *.log logs
+python3 ./test/plot.py

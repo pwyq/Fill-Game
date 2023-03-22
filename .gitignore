@@ -2,11 +2,10 @@
 fillgame_gui
 fillgame_cli
 test_main
-.idea
 cmake-*
 ./fillgame
 fillgame
-build/*
+*build
 .idea/
 .vscode/
 logs/
