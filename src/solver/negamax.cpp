@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:18:44
- * @modify date 2023-03-18 16:57:57
+ * @modify date 2023-03-21 17:59:42
  */
 
 #include "solver/negamax.h"
@@ -14,24 +14,24 @@ Negamax::Negamax(const Game& game) : root_(game), tt_({}) {
 }
 
 short Negamax::getResult(helper::PLAYER root_player) {
-  if (root_.game_.isTerminal()) {
+  if (root_.game().isTerminal()) {
     return -1;
   }
   return solve(root_, countEmptyCells(root_), root_player);
 }
 
 short Negamax::getAlphaBetaResult(helper::PLAYER root_player) {
-  if (root_.game_.isTerminal()) {
+  if (root_.game().isTerminal()) {
     return -1;
   }
   return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
 short Negamax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
-  if (root_.game_.isTerminal()) {
+  if (root_.game().isTerminal()) {
     return -1;
   }
-  NodeTT rootTT_(root_.game_);
+  NodeTT rootTT_(root_.game());
   return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
 }
 
@@ -44,14 +44,14 @@ short Negamax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) 
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
-  if (depth == 0 || node.game_.isTerminal()) {
+  if (depth == 0 || node.game().isTerminal()) {
     return -1;
   }
   node.generateChildren();
 
   short best_eval = -INF_SHORT;
-  for (auto& child : node.children_) {
-    short eval = -solve(child, depth - 1, swapPlayer(player));
+  for (auto& child : node.children()) {
+    short eval = -solve(child, depth - 1, helper::changePlayer(player));
     best_eval  = std::max(best_eval, eval);
   }
   return best_eval;
@@ -68,14 +68,14 @@ short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
-  if (depth == 0 || node.game_.isTerminal()) {
+  if (depth == 0 || node.game().isTerminal()) {
     return -1;
   }
   node.generateChildren();
 
   short best_eval = -INF_SHORT;
-  for (auto& child : node.children_) {
-    short eval = -solveAlphaBeta(child, depth - 1, -beta, -alpha, swapPlayer(player));
+  for (auto& child : node.children()) {
+    short eval = -solveAlphaBeta(child, depth - 1, -beta, -alpha, helper::changePlayer(player));
     best_eval  = std::max(best_eval, eval);
 
     alpha = std::max(alpha, eval);
@@ -120,14 +120,14 @@ short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
     }
   }
 
-  if (depth == 0 || node.game_.isTerminal()) {
+  if (depth == 0 || node.game().isTerminal()) {
     return -1;
   }
   node.generateChildren();
 
   short best_eval = -INF_SHORT;
-  for (auto& child : node.children_) {
-    short eval = -solveAlphaBetaTranspositionTable(child, depth - 1, -beta, -alpha, swapPlayer(player));
+  for (auto& child : node.children()) {
+    short eval = -solveAlphaBetaTranspositionTable(child, depth - 1, -beta, -alpha, helper::changePlayer(player));
     best_eval  = std::max(best_eval, eval);
 
     alpha = std::max(alpha, eval);
@@ -160,7 +160,7 @@ short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
  */
 uint16_t Negamax::countEmptyCells(Node& node) {
   uint16_t res = 0;
-  for (auto& c : node.game_.toString()) {
+  for (auto& c : node.game().toString()) {
     if (c == '.') {
       res += 1;
     }
@@ -168,13 +168,9 @@ uint16_t Negamax::countEmptyCells(Node& node) {
   return res;
 }
 
-helper::PLAYER Negamax::swapPlayer(helper::PLAYER curr_player) {
-  return (curr_player == helper::PLAYER::WHITE) ? helper::PLAYER::BLACK : helper::PLAYER::WHITE;
-}
-
 ttEntry Negamax::transpositionTableLookup(NodeTT& node) {
-  if (tt_.find(node.id_) != tt_.end()) {
-    return tt_[node.id_];
+  if (tt_.find(node.id()) != tt_.end()) {
+    return tt_[node.id()];
   } else {
     ttEntry temp;
     return temp;

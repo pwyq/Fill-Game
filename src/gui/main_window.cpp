@@ -53,7 +53,7 @@ void MainWindow::initUI() {
   this->drawBoard();
   // init info layout
   info_layout_->addWidget(new QLabel("Current Player"), 0, 0, 1, 1);
-  this->updateCurrentPlayer(this->game_->to_play_);
+  this->updateCurrentPlayer(this->game_->toPlay());
   info_layout_->addWidget(curr_player_label_, 0, 1, 1, 1);
   info_layout_->addWidget(browser_, 1, 0, 2, 2);
 
@@ -147,7 +147,7 @@ void MainWindow::startNewGame() {
     c->setEnabled(true);
     c->setText("");
   }
-  this->updateCurrentPlayer(this->game_->to_play_);
+  this->updateCurrentPlayer(this->game_->toPlay());
   browser_->clear();
 }
 
@@ -174,7 +174,7 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
   this->clearBoardLayout();
   board_cells_.clear();
   this->drawBoard();
-  this->updateCurrentPlayer(this->game_->to_play_);
+  this->updateCurrentPlayer(this->game_->toPlay());
   browser_->clear();
   // TODO: resize window to board
   // qDebug() << this->_mainWidget->size();
@@ -233,7 +233,7 @@ void MainWindow::playByAI() {
   }
   agent_dfpn_ = new solver::dfpn::DFPN(*game_);
   agent_dfpn_->solve();
-  Move nextMove = agent_dfpn_->best_move_;
+  Move nextMove = agent_dfpn_->best_move();
   if (nextMove.value == 0) {  // This may not be reached at all
     qDebug() << "no possible moves";
     return;
@@ -254,7 +254,7 @@ void MainWindow::playByAI() {
   cell->setText(moveValue);
   cell->setEnabled(false);
   this->browser_->append(this->getMoveMessage(nextMove.pos, moveValue));
-  this->updateCurrentPlayer(this->game_->to_play_);
+  this->updateCurrentPlayer(this->game_->toPlay());
 
   // Game update
   this->game_string_ = this->game_->toString();
@@ -310,7 +310,7 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
             } else {
               // the move was successful
               cell->setEnabled(false);
-              this->updateCurrentPlayer(this->game_->to_play_);
+              this->updateCurrentPlayer(this->game_->toPlay());
               pop_selection_->close();
             }
             this->is_select_done_ = true;

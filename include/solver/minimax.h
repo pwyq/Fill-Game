@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:46
- * @modify date 2023-03-18 16:58:21
+ * @modify date 2023-03-21 17:59:48
  * @desc Minimax implementation
  */
 
@@ -32,14 +32,15 @@ struct ttEntry {
 
 class Minimax {
  public:
-  Node root_;
   explicit Minimax(const Game& game);
   short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
  private:
+  Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
+
   ttEntry transpositionTableLookup(NodeTT& node);
   inline void transpositionTableStore(NodeTT& node, ttEntry entry);
 
@@ -51,8 +52,7 @@ class Minimax {
 
 inline void Minimax::transpositionTableStore(NodeTT& node, ttEntry entry) {
   entry.is_valid = true;
-
-  tt_[node.id_] = entry;
+  tt_[node.id()] = entry;
 }
 
 }  // namespace minimax
