@@ -23,31 +23,46 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
 
 To build with GUI (requires set up Qt5.12.8)
 
-> ./linux_build.sh --gui
+```bash
+./linux_build.sh --gui
+```
 
 To build without GUI
 
-> ./linux_build.sh
-
+```bash
+./linux_build.sh
+```
 
 ### Run
 
 Start GUI version
 
-> ./fillgame_gui
+```bash
+./fillgame_gui
+```
 
 Start CLI version
 
-> ./fillgame_cli <game-board-string> <time-limit>
+```bash
+./fillgame_cli <game-board-string> <time-limit>
+```
 
-To test algorithms
+To run unittests for algorithms
 
-> ./test_main
+```bash
+./test_main
+```
+
+To run experiments
+
+```bash
+./run_experiments.sh
+```
 
 ## Development
 
-- Ubuntu 22.04
-- VS Code
+- Ubuntu 22.04 / WSL2
+- VS Code / CLion
 - C++ 20
 - GUI Framework: Qt5
 - Unit test: [Google Test](https://github.com/google/googletest)

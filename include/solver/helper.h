@@ -97,7 +97,7 @@ class Timer {
   void stop() { end_ = ClockT::now(); }
 
   auto duration() const {
-    assert(end_ != time_point{} && "stop the gTimer first");
+    assert(end_ != time_point{} && "stop the timer first");
     return std::chrono::duration<double>(end_ - start_);
   }
 };
