@@ -10,9 +10,12 @@ include_directories(${FILLGAME_HEADER_DIR}/solver)
 
 set(BINARY_NAME test_main)
 
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
+file(GLOB TEST_SOURCES *.h)
 
-add_executable(${BINARY_NAME} ${TEST_SOURCES})
+add_executable(${BINARY_NAME} ${TEST_SOURCES} test_main.cpp)
+add_executable(experiments experiments.cpp)
 
 target_link_libraries(${BINARY_NAME} PUBLIC ${CMAKE_PROJECT_NAME}_lib GTest::gtest_main)
+target_link_libraries(experiments PUBLIC ${CMAKE_PROJECT_NAME}_lib)
+
 add_test(NAME ${BINARY_NAME} COMMAND ${BINARY_NAME})

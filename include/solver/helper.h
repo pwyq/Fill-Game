@@ -12,8 +12,7 @@
 #include <functional>
 #include <string>
 
-namespace solver {
-namespace helper {
+namespace solver::helper {
 
 ///////////////////////////////////////
 //  Constants
@@ -98,7 +97,7 @@ class Timer {
   void stop() { end_ = ClockT::now(); }
 
   auto duration() const {
-    assert(end_ != time_point{} && "stop the gTimer first");
+    assert(end_ != time_point{} && "stop the timer first");
     return std::chrono::duration<double>(end_ - start_);
   }
 };
@@ -113,7 +112,8 @@ inline PLAYER changePlayer(PLAYER player) {
   return (player == PLAYER::BLACK) ? PLAYER::WHITE : PLAYER::BLACK;
 }
 
-}  // namespace helper
-}  // namespace solver
+size_t getPeakRSS();
+
+}  // namespace solver::helper
 
 #endif  // FG_SOLVER_HELPER_H_
