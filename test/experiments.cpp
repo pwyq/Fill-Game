@@ -1,7 +1,7 @@
 /**
  * @author    Junwen Shen
  * @create date 2023-03-21 17:32:51
- * @modify date 2023-03-21 17:32:51
+ * @modify date 2023-03-22 10:19:27
  *
  */
 // std
@@ -21,25 +21,25 @@
  * @param size
  * @return
  */
-static constexpr uint32_t hash(const std::string_view& string) noexcept{
+static constexpr uint32_t hash(const std::string_view& string) noexcept {
   uint32_t hash = 5381;
-  for (const auto &c : string) {
+  for (const auto& c : string) {
     hash = ((hash << 5) + hash) + (unsigned char)c;
   }
   return hash;
 }
-
-static constexpr auto toMilliseconds(const auto& duration) {
+template <class T>
+static constexpr auto toMilliseconds(const T& duration) {
   return std::chrono::duration<double, std::milli>(duration);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   if (argc != 3) {
     std::cout << "Usage: ./experiments <game_string> <algorithm>" << std::endl;
     return 1;
   }
   std::string game_string = argv[1];
-  std::string algorithm = argv[2];
+  std::string algorithm   = argv[2];
   std::ofstream logFile;
   auto timer = solver::helper::Timer();
   switch (hash(algorithm)) {
@@ -47,12 +47,12 @@ int main(int argc, char **argv) {
       std::cout << "Run minimax on " << game_string << std::endl;
       logFile.open(algorithm + ".log", std::ios::app);
       logFile << game_string << std::endl;
-      auto game = solver::Game(game_string);
+      auto game  = solver::Game(game_string);
       auto agent = solver::minimax::Minimax(game);
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS = solver::helper::getPeakRSS();
+      auto peakRSS  = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -64,12 +64,12 @@ int main(int argc, char **argv) {
       std::cout << "Run minimax_alphabeta on " << game_string << std::endl;
       logFile.open(algorithm + ".log", std::ios::app);
       logFile << game_string << std::endl;
-      auto game = solver::Game(game_string);
+      auto game  = solver::Game(game_string);
       auto agent = solver::minimax::Minimax(game);
       timer.start();
       agent.getAlphaBetaResult();
       timer.stop();
-      auto peakRSS = solver::helper::getPeakRSS();
+      auto peakRSS  = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -81,12 +81,12 @@ int main(int argc, char **argv) {
       std::cout << "Run minimax_alphabeta_tt on " << game_string << std::endl;
       logFile.open(algorithm + ".log", std::ios::app);
       logFile << game_string << std::endl;
-      auto game = solver::Game(game_string);
+      auto game  = solver::Game(game_string);
       auto agent = solver::minimax::Minimax(game);
       timer.start();
       agent.getAlphaBetaTranspositionTableResult();
       timer.stop();
-      auto peakRSS = solver::helper::getPeakRSS();
+      auto peakRSS  = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -98,12 +98,12 @@ int main(int argc, char **argv) {
       std::cout << "Run negamax on " << game_string << std::endl;
       logFile.open(algorithm + ".log", std::ios::app);
       logFile << game_string << std::endl;
-      auto game = solver::Game(game_string);
+      auto game  = solver::Game(game_string);
       auto agent = solver::negamax::Negamax(game);
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS = solver::helper::getPeakRSS();
+      auto peakRSS  = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -115,12 +115,12 @@ int main(int argc, char **argv) {
       std::cout << "Run negamax_alphabeta on " << game_string << std::endl;
       logFile.open(algorithm + ".log", std::ios::app);
       logFile << game_string << std::endl;
-      auto game = solver::Game(game_string);
+      auto game  = solver::Game(game_string);
       auto agent = solver::negamax::Negamax(game);
       timer.start();
       agent.getAlphaBetaResult();
       timer.stop();
-      auto peakRSS = solver::helper::getPeakRSS();
+      auto peakRSS  = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -132,12 +132,12 @@ int main(int argc, char **argv) {
       std::cout << "Run negamax_alphabeta_tt on " << game_string << std::endl;
       logFile.open(algorithm + ".log", std::ios::app);
       logFile << game_string << std::endl;
-      auto game = solver::Game(game_string);
+      auto game  = solver::Game(game_string);
       auto agent = solver::negamax::Negamax(game);
       timer.start();
       agent.getAlphaBetaTranspositionTableResult();
       timer.stop();
-      auto peakRSS = solver::helper::getPeakRSS();
+      auto peakRSS  = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -149,12 +149,12 @@ int main(int argc, char **argv) {
       std::cout << "Run dfpn on " << game_string << std::endl;
       logFile.open(algorithm + ".log", std::ios::app);
       logFile << game_string << std::endl;
-      auto game = solver::Game(game_string);
+      auto game  = solver::Game(game_string);
       auto agent = solver::dfpn::DFPN(game);
       timer.start();
       agent.solve();
       timer.stop();
-      auto peakRSS = solver::helper::getPeakRSS();
+      auto peakRSS  = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -166,12 +166,12 @@ int main(int argc, char **argv) {
       std::cout << "Run pns on " << game_string << std::endl;
       logFile.open(algorithm + ".log", std::ios::app);
       logFile << game_string << std::endl;
-      auto game = solver::Game(game_string);
+      auto game  = solver::Game(game_string);
       auto agent = solver::pns::PNS(game);
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS = solver::helper::getPeakRSS();
+      auto peakRSS  = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
