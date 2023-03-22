@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
       auto game = solver::Game(game_string);
       auto agent = solver::negamax::Negamax(game);
       timer.start();
-      agent.getAlphaBetaTranspositionTableResult();
+      agent.getResult();
       timer.stop();
       auto peakRSS = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
@@ -118,7 +118,7 @@ int main(int argc, char **argv) {
       auto game = solver::Game(game_string);
       auto agent = solver::negamax::Negamax(game);
       timer.start();
-      agent.getAlphaBetaTranspositionTableResult();
+      agent.getAlphaBetaResult();
       timer.stop();
       auto peakRSS = solver::helper::getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
