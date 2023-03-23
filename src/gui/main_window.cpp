@@ -50,7 +50,7 @@ void MainWindow::initUI() {
 
   // Central Area
   this->drawBoard();
-  // (Left/Right) Info Dock
+  // Right Info Dock
   this->addDockWidget(Qt::RightDockWidgetArea, info_dock_);
   connect(info_dock_, &InfoDock::gameTimeOut, [this](QString msg) {
     this->is_game_end_ = true;

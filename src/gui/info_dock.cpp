@@ -76,7 +76,7 @@ void InfoDock::initUI() {
 
   layout_->addWidget(browser_, 3, 0, 4, 4);
 
-  layout_->setContentsMargins(0, 0, 0, 0);
+  layout_->setContentsMargins(0, 0, 10, 10);
   widget_->setLayout(layout_);
   this->setWidget(widget_);
   this->setAllowedAreas(Qt::LeftDockWidgetArea);
