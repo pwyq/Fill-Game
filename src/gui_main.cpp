@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:35:47
- * @modify date 2023-03-15 10:28:46
+ * @modify date 2023-03-21 20:50:50
  * @desc main entry point of the program
  */
 // Qt
@@ -24,8 +24,7 @@ int main(int argc, char *argv[]) {
 
   gui::MainWindow mainWindow;
   QScreen *screen = QGuiApplication::screenAt(QCursor::pos());
-  mainWindow.move(screen->availableGeometry().center() -
-                  mainWindow.frameGeometry().center());
+  mainWindow.move(screen->availableGeometry().center() - mainWindow.frameGeometry().center());
   mainWindow.show();
 
   return app.exec();

@@ -24,6 +24,8 @@ class BoardCell : public QPushButton {
   inline QString getText() const { return uint8ToQstring(value_); };
   inline const QPoint getPos() const { return pos_; };
 
+  void setText(const QString &text, uint8_t player = 7);  // as long as default is not 0 and 1
+
  private:
   uint8_t value_;
   QPoint pos_;

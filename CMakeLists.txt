@@ -2,7 +2,7 @@
 # @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-03-16 22:03:23
+# @modify date 2023-03-23 09:14:08
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -14,6 +14,10 @@ project(fillgame VERSION 0.1.0 LANGUAGES CXX)
 # IMPORTANT: set if to build with Qt GUI or not! Whenever switched the choice; do `rm -rf build/`
 option(IS_BUILD_GUI "to build with Qt GUI or not" OFF)
 
+# ################################
+# Following is a temporary fix for VSCode GUI Dev; comment it out if you don't develop GUI
+# set(IS_BUILD_GUI ON)
+# ################################
 if(IS_BUILD_GUI)
   message(STATUS "\nBuilding with Qt GUI...\n")
 
@@ -34,22 +38,25 @@ include(FetchContent)
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        b796f7d44681514f58a683a3a71ff17c94edb0c1 # release-1.13.0
+  GIT_TAG b796f7d44681514f58a683a3a71ff17c94edb0c1 # release-1.13.0
 )
-if (WIN32)
+
+if(WIN32)
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 endif()
+
 FetchContent_MakeAvailable(googletest)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add compiler flags
-if (WIN32)
+if(WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 elseif(UNIX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wreorder")
 endif()
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_GLIBCXX_DEBUG")
 
 # Find includes in the build directories

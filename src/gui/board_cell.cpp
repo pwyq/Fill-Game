@@ -26,4 +26,19 @@ BoardCell::BoardCell(QString &text, const QPoint &pos, QWidget *parent)
 
 BoardCell::~BoardCell() {}
 
+void BoardCell::setText(const QString &text, uint8_t player) {
+  switch (player) {
+    case 0:  // black
+      this->setStyleSheet("QPushButton {background-color: #bfbfbf; color: #000000}");
+      break;
+    case 1:  // white
+      this->setStyleSheet("QPushButton {background-color: #d9d9d9; color: #000000}");
+      break;
+    default:
+      this->setStyleSheet("QPushButton {background-color: #ffffff; color: #000000}");
+      break;
+  }
+  QPushButton::setText(text);
+}
+
 }  // namespace gui
