@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-02-11 16:12:10
+ * @modify date 2023-03-23 00:30:15
  *
  * TODO: cell color (disabled cell)
  * TODO: save/load a game
@@ -21,14 +21,12 @@ using solver::helper::Move;
 
 namespace gui {
 
-MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
+MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(false) {
   // UI elements
-  main_layout_       = new QHBoxLayout();
-  board_layout_      = new QGridLayout();
-  info_layout_       = new QGridLayout();
-  main_widget_       = new QWidget();
-  curr_player_label_ = new QLabel();
-  browser_           = new QTextBrowser();
+  main_layout_  = new QHBoxLayout();
+  board_layout_ = new QGridLayout();
+  main_widget_  = new QWidget();
+  info_dock_    = InfoDock::GetInstance();
 
   // Solver elements
   this->startNewGame();
@@ -45,52 +43,61 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
 }
 
 void MainWindow::initUI() {
+  // Top Menu Bar
   this->setWindowTitle(QString::fromStdString("Fill Game"));
   this->initGameMenu();
   this->initBoardMenu();
   this->initHelpMenu();
 
+  // Central Area
   this->drawBoard();
-  // init info layout
-  info_layout_->addWidget(new QLabel("Current Player"), 0, 0, 1, 1);
-  this->updateCurrentPlayer(this->game_->toPlay());
-  info_layout_->addWidget(curr_player_label_, 0, 1, 1, 1);
-  info_layout_->addWidget(browser_, 1, 0, 2, 2);
+  // (Left/Right) Info Dock
+  this->addDockWidget(Qt::RightDockWidgetArea, info_dock_);
 
   main_layout_->addLayout(board_layout_);
-  main_layout_->addLayout(info_layout_);
   main_widget_->setLayout(main_layout_);
   this->setCentralWidget(main_widget_);
 }
 
 void MainWindow::initGameMenu() {
   QAction *startNewGame = new QAction("Start &New Game", game_menu_);
-  connect(startNewGame, &QAction::triggered,
-          [this]() { this->startNewGame(); });
+  connect(startNewGame, &QAction::triggered, [this]() {
+    this->startNewGame();
+  });
   game_menu_->addAction(startNewGame);
 
   game_menu_->addSeparator();
 
   QAction *quit = new QAction("&Quit", game_menu_);
-  connect(quit, &QAction::triggered, [this]() { this->close(); });
+  connect(quit, &QAction::triggered, [this]() {
+    this->close();
+  });
   game_menu_->addAction(quit);
 }
 
 void MainWindow::initBoardMenu() {
   QAction *three = new QAction("3 x 3", board_menu_);
-  connect(three, &QAction::triggered, [this]() { this->changeGameSize(3, 3); });
+  connect(three, &QAction::triggered, [this]() {
+    this->changeGameSize(3, 3);
+  });
   board_menu_->addAction(three);
 
   QAction *five = new QAction("5 x 5", board_menu_);
-  connect(five, &QAction::triggered, [this]() { this->changeGameSize(5, 5); });
+  connect(five, &QAction::triggered, [this]() {
+    this->changeGameSize(5, 5);
+  });
   board_menu_->addAction(five);
 
   QAction *seven = new QAction("7 x 7", board_menu_);
-  connect(seven, &QAction::triggered, [this]() { this->changeGameSize(7, 7); });
+  connect(seven, &QAction::triggered, [this]() {
+    this->changeGameSize(7, 7);
+  });
   board_menu_->addAction(seven);
 
   QAction *ten = new QAction("10 x 10", board_menu_);
-  connect(ten, &QAction::triggered, [this]() { this->changeGameSize(10, 10); });
+  connect(ten, &QAction::triggered, [this]() {
+    this->changeGameSize(10, 10);
+  });
   board_menu_->addAction(ten);
   /*
   QAction* custom = new QAction("&Custom Board Size", _boardMenu);
@@ -147,8 +154,8 @@ void MainWindow::startNewGame() {
     c->setEnabled(true);
     c->setText("");
   }
-  this->updateCurrentPlayer(this->game_->toPlay());
-  browser_->clear();
+  info_dock_->resetPlayer();
+  info_dock_->browser()->clear();
 }
 
 void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
@@ -174,8 +181,8 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
   this->clearBoardLayout();
   board_cells_.clear();
   this->drawBoard();
-  this->updateCurrentPlayer(this->game_->toPlay());
-  browser_->clear();
+  info_dock_->resetPlayer();
+  info_dock_->browser()->clear();
   // TODO: resize window to board
   // qDebug() << this->_mainWidget->size();
   // qDebug() << this->_mainWidget->sizeHint();
@@ -253,8 +260,8 @@ void MainWindow::playByAI() {
   QString moveValue = uint8ToQstring(nextMove.value);
   cell->setText(moveValue);
   cell->setEnabled(false);
-  this->browser_->append(this->getMoveMessage(nextMove.pos, moveValue));
-  this->updateCurrentPlayer(this->game_->toPlay());
+  info_dock_->browser()->append(this->getMoveMessage(nextMove.pos, moveValue));
+  info_dock_->updatePlayer();
 
   // Game update
   this->game_string_ = this->game_->toString();
@@ -299,18 +306,17 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
             this->game_string_ = this->game_->toString();
             delete this->game_;
             this->game_ = new solver::Game(this->game_string_);
-
-            this->browser_->append(this->getMoveMessage(cellPos, moveValue));
+            this->info_dock_->browser()->append(this->getMoveMessage(cellPos, moveValue));
             if (this->game_->getPossibleMoves().size() == 0) {
               // user clicked a dead cell
               pop_selection_->close();
               this->is_game_end_ = true;
-              QString s          = "Winner: " + this->curr_player_label_->text();
+              QString s          = "Winner: " + this->info_dock_->getCurrentPlayer();
               this->displayMessage(s);
             } else {
               // the move was successful
               cell->setEnabled(false);
-              this->updateCurrentPlayer(this->game_->toPlay());
+              info_dock_->updatePlayer();
               pop_selection_->close();
             }
             this->is_select_done_ = true;

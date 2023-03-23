@@ -18,13 +18,13 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
-#include <QTextBrowser>
 #include <QWidget>
 // std
 #include <iostream>
 #include <vector>
 // local
 #include "gui/board_cell.h"
+#include "gui/info_dock.h"
 #include "gui/input_dialog.h"
 #include "gui/popup_selection.h"
 #include "solver/dfpn.h"
@@ -40,8 +40,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
   MainWindow();
-  // ~MainWindow();   // No need of destructor; otherwise double free(); the
-  // rule of 3/5/0
+  // ~MainWindow();   // No need of destructor; otherwise double free(); the rule of 3/5/0
   void initUI();
   void startNewGame();
   void changeGameSize(uint8_t width, uint8_t height);
@@ -49,10 +48,7 @@ class MainWindow : public QMainWindow {
  protected:
   QHBoxLayout *main_layout_;
   QGridLayout *board_layout_;
-  QGridLayout *info_layout_;
   QWidget *main_widget_;
-  QLabel *curr_player_label_;
-  QTextBrowser *browser_;
 
   QMenu *game_menu_;
   QMenu *board_menu_;
@@ -67,7 +63,6 @@ class MainWindow : public QMainWindow {
   void initHelpMenu();
   void drawBoard();
   void playByAI();
-  inline void updateCurrentPlayer(PLAYER player);
   inline void displayMessage(QString s);
   inline QString getMoveMessage(Pos pos, QString moveValue);
 
@@ -75,9 +70,12 @@ class MainWindow : public QMainWindow {
   void onBoardCellPressed(BoardCell *cell);
 
  private:
-  solver::Game *game_ = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
+  // UI members
+  PopupSelection *pop_selection_ = nullptr;
+  InfoDock *info_dock_           = nullptr;
 
-  PopupSelection *pop_selection_  = nullptr;
+  // Solver members
+  solver::Game *game_             = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
   solver::dfpn::DFPN *agent_dfpn_ = nullptr;
 
   std::string game_string_;
@@ -92,18 +90,9 @@ class MainWindow : public QMainWindow {
   void clearBoardLayout();
 };
 
-// inline function declaration
-inline void MainWindow::updateCurrentPlayer(PLAYER p) {
-  if (p == PLAYER::BLACK)
-    this->curr_player_label_->setText("BLACK");
-  else
-    this->curr_player_label_->setText("WHITE");
-}
-
 inline QString MainWindow::getMoveMessage(Pos p, QString val) {
-  QString res = QString::number(this->move_counter_++) + ". " +
-                this->curr_player_label_->text() + ": ";
-  char c = 65 + p.col;  // 'A' = 65
+  QString res = QString::number(this->move_counter_++) + ". " + this->info_dock_->getCurrentPlayer() + ": ";
+  char c      = 65 + p.col;  // 'A' = 65
   res += QChar(c);
   res += uint8ToQstring(p.row + 1);
   res += " - ";

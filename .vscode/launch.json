@@ -8,11 +8,8 @@
             // Resolved by CMake Tools:
             // "program": "${command:cmake.launchTargetPath}",
             // "args": [],
-            "program": "${workspaceRoot}/fillgame_cli",
-            "args": [
-                "1.*.3",
-                "1"
-            ],
+            "program": "${workspaceRoot}/fillgame_gui",
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [
