@@ -5,7 +5,6 @@
  * @modify date 2023-03-23 16:22:57
  *
  * TODO: GUI: separate menu bar to its own class
- * TODO: solverController generalization
  * TODO: timer constraint on solver @sam
  * TODO: save/load a game ?
  */
@@ -249,22 +248,18 @@ void MainWindow::playByAI() {
 }
 
 void MainWindow::solverController() {
-  // TODO: how to generalize worker to different solvers, given that it's impossible to use template for Qt's slots/signals?
-
-  // TODO: https://stackoverflow.com/questions/31358646/qt5-how-to-wait-for-a-signal-in-a-thread
-
-  QThread *thread    = new QThread;
-  DFPNWorker *worker = new DFPNWorker();
+  QThread *thread      = new QThread;
+  SolverWorker *worker = new SolverWorker(solver_);
   worker->moveToThread(thread);
   // connects the thread’s started() signal to the processing() slot in the worker, causing it to start.
   connect(thread, &QThread::started, worker, [worker, this]() {
     worker->process(this->game_);
   });
-  connect(worker, &DFPNWorker::finished, this, &MainWindow::onSolverFinished);
+  connect(worker, &SolverWorker::finished, this, &MainWindow::onSolverFinished);
   // when the worker instance emits finished(), it will signal the thread to quit, i.e. shut down.
-  connect(worker, &DFPNWorker::finished, thread, &QThread::quit);
+  connect(worker, &SolverWorker::finished, thread, &QThread::quit);
   // mark the worker instance using the same finished() signal for deletion.
-  connect(worker, &DFPNWorker::finished, worker, &QObject::deleteLater);
+  connect(worker, &SolverWorker::finished, worker, &QObject::deleteLater);
   // to prevent crashes because the thread hasn’t fully shut down yet when it is deleted,
   //  we connect the finished() of the thread (not the worker!) to its own deleteLater() slot.
   //  This will cause the thread to be deleted only after it has fully shut down.

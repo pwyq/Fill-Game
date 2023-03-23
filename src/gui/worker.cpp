@@ -29,20 +29,36 @@ void Worker::process() {
 // SolverWorker
 ///////////////////////////////////////
 
-DFPNWorker::DFPNWorker() {
+SolverWorker::SolverWorker(helper::SOLVER solver) : solver_(solver) {
   // you could copy data from constructor arguments to internal variables here.
 }
 
-DFPNWorker::~DFPNWorker() {
+SolverWorker::~SolverWorker() {
   // free resources
 }
 
-void DFPNWorker::process(solver::Game* game) {
-  solver::dfpn::DFPN* agent = new solver::dfpn::DFPN(*game);
-  agent->solve();
-  solver::helper::Move next_move = agent->best_move();
-  emit finished(next_move);
-  delete agent;
+void SolverWorker::process(solver::Game* game) {
+  // TODO: other than the switch cases,
+  //    how to better generalize worker to different solvers, given that it's impossible to use template for Qt's slots/signals?
+
+  switch (solver_) {
+    case helper::SOLVER::DFPN:
+      solver::dfpn::DFPN* agent = new solver::dfpn::DFPN(*game);
+      agent->solve();
+      solver::helper::Move next_move = agent->best_move();
+      emit finished(next_move);
+      delete agent;
+      break;
+    case helper::SOLVER::PNS:
+      // TODO
+      break;
+    case helper::SOLVER::MINIMAX_AB_TT:
+      // TODO
+      break;
+    case helper::SOLVER::NEGAMAX_AB_TT:
+      // TODO
+      break;
+  }
 }
 
 }  // namespace gui

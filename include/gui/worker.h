@@ -21,6 +21,7 @@
 // qt
 #include <QObject>
 // local
+#include "gui/helper.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
 #include "solver/helper.h"
@@ -40,13 +41,16 @@ class Worker : public QObject {
 };
 
 // TODO: how to use inheritence here?
-class DFPNWorker : public QObject {
+class SolverWorker : public QObject {
   Q_OBJECT
  public:
-  DFPNWorker();
-  ~DFPNWorker();
+  SolverWorker(helper::SOLVER solver);
+  ~SolverWorker();
  public slots:
   void process(solver::Game* game);
+
+ private:
+  helper::SOLVER solver_;
  signals:
   void finished(solver::helper::Move move);
   // void error(QString err);
