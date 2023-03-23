@@ -141,6 +141,11 @@ void InfoDock::loadQSS() {
 
 // Qt slots
 
+void InfoDock::onStopGameTimer() {
+  timerB_->stop();
+  timerW_->stop();
+}
+
 void InfoDock::onBlackTimeout() {
   timeB_ = timeB_.addSecs(-1);
   timerB_label_->setText(timeB_.toString(timer_format));

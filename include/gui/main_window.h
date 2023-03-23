@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:27:13
- * @modify date 2023-02-10 05:27:13
+ * @modify date 2023-03-23 09:01:46
  * @desc GUI's Main window, including title bar, menu bar, game board, info
  * panel
  */
@@ -41,38 +41,20 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow();
   // ~MainWindow();   // No need of destructor; otherwise double free(); the rule of 3/5/0
-  void initUI();
-  void startNewGame();
-  void changeGameSize(uint8_t width, uint8_t height);
-
- protected:
-  QHBoxLayout *main_layout_;
-  QGridLayout *board_layout_;
-  QWidget *main_widget_;
-
-  QMenu *game_menu_;
-  QMenu *board_menu_;
-  QMenu *help_menu_;
-  uint8_t board_width_;
-  uint8_t board_height_;
-  bool is_AI_ = false;
-  std::vector<BoardCell *> board_cells_;
-
-  void initGameMenu();
-  void initBoardMenu();
-  void initHelpMenu();
-  void drawBoard();
-  void playByAI();
-  inline void displayMessage(QString s);
-  inline QString getMoveMessage(Pos pos, QString moveValue);
-
-  // slots
-  void onBoardCellPressed(BoardCell *cell);
 
  private:
   // UI members
   PopupSelection *pop_selection_ = nullptr;
   InfoDock *info_dock_           = nullptr;
+  QHBoxLayout *main_layout_;
+  QGridLayout *board_layout_;
+  QWidget *main_widget_;
+  QMenu *game_menu_;
+  QMenu *board_menu_;
+  QMenu *help_menu_;
+  uint8_t board_width_;
+  uint8_t board_height_;
+  std::vector<BoardCell *> board_cells_;
 
   // Solver members
   solver::Game *game_             = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
@@ -80,14 +62,28 @@ class MainWindow : public QMainWindow {
 
   std::string game_string_;
 
-  int move_counter_ = 1;
+  uint32_t move_counter_ = 1;
 
+  bool is_AI_          = false;
   bool is_select_done_ = true;
   bool is_game_end_    = false;
 
-  // template<class T>
-  // void clearLayout(T* layoutType, bool deleteWidgets);
+  void initUI();
+  void initGameMenu();
+  void initBoardMenu();
+  void initHelpMenu();
+  void startNewGame();
+  void changeGameSize(uint8_t width, uint8_t height);
   void clearBoardLayout();
+  void drawBoard();
+  void playByAI();
+  inline void displayMessage(QString s);
+  inline QString getMoveMessage(Pos pos, QString moveValue);
+ private slots:
+  void onBoardCellPressed(BoardCell *cell);
+
+ signals:
+  void stopGameTimer();
 };
 
 inline QString MainWindow::getMoveMessage(Pos p, QString val) {

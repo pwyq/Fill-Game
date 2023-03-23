@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-21 21:19:40
- * @modify date 2023-03-23 02:53:29
+ * @modify date 2023-03-23 09:01:50
  * @desc Infomation dock
  */
 
@@ -46,8 +46,10 @@ class InfoDock : public QDockWidget {
   QString getCurrentPlayer();
 
   QTextBrowser *browser() const { return browser_; }
+ public slots:
+  void onStopGameTimer();
 
- protected:
+ private:
   QGridLayout *layout_;
   QWidget *widget_;
   QLabel *playerW_;
@@ -63,8 +65,6 @@ class InfoDock : public QDockWidget {
   void initUI();
   void resetTimerUI();
   void setCountdownTime();
-
- private:
   const QString timer_format = "mm:ss";
   uint32_t countdown_        = 10;  // in seconds
 

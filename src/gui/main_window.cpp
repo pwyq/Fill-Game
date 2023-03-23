@@ -2,9 +2,8 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-03-23 02:53:23
+ * @modify date 2023-03-23 09:01:53
  *
- * TODO: cell color (disabled cell)
  * TODO: save/load a game
  */
 #include "gui/main_window.h"
@@ -56,6 +55,7 @@ void MainWindow::initUI() {
     this->is_game_end_ = true;
     this->displayMessage(msg);
   });
+  connect(this, &MainWindow::stopGameTimer, info_dock_, &InfoDock::onStopGameTimer);
 
   main_layout_->addLayout(board_layout_);
   main_widget_->setLayout(main_layout_);
@@ -153,6 +153,8 @@ void MainWindow::startNewGame() {
   game_ = new solver::Game(_gameString);
 
   // clear UI
+  move_counter_ = 1;
+
   for (auto c : board_cells_) {
     c->setEnabled(true);
     c->setText("");
@@ -198,11 +200,6 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
                          // start with the smallest board
 }
 
-// TODO: How to make a type T*& becomes T*??
-// https://stackoverflow.com/questions/48023441/qt-type-as-parameter-of-function
-// template<class T>
-// void MainWindow::clearLayout(T* layout, bool deleteWidgets = true)
-// void MainWindow::clearLayout(QGridLayout* layout, bool deleteWidgets = true)
 void MainWindow::clearBoardLayout() {
   while (board_layout_->count() > 0) {
     auto item = board_layout_->itemAt(0)->widget();
@@ -228,7 +225,9 @@ void MainWindow::drawBoard() {
       QString t         = "";
       BoardCell *button = new BoardCell(t, QPoint(col, row), this);  // note that col=x, row=y, from top down
       board_cells_.push_back(button);
-      connect(button, &QPushButton::pressed, [button, this]() { this->onBoardCellPressed(button); });
+      connect(button, &QPushButton::pressed, [button, this]() {
+        this->onBoardCellPressed(button);
+      });
       // offset each cell because of the x-y axis labels
       board_layout_->addWidget(button, row + 1, col + 1, 1, 1);
     }
@@ -272,7 +271,8 @@ void MainWindow::playByAI() {
   this->game_ = new solver::Game(this->game_string_);
   if (game_->getPossibleMoves().size() == 0) {
     this->is_game_end_ = true;
-    QString s          = "AI wins!";
+    emit this->stopGameTimer();
+    QString s = "AI wins!";
     this->displayMessage(s);
   }
 }
@@ -303,7 +303,7 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
   }
   pop_selection_ = PopupSelection::GetInstance(moves);
   connect(pop_selection_, &PopupSelection::selectedNumber, [cell, cellPos, this](QString moveValue) {
-    cell->setText(moveValue);
+    cell->setText(moveValue, this->game_->toPlay());
     this->game_->unsafePlay(cellPos, QStringToUint8(moveValue));
     this->game_string_ = this->game_->toString();
     delete this->game_;
@@ -313,7 +313,8 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
       // user clicked a dead cell
       pop_selection_->close();
       this->is_game_end_ = true;
-      QString s          = "Winner: " + this->info_dock_->getCurrentPlayer();
+      emit this->stopGameTimer();
+      QString s = "Winner: " + this->info_dock_->getCurrentPlayer();
       this->displayMessage(s);
     } else {
       // the move was successful
