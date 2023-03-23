@@ -2,7 +2,7 @@
 # @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-03-23 02:53:44
+# @modify date 2023-03-23 09:14:08
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -14,8 +14,10 @@ project(fillgame VERSION 0.1.0 LANGUAGES CXX)
 # IMPORTANT: set if to build with Qt GUI or not! Whenever switched the choice; do `rm -rf build/`
 option(IS_BUILD_GUI "to build with Qt GUI or not" OFF)
 
-set(IS_BUILD_GUI ON)
-
+# ################################
+# Following is a temporary fix for VSCode GUI Dev; comment it out if you don't develop GUI
+# set(IS_BUILD_GUI ON)
+# ################################
 if(IS_BUILD_GUI)
   message(STATUS "\nBuilding with Qt GUI...\n")
 
