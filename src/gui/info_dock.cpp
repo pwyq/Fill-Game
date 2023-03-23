@@ -13,6 +13,7 @@
 #include <QTextStream>
 
 namespace gui {
+
 ///////////// Singleton /////////////
 InfoDock *InfoDock::pinstance_{nullptr};
 std::mutex InfoDock::mutex_;

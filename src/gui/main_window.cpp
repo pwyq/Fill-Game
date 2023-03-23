@@ -2,21 +2,18 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-03-23 16:22:57
+ * @modify date 2023-03-23 17:16:37
  *
- * TODO: GUI: separate menu bar to its own class
  * TODO: timer constraint on solver @sam
  * TODO: save/load a game ?
  */
 #include "gui/main_window.h"
 // Qt
-#include <QApplication>
 #include <QThread>
 // local
 #include "gui/board_cell.h"
 #include "gui/helper.h"
 #include "gui/popup_selection.h"
-#include "gui/popup_window.h"
 
 using solver::helper::Move;
 
@@ -31,14 +28,12 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   board_layout_ = new QGridLayout();
   main_widget_  = new QWidget();
   info_dock_    = InfoDock::GetInstance();
+  menu_bar_     = MainWindowMenuBar::GetInstance();
 
   // Solver elements
   this->startNewGame();
 
   // UI related
-  game_menu_  = this->menuBar()->addMenu("&Game");
-  board_menu_ = this->menuBar()->addMenu("&Board");
-  help_menu_  = this->menuBar()->addMenu("&Help");
   this->initUI();
   // TODO: allow proportionally resize in the future
   this->setWindowFlags(windowFlags() & (~Qt::WindowMaximizeButtonHint));
@@ -49,9 +44,9 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
 void MainWindow::initUI() {
   // Top Menu Bar
   this->setWindowTitle(QString::fromStdString("Fill Game"));
-  this->initGameMenu();
-  this->initBoardMenu();
-  this->initHelpMenu();
+  connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::startNewGame);
+  connect(menu_bar_, &MainWindowMenuBar::changeGameSize, this, &MainWindow::changeGameSize);
+  this->setMenuBar(menu_bar_);
 
   // Central Area
   this->drawBoard();
@@ -66,79 +61,6 @@ void MainWindow::initUI() {
   main_layout_->addLayout(board_layout_);
   main_widget_->setLayout(main_layout_);
   this->setCentralWidget(main_widget_);
-}
-
-void MainWindow::initGameMenu() {
-  QAction *startNewGame = new QAction("Start &New Game", game_menu_);
-  connect(startNewGame, &QAction::triggered, [this]() {
-    this->startNewGame();
-  });
-  game_menu_->addAction(startNewGame);
-
-  game_menu_->addSeparator();
-
-  QAction *quit = new QAction("&Quit", game_menu_);
-  connect(quit, &QAction::triggered, [this]() {
-    this->close();
-  });
-  game_menu_->addAction(quit);
-}
-
-void MainWindow::initBoardMenu() {
-  QAction *three = new QAction("3 x 3", board_menu_);
-  connect(three, &QAction::triggered, [this]() {
-    this->changeGameSize(3, 3);
-  });
-  board_menu_->addAction(three);
-
-  QAction *five = new QAction("5 x 5", board_menu_);
-  connect(five, &QAction::triggered, [this]() {
-    this->changeGameSize(5, 5);
-  });
-  board_menu_->addAction(five);
-
-  QAction *seven = new QAction("7 x 7", board_menu_);
-  connect(seven, &QAction::triggered, [this]() {
-    this->changeGameSize(7, 7);
-  });
-  board_menu_->addAction(seven);
-
-  QAction *ten = new QAction("10 x 10", board_menu_);
-  connect(ten, &QAction::triggered, [this]() {
-    this->changeGameSize(10, 10);
-  });
-  board_menu_->addAction(ten);
-  /*
-  QAction* custom = new QAction("&Custom Board Size", _boardMenu);
-  connect(ten, &QAction::triggered, [this]() {
-      QStringList list = InputDialog::getStrings(this);
-      if (!list.isEmpty()) {
-          // use list
-      }
-      emit this->changeGameSize(10, 10);
-  });
-  _boardMenu->addAction(custom);
-  */
-}
-
-void MainWindow::initHelpMenu() {
-  QAction *rules = new QAction("&Rules", help_menu_);
-  connect(rules, &QAction::triggered, []() {
-    PopupWindow *a = new PopupWindow("Rules", "qrc:/resource/html/rules.html");
-    a->setWindowSize(0.2, 0.4);
-    a->move(QApplication::desktop()->screen()->rect().center() - a->frameGeometry().center());
-    a->show();
-  });
-  help_menu_->addAction(rules);
-
-  QAction *about = new QAction("&About", help_menu_);
-  connect(about, &QAction::triggered, []() {
-    PopupWindow *a = new PopupWindow("About", "qrc:/resource/html/about.html");
-    a->setWindowSize(0.6, 0.8);
-    a->move(QApplication::desktop()->screen()->rect().center() - a->frameGeometry().center());
-    a->show();
-  });
-  help_menu_->addAction(about);
 }
 
 void MainWindow::startNewGame() {

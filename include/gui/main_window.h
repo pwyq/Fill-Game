@@ -15,8 +15,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMainWindow>
-#include <QMenu>
-#include <QMenuBar>
 #include <QMessageBox>
 #include <QWidget>
 // std
@@ -27,6 +25,7 @@
 #include "gui/helper.h"
 #include "gui/info_dock.h"
 #include "gui/input_dialog.h"
+#include "gui/main_window_menu_bar.h"
 #include "gui/popup_selection.h"
 #include "gui/worker.h"
 #include "solver/dfpn.h"
@@ -46,14 +45,13 @@ class MainWindow : public QMainWindow {
 
  private:
   // UI members
-  PopupSelection *pop_selection_ = nullptr;
+  MainWindowMenuBar *menu_bar_   = nullptr;
   InfoDock *info_dock_           = nullptr;
+  PopupSelection *pop_selection_ = nullptr;
   QHBoxLayout *main_layout_;
   QGridLayout *board_layout_;
   QWidget *main_widget_;
-  QMenu *game_menu_;
-  QMenu *board_menu_;
-  QMenu *help_menu_;
+
   uint8_t board_width_;
   uint8_t board_height_;
   std::vector<BoardCell *> board_cells_;
@@ -61,9 +59,8 @@ class MainWindow : public QMainWindow {
   // Solver members
   solver::Game *game_    = nullptr;               // TODO: std::auto_ptr, std::shared_ptr?
   helper::SOLVER solver_ = helper::SOLVER::DFPN;  // TODO: let user choose AI type
-  std::string game_string_;
-
   uint32_t move_counter_ = 1;
+  std::string game_string_;
 
   bool is_AI_          = false;
   bool is_AI_turn_     = false;
@@ -71,11 +68,6 @@ class MainWindow : public QMainWindow {
   bool is_game_end_    = false;
 
   void initUI();
-  void initGameMenu();
-  void initBoardMenu();
-  void initHelpMenu();
-  void startNewGame();
-  void changeGameSize(uint8_t width, uint8_t height);
   void clearBoardLayout();
   void drawBoard();
   void playByAI();
@@ -85,6 +77,8 @@ class MainWindow : public QMainWindow {
  private slots:
   void onBoardCellPressed(BoardCell *cell);
   void onSolverFinished(solver::helper::Move move);
+  void startNewGame();
+  void changeGameSize(uint8_t width, uint8_t height);
 
  signals:
   void stopGameTimer();

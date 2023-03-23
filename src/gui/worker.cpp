@@ -42,22 +42,26 @@ void SolverWorker::process(solver::Game* game) {
   //    how to better generalize worker to different solvers, given that it's impossible to use template for Qt's slots/signals?
 
   switch (solver_) {
-    case helper::SOLVER::DFPN:
+    case helper::SOLVER::DFPN: {
       solver::dfpn::DFPN* agent = new solver::dfpn::DFPN(*game);
       agent->solve();
       solver::helper::Move next_move = agent->best_move();
       emit finished(next_move);
       delete agent;
       break;
-    case helper::SOLVER::PNS:
+    }
+    case helper::SOLVER::PNS: {
       // TODO
       break;
-    case helper::SOLVER::MINIMAX_AB_TT:
+    }
+    case helper::SOLVER::MINIMAX_AB_TT: {
       // TODO
       break;
-    case helper::SOLVER::NEGAMAX_AB_TT:
+    }
+    case helper::SOLVER::NEGAMAX_AB_TT: {
       // TODO
       break;
+    }
   }
 }
 
