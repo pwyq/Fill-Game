@@ -17,6 +17,8 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QTextBrowser>
+#include <QTime>
+#include <QTimer>
 
 namespace gui {
 
@@ -39,7 +41,10 @@ class InfoDock : public QDockWidget {
  public:
   void resetPlayer();
   void updatePlayer();
+  inline void setGameTime(uint32_t t) { countdown_ = t; }
+
   QString getCurrentPlayer();
+
   QTextBrowser *browser() const { return browser_; }
 
  protected:
@@ -47,9 +52,30 @@ class InfoDock : public QDockWidget {
   QWidget *widget_;
   QLabel *playerW_;
   QLabel *playerB_;
+  QLabel *timerW_label_;
+  QLabel *timerB_label_;
+  QTimer *timerW_;
+  QTimer *timerB_;
+  QTime timeW_;
+  QTime timeB_;
   QTextBrowser *browser_;
 
   void initUI();
+  void resetTimerUI();
+  void setCountdownTime();
+
+ private:
+  const QString timer_format = "mm:ss";
+  uint32_t countdown_        = 10;  // in seconds
+
+  void loadQSS();
+
+ private slots:
+  void onWhiteTimeout();
+  void onBlackTimeout();
+
+ signals:
+  void gameTimeOut(QString s);
 };
 
 }  // namespace gui

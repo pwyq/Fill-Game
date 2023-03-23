@@ -53,6 +53,10 @@ void MainWindow::initUI() {
   this->drawBoard();
   // (Left/Right) Info Dock
   this->addDockWidget(Qt::RightDockWidgetArea, info_dock_);
+  connect(info_dock_, &InfoDock::gameTimeOut, [this](QString msg) {
+    this->is_game_end_ = true;
+    this->displayMessage(msg);
+  });
 
   main_layout_->addLayout(board_layout_);
   main_widget_->setLayout(main_layout_);
@@ -299,31 +303,30 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
     delete pop_selection_;
   }
   pop_selection_ = PopupSelection::GetInstance(moves);
-  connect(pop_selection_, &PopupSelection::selectedNumber,
-          [cell, cellPos, this](QString moveValue) {
-            cell->setText(moveValue);
-            this->game_->unsafePlay(cellPos, QStringToUint8(moveValue));
-            this->game_string_ = this->game_->toString();
-            delete this->game_;
-            this->game_ = new solver::Game(this->game_string_);
-            this->info_dock_->browser()->append(this->getMoveMessage(cellPos, moveValue));
-            if (this->game_->getPossibleMoves().size() == 0) {
-              // user clicked a dead cell
-              pop_selection_->close();
-              this->is_game_end_ = true;
-              QString s          = "Winner: " + this->info_dock_->getCurrentPlayer();
-              this->displayMessage(s);
-            } else {
-              // the move was successful
-              cell->setEnabled(false);
-              info_dock_->updatePlayer();
-              pop_selection_->close();
-            }
-            this->is_select_done_ = true;
-            if (true == this->is_AI_) {
-              this->playByAI();
-            }
-          });
+  connect(pop_selection_, &PopupSelection::selectedNumber, [cell, cellPos, this](QString moveValue) {
+    cell->setText(moveValue);
+    this->game_->unsafePlay(cellPos, QStringToUint8(moveValue));
+    this->game_string_ = this->game_->toString();
+    delete this->game_;
+    this->game_ = new solver::Game(this->game_string_);
+    this->info_dock_->browser()->append(this->getMoveMessage(cellPos, moveValue));
+    if (this->game_->getPossibleMoves().size() == 0) {
+      // user clicked a dead cell
+      pop_selection_->close();
+      this->is_game_end_ = true;
+      QString s          = "Winner: " + this->info_dock_->getCurrentPlayer();
+      this->displayMessage(s);
+    } else {
+      // the move was successful
+      cell->setEnabled(false);
+      info_dock_->updatePlayer();
+      pop_selection_->close();
+    }
+    this->is_select_done_ = true;
+    if (true == this->is_AI_) {
+      this->playByAI();
+    }
+  });
   pop_selection_->move(QCursor::pos());
   pop_selection_->show();
 }
