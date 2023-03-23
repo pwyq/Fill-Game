@@ -24,6 +24,7 @@
 #include <vector>
 // local
 #include "gui/board_cell.h"
+#include "gui/helper.h"
 #include "gui/info_dock.h"
 #include "gui/input_dialog.h"
 #include "gui/popup_selection.h"
@@ -58,14 +59,14 @@ class MainWindow : public QMainWindow {
   std::vector<BoardCell *> board_cells_;
 
   // Solver members
-  solver::Game *game_             = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
-  solver::dfpn::DFPN *agent_dfpn_ = nullptr;
-
+  solver::Game *game_    = nullptr;               // TODO: std::auto_ptr, std::shared_ptr?
+  helper::SOLVER solver_ = helper::SOLVER::DFPN;  // TODO: let user choose AI type
   std::string game_string_;
 
   uint32_t move_counter_ = 1;
 
   bool is_AI_          = false;
+  bool is_AI_turn_     = false;
   bool is_select_done_ = true;
   bool is_game_end_    = false;
 
@@ -93,7 +94,7 @@ inline QString MainWindow::getMoveMessage(Pos p, QString val) {
   QString res = QString::number(this->move_counter_++) + ". " + this->info_dock_->getCurrentPlayer() + ": ";
   char c      = 65 + p.col;  // 'A' = 65
   res += QChar(c);
-  res += uint8ToQstring(p.row + 1);
+  res += helper::uint8ToQstring(p.row + 1);
   res += " - ";
   res += val;
   return res;

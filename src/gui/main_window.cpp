@@ -2,11 +2,11 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-03-23 09:01:53
+ * @modify date 2023-03-23 16:22:57
  *
  * TODO: GUI: separate menu bar to its own class
- * TODO: playByAI optimization
  * TODO: solverController generalization
+ * TODO: timer constraint on solver @sam
  * TODO: save/load a game ?
  */
 #include "gui/main_window.h"
@@ -23,7 +23,7 @@ using solver::helper::Move;
 
 namespace gui {
 
-MainWindow::MainWindow() : board_width_(3), board_height_(3), is_AI_(true) {
+MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   // This meta-type must be placed inside the constructor
   qRegisterMetaType<solver::helper::Move>();
 
@@ -45,69 +45,6 @@ MainWindow::MainWindow() : board_width_(3), board_height_(3), is_AI_(true) {
   this->setWindowFlags(windowFlags() & (~Qt::WindowMaximizeButtonHint));
   // https://en.cppreference.com/w/cpp/language/rule_of_three rule of 3/5/0
   // this->setAttribute( Qt::WA_DeleteOnClose );
-}
-
-void MainWindow::solverController() {
-  // TODO: how to generalize worker to different solvers, given that it's impossible to use template for Qt's slots/signals?
-
-  // TODO: https://stackoverflow.com/questions/31358646/qt5-how-to-wait-for-a-signal-in-a-thread
-
-  QThread *thread    = new QThread;
-  DFPNWorker *worker = new DFPNWorker();
-  worker->moveToThread(thread);
-  // hooks up the error message signal from the worker to an error processing function in the main thread.
-  // connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
-  // connects the thread’s started() signal to the processing() slot in the worker, causing it to start.
-  connect(thread, &QThread::started, worker, [worker, this]() {
-    worker->process(this->game_);
-  });
-  connect(worker, &DFPNWorker::finished, this, &MainWindow::onSolverFinished);
-  // when the worker instance emits finished(), it will signal the thread to quit, i.e. shut down.
-  connect(worker, &DFPNWorker::finished, thread, &QThread::quit);
-  // mark the worker instance using the same finished() signal for deletion.
-  connect(worker, &DFPNWorker::finished, worker, &QObject::deleteLater);
-  // to prevent nasty crashes because the thread hasn’t fully shut down yet when it is deleted,
-  //  we connect the finished() of the thread (not the worker!) to its own deleteLater() slot.
-  //  This will cause the thread to be deleted only after it has fully shut down.
-  connect(thread, &QThread::finished, thread, &QThread::deleteLater);
-  thread->start();
-}
-
-void MainWindow::onSolverFinished(solver::helper::Move next_move) {
-  std::cout << "worker finished! move = " << +next_move.pos.row << ", " << +next_move.pos.col << " " << +next_move.value << std::endl;
-
-  if (next_move.value == 0) {  // This may not be reached at all
-    qDebug() << "no possible moves";
-    return;
-  }
-
-  // Play
-  this->game_->unsafePlay(next_move.pos, next_move.value);
-
-  // GUI update
-  BoardCell *cell = nullptr;
-  for (auto c : this->board_cells_) {
-    if (c->getPos().y() == next_move.pos.row &&
-        c->getPos().x() == next_move.pos.col) {
-      cell = c;
-    }
-  }
-  QString moveValue = uint8ToQstring(next_move.value);
-  cell->setText(moveValue);
-  cell->setEnabled(false);
-  info_dock_->browser()->append(this->getMoveMessage(next_move.pos, moveValue));
-  info_dock_->updatePlayer();
-
-  // Game update
-  this->game_string_ = this->game_->toString();
-  delete this->game_;
-  this->game_ = new solver::Game(this->game_string_);
-  if (game_->getPossibleMoves().size() == 0) {
-    this->is_game_end_ = true;
-    emit this->stopGameTimer();
-    QString s = "AI wins!";
-    this->displayMessage(s);
-  }
 }
 
 void MainWindow::initUI() {
@@ -206,7 +143,9 @@ void MainWindow::initHelpMenu() {
 }
 
 void MainWindow::startNewGame() {
-  this->is_game_end_      = false;
+  is_game_end_ = false;
+  is_AI_turn_  = false;
+
   std::string _gameString = "";
   for (uint8_t row = 0; row < board_height_; row++) {
     for (uint8_t col = 0; col < board_width_; col++) {
@@ -287,7 +226,7 @@ void MainWindow::drawBoard() {
     board_layout_->addWidget(l, 0, col, 1, 1);
   }
   for (uint8_t row = 1; row < board_height_ + 1; row++) {
-    board_layout_->addWidget(new QLabel(uint8ToQstring(row)), row, 0, 1, 1);
+    board_layout_->addWidget(new QLabel(helper::uint8ToQstring(row)), row, 0, 1, 1);
   }
   // init board cells
   for (uint8_t row = 0; row < board_height_; row++) {
@@ -305,55 +244,42 @@ void MainWindow::drawBoard() {
 }
 
 void MainWindow::playByAI() {
-  // TODO: optimization, every time we are creating a new game and a new solver
-  // if (agent_dfpn_ != nullptr) {
-  //   agent_dfpn_ = nullptr;
-  //   delete agent_dfpn_;
-  // }
-  // agent_dfpn_ = new solver::dfpn::DFPN(*game_);
-  // agent_dfpn_->solve();
-  // Move next_move = agent_dfpn_->best_move();
-
-  // TESTING
+  is_AI_turn_ = true;
   solverController();
+}
 
-  // if (next_move.value == 0) {  // This may not be reached at all
-  //   qDebug() << "no possible moves";
-  //   return;
-  // }
+void MainWindow::solverController() {
+  // TODO: how to generalize worker to different solvers, given that it's impossible to use template for Qt's slots/signals?
 
-  // // Play
-  // this->game_->unsafePlay(next_move.pos, next_move.value);
+  // TODO: https://stackoverflow.com/questions/31358646/qt5-how-to-wait-for-a-signal-in-a-thread
 
-  // // GUI update
-  // BoardCell *cell = nullptr;
-  // for (auto c : this->board_cells_) {
-  //   if (c->getPos().y() == next_move.pos.row &&
-  //       c->getPos().x() == next_move.pos.col) {
-  //     cell = c;
-  //   }
-  // }
-  // QString moveValue = uint8ToQstring(next_move.value);
-  // cell->setText(moveValue);
-  // cell->setEnabled(false);
-  // info_dock_->browser()->append(this->getMoveMessage(next_move.pos, moveValue));
-  // info_dock_->updatePlayer();
-
-  // // Game update
-  // this->game_string_ = this->game_->toString();
-  // delete this->game_;
-  // this->game_ = new solver::Game(this->game_string_);
-  // if (game_->getPossibleMoves().size() == 0) {
-  //   this->is_game_end_ = true;
-  //   emit this->stopGameTimer();
-  //   QString s = "AI wins!";
-  //   this->displayMessage(s);
-  // }
+  QThread *thread    = new QThread;
+  DFPNWorker *worker = new DFPNWorker();
+  worker->moveToThread(thread);
+  // connects the thread’s started() signal to the processing() slot in the worker, causing it to start.
+  connect(thread, &QThread::started, worker, [worker, this]() {
+    worker->process(this->game_);
+  });
+  connect(worker, &DFPNWorker::finished, this, &MainWindow::onSolverFinished);
+  // when the worker instance emits finished(), it will signal the thread to quit, i.e. shut down.
+  connect(worker, &DFPNWorker::finished, thread, &QThread::quit);
+  // mark the worker instance using the same finished() signal for deletion.
+  connect(worker, &DFPNWorker::finished, worker, &QObject::deleteLater);
+  // to prevent crashes because the thread hasn’t fully shut down yet when it is deleted,
+  //  we connect the finished() of the thread (not the worker!) to its own deleteLater() slot.
+  //  This will cause the thread to be deleted only after it has fully shut down.
+  connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+  thread->start();
 }
 
 void MainWindow::onBoardCellPressed(BoardCell *cell) {
-  if (this->is_game_end_) {
+  if (is_game_end_) {
     QString s = "Game is ended. Please start a new game.";
+    this->displayMessage(s);
+    return;
+  }
+  if (is_AI_turn_) {
+    QString s = "AI is thinking... Please wait...";
     this->displayMessage(s);
     return;
   }
@@ -377,18 +303,18 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
   }
   pop_selection_ = PopupSelection::GetInstance(moves);
   connect(pop_selection_, &PopupSelection::selectedNumber, [cell, cellPos, this](QString moveValue) {
-    cell->setText(moveValue, this->game_->toPlay());
-    this->game_->unsafePlay(cellPos, QStringToUint8(moveValue));
-    this->game_string_ = this->game_->toString();
-    delete this->game_;
-    this->game_ = new solver::Game(this->game_string_);
-    this->info_dock_->browser()->append(this->getMoveMessage(cellPos, moveValue));
-    if (this->game_->getPossibleMoves().size() == 0) {
+    cell->setText(moveValue, game_->toPlay());
+    game_->unsafePlay(cellPos, helper::QStringToUint8(moveValue));
+    game_string_ = game_->toString();
+    delete game_;
+    game_ = new solver::Game(game_string_);
+    info_dock_->browser()->append(this->getMoveMessage(cellPos, moveValue));
+    if (game_->getPossibleMoves().size() == 0) {
       // user clicked a dead cell
       pop_selection_->close();
-      this->is_game_end_ = true;
+      is_game_end_ = true;
       emit this->stopGameTimer();
-      QString s = "Winner: " + this->info_dock_->getCurrentPlayer();
+      QString s = "Winner: " + info_dock_->getCurrentPlayer();
       this->displayMessage(s);
     } else {
       // the move was successful
@@ -396,13 +322,56 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
       info_dock_->updatePlayer();
       pop_selection_->close();
     }
-    this->is_select_done_ = true;
-    if (true == this->is_AI_) {
+    is_select_done_ = true;
+    if (true == is_AI_) {
       this->playByAI();
     }
   });
   pop_selection_->move(QCursor::pos());
   pop_selection_->show();
+}
+
+void MainWindow::onSolverFinished(solver::helper::Move next_move) {
+  if (is_game_end_) {
+    qDebug() << "Game is already ended. AI lost...";
+    return;
+  }
+
+  if (next_move.value == 0) {  // This may not be reached at all
+    qDebug() << "no possible moves";
+    return;
+  }
+
+  // Play
+  game_->unsafePlay(next_move.pos, next_move.value);
+
+  // GUI update
+  BoardCell *cell = nullptr;
+  for (auto c : board_cells_) {
+    if (c->getPos().y() == next_move.pos.row &&
+        c->getPos().x() == next_move.pos.col) {
+      cell = c;
+    }
+  }
+  QString moveValue = helper::uint8ToQstring(next_move.value);
+  cell->setText(moveValue);
+  cell->setEnabled(false);
+  info_dock_->browser()->append(this->getMoveMessage(next_move.pos, moveValue));
+  info_dock_->updatePlayer();
+
+  // Game update
+  game_string_ = game_->toString();
+  delete game_;
+  game_ = new solver::Game(game_string_);
+  if (game_->getPossibleMoves().size() == 0) {
+    is_game_end_ = true;
+    emit this->stopGameTimer();
+    QString s = "AI wins!";
+    this->displayMessage(s);
+  }
+
+  is_AI_turn_ = false;
+  return;
 }
 
 }  // namespace gui

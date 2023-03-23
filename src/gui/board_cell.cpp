@@ -17,7 +17,7 @@ BoardCell::BoardCell(QString &text, const QPoint &pos, QWidget *parent)
   if (text == "") {
     value_ = 0;
   } else {
-    value_ = QStringToUint8(text);
+    value_ = helper::QStringToUint8(text);
     assert(value_ >= 1 && value_ <= 9);
   }
 
