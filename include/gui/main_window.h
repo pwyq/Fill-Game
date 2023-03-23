@@ -27,6 +27,7 @@
 #include "gui/info_dock.h"
 #include "gui/input_dialog.h"
 #include "gui/popup_selection.h"
+#include "gui/worker.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
 
@@ -77,10 +78,12 @@ class MainWindow : public QMainWindow {
   void clearBoardLayout();
   void drawBoard();
   void playByAI();
+  void solverController();
   inline void displayMessage(QString s);
   inline QString getMoveMessage(Pos pos, QString moveValue);
  private slots:
   void onBoardCellPressed(BoardCell *cell);
+  void onSolverFinished(solver::helper::Move move);
 
  signals:
   void stopGameTimer();
@@ -103,5 +106,9 @@ inline void MainWindow::displayMessage(QString s) {
 }
 
 }  // namespace gui
+
+// For Qt slots/signals
+//  This must be placed after the class decalaration and outside the namespace
+Q_DECLARE_METATYPE(solver::helper::Move)
 
 #endif  // FG_GUI_MAIN_WINDOW_H_
