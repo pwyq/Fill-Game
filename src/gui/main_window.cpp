@@ -2,11 +2,10 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-03-23 00:30:15
+ * @modify date 2023-03-23 02:53:23
  *
  * TODO: cell color (disabled cell)
  * TODO: save/load a game
- * TODO: timer on each side
  */
 #include "gui/main_window.h"
 // Qt

@@ -2,7 +2,7 @@
 # @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-03-22 23:54:32
+# @modify date 2023-03-23 02:53:44
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -66,5 +66,4 @@ set(FILLGAME_HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # sub directory's CMakeLists.txt
 add_subdirectory(src)
-
-# add_subdirectory(test)
+add_subdirectory(test)
