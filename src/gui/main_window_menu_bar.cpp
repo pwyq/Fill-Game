@@ -20,11 +20,13 @@ MainWindowMenuBar *MainWindowMenuBar::pinstance_{nullptr};
 std::mutex MainWindowMenuBar::mutex_;
 
 MainWindowMenuBar::MainWindowMenuBar(QWidget *parent) : QMenuBar(parent) {
-  game_menu_  = this->addMenu("&Game");
-  board_menu_ = this->addMenu("&Board");
-  help_menu_  = this->addMenu("&Help");
+  game_menu_     = this->addMenu("&Game");
+  opponent_menu_ = this->addMenu("&Opponent");
+  board_menu_    = this->addMenu("&Board");
+  help_menu_     = this->addMenu("&Help");
 
   this->initGameMenu();
+  this->initOpponentMenu();
   this->initBoardMenu();
   this->initHelpMenu();
 }
@@ -54,6 +56,40 @@ void MainWindowMenuBar::initGameMenu() {
     this->close();
   });
   game_menu_->addAction(quit);
+}
+
+void MainWindowMenuBar::initOpponentMenu() {
+  QAction *dfpn = new QAction("DFPN", opponent_menu_);
+  connect(dfpn, &QAction::triggered, [this]() {
+    emit this->selectOpponent(helper::SOLVER::DFPN);
+  });
+  opponent_menu_->addAction(dfpn);
+
+  QAction *pns = new QAction("PNS (TODO)", opponent_menu_);
+  connect(pns, &QAction::triggered, [this]() {
+    emit this->selectOpponent(helper::SOLVER::PNS);
+  });
+  opponent_menu_->addAction(pns);
+
+  QAction *minimax = new QAction("Minimax + AB + TT (TODO)", opponent_menu_);
+  connect(minimax, &QAction::triggered, [this]() {
+    emit this->selectOpponent(helper::SOLVER::MINIMAX_AB_TT);
+  });
+  opponent_menu_->addAction(minimax);
+
+  QAction *negamax = new QAction("Negamax + AB + TT (TODO)", opponent_menu_);
+  connect(negamax, &QAction::triggered, [this]() {
+    emit this->selectOpponent(helper::SOLVER::NEGAMAX_AB_TT);
+  });
+  opponent_menu_->addAction(negamax);
+
+  opponent_menu_->addSeparator();
+
+  QAction *human = new QAction("Human vs Human (local)", opponent_menu_);
+  connect(human, &QAction::triggered, [this]() {
+    emit this->selectOpponent(helper::SOLVER::HUMAN_LOCAL);
+  });
+  opponent_menu_->addAction(human);
 }
 
 void MainWindowMenuBar::initBoardMenu() {

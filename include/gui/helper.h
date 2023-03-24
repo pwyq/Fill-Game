@@ -16,8 +16,9 @@ namespace gui::helper {
 //  ENUM
 ///////////////////////////////////////
 enum SOLVER {
-  DFPN = 0,
-  PNS,            // TODO
+  HUMAN_LOCAL = 0,  // TODO
+  PNS,              // TODO
+  DFPN,
   MINIMAX_AB_TT,  // TODO
   NEGAMAX_AB_TT   // TODO
 };

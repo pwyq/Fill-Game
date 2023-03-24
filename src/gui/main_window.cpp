@@ -2,9 +2,9 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-03-23 17:16:37
+ * @modify date 2023-03-23 18:36:14
  *
- * TODO: timer constraint on solver @sam
+ * TODO: timer constraint on solver
  * TODO: save/load a game ?
  */
 #include "gui/main_window.h"
@@ -46,6 +46,7 @@ void MainWindow::initUI() {
   this->setWindowTitle(QString::fromStdString("Fill Game"));
   connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::startNewGame);
   connect(menu_bar_, &MainWindowMenuBar::changeGameSize, this, &MainWindow::changeGameSize);
+  connect(menu_bar_, &MainWindowMenuBar::selectOpponent, this, &MainWindow::onSelectOpponent);
   this->setMenuBar(menu_bar_);
 
   // Central Area
@@ -288,6 +289,48 @@ void MainWindow::onSolverFinished(solver::helper::Move next_move) {
   }
 
   is_AI_turn_ = false;
+  return;
+}
+
+void MainWindow::onSelectOpponent(helper::SOLVER opponent) {
+  if (solver_ == opponent) {
+    return;
+  }
+  solver_ = opponent;
+
+  QString out_str;
+  switch (solver_) {
+    case helper::SOLVER::DFPN: {
+      is_AI_  = true;
+      out_str = "[INFO] switch to opponent=DFPN";
+      break;
+    }
+    case helper::SOLVER::PNS: {
+      // TODO
+      is_AI_  = true;
+      out_str = "[INFO] switch to opponent=PNS";
+      break;
+    }
+    case helper::SOLVER::MINIMAX_AB_TT: {
+      // TODO
+      is_AI_  = true;
+      out_str = "[INFO] switch to opponent=MINIMAX_AB_TT";
+      break;
+    }
+    case helper::SOLVER::NEGAMAX_AB_TT: {
+      // TODO
+      is_AI_  = true;
+      out_str = "[INFO] switch to opponent=NEGAMAX_AB_TT";
+      break;
+    }
+    case helper::SOLVER::HUMAN_LOCAL: {
+      is_AI_  = false;
+      out_str = "[INFO] switch to opponent=Human (local)";
+      break;
+    }
+  }
+  info_dock_->browser()->append(out_str);
+
   return;
 }
 

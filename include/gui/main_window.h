@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:27:13
- * @modify date 2023-03-23 09:01:46
+ * @modify date 2023-03-23 18:36:19
  * @desc GUI's Main window, including title bar, menu bar, game board, info
  * panel
  */
@@ -76,6 +76,7 @@ class MainWindow : public QMainWindow {
  private slots:
   void onBoardCellPressed(BoardCell *cell);
   void onSolverFinished(solver::helper::Move move);
+  void onSelectOpponent(helper::SOLVER opponent);
   void startNewGame();
   void changeGameSize(uint8_t width, uint8_t height);
 

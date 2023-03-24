@@ -15,6 +15,8 @@
 // Qt
 #include <QMenu>
 #include <QMenuBar>
+// local
+#include "gui/helper.h"
 
 namespace gui {
 class MainWindowMenuBar : public QMenuBar {
@@ -36,13 +38,16 @@ class MainWindowMenuBar : public QMenuBar {
 
  private:
   QMenu *game_menu_;
+  QMenu *opponent_menu_;
   QMenu *board_menu_;
   QMenu *help_menu_;
 
   void initGameMenu();
+  void initOpponentMenu();
   void initBoardMenu();
   void initHelpMenu();
  signals:
+  void selectOpponent(helper::SOLVER opponent);
   void startNewGame();
   void changeGameSize(uint8_t width, uint8_t height);
 };

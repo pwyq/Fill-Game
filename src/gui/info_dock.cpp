@@ -81,6 +81,7 @@ void InfoDock::initUI() {
   this->setWidget(widget_);
   this->setAllowedAreas(Qt::LeftDockWidgetArea);
   this->setFloating(false);
+  this->setMinimumWidth(300);
 }
 
 void InfoDock::resetPlayer() {
