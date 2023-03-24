@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-03-23 18:36:14
+ * @modify date 2023-03-24 01:24:22
  *
  * TODO: same timer constraint (as the UI) on solver
  * TODO: save/load a game ?
@@ -39,6 +39,12 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   this->setWindowFlags(windowFlags() & (~Qt::WindowMaximizeButtonHint));
   // https://en.cppreference.com/w/cpp/language/rule_of_three rule of 3/5/0
   // this->setAttribute( Qt::WA_DeleteOnClose );
+
+  // testing
+  tcp_server_ = new TCPServer(this);
+  tcp_client_ = new TCPClient(this);
+
+  tcp_server_->sendMessage();
 }
 
 void MainWindow::initUI() {
@@ -191,6 +197,8 @@ void MainWindow::solverController() {
 }
 
 void MainWindow::onBoardCellPressed(BoardCell *cell) {
+  tcp_server_->sendMessage();
+
   if (is_game_end_) {
     QString s = "Game is ended. Please start a new game.";
     this->displayMessage(s);
@@ -323,6 +331,11 @@ void MainWindow::onSelectOpponent(helper::SOLVER opponent) {
       // TODO
       is_AI_  = true;
       out_str = "[INFO] switch to opponent=NEGAMAX_AB_TT";
+      break;
+    }
+    case helper::SOLVER::HUMAN_REMOTE: {
+      is_AI_  = false;
+      out_str = "[INFO] switch to opponent=Human (remote)";
       break;
     }
     case helper::SOLVER::HUMAN_LOCAL: {

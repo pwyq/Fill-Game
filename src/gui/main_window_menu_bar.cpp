@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 17:04:59
- * @modify date 2023-03-23 17:11:27
+ * @modify date 2023-03-24 01:24:30
  */
 
 #include "gui/main_window_menu_bar.h"
@@ -85,11 +85,17 @@ void MainWindowMenuBar::initOpponentMenu() {
 
   opponent_menu_->addSeparator();
 
-  QAction *human = new QAction("Human vs Human (local)", opponent_menu_);
-  connect(human, &QAction::triggered, [this]() {
+  QAction *human_remote = new QAction("Human vs Human (remote)", opponent_menu_);
+  connect(human_remote, &QAction::triggered, [this]() {
+    emit this->selectOpponent(helper::SOLVER::HUMAN_REMOTE);
+  });
+  opponent_menu_->addAction(human_remote);
+
+  QAction *human_local = new QAction("Human vs Human (local)", opponent_menu_);
+  connect(human_local, &QAction::triggered, [this]() {
     emit this->selectOpponent(helper::SOLVER::HUMAN_LOCAL);
   });
-  opponent_menu_->addAction(human);
+  opponent_menu_->addAction(human_local);
 }
 
 void MainWindowMenuBar::initBoardMenu() {

@@ -26,8 +26,9 @@
 #include "gui/info_dock.h"
 #include "gui/main_window_menu_bar.h"
 #include "gui/popup_selection.h"
+#include "gui/tcp_client.h"
+#include "gui/tcp_server.h"
 #include "gui/worker.h"
-#include "solver/dfpn.h"
 #include "solver/game.h"
 
 using solver::helper::PLAYER;
@@ -59,11 +60,14 @@ class MainWindow : public QMainWindow {
   helper::SOLVER solver_ = helper::SOLVER::DFPN;
   uint32_t move_counter_ = 1;
   std::string game_string_;
-
   bool is_AI_          = false;
   bool is_AI_turn_     = false;
   bool is_select_done_ = true;
   bool is_game_end_    = false;
+
+  // TCP
+  TCPServer *tcp_server_;
+  TCPClient *tcp_client_;
 
   void initUI();
   void clearBoardLayout();

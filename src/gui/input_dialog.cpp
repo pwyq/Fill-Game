@@ -45,9 +45,7 @@ std::pair<uint8_t, uint8_t> InputDialog::getInputs(QWidget *parent, bool *ok) {
   if (ok) *ok = !!ret;
 
   if (ret) {
-    foreach (auto field, dialog->fields_) {
-      res = std::make_pair(dialog->fields_[0]->value(), dialog->fields_[1]->value());
-    }
+    res = std::make_pair(dialog->fields_[0]->value(), dialog->fields_[1]->value());
   }
 
   dialog->deleteLater();

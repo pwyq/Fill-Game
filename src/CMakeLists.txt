@@ -2,7 +2,7 @@
 # @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:08
-# @modify date 2023-03-16 22:03:23
+# @modify date 2023-03-23 23:32:28
 # @desc cmake file for src/
 # ##
 
@@ -26,12 +26,15 @@ file(GLOB_RECURSE SOLVER_HEADER LIST_DIRECTORIES FALSE ${FILLGAME_HEADER_DIR}/so
 
 # message(STATUS "debug = " ${GUI_SOURCE} ${GUI_HEADER})
 add_library(${BINARY_NAME}_lib STATIC ${SOLVER_SOURCE} ${SOLVER_HEADER})
+
 if(IS_BUILD_GUI)
   # only wrap GUI related headers
   qt5_wrap_cpp(GUI_HEADER_MOC ${GUI_HEADER})
-  if (WIN32)
+
+  if(WIN32)
     set(CMAKE_WIN32_EXECUTABLE ON)
   endif()
+
   add_executable(${BINARY_NAME}_gui
     gui_main.cpp
     ${GUI_SOURCE}
@@ -41,6 +44,7 @@ if(IS_BUILD_GUI)
     ${GUI_HEADER_MOC}
     ${FILLGAME_PROJ_DIR}/fillgame.qrc
   )
+
   # Add the Qt libraries for linking
   # qt5_use_modules(${BINARY_NAME} Widgets Gui Core)    # this is the same as the `target_link_libraries`; we only need one of them
   target_link_libraries(${BINARY_NAME}_gui
@@ -48,6 +52,7 @@ if(IS_BUILD_GUI)
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Network
   )
 else()
   add_executable(${BINARY_NAME}_cli
@@ -55,4 +60,5 @@ else()
     ${SOLVER_SOURCE}
   )
 endif()
+
 # End of File

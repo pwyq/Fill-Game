@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:26:24
- * @modify date 2023-03-23 16:23:05
+ * @modify date 2023-03-24 01:24:24
  * @desc GUI helpers
  */
 #ifndef FG_GUI_HELPER_H_
@@ -17,6 +17,7 @@ namespace gui::helper {
 ///////////////////////////////////////
 enum SOLVER {
   HUMAN_LOCAL = 0,
+  HUMAN_REMOTE,  // TESTING
   DFPN,
   PNS,            // TODO
   MINIMAX_AB_TT,  // TODO

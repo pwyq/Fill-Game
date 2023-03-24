@@ -188,7 +188,10 @@
         "types": "cpp",
         "qdesktopwidget": "cpp",
         "qmenu": "cpp",
-        "qspinbox": "cpp"
+        "qspinbox": "cpp",
+        "qdebug": "cpp",
+        "qfiledialog": "cpp",
+        "qset": "cpp"
     },
     "cmake.configureOnOpen": true
 }
