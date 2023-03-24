@@ -24,7 +24,6 @@
 #include "gui/board_cell.h"
 #include "gui/helper.h"
 #include "gui/info_dock.h"
-#include "gui/input_dialog.h"
 #include "gui/main_window_menu_bar.h"
 #include "gui/popup_selection.h"
 #include "gui/worker.h"

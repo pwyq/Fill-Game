@@ -23,11 +23,11 @@ class MainWindowMenuBar : public QMenuBar {
  public:
   MainWindowMenuBar(MainWindowMenuBar &other) = delete;  // non-clonable
   void operator=(const MainWindowMenuBar &) = delete;    // non-assignable
-  static MainWindowMenuBar *GetInstance();
+  static MainWindowMenuBar *GetInstance(QWidget *parent = nullptr);
   ~MainWindowMenuBar();
 
  protected:
-  MainWindowMenuBar();
+  MainWindowMenuBar(QWidget *parent = nullptr);
 
  private:
   static MainWindowMenuBar *pinstance_;

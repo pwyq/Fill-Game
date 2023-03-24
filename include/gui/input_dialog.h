@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:26:47
- * @modify date 2023-02-10 05:26:47
+ * @modify date 2023-03-23 17:57:35
  * @desc Multiple input dialogs
  */
 #ifndef FG_INPUT_DIALOG_H_
@@ -11,8 +11,7 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QFormLayout>
-#include <QLabel>
-#include <QLineEdit>
+#include <QSpinBox>
 
 namespace gui {
 
@@ -25,10 +24,11 @@ class InputDialog : public QDialog {
  public:
   explicit InputDialog(QWidget *parent = nullptr);
 
-  static QStringList getStrings(QWidget *parent, bool *ok = nullptr);
+  static std::pair<uint8_t, uint8_t> getInputs(QWidget *parent, bool *ok = nullptr);
 
  private:
-  QList<QLineEdit *> fields_;
+  QStringList labels_ = {"Width", "Height"};
+  QList<QSpinBox *> fields_;
 };
 
 }  // namespace gui

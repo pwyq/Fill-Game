@@ -10,6 +10,7 @@
 #include <QApplication>
 #include <QDebug>
 // local
+#include "gui/input_dialog.h"
 #include "gui/popup_window.h"
 
 namespace gui {
@@ -18,7 +19,7 @@ namespace gui {
 MainWindowMenuBar *MainWindowMenuBar::pinstance_{nullptr};
 std::mutex MainWindowMenuBar::mutex_;
 
-MainWindowMenuBar::MainWindowMenuBar() {
+MainWindowMenuBar::MainWindowMenuBar(QWidget *parent) : QMenuBar(parent) {
   game_menu_  = this->addMenu("&Game");
   board_menu_ = this->addMenu("&Board");
   help_menu_  = this->addMenu("&Help");
@@ -30,10 +31,10 @@ MainWindowMenuBar::MainWindowMenuBar() {
 
 MainWindowMenuBar::~MainWindowMenuBar() { pinstance_ = nullptr; }
 
-MainWindowMenuBar *MainWindowMenuBar::GetInstance() {
+MainWindowMenuBar *MainWindowMenuBar::GetInstance(QWidget *parent) {
   std::lock_guard<std::mutex> lock(mutex_);
   if (pinstance_ == nullptr) {
-    pinstance_ = new MainWindowMenuBar();
+    pinstance_ = new MainWindowMenuBar(parent);
   }
   return pinstance_;
 }
@@ -79,17 +80,17 @@ void MainWindowMenuBar::initBoardMenu() {
     emit this->changeGameSize(10, 10);
   });
   board_menu_->addAction(ten);
-  /*
-  QAction* custom = new QAction("&Custom Board Size", _boardMenu);
-  connect(ten, &QAction::triggered, [this]() {
-      QStringList list = InputDialog::getStrings(this);
-      if (!list.isEmpty()) {
-          // use list
-      }
-      emit this->changeGameSize(10, 10);
+
+  QAction *custom = new QAction("&Custom Board Size", board_menu_);
+  connect(custom, &QAction::triggered, [this]() {
+    // QStringList list = InputDialog::getStrings(this);
+    // if (!list.isEmpty()) {
+    // use list
+    // }
+    std::pair<uint8_t, uint8_t> res = InputDialog::getInputs(this);
+    emit this->changeGameSize(res.first, res.second);
   });
-  _boardMenu->addAction(custom);
-  */
+  board_menu_->addAction(custom);
 }
 
 void MainWindowMenuBar::initHelpMenu() {

@@ -187,7 +187,8 @@
         "buffered_value": "cpp",
         "types": "cpp",
         "qdesktopwidget": "cpp",
-        "qmenu": "cpp"
+        "qmenu": "cpp",
+        "qspinbox": "cpp"
     },
     "cmake.configureOnOpen": true
 }

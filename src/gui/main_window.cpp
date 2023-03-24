@@ -28,7 +28,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   board_layout_ = new QGridLayout();
   main_widget_  = new QWidget();
   info_dock_    = InfoDock::GetInstance();
-  menu_bar_     = MainWindowMenuBar::GetInstance();
+  menu_bar_     = MainWindowMenuBar::GetInstance(this);
 
   // Solver elements
   this->startNewGame();
@@ -51,12 +51,12 @@ void MainWindow::initUI() {
   // Central Area
   this->drawBoard();
   // Right Info Dock
-  this->addDockWidget(Qt::RightDockWidgetArea, info_dock_);
   connect(info_dock_, &InfoDock::gameTimeOut, [this](QString msg) {
     this->is_game_end_ = true;
     this->displayMessage(msg);
   });
   connect(this, &MainWindow::stopGameTimer, info_dock_, &InfoDock::onStopGameTimer);
+  this->addDockWidget(Qt::RightDockWidgetArea, info_dock_);
 
   main_layout_->addLayout(board_layout_);
   main_widget_->setLayout(main_layout_);
