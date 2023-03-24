@@ -66,7 +66,7 @@ class InfoDock : public QDockWidget {
   void resetTimerUI();
   void setCountdownTime();
   const QString timer_format = "mm:ss";
-  uint32_t countdown_        = 10;  // in seconds
+  uint32_t countdown_        = 30;  // in seconds
 
   void loadQSS();
 
