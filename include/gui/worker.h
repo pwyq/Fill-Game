@@ -40,7 +40,7 @@ class Worker : public QObject {
   void error(QString err);
 };
 
-// TODO: how to use inheritence here?
+// TODO: how and should we to use inheritence here?
 class SolverWorker : public QObject {
   Q_OBJECT
  public:

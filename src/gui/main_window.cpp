@@ -4,7 +4,7 @@
  * @create date 2023-02-10 05:32:27
  * @modify date 2023-03-23 18:36:14
  *
- * TODO: timer constraint on solver
+ * TODO: same timer constraint (as the UI) on solver
  * TODO: save/load a game ?
  */
 #include "gui/main_window.h"
@@ -294,6 +294,8 @@ void MainWindow::onSolverFinished(solver::helper::Move next_move) {
 
 void MainWindow::onSelectOpponent(helper::SOLVER opponent) {
   if (solver_ == opponent) {
+    QString s = "[WARNING] same opponent. no change is made";
+    info_dock_->browser()->append(s);
     return;
   }
   solver_ = opponent;

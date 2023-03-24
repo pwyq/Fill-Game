@@ -35,7 +35,6 @@ using solver::helper::Pos;
 
 namespace gui {
 
-// TODO: singleton
 class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
@@ -56,8 +55,8 @@ class MainWindow : public QMainWindow {
   std::vector<BoardCell *> board_cells_;
 
   // Solver members
-  solver::Game *game_    = nullptr;               // TODO: std::auto_ptr, std::shared_ptr?
-  helper::SOLVER solver_ = helper::SOLVER::DFPN;  // TODO: let user choose AI type
+  solver::Game *game_    = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
+  helper::SOLVER solver_ = helper::SOLVER::DFPN;
   uint32_t move_counter_ = 1;
   std::string game_string_;
 
