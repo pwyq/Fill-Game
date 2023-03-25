@@ -23,16 +23,16 @@ class TCPClient : public QObject {
  public:
   explicit TCPClient(QWidget* parent = nullptr);
   ~TCPClient();
+  void sendMessage();
  signals:
   void newMessage(QString);
  private slots:
   void readSocket();
   void discardSocket();
-
   void displayMessage(const QString& str);
 
  private:
-  QTcpSocket* socket;
+  QTcpSocket* socket_ = nullptr;
 };
 
 }  // namespace gui

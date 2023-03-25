@@ -43,8 +43,6 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   // testing
   tcp_server_ = new TCPServer(this);
   tcp_client_ = new TCPClient(this);
-
-  tcp_server_->sendMessage();
 }
 
 void MainWindow::initUI() {
@@ -198,6 +196,7 @@ void MainWindow::solverController() {
 
 void MainWindow::onBoardCellPressed(BoardCell *cell) {
   tcp_server_->sendMessage();
+  tcp_client_->sendMessage();
 
   if (is_game_end_) {
     QString s = "Game is ended. Please start a new game.";

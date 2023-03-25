@@ -40,7 +40,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
   MainWindow();
-  // ~MainWindow();   // No need of destructor; otherwise double free(); the rule of 3/5/0
+  // ~MainWindow();  // No need of destructor; otherwise double free(); the rule of 3/5/0
 
  private:
   // UI members

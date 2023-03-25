@@ -4,6 +4,9 @@
  * @create date 2023-03-23 23:11:18
  * @modify date 2023-03-24 01:22:17
  * @desc TCP Server
+ * 
+ * Each Fill-Game GUI application instance has only one server and only one client.
+ * 
  */
 
 #ifndef FG_GUI_TCP_SERVER_H_
@@ -30,18 +33,15 @@ class TCPServer : public QObject {
   void newMessage(QString);
  private slots:
   void newConnection();
-  void appendToSocketList(QTcpSocket* socket);
 
   void readSocket();
   void discardSocket();
 
   void displayMessage(const QString& str);
-  void sendMessage(QTcpSocket* socket);
-  void sendAttachment(QTcpSocket* socket, QString filePath);
 
  private:
-  QTcpServer* m_server;
-  QSet<QTcpSocket*> connection_set;
+  QTcpServer* server_        = nullptr;
+  QTcpSocket* target_socket_ = nullptr;
 };
 
 }  // namespace gui
