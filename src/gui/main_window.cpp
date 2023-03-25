@@ -2,13 +2,14 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-03-24 01:24:22
+ * @modify date 2023-03-25 02:23:29
  *
  * TODO: same timer constraint (as the UI) on solver
  * TODO: save/load a game ?
  */
 #include "gui/main_window.h"
 // Qt
+#include <QHostAddress>
 #include <QThread>
 // local
 #include "gui/board_cell.h"
@@ -29,6 +30,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   main_widget_  = new QWidget();
   info_dock_    = InfoDock::GetInstance();
   menu_bar_     = MainWindowMenuBar::GetInstance(this);
+  settings_     = TabDialog::GetInstance("test.txt", this);
 
   // Solver elements
   this->startNewGame();
@@ -43,6 +45,12 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   // testing
   tcp_server_ = new TCPServer(this);
   tcp_client_ = new TCPClient(this);
+
+  // TODO: a window to set IP address, then set connect
+
+  const QHostAddress addr = QHostAddress("127.0.0.1");  // TODO: check string is IPv4/IPv6
+  tcp_server_->setup(addr, 8080);
+  tcp_client_->setup(addr, 8080);
 }
 
 void MainWindow::initUI() {
@@ -51,6 +59,7 @@ void MainWindow::initUI() {
   connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::startNewGame);
   connect(menu_bar_, &MainWindowMenuBar::changeGameSize, this, &MainWindow::changeGameSize);
   connect(menu_bar_, &MainWindowMenuBar::selectOpponent, this, &MainWindow::onSelectOpponent);
+  connect(menu_bar_, &MainWindowMenuBar::openSettings, this, &MainWindow::onOpenSettings);
   this->setMenuBar(menu_bar_);
 
   // Central Area
@@ -195,8 +204,8 @@ void MainWindow::solverController() {
 }
 
 void MainWindow::onBoardCellPressed(BoardCell *cell) {
-  tcp_server_->sendMessage();
-  tcp_client_->sendMessage();
+  tcp_server_->sendMessage("hey client");
+  tcp_client_->sendMessage("hey server");
 
   if (is_game_end_) {
     QString s = "Game is ended. Please start a new game.";
@@ -346,6 +355,10 @@ void MainWindow::onSelectOpponent(helper::SOLVER opponent) {
   info_dock_->browser()->append(out_str);
 
   return;
+}
+
+void MainWindow::onOpenSettings() {
+  settings_->show();
 }
 
 }  // namespace gui

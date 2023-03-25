@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:27:13
- * @modify date 2023-03-23 18:36:19
+ * @modify date 2023-03-25 02:23:28
  * @desc GUI's Main window, including title bar, menu bar, game board, info
  * panel
  */
@@ -26,6 +26,7 @@
 #include "gui/info_dock.h"
 #include "gui/main_window_menu_bar.h"
 #include "gui/popup_selection.h"
+#include "gui/settings.h"
 #include "gui/tcp_client.h"
 #include "gui/tcp_server.h"
 #include "gui/worker.h"
@@ -47,6 +48,7 @@ class MainWindow : public QMainWindow {
   MainWindowMenuBar *menu_bar_   = nullptr;
   InfoDock *info_dock_           = nullptr;
   PopupSelection *pop_selection_ = nullptr;
+  TabDialog *settings_           = nullptr;
   QHBoxLayout *main_layout_;
   QGridLayout *board_layout_;
   QWidget *main_widget_;
@@ -77,6 +79,7 @@ class MainWindow : public QMainWindow {
   inline void displayMessage(QString s);
   inline QString getMoveMessage(Pos pos, QString moveValue);
  private slots:
+  void onOpenSettings();
   void onBoardCellPressed(BoardCell *cell);
   void onSolverFinished(solver::helper::Move move);
   void onSelectOpponent(helper::SOLVER opponent);

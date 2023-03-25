@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 23:12:35
- * @modify date 2023-03-25 00:46:14
+ * @modify date 2023-03-25 02:23:37
  */
 
 #include "gui/tcp_server.h"
@@ -11,14 +11,6 @@ namespace gui {
 
 TCPServer::TCPServer(QWidget* parent) {
   server_ = new QTcpServer();
-
-  if (server_->listen(QHostAddress::Any, 8080)) {
-    connect(this, &TCPServer::newMessage, this, &TCPServer::displayMessage);
-    connect(server_, &QTcpServer::newConnection, this, &TCPServer::newConnection);
-  } else {
-    qDebug() << QString("Unable to start the server: %1.").arg(server_->errorString());
-    exit(EXIT_FAILURE);
-  }
 }
 
 TCPServer::~TCPServer() {
@@ -31,6 +23,16 @@ TCPServer::~TCPServer() {
   server_->close();
   server_->deleteLater();
   server_ = nullptr;
+}
+
+void TCPServer::setup(const QHostAddress& addr, quint16 port) {
+  if (server_->listen(addr, port)) {
+    connect(this, &TCPServer::newMessage, this, &TCPServer::displayMessage);
+    connect(server_, &QTcpServer::newConnection, this, &TCPServer::newConnection);
+  } else {
+    qDebug() << QString("Unable to start the server: %1.").arg(server_->errorString());
+    exit(EXIT_FAILURE);
+  }
 }
 
 void TCPServer::newConnection() {
@@ -77,32 +79,32 @@ void TCPServer::discardSocket() {
   qDebug() << ("server: Disconnected!");
 }
 
-void TCPServer::sendMessage() {
-  if (target_socket_ != nullptr) {
-    if (target_socket_->isOpen()) {
-      QString str = "ranasdfsadfasdfasfafdssadf";
-
-      QDataStream socketStream(target_socket_);
-      socketStream.setVersion(QDataStream::Qt_5_12);
-
-      QByteArray header;
-      header.prepend(QString("fileType:message,fileName:null,fileSize:%1;").arg(str.size()).toUtf8());
-      header.resize(128);
-
-      QByteArray byteArray = str.toUtf8();
-      byteArray.prepend(header);
-
-      socketStream.setVersion(QDataStream::Qt_5_12);
-      socketStream << byteArray;
-    } else
-      qDebug() << "QTCPServer - Socket doesn't seem to be opened";
-  } else
+void TCPServer::sendMessage(const QString& msg) {
+  if (target_socket_ == nullptr) {
     qDebug() << "QTCPServer - Not connected";
+    return;
+  }
+  if (false == target_socket_->isOpen()) {
+    qDebug() << "QTCPServer - Socket doesn't seem to be opened";
+    return;
+  }
+
+  QDataStream socketStream(target_socket_);
+  socketStream.setVersion(QDataStream::Qt_5_12);
+
+  QByteArray header;
+  header.prepend(QString("fileType:message,fileName:null,fileSize:%1;").arg(msg.size()).toUtf8());
+  header.resize(128);
+
+  QByteArray byteArray = msg.toUtf8();
+  byteArray.prepend(header);
+
+  socketStream.setVersion(QDataStream::Qt_5_12);
+  socketStream << byteArray;
 }
 
 void TCPServer::displayMessage(const QString& str) {
-  qDebug() << "server!!";
-  qDebug() << str;
+  qDebug() << "server!! " << str;
 }
 
 }  // namespace gui

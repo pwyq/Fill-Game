@@ -47,9 +47,10 @@ class MainWindowMenuBar : public QMenuBar {
   void initBoardMenu();
   void initHelpMenu();
  signals:
+  void changeGameSize(uint8_t width, uint8_t height);
+  void openSettings();
   void selectOpponent(helper::SOLVER opponent);
   void startNewGame();
-  void changeGameSize(uint8_t width, uint8_t height);
 };
 
 }  // namespace gui
