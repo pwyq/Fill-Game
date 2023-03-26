@@ -26,6 +26,7 @@
 #include "gui/info_dock.h"
 #include "gui/ip_settings.h"
 #include "gui/main_window_menu_bar.h"
+#include "gui/new_game_window.h"
 #include "gui/popup_selection.h"
 #include "gui/tcp_client.h"
 #include "gui/tcp_server.h"
@@ -45,10 +46,11 @@ class MainWindow : public QMainWindow {
 
  private:
   // UI members
-  MainWindowMenuBar *menu_bar_   = nullptr;
-  InfoDock *info_dock_           = nullptr;
-  PopupSelection *pop_selection_ = nullptr;
-  IPSettingDialog *ip_settings_  = nullptr;
+  MainWindowMenuBar *menu_bar_    = nullptr;
+  InfoDock *info_dock_            = nullptr;
+  PopupSelection *pop_selection_  = nullptr;
+  IPSettingDialog *ip_settings_   = nullptr;
+  NewGameWindow *new_game_window_ = nullptr;
   QHBoxLayout *main_layout_;
   QGridLayout *board_layout_;
   QWidget *main_widget_;
@@ -76,6 +78,7 @@ class MainWindow : public QMainWindow {
   void drawBoard();
   void playByAI();
   void solverController();
+  void startNewGame();
   void playAndUpdate(solver::helper::Move next_move);
   inline QString getMoveMessage(Pos pos, QString moveValue);
  private slots:
@@ -85,7 +88,7 @@ class MainWindow : public QMainWindow {
   void onOpponentSelected(helper::SOLVER opponent);
   void onTargetIPConfirmed(QStringList str_list);
   void onClientMessageReceived(QString data);
-  void startNewGame();
+  void onNewGameRequested();
   void changeGameSize(uint8_t width, uint8_t height);
 
  signals:

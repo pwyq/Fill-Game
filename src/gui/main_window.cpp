@@ -52,9 +52,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
 void MainWindow::initUI() {
   // Top Menu Bar
   this->setWindowTitle(QString::fromStdString("Fill Game"));
-  connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::startNewGame);
-  connect(menu_bar_, &MainWindowMenuBar::changeGameSize, this, &MainWindow::changeGameSize);
-  connect(menu_bar_, &MainWindowMenuBar::selectOpponent, this, &MainWindow::onOpponentSelected);
+  connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::onNewGameRequested);
   connect(menu_bar_, &MainWindowMenuBar::openSettings, this, &MainWindow::onSettingsOpened);
   this->setMenuBar(menu_bar_);
 
@@ -418,6 +416,20 @@ void MainWindow::onClientMessageReceived(QString data) {
   next_move.value = helper::QStringToUint8(val);
 
   playAndUpdate(next_move);
+
+  return;
+}
+
+void MainWindow::onNewGameRequested() {
+  qDebug() << "connected";
+
+  new_game_window_ = NewGameWindow::GetInstance();
+  connect(new_game_window_, &NewGameWindow::changeGameSize, this, &MainWindow::changeGameSize);
+  connect(new_game_window_, &NewGameWindow::selectOpponent, this, &MainWindow::onOpponentSelected);
+
+  new_game_window_->show();
+
+  startNewGame();
 
   return;
 }
