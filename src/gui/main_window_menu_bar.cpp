@@ -93,13 +93,13 @@ void MainWindowMenuBar::initOpponentMenu() {
 
   opponent_menu_->addSeparator();
 
-  QAction *human_remote = new QAction("Human vs Human (remote)", opponent_menu_);
+  QAction *human_remote = new QAction("Human (remote)", opponent_menu_);
   connect(human_remote, &QAction::triggered, [this]() {
     emit this->selectOpponent(helper::SOLVER::HUMAN_REMOTE);
   });
   opponent_menu_->addAction(human_remote);
 
-  QAction *human_local = new QAction("Human vs Human (local)", opponent_menu_);
+  QAction *human_local = new QAction("Human (local)", opponent_menu_);
   connect(human_local, &QAction::triggered, [this]() {
     emit this->selectOpponent(helper::SOLVER::HUMAN_LOCAL);
   });

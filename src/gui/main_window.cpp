@@ -46,7 +46,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   // testing
   tcp_server_ = new TCPServer(this);
   tcp_client_ = new TCPClient(this);
-  connect(tcp_server_, &TCPServer::clientMessage, this, &MainWindow::onClientMessage);
+  connect(tcp_server_, &TCPServer::clientMessage, this, &MainWindow::onClientMessageReceived);
 }
 
 void MainWindow::initUI() {
@@ -55,7 +55,7 @@ void MainWindow::initUI() {
   connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::startNewGame);
   connect(menu_bar_, &MainWindowMenuBar::changeGameSize, this, &MainWindow::changeGameSize);
   connect(menu_bar_, &MainWindowMenuBar::selectOpponent, this, &MainWindow::onOpponentSelected);
-  connect(menu_bar_, &MainWindowMenuBar::openSettings, this, &MainWindow::onOpenSettings);
+  connect(menu_bar_, &MainWindowMenuBar::openSettings, this, &MainWindow::onSettingsOpened);
   this->setMenuBar(menu_bar_);
 
   connect(ip_settings_, &IPSettingDialog::confirmIPs, this, &MainWindow::onTargetIPConfirmed);
@@ -366,7 +366,7 @@ void MainWindow::onOpponentSelected(helper::SOLVER opponent) {
   return;
 }
 
-void MainWindow::onOpenSettings() {
+void MainWindow::onSettingsOpened() {
   // settings_->show();
   // this was going to be setting IP connections between user machine and opponent machine
   // I think it better to open it directly when user select "Human vs Human (remote)"
@@ -403,7 +403,7 @@ void MainWindow::onTargetIPConfirmed(QStringList str_list) {
   info_dock_->browser()->append(s);
 }
 
-void MainWindow::onClientMessage(QString data) {
+void MainWindow::onClientMessageReceived(QString data) {
   // construct pos and value from data
   // data is of the form <row>-<col>=<value>
   int first   = data.indexOf('-');

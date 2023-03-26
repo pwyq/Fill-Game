@@ -24,9 +24,9 @@
 #include "gui/board_cell.h"
 #include "gui/helper.h"
 #include "gui/info_dock.h"
+#include "gui/ip_settings.h"
 #include "gui/main_window_menu_bar.h"
 #include "gui/popup_selection.h"
-#include "gui/settings.h"
 #include "gui/tcp_client.h"
 #include "gui/tcp_server.h"
 #include "gui/worker.h"
@@ -79,12 +79,12 @@ class MainWindow : public QMainWindow {
   void playAndUpdate(solver::helper::Move next_move);
   inline QString getMoveMessage(Pos pos, QString moveValue);
  private slots:
-  void onOpenSettings();
+  void onSettingsOpened();
   void onBoardCellPressed(BoardCell *cell);
   void onSolverFinished(solver::helper::Move move);
   void onOpponentSelected(helper::SOLVER opponent);
   void onTargetIPConfirmed(QStringList str_list);
-  void onClientMessage(QString data);
+  void onClientMessageReceived(QString data);
   void startNewGame();
   void changeGameSize(uint8_t width, uint8_t height);
 

@@ -6,8 +6,8 @@
  * @desc IP Connection Settings
  */
 
-#ifndef FG_GUI_SETTINGS_H_
-#define FG_GUI_SETTINGS_H_
+#ifndef FG_GUI_IP_SETTINGS_H_
+#define FG_GUI_IP_SETTINGS_H_
 
 // https://doc.qt.io/qt-6/qtwidgets-dialogs-tabdialog-example.html
 // std

@@ -5,7 +5,7 @@
  * @modify date 2023-03-25 14:12:27
  */
 
-#include "gui/settings.h"
+#include "gui/ip_settings.h"
 // Qt
 #include <QCheckBox>
 #include <QDateTime>
