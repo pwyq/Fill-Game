@@ -2,8 +2,9 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:32:27
- * @modify date 2023-03-25 02:23:29
+ * @modify date 2023-03-26 02:51:51
  *
+ * TODO: for remote mode, open a new window, when both player agrees on black/white, board size, timer etc, then start
  * TODO: same timer constraint (as the UI) on solver
  * TODO: save/load a game ?
  */
@@ -46,9 +47,6 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   tcp_server_ = new TCPServer(this);
   tcp_client_ = new TCPClient(this);
   connect(tcp_server_, &TCPServer::clientMessage, this, &MainWindow::onClientMessage);
-  // const QHostAddress addr = QHostAddress("192.168.0.105");
-  // tcp_server_->setup(addr, 8080);  // set up using own machine's IP
-  // tcp_client_->setup(addr, 8080);  // connect to opponent (target) IP
 }
 
 void MainWindow::initUI() {
@@ -203,6 +201,36 @@ void MainWindow::solverController() {
   thread->start();
 }
 
+void MainWindow::playAndUpdate(solver::helper::Move next_move) {
+  // Play
+  game_->unsafePlay(next_move.pos, next_move.value);
+
+  // GUI update
+  BoardCell *cell = nullptr;
+  for (auto c : board_cells_) {
+    if (c->getPos().y() == next_move.pos.row &&
+        c->getPos().x() == next_move.pos.col) {
+      cell = c;
+    }
+  }
+  QString moveValue = helper::uint8ToQstring(next_move.value);
+  cell->setText(moveValue, game_->toPlay());
+  cell->setEnabled(false);
+  info_dock_->browser()->append(this->getMoveMessage(next_move.pos, moveValue));
+  info_dock_->updatePlayer();
+
+  // Game update
+  game_string_ = game_->toString();
+  delete game_;
+  game_ = new solver::Game(game_string_);
+
+  return;
+}
+
+///////////////////////////////////////
+// private Qt slots
+///////////////////////////////////////
+
 void MainWindow::onBoardCellPressed(BoardCell *cell) {
   if (is_game_end_) {
     helper::displayMessage("Game is ended. Please start a new game.");
@@ -276,27 +304,8 @@ void MainWindow::onSolverFinished(solver::helper::Move next_move) {
     return;
   }
 
-  // Play
-  game_->unsafePlay(next_move.pos, next_move.value);
+  playAndUpdate(next_move);
 
-  // GUI update
-  BoardCell *cell = nullptr;
-  for (auto c : board_cells_) {
-    if (c->getPos().y() == next_move.pos.row &&
-        c->getPos().x() == next_move.pos.col) {
-      cell = c;
-    }
-  }
-  QString moveValue = helper::uint8ToQstring(next_move.value);
-  cell->setText(moveValue);
-  cell->setEnabled(false);
-  info_dock_->browser()->append(this->getMoveMessage(next_move.pos, moveValue));
-  info_dock_->updatePlayer();
-
-  // Game update
-  game_string_ = game_->toString();
-  delete game_;
-  game_ = new solver::Game(game_string_);
   if (game_->getPossibleMoves().size() == 0) {
     is_game_end_ = true;
     emit this->stopGameTimer();
@@ -395,7 +404,6 @@ void MainWindow::onTargetIPConfirmed(QStringList str_list) {
 }
 
 void MainWindow::onClientMessage(QString data) {
-  qDebug() << "Mainwindow:: " << data << endl;
   // construct pos and value from data
   // data is of the form <row>-<col>=<value>
   int first   = data.indexOf('-');
@@ -403,34 +411,15 @@ void MainWindow::onClientMessage(QString data) {
   QString row = data.left(first);
   QString col = data.mid(first + 1, second - first - 1);
   QString val = data.right(1);  // value will always be length 1 (1,2,..,9)
-  qDebug() << row << " " << col << " " << val;
 
   Pos cell_pos{helper::QStringToUint8(row), helper::QStringToUint8(col)};
   Move next_move;
   next_move.pos   = cell_pos;
   next_move.value = helper::QStringToUint8(val);
 
-  // Play
-  game_->unsafePlay(next_move.pos, next_move.value);
+  playAndUpdate(next_move);
 
-  // GUI update
-  BoardCell *cell = nullptr;
-  for (auto c : board_cells_) {
-    if (c->getPos().y() == next_move.pos.row &&
-        c->getPos().x() == next_move.pos.col) {
-      cell = c;
-    }
-  }
-  QString moveValue = helper::uint8ToQstring(next_move.value);
-  cell->setText(moveValue);
-  cell->setEnabled(false);
-  info_dock_->browser()->append(this->getMoveMessage(next_move.pos, moveValue));
-  info_dock_->updatePlayer();
-
-  // Game update
-  game_string_ = game_->toString();
-  delete game_;
-  game_ = new solver::Game(game_string_);
+  return;
 }
 
 }  // namespace gui

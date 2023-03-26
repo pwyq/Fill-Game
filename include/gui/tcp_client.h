@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 23:12:07
- * @modify date 2023-03-25 01:12:06
+ * @modify date 2023-03-26 03:16:47
  * @desc TCP Client
  */
 #ifndef FG_GUI_TCP_CLIENT_H_
@@ -27,13 +27,8 @@ class TCPClient : public QObject {
   void setup(const QHostAddress& addr, quint16 port);
   void sendMessage(const QString& msg);
 
-  //  signals:
-  // void newMessage(QString);
-
  private slots:
-  // void readSocket();
   void discardSocket();
-  // void displayMessage(const QString& str);
 
  private:
   QTcpSocket* socket_ = nullptr;

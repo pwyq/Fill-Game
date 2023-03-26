@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 23:11:18
- * @modify date 2023-03-25 02:23:38
+ * @modify date 2023-03-26 03:17:06
  * @desc TCP Server
  * 
  * Each Fill-Game GUI application instance has only one server and only one client.
@@ -29,7 +29,6 @@ class TCPServer : public QObject {
   ~TCPServer();
 
   void setup(const QHostAddress& addr, quint16 port);
-  // void sendMessage(const QString& msg);
 
  signals:
   void newMessage(QString data);

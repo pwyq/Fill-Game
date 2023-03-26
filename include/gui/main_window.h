@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:27:13
- * @modify date 2023-03-25 02:23:28
+ * @modify date 2023-03-26 02:52:04
  * @desc GUI's Main window, including title bar, menu bar, game board, info
  * panel
  */
@@ -76,6 +76,7 @@ class MainWindow : public QMainWindow {
   void drawBoard();
   void playByAI();
   void solverController();
+  void playAndUpdate(solver::helper::Move next_move);
   inline QString getMoveMessage(Pos pos, QString moveValue);
  private slots:
   void onOpenSettings();

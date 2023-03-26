@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 23:12:35
- * @modify date 2023-03-25 02:23:37
+ * @modify date 2023-03-26 03:17:12
  */
 
 #include "gui/tcp_server.h"
@@ -43,8 +43,6 @@ void TCPServer::newConnection() {
   target_socket_ = server_->nextPendingConnection();
   connect(target_socket_, &QTcpSocket::readyRead, this, &TCPServer::readSocket);
   connect(target_socket_, &QTcpSocket::disconnected, this, &TCPServer::discardSocket);
-  // qDebug() << QString::number(target_socket_->socketDescriptor());
-  // displayMessage(QString("INFO :: Client with sockd:%1 has just entered the room").arg(target_socket_->socketDescriptor()));
 }
 
 void TCPServer::readSocket() {
@@ -68,8 +66,7 @@ void TCPServer::readSocket() {
   buffer = buffer.mid(128);
 
   if (fileType == "message") {
-    QString message = QString("%1").arg(QString::fromStdString(buffer.toStdString()));
-    emit newMessage(message);
+    emit newMessage(QString::fromStdString(buffer.toStdString()));
   }
 }
 
@@ -78,32 +75,6 @@ void TCPServer::discardSocket() {
   target_socket_ = nullptr;
   qDebug() << ("server: Disconnected!");
 }
-
-/*
-void TCPServer::sendMessage(const QString& msg) {
-  if (target_socket_ == nullptr) {
-    qDebug() << "QTCPServer - Not connected";
-    return;
-  }
-  if (false == target_socket_->isOpen()) {
-    qDebug() << "QTCPServer - Socket doesn't seem to be opened";
-    return;
-  }
-
-  QDataStream socketStream(target_socket_);
-  socketStream.setVersion(QDataStream::Qt_5_12);
-
-  QByteArray header;
-  header.prepend(QString("fileType:message,fileName:null,fileSize:%1;").arg(msg.size()).toUtf8());
-  header.resize(128);
-
-  QByteArray byteArray = msg.toUtf8();
-  byteArray.prepend(header);
-
-  socketStream.setVersion(QDataStream::Qt_5_12);
-  socketStream << byteArray;
-}
-*/
 
 void TCPServer::displayMessage(const QString& str) {
   qDebug() << "server!! " << str;
