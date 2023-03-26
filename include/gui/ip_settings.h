@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-25 02:02:35
- * @modify date 2023-03-25 14:12:01
+ * @modify date 2023-03-26 03:37:25
  * @desc IP Connection Settings
  */
 
@@ -16,7 +16,6 @@
 // Qt
 #include <QDialog>
 #include <QDialogButtonBox>
-#include <QFileInfo>
 #include <QHostAddress>
 #include <QLabel>
 #include <QLineEdit>
@@ -26,6 +25,10 @@
 #include "gui/helper.h"
 
 namespace gui {
+
+///////////////////////////////////////
+// GeneralTab
+///////////////////////////////////////
 
 class GeneralTab : public QWidget {
   Q_OBJECT
@@ -60,21 +63,9 @@ inline QString GeneralTab::targetPort() const {
   return port_edit_->displayText() == "" ? port_edit_->placeholderText() : port_edit_->displayText();
 }
 
-/*
-class PermissionsTab : public QWidget {
-  Q_OBJECT
-
- public:
-  explicit PermissionsTab(const QFileInfo &fileInfo, QWidget *parent = nullptr);
-};
-
-class ApplicationsTab : public QWidget {
-  Q_OBJECT
-
- public:
-  explicit ApplicationsTab(const QFileInfo &fileInfo, QWidget *parent = nullptr);
-};
-*/
+///////////////////////////////////////
+// IPSettingDialog
+///////////////////////////////////////
 
 class IPSettingDialog : public QDialog {
   Q_OBJECT
@@ -83,11 +74,11 @@ class IPSettingDialog : public QDialog {
  public:
   IPSettingDialog(IPSettingDialog &other) = delete;  // non-clonable
   void operator=(const IPSettingDialog &) = delete;  // non-assignable
-  static IPSettingDialog *GetInstance(const QString &fileName, QWidget *parent = nullptr);
+  static IPSettingDialog *GetInstance(QWidget *parent = nullptr);
   ~IPSettingDialog();
 
  protected:
-  explicit IPSettingDialog(const QString &fileName, QWidget *parent = nullptr);
+  explicit IPSettingDialog(QWidget *parent = nullptr);
 
  private:
   static IPSettingDialog *pinstance_;

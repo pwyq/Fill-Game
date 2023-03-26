@@ -31,7 +31,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   main_widget_  = new QWidget();
   info_dock_    = InfoDock::GetInstance();
   menu_bar_     = MainWindowMenuBar::GetInstance(this);
-  ip_settings_  = IPSettingDialog::GetInstance("test.txt", this);
+  ip_settings_  = IPSettingDialog::GetInstance(this);
 
   // Solver elements
   this->startNewGame();
