@@ -62,6 +62,9 @@ void SolverWorker::process(solver::Game* game) {
       // TODO
       break;
     }
+    default: {
+      break;
+    }
   }
 }
 

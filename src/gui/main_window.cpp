@@ -45,6 +45,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   // testing
   tcp_server_ = new TCPServer(this);
   tcp_client_ = new TCPClient(this);
+  connect(tcp_server_, &TCPServer::clientMessage, this, &MainWindow::onClientMessage);
   // const QHostAddress addr = QHostAddress("192.168.0.105");
   // tcp_server_->setup(addr, 8080);  // set up using own machine's IP
   // tcp_client_->setup(addr, 8080);  // connect to opponent (target) IP
@@ -203,9 +204,6 @@ void MainWindow::solverController() {
 }
 
 void MainWindow::onBoardCellPressed(BoardCell *cell) {
-  tcp_server_->sendMessage("hey client");
-  tcp_client_->sendMessage("hey server");
-
   if (is_game_end_) {
     helper::displayMessage("Game is ended. Please start a new game.");
     return;
@@ -215,16 +213,16 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
     return;
   }
   // _mainWidget->setEnabled(false);    // prevent from clicking another cell
-  Pos cellPos = Pos{static_cast<uint8_t>(cell->getPos().y()),
-                    static_cast<uint8_t>(cell->getPos().x())};
+  Pos cell_pos = Pos{static_cast<uint8_t>(cell->getPos().y()),
+                     static_cast<uint8_t>(cell->getPos().x())};
 
-  auto allMoves = game_->getPossibleMoves();
-  if (allMoves.find(cellPos) == allMoves.end()) {
+  auto all_moves = game_->getPossibleMoves();
+  if (all_moves.find(cell_pos) == all_moves.end()) {
     helper::displayMessage("No Possible Move");
     cell->setEnabled(false);
     return;
   }
-  auto moves = allMoves.at(cellPos);
+  auto moves = all_moves.at(cell_pos);
 
   if (true == is_select_done_) {
     is_select_done_ = false;
@@ -233,13 +231,13 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
     delete pop_selection_;
   }
   pop_selection_ = PopupSelection::GetInstance(moves);
-  connect(pop_selection_, &PopupSelection::selectedNumber, [cell, cellPos, this](QString moveValue) {
+  connect(pop_selection_, &PopupSelection::selectedNumber, [cell, cell_pos, this](QString moveValue) {
     cell->setText(moveValue, game_->toPlay());
-    game_->unsafePlay(cellPos, helper::QStringToUint8(moveValue));
+    game_->unsafePlay(cell_pos, helper::QStringToUint8(moveValue));
     game_string_ = game_->toString();
     delete game_;
     game_ = new solver::Game(game_string_);
-    info_dock_->browser()->append(this->getMoveMessage(cellPos, moveValue));
+    info_dock_->browser()->append(this->getMoveMessage(cell_pos, moveValue));
     if (game_->getPossibleMoves().size() == 0) {
       // user clicked a dead cell
       pop_selection_->close();
@@ -256,6 +254,11 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
     is_select_done_ = true;
     if (true == is_AI_) {
       this->playByAI();
+    }
+
+    if (solver_ == helper::SOLVER::HUMAN_REMOTE) {
+      QString data = QString("%1-%2=%3").arg(QString::number(cell_pos.row), QString::number(cell_pos.col), moveValue);
+      this->tcp_client_->sendMessage(data);
     }
   });
   pop_selection_->move(QCursor::pos());
@@ -316,36 +319,36 @@ void MainWindow::onOpponentSelected(helper::SOLVER opponent) {
   switch (solver_) {
     case helper::SOLVER::DFPN: {
       is_AI_  = true;
-      out_str = "[INFO] switch to opponent=DFPN";
+      out_str = "[INFO] switched to opponent=DFPN";
       break;
     }
     case helper::SOLVER::PNS: {
       // TODO
       is_AI_  = true;
-      out_str = "[INFO] switch to opponent=PNS";
+      out_str = "[INFO] switched to opponent=PNS";
       break;
     }
     case helper::SOLVER::MINIMAX_AB_TT: {
       // TODO
       is_AI_  = true;
-      out_str = "[INFO] switch to opponent=MINIMAX_AB_TT";
+      out_str = "[INFO] switched to opponent=MINIMAX_AB_TT";
       break;
     }
     case helper::SOLVER::NEGAMAX_AB_TT: {
       // TODO
       is_AI_  = true;
-      out_str = "[INFO] switch to opponent=NEGAMAX_AB_TT";
+      out_str = "[INFO] switched to opponent=NEGAMAX_AB_TT";
       break;
     }
     case helper::SOLVER::HUMAN_REMOTE: {
-      is_AI_  = false;
-      out_str = "[INFO] switch to opponent=Human (remote)";
+      is_AI_ = false;
       ip_settings_->show();
+      out_str = "[INFO] switching to opponent=Human (remote)";
       break;
     }
     case helper::SOLVER::HUMAN_LOCAL: {
       is_AI_  = false;
-      out_str = "[INFO] switch to opponent=Human (local)";
+      out_str = "[INFO] switched to opponent=Human (local)";
       break;
     }
   }
@@ -376,6 +379,8 @@ void MainWindow::onTargetIPConfirmed(QStringList str_list) {
     return;
   }
   tcp_server_->setup(server_addr, server_port);
+  QString s = QString("[INFO] setting up %1:%2").arg(server_ip, QString::number(server_port));
+  info_dock_->browser()->append(s);
 
   // connect to opponent (target) IP
   const QHostAddress client_addr = QHostAddress(client_ip);
@@ -385,6 +390,47 @@ void MainWindow::onTargetIPConfirmed(QStringList str_list) {
     return;
   }
   tcp_client_->setup(client_addr, client_port);
+  s = QString("[INFO] listening to %1:%2").arg(client_ip, QString::number(client_port));
+  info_dock_->browser()->append(s);
+}
+
+void MainWindow::onClientMessage(QString data) {
+  qDebug() << "Mainwindow:: " << data << endl;
+  // construct pos and value from data
+  // data is of the form <row>-<col>=<value>
+  int first   = data.indexOf('-');
+  int second  = data.indexOf('=');
+  QString row = data.left(first);
+  QString col = data.mid(first + 1, second - first - 1);
+  QString val = data.right(1);  // value will always be length 1 (1,2,..,9)
+  qDebug() << row << " " << col << " " << val;
+
+  Pos cell_pos{helper::QStringToUint8(row), helper::QStringToUint8(col)};
+  Move next_move;
+  next_move.pos   = cell_pos;
+  next_move.value = helper::QStringToUint8(val);
+
+  // Play
+  game_->unsafePlay(next_move.pos, next_move.value);
+
+  // GUI update
+  BoardCell *cell = nullptr;
+  for (auto c : board_cells_) {
+    if (c->getPos().y() == next_move.pos.row &&
+        c->getPos().x() == next_move.pos.col) {
+      cell = c;
+    }
+  }
+  QString moveValue = helper::uint8ToQstring(next_move.value);
+  cell->setText(moveValue);
+  cell->setEnabled(false);
+  info_dock_->browser()->append(this->getMoveMessage(next_move.pos, moveValue));
+  info_dock_->updatePlayer();
+
+  // Game update
+  game_string_ = game_->toString();
+  delete game_;
+  game_ = new solver::Game(game_string_);
 }
 
 }  // namespace gui

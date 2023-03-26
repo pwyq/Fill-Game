@@ -83,6 +83,7 @@ class MainWindow : public QMainWindow {
   void onSolverFinished(solver::helper::Move move);
   void onOpponentSelected(helper::SOLVER opponent);
   void onTargetIPConfirmed(QStringList str_list);
+  void onClientMessage(QString data);
   void startNewGame();
   void changeGameSize(uint8_t width, uint8_t height);
 

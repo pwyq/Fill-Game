@@ -27,13 +27,13 @@ class TCPClient : public QObject {
   void setup(const QHostAddress& addr, quint16 port);
   void sendMessage(const QString& msg);
 
- signals:
-  void newMessage(QString);
+  //  signals:
+  // void newMessage(QString);
 
  private slots:
-  void readSocket();
+  // void readSocket();
   void discardSocket();
-  void displayMessage(const QString& str);
+  // void displayMessage(const QString& str);
 
  private:
   QTcpSocket* socket_ = nullptr;

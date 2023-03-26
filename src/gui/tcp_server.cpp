@@ -31,7 +31,7 @@ void TCPServer::setup(const QHostAddress& addr, quint16 port) {
     connect(server_, &QTcpServer::newConnection, this, &TCPServer::newConnection);
   } else {
     qDebug() << QString("Unable to start the server: %1.").arg(server_->errorString());
-    exit(EXIT_FAILURE);
+    // exit(EXIT_FAILURE);
   }
 }
 
@@ -43,8 +43,8 @@ void TCPServer::newConnection() {
   target_socket_ = server_->nextPendingConnection();
   connect(target_socket_, &QTcpSocket::readyRead, this, &TCPServer::readSocket);
   connect(target_socket_, &QTcpSocket::disconnected, this, &TCPServer::discardSocket);
-  qDebug() << QString::number(target_socket_->socketDescriptor());
-  displayMessage(QString("INFO :: Client with sockd:%1 has just entered the room").arg(target_socket_->socketDescriptor()));
+  // qDebug() << QString::number(target_socket_->socketDescriptor());
+  // displayMessage(QString("INFO :: Client with sockd:%1 has just entered the room").arg(target_socket_->socketDescriptor()));
 }
 
 void TCPServer::readSocket() {
@@ -57,7 +57,7 @@ void TCPServer::readSocket() {
   socketStream >> buffer;
 
   if (!socketStream.commitTransaction()) {
-    // QString message = QString("%1 :: Waiting for more data to come..").arg(socket->socketDescriptor());
+    // QString message = QString("%1 :: Waiting for more data to come..").arg(target_socket_->socketDescriptor());
     // emit newMessage(message);
     return;
   }
@@ -68,7 +68,7 @@ void TCPServer::readSocket() {
   buffer = buffer.mid(128);
 
   if (fileType == "message") {
-    QString message = QString("%1 :: %2").arg(target_socket_->socketDescriptor()).arg(QString::fromStdString(buffer.toStdString()));
+    QString message = QString("%1").arg(QString::fromStdString(buffer.toStdString()));
     emit newMessage(message);
   }
 }
@@ -79,6 +79,7 @@ void TCPServer::discardSocket() {
   qDebug() << ("server: Disconnected!");
 }
 
+/*
 void TCPServer::sendMessage(const QString& msg) {
   if (target_socket_ == nullptr) {
     qDebug() << "QTCPServer - Not connected";
@@ -102,9 +103,11 @@ void TCPServer::sendMessage(const QString& msg) {
   socketStream.setVersion(QDataStream::Qt_5_12);
   socketStream << byteArray;
 }
+*/
 
 void TCPServer::displayMessage(const QString& str) {
   qDebug() << "server!! " << str;
+  emit this->clientMessage(str);
 }
 
 }  // namespace gui

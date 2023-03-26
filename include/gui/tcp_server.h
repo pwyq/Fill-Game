@@ -6,6 +6,7 @@
  * @desc TCP Server
  * 
  * Each Fill-Game GUI application instance has only one server and only one client.
+ * Server is used to only recieve data, client is used to only send data.
  * 
  */
 
@@ -28,13 +29,15 @@ class TCPServer : public QObject {
   ~TCPServer();
 
   void setup(const QHostAddress& addr, quint16 port);
-  void sendMessage(const QString& msg);
+  // void sendMessage(const QString& msg);
 
  signals:
-  void newMessage(QString);
+  void newMessage(QString data);
+  void clientMessage(QString data);
 
  private slots:
-  void newConnection();
+  void
+  newConnection();
   void readSocket();
   void discardSocket();
   void displayMessage(const QString& str);

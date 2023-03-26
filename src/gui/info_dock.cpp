@@ -151,19 +151,19 @@ void InfoDock::onStopGameTimer() {
 void InfoDock::onBlackTimeout() {
   timeB_ = timeB_.addSecs(-1);
   timerB_label_->setText(timeB_.toString(timer_format));
-  if (timeB_.second() == 0) {
-    timerB_->stop();
-    emit this->gameTimeOut("BLACK lost due to time out!");
-  }
+  // if (timeB_.second() == 0) {
+  //   timerB_->stop();
+  //   emit this->gameTimeOut("BLACK lost due to time out!");
+  // }
 }
 
 void InfoDock::onWhiteTimeout() {
   timeW_ = timeW_.addSecs(-1);
   timerW_label_->setText(timeW_.toString(timer_format));
-  if (timeW_.second() == 0) {
-    timerW_->stop();
-    emit this->gameTimeOut("WHITE lost due to time out!");
-  }
+  // if (timeW_.second() == 0) {
+  //   timerW_->stop();
+  //   emit this->gameTimeOut("WHITE lost due to time out!");
+  // }
 }
 
 }  // namespace gui

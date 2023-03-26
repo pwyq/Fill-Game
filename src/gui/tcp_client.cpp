@@ -2,7 +2,9 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 23:12:40
- * @modify date 2023-03-25 01:12:03
+ * @modify date 2023-03-26 00:50:02
+ * 
+ * TODO: reconnect if lost connection
  */
 
 #include "gui/tcp_client.h"
@@ -11,6 +13,9 @@ namespace gui {
 
 TCPClient::TCPClient(QWidget* parent) {
   socket_ = new QTcpSocket(this);
+  // connect(this, &TCPClient::newMessage, this, &TCPClient::displayMessage);
+  // connect(socket_, &QTcpSocket::readyRead, this, &TCPClient::readSocket);
+  connect(socket_, &QTcpSocket::disconnected, this, &TCPClient::discardSocket);
 }
 
 TCPClient::~TCPClient() {
@@ -22,20 +27,22 @@ TCPClient::~TCPClient() {
 }
 
 void TCPClient::setup(const QHostAddress& addr, quint16 port) {
-  connect(this, &TCPClient::newMessage, this, &TCPClient::displayMessage);
-  connect(socket_, &QTcpSocket::readyRead, this, &TCPClient::readSocket);
-  connect(socket_, &QTcpSocket::disconnected, this, &TCPClient::discardSocket);
-
   socket_->connectToHost(addr, port);
 
-  if (socket_->waitForConnected()) {
+  if (socket_->waitForConnected(5000)) {
     qDebug() << "Connected to Server";
   } else {
     qDebug() << QString("QTCPClient - The following error occurred: %1.").arg(socket_->errorString());
-    exit(EXIT_FAILURE);
+    // exit(EXIT_FAILURE);
+    QMetaObject::invokeMethod(
+        this, [this, addr, port]() {
+          this->setup(addr, port);
+        },
+        Qt::QueuedConnection);
   }
 }
 
+/*
 void TCPClient::readSocket() {
   QByteArray buffer;
 
@@ -61,6 +68,7 @@ void TCPClient::readSocket() {
     emit newMessage(message);
   }
 }
+*/
 
 void TCPClient::discardSocket() {
   socket_->deleteLater();
@@ -93,8 +101,10 @@ void TCPClient::sendMessage(const QString& msg) {
   socketStream << byteArray;
 }
 
+/*
 void TCPClient::displayMessage(const QString& str) {
   qDebug() << "client!! " << str;
 }
+*/
 
 }  // namespace gui
