@@ -28,9 +28,9 @@ void TCPClient::setup(const QHostAddress& addr, quint16 port) {
 
   socket_->connectToHost(addr, port);
 
-  if (socket_->waitForConnected())
+  if (socket_->waitForConnected()) {
     qDebug() << "Connected to Server";
-  else {
+  } else {
     qDebug() << QString("QTCPClient - The following error occurred: %1.").arg(socket_->errorString());
     exit(EXIT_FAILURE);
   }

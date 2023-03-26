@@ -50,7 +50,7 @@ void MainWindowMenuBar::initGameMenu() {
   game_menu_->addAction(startNewGame);
 
   game_menu_->addSeparator();
-
+  /*
   QAction *settings = new QAction("&Settings", game_menu_);
   connect(settings, &QAction::triggered, [this]() {
     emit this->openSettings();
@@ -58,7 +58,7 @@ void MainWindowMenuBar::initGameMenu() {
   game_menu_->addAction(settings);
 
   game_menu_->addSeparator();
-
+  */
   QAction *quit = new QAction("&Quit", game_menu_);
   connect(quit, &QAction::triggered, [this]() {
     this->close();

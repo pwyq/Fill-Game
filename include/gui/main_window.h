@@ -9,6 +9,9 @@
 #ifndef FG_GUI_MAIN_WINDOW_H_
 #define FG_GUI_MAIN_WINDOW_H_
 
+// std
+#include <iostream>
+#include <vector>
 // Qt
 #include <QDebug>
 #include <QGridLayout>
@@ -17,9 +20,6 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QWidget>
-// std
-#include <iostream>
-#include <vector>
 // local
 #include "gui/board_cell.h"
 #include "gui/helper.h"
@@ -48,7 +48,7 @@ class MainWindow : public QMainWindow {
   MainWindowMenuBar *menu_bar_   = nullptr;
   InfoDock *info_dock_           = nullptr;
   PopupSelection *pop_selection_ = nullptr;
-  TabDialog *settings_           = nullptr;
+  IPSettingDialog *ip_settings_  = nullptr;
   QHBoxLayout *main_layout_;
   QGridLayout *board_layout_;
   QWidget *main_widget_;
@@ -76,13 +76,13 @@ class MainWindow : public QMainWindow {
   void drawBoard();
   void playByAI();
   void solverController();
-  inline void displayMessage(QString s);
   inline QString getMoveMessage(Pos pos, QString moveValue);
  private slots:
   void onOpenSettings();
   void onBoardCellPressed(BoardCell *cell);
   void onSolverFinished(solver::helper::Move move);
-  void onSelectOpponent(helper::SOLVER opponent);
+  void onOpponentSelected(helper::SOLVER opponent);
+  void onTargetIPConfirmed(QStringList str_list);
   void startNewGame();
   void changeGameSize(uint8_t width, uint8_t height);
 
@@ -98,12 +98,6 @@ inline QString MainWindow::getMoveMessage(Pos p, QString val) {
   res += " - ";
   res += val;
   return res;
-}
-
-inline void MainWindow::displayMessage(QString s) {
-  QMessageBox msgBox;
-  msgBox.setText(s);
-  msgBox.exec();
 }
 
 }  // namespace gui

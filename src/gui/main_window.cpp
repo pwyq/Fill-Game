@@ -30,7 +30,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   main_widget_  = new QWidget();
   info_dock_    = InfoDock::GetInstance();
   menu_bar_     = MainWindowMenuBar::GetInstance(this);
-  settings_     = TabDialog::GetInstance("test.txt", this);
+  ip_settings_  = IPSettingDialog::GetInstance("test.txt", this);
 
   // Solver elements
   this->startNewGame();
@@ -45,12 +45,9 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   // testing
   tcp_server_ = new TCPServer(this);
   tcp_client_ = new TCPClient(this);
-
-  // TODO: a window to set IP address, then set connect
-
-  const QHostAddress addr = QHostAddress("127.0.0.1");  // TODO: check string is IPv4/IPv6
-  tcp_server_->setup(addr, 8080);
-  tcp_client_->setup(addr, 8080);
+  // const QHostAddress addr = QHostAddress("192.168.0.105");
+  // tcp_server_->setup(addr, 8080);  // set up using own machine's IP
+  // tcp_client_->setup(addr, 8080);  // connect to opponent (target) IP
 }
 
 void MainWindow::initUI() {
@@ -58,16 +55,18 @@ void MainWindow::initUI() {
   this->setWindowTitle(QString::fromStdString("Fill Game"));
   connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::startNewGame);
   connect(menu_bar_, &MainWindowMenuBar::changeGameSize, this, &MainWindow::changeGameSize);
-  connect(menu_bar_, &MainWindowMenuBar::selectOpponent, this, &MainWindow::onSelectOpponent);
+  connect(menu_bar_, &MainWindowMenuBar::selectOpponent, this, &MainWindow::onOpponentSelected);
   connect(menu_bar_, &MainWindowMenuBar::openSettings, this, &MainWindow::onOpenSettings);
   this->setMenuBar(menu_bar_);
+
+  connect(ip_settings_, &IPSettingDialog::confirmIPs, this, &MainWindow::onTargetIPConfirmed);
 
   // Central Area
   this->drawBoard();
   // Right Info Dock
   connect(info_dock_, &InfoDock::gameTimeOut, [this](QString msg) {
     this->is_game_end_ = true;
-    this->displayMessage(msg);
+    helper::displayMessage(msg);
   });
   connect(this, &MainWindow::stopGameTimer, info_dock_, &InfoDock::onStopGameTimer);
   this->addDockWidget(Qt::RightDockWidgetArea, info_dock_);
@@ -208,13 +207,11 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
   tcp_client_->sendMessage("hey server");
 
   if (is_game_end_) {
-    QString s = "Game is ended. Please start a new game.";
-    this->displayMessage(s);
+    helper::displayMessage("Game is ended. Please start a new game.");
     return;
   }
   if (is_AI_turn_) {
-    QString s = "AI is thinking... Please wait...";
-    this->displayMessage(s);
+    helper::displayMessage("AI is thinking... Please wait...");
     return;
   }
   // _mainWidget->setEnabled(false);    // prevent from clicking another cell
@@ -223,7 +220,7 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
 
   auto allMoves = game_->getPossibleMoves();
   if (allMoves.find(cellPos) == allMoves.end()) {
-    this->displayMessage("No Possible Move");
+    helper::displayMessage("No Possible Move");
     cell->setEnabled(false);
     return;
   }
@@ -249,7 +246,7 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
       is_game_end_ = true;
       emit this->stopGameTimer();
       QString s = "Winner: " + info_dock_->getCurrentPlayer();
-      this->displayMessage(s);
+      helper::displayMessage(s);
     } else {
       // the move was successful
       cell->setEnabled(false);
@@ -300,15 +297,14 @@ void MainWindow::onSolverFinished(solver::helper::Move next_move) {
   if (game_->getPossibleMoves().size() == 0) {
     is_game_end_ = true;
     emit this->stopGameTimer();
-    QString s = "AI wins!";
-    this->displayMessage(s);
+    helper::displayMessage("AI wins!");
   }
 
   is_AI_turn_ = false;
   return;
 }
 
-void MainWindow::onSelectOpponent(helper::SOLVER opponent) {
+void MainWindow::onOpponentSelected(helper::SOLVER opponent) {
   if (solver_ == opponent) {
     QString s = "[WARNING] same opponent. no change is made";
     info_dock_->browser()->append(s);
@@ -344,6 +340,7 @@ void MainWindow::onSelectOpponent(helper::SOLVER opponent) {
     case helper::SOLVER::HUMAN_REMOTE: {
       is_AI_  = false;
       out_str = "[INFO] switch to opponent=Human (remote)";
+      ip_settings_->show();
       break;
     }
     case helper::SOLVER::HUMAN_LOCAL: {
@@ -358,7 +355,36 @@ void MainWindow::onSelectOpponent(helper::SOLVER opponent) {
 }
 
 void MainWindow::onOpenSettings() {
-  settings_->show();
+  // settings_->show();
+  // this was going to be setting IP connections between user machine and opponent machine
+  // I think it better to open it directly when user select "Human vs Human (remote)"
+
+  // This will be future settings callback
+}
+
+void MainWindow::onTargetIPConfirmed(QStringList str_list) {
+  QString server_ip   = str_list[0];
+  quint16 server_port = str_list[1].toShort();
+  QString client_ip   = str_list[2];
+  quint16 client_port = str_list[3].toShort();
+
+  // set up using own machine's IP
+  const QHostAddress server_addr = QHostAddress(server_ip);
+  qDebug() << server_addr << " " << server_port;
+  if (QAbstractSocket::IPv4Protocol != server_addr.protocol()) {
+    helper::displayMessage("Your IP: Invalid IPv4 address.");
+    return;
+  }
+  tcp_server_->setup(server_addr, server_port);
+
+  // connect to opponent (target) IP
+  const QHostAddress client_addr = QHostAddress(client_ip);
+  qDebug() << client_addr << " " << client_port;
+  if (QAbstractSocket::IPv4Protocol != client_addr.protocol()) {
+    helper::displayMessage("Opponent IP: Invalid IPv4 address.");
+    return;
+  }
+  tcp_client_->setup(client_addr, client_port);
 }
 
 }  // namespace gui

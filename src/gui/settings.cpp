@@ -2,58 +2,85 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-25 02:05:03
- * @modify date 2023-03-25 02:23:25
+ * @modify date 2023-03-25 14:12:27
  */
 
 #include "gui/settings.h"
 // Qt
 #include <QCheckBox>
 #include <QDateTime>
+#include <QGridLayout>
 #include <QGroupBox>
-#include <QLabel>
-#include <QLineEdit>
 #include <QListWidget>
+#include <QNetworkInterface>
 #include <QVBoxLayout>
 
 namespace gui {
 
-GeneralTab::GeneralTab(const QFileInfo &fileInfo, QWidget *parent)
+GeneralTab::GeneralTab(QWidget *parent)
     : QWidget(parent) {
-  QLabel *fileNameLabel   = new QLabel(tr("File Name:"));
-  QLineEdit *fileNameEdit = new QLineEdit(fileInfo.fileName());
+  QGridLayout *mainLayout = new QGridLayout;
 
-  QLabel *pathLabel      = new QLabel(tr("Path:"));
-  QLabel *pathValueLabel = new QLabel(fileInfo.absoluteFilePath());
-  pathValueLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  const QString port_tooltip = "Input valid port number. Range from 1 to 65535";
+  QValidator *port_validator = new QIntValidator(1, 65535, this);
 
-  QLabel *sizeLabel      = new QLabel(tr("Size:"));
-  qlonglong size         = fileInfo.size() / 1024;
-  QLabel *sizeValueLabel = new QLabel(tr("%1 K").arg(size));
-  sizeValueLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  mainLayout->addWidget(new QLabel(tr("Your IP")), 0, 0, 1, 1);
+  QString placeholder_ip = getAddress().toString();
+  my_ip_                 = new QLabel(placeholder_ip);
+  mainLayout->addWidget(my_ip_, 0, 1, 1, 2);
 
-  QLabel *lastReadLabel      = new QLabel(tr("Last Read:"));
-  QLabel *lastReadValueLabel = new QLabel(fileInfo.lastRead().toString());
-  lastReadValueLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  mainLayout->addWidget(new QLabel(tr("Port")), 0, 4, 1, 1);
+  my_port_ = new QLineEdit();
+  my_port_->setValidator(port_validator);
+  my_port_->setPlaceholderText("4040");
+  my_port_->setToolTip(port_tooltip);
+  mainLayout->addWidget(my_port_, 0, 5, 1, 2);
 
-  QLabel *lastModLabel      = new QLabel(tr("Last Modified:"));
-  QLabel *lastModValueLabel = new QLabel(fileInfo.lastModified().toString());
-  lastModValueLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  QLabel *ip_address = new QLabel(tr("Opponent IP"));
+  ip_address->setToolTip("Input valid IPv4 address from opponent machine (xxx.xxx.xxx.xxx)");
+  mainLayout->addWidget(ip_address, 1, 0, 1, 1);
 
-  QVBoxLayout *mainLayout = new QVBoxLayout;
-  mainLayout->addWidget(fileNameLabel);
-  mainLayout->addWidget(fileNameEdit);
-  mainLayout->addWidget(pathLabel);
-  mainLayout->addWidget(pathValueLabel);
-  mainLayout->addWidget(sizeLabel);
-  mainLayout->addWidget(sizeValueLabel);
-  mainLayout->addWidget(lastReadLabel);
-  mainLayout->addWidget(lastReadValueLabel);
-  mainLayout->addWidget(lastModLabel);
-  mainLayout->addWidget(lastModValueLabel);
-  mainLayout->addStretch(1);
+  ip_edit_         = new QLineEdit();
+  QString ip_range = "(?:[0-1]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
+  QRegularExpression ip_regex("^" + ip_range + "(\\." + ip_range + ")" + "(\\." + ip_range + ")" + "(\\." + ip_range + ")$");
+  ip_validator_ = new QRegularExpressionValidator(ip_regex, this);
+  ip_edit_->setValidator(ip_validator_);
+  ip_edit_->setPlaceholderText(placeholder_ip);
+  ip_edit_->setToolTip("Input valid IPv4 address from opponent machine (xxx.xxx.xxx.xxx)");
+  mainLayout->addWidget(ip_edit_, 1, 1, 1, 2);
+
+  mainLayout->addWidget(new QLabel(tr("Port")), 1, 4, 1, 1);
+
+  port_edit_ = new QLineEdit();
+  port_edit_->setValidator(port_validator);
+  port_edit_->setPlaceholderText("8080");
+  port_edit_->setToolTip(port_tooltip);
+  mainLayout->addWidget(port_edit_, 1, 5, 1, 2);
+
   setLayout(mainLayout);
 }
 
+/**
+ * @brief get local IP address. If cannot find anything, return localhost.
+ * 
+ * source: https://stackoverflow.com/questions/13835989/get-local-ip-address-in-qt
+ * 
+ * @return const QHostAddress 
+ */
+const QHostAddress GeneralTab::getAddress() {
+  const QHostAddress &localhost = QHostAddress(QHostAddress::LocalHost);
+  for (const QHostAddress &address : QNetworkInterface::allAddresses()) {
+    // qDebug() << address.toString();
+    if (address.protocol() == QAbstractSocket::IPv4Protocol   // filter only IPv4 address
+        && address != localhost                               // filter out localhost
+        && address.toString().section(".", -1, -1) != "1") {  // filter out virtual machines' IP
+      return address;
+    }
+  }
+  return localhost;
+}
+
+/*
 PermissionsTab::PermissionsTab(const QFileInfo &fileInfo, QWidget *parent)
     : QWidget(parent) {
   QGroupBox *permissionsGroup = new QGroupBox(tr("Permissions"));
@@ -128,23 +155,23 @@ ApplicationsTab::ApplicationsTab(const QFileInfo &fileInfo, QWidget *parent)
   layout->addWidget(alwaysCheckBox);
   setLayout(layout);
 }
+*/
 
 ///////////// Singleton /////////////
-TabDialog *TabDialog::pinstance_{nullptr};
-std::mutex TabDialog::mutex_;
+IPSettingDialog *IPSettingDialog::pinstance_{nullptr};
+std::mutex IPSettingDialog::mutex_;
 
-TabDialog::TabDialog(const QString &fileName, QWidget *parent)
+IPSettingDialog::IPSettingDialog(const QString &fileName, QWidget *parent)
     : QDialog(parent) {
   QFileInfo fileInfo(fileName);
 
-  tabWidget = new QTabWidget;
-  tabWidget->addTab(new GeneralTab(fileInfo), tr("General"));
-  tabWidget->addTab(new PermissionsTab(fileInfo), tr("Permissions"));
-  tabWidget->addTab(new ApplicationsTab(fileInfo), tr("Applications"));
+  tabWidget    = new QTabWidget;
+  tab_general_ = new GeneralTab();
+  tabWidget->addTab(tab_general_, tr("General"));
 
   buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
-  connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+  connect(buttonBox, &QDialogButtonBox::accepted, this, &IPSettingDialog::onAccept);
   connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
   QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -152,18 +179,24 @@ TabDialog::TabDialog(const QString &fileName, QWidget *parent)
   mainLayout->addWidget(buttonBox);
   setLayout(mainLayout);
 
-  setWindowTitle(tr("Settings"));
+  setWindowTitle(tr("Remote Connection Settings"));
 }
 
-TabDialog::~TabDialog() { pinstance_ = nullptr; }
+IPSettingDialog::~IPSettingDialog() { pinstance_ = nullptr; }
 
-TabDialog *TabDialog::GetInstance(const QString &fileName, QWidget *parent) {
+IPSettingDialog *IPSettingDialog::GetInstance(const QString &fileName, QWidget *parent) {
   std::lock_guard<std::mutex> lock(mutex_);
   if (pinstance_ == nullptr) {
-    pinstance_ = new TabDialog(fileName, parent);
+    pinstance_ = new IPSettingDialog(fileName, parent);
   }
   return pinstance_;
 }
 /////////////////////////////////////
+
+void IPSettingDialog::onAccept() {
+  QStringList res = {tab_general_->myIP(), tab_general_->myPort(), tab_general_->targetIP(), tab_general_->targetPort()};
+  emit this->confirmIPs(res);
+  this->accept();
+}
 
 }  // namespace gui

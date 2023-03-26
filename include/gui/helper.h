@@ -8,6 +8,7 @@
 #ifndef FG_GUI_HELPER_H_
 #define FG_GUI_HELPER_H_
 // Qt
+#include <QMessageBox>
 #include <QString>
 
 namespace gui::helper {
@@ -29,6 +30,12 @@ inline QString uint8ToQstring(uint8_t x) { return QString::number(x); }
 
 inline uint8_t QStringToUint8(QString s) {
   return static_cast<uint8_t>(s.toInt());
+}
+
+inline void displayMessage(QString s) {
+  QMessageBox msgBox;
+  msgBox.setText(s);
+  msgBox.exec();
 }
 
 }  // namespace gui::helper
