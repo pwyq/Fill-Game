@@ -75,6 +75,23 @@ void NewGameWindow::initUI() {
     layout_->addWidget(*it, layout_row, layout_col++);
   }
 
+  layout_row += 1;
+  layout_col = 0;
+
+  layout_->addWidget(new QLabel("Board Value"), layout_row, layout_col++, 1, 1);
+  value_group_ = new QButtonGroup(this);
+  connect(value_group_, qOverload<int>(&QButtonGroup::buttonClicked), this, &NewGameWindow::onValueGroupClicked);
+  value_group_->addButton(createPushButton("4"));
+  value_group_->addButton(createPushButton("5", false));
+  value_group_->addButton(createPushButton("6", false));
+  value_group_->addButton(createPushButton("7", false));
+  value_group_->addButton(createPushButton("8", false));
+  value_group_->addButton(createPushButton("9", false));
+  buttonList = value_group_->buttons();
+  for (QList<QAbstractButton *>::const_iterator it = buttonList.cbegin(); it != buttonList.cend(); ++it) {
+    layout_->addWidget(*it, layout_row, layout_col++);
+  }
+
   widget_->setLayout(layout_);
   this->setCentralWidget(widget_);
 }
@@ -92,6 +109,13 @@ QPushButton *NewGameWindow::createPushButton(QString name, bool is_enabled) {
 void NewGameWindow::onSizeGroupClicked(int id) {
   // https://doc.qt.io/qt-6/qbuttongroup.html#addButton
   // auto-assigned id starts with -2
+  for (int i = -2; i >= -6; i--) {
+    if (id == i) {
+      size_group_->button(id)->setStyleSheet("QPushButton{ background-color: cyan}");
+    } else {
+      size_group_->button(i)->setStyleSheet("");
+    }
+  }
   switch (id) {
     case -2:  // 3x3
       emit this->changeGameSize(3, 3);
@@ -118,8 +142,13 @@ void NewGameWindow::onSizeGroupClicked(int id) {
 }
 
 void NewGameWindow::onOpponentGroupClicked(int id) {
-  // https://doc.qt.io/qt-6/qbuttongroup.html#addButton
-  // auto-assigned id starts with -2
+  for (int i = -2; i >= -7; i--) {
+    if (id == i) {
+      opponent_group_->button(id)->setStyleSheet("QPushButton{ background-color: cyan}");
+    } else {
+      opponent_group_->button(i)->setStyleSheet("");
+    }
+  }
   switch (id) {
     case -2:  // PNS
       emit this->selectOpponent(helper::SOLVER::PNS);
@@ -138,6 +167,38 @@ void NewGameWindow::onOpponentGroupClicked(int id) {
       break;
     case -7:  // Human local
       emit this->selectOpponent(helper::SOLVER::HUMAN_LOCAL);
+      break;
+    default:
+      break;
+  }
+}
+
+/**
+ * @brief change the number of values for a cell
+ *        TODO: will need to modify Game() class to take other options
+ * 
+ * @param id 
+ */
+void NewGameWindow::onValueGroupClicked(int id) {
+  for (int i = -2; i >= -7; i--) {
+    if (id == i) {
+      value_group_->button(id)->setStyleSheet("QPushButton{ background-color: cyan}");
+    } else {
+      value_group_->button(i)->setStyleSheet("");
+    }
+  }
+  switch (id) {
+    case -2:  // 4
+      break;
+    case -3:  // 5
+      break;
+    case -4:  // 6
+      break;
+    case -5:  // 7
+      break;
+    case -6:  // 8
+      break;
+    case -7:  // 9
       break;
     default:
       break;

@@ -44,8 +44,9 @@ class NewGameWindow : public QMainWindow {
  private:
   QGridLayout *layout_;
   QWidget *widget_;
-  QButtonGroup *size_group_;
-  QButtonGroup *opponent_group_;
+  QButtonGroup *size_group_;      // board size
+  QButtonGroup *opponent_group_;  // AI type / Human
+  QButtonGroup *value_group_;     // board value
 
   void initUI();
   QPushButton *createPushButton(QString name, bool is_enabled = true);
@@ -53,6 +54,7 @@ class NewGameWindow : public QMainWindow {
  private slots:
   void onSizeGroupClicked(int id);
   void onOpponentGroupClicked(int id);
+  void onValueGroupClicked(int id);
  signals:
   void changeGameSize(uint8_t width, uint8_t height);
   void selectOpponent(helper::SOLVER opponent);
