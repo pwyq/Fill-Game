@@ -7,6 +7,8 @@
  */
 #ifndef FG_GUI_HELPER_H_
 #define FG_GUI_HELPER_H_
+// std
+#include <random>
 // Qt
 #include <QMessageBox>
 #include <QString>
@@ -25,7 +27,10 @@ enum SOLVER {
   NEGAMAX_AB_TT   // TODO
 };
 
+///////////////////////////////////////
 // inline function declarations
+///////////////////////////////////////
+
 inline QString uint8ToQstring(uint8_t x) { return QString::number(x); }
 
 inline uint8_t QStringToUint8(QString s) {
@@ -37,6 +42,12 @@ inline void displayMessage(QString s) {
   msgBox.setText(s);
   msgBox.exec();
 }
+
+///////////////////////////////////////
+// others
+///////////////////////////////////////
+
+bool randomBool();
 
 }  // namespace gui::helper
 

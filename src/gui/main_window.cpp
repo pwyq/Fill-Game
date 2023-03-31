@@ -419,6 +419,10 @@ void MainWindow::onClientMessageReceived(QString data) {
 
   return;
 }
+void MainWindow::onPlayerColorSelected(PLAYER color) {
+  // TODO: disable color changing when game isn't finished
+  gui_player_ = color;
+}
 
 void MainWindow::onNewGameRequested() {
   qDebug() << "connected";
@@ -426,6 +430,7 @@ void MainWindow::onNewGameRequested() {
   new_game_window_ = NewGameWindow::GetInstance();
   connect(new_game_window_, &NewGameWindow::changeGameSize, this, &MainWindow::changeGameSize);
   connect(new_game_window_, &NewGameWindow::selectOpponent, this, &MainWindow::onOpponentSelected);
+  connect(new_game_window_, &NewGameWindow::selectPlayerColor, this, &MainWindow::onPlayerColorSelected);
 
   new_game_window_->show();
 

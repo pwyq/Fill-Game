@@ -58,11 +58,12 @@ class MainWindow : public QMainWindow {
   uint8_t board_width_;
   uint8_t board_height_;
   std::vector<BoardCell *> board_cells_;
+  PLAYER gui_player_ = PLAYER::BLACK;
 
   // Solver members
   solver::Game *game_    = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
   helper::SOLVER solver_ = helper::SOLVER::DFPN;
-  uint32_t move_counter_ = 1;
+  uint32_t move_counter_ = 1;  // BLACK always play the odd number of round
   std::string game_string_;
   bool is_AI_          = false;
   bool is_AI_turn_     = false;
@@ -82,13 +83,14 @@ class MainWindow : public QMainWindow {
   void playAndUpdate(solver::helper::Move next_move);
   inline QString getMoveMessage(Pos pos, QString moveValue);
  private slots:
-  void onSettingsOpened();
   void onBoardCellPressed(BoardCell *cell);
-  void onSolverFinished(solver::helper::Move move);
-  void onOpponentSelected(helper::SOLVER opponent);
-  void onTargetIPConfirmed(QStringList str_list);
   void onClientMessageReceived(QString data);
   void onNewGameRequested();
+  void onOpponentSelected(helper::SOLVER opponent);
+  void onPlayerColorSelected(PLAYER color);
+  void onSettingsOpened();
+  void onSolverFinished(solver::helper::Move move);
+  void onTargetIPConfirmed(QStringList str_list);
   void changeGameSize(uint8_t width, uint8_t height);
 
  signals:

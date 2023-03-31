@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-26 13:10:11
- * @modify date 2023-03-26 13:10:11
+ * @modify date 2023-03-31 16:06:20
  * @desc Start a new game
  */
 
@@ -21,9 +21,11 @@
 #include <QPushButton>
 // local
 #include "gui/helper.h"
+#include "solver/helper.h"
+
+using solver::helper::PLAYER;
 
 namespace gui {
-
 class NewGameWindow : public QMainWindow {
   Q_OBJECT
   ///////////// Singleton /////////////
@@ -47,17 +49,21 @@ class NewGameWindow : public QMainWindow {
   QButtonGroup *size_group_;      // board size
   QButtonGroup *opponent_group_;  // AI type / Human
   QButtonGroup *value_group_;     // board value
+  QButtonGroup *color_group_;     // black / white / random
 
   void initUI();
+  void initDefaultConfiguration();
   QPushButton *createPushButton(QString name, bool is_enabled = true);
   inline void setWindowSize(const float &widthRatio, const float &heightRatio);
  private slots:
   void onSizeGroupClicked(int id);
   void onOpponentGroupClicked(int id);
   void onValueGroupClicked(int id);
+  void onColorGroupClicked(int id);
  signals:
   void changeGameSize(uint8_t width, uint8_t height);
   void selectOpponent(helper::SOLVER opponent);
+  void selectPlayerColor(PLAYER color);
 };
 
 inline void NewGameWindow::setWindowSize(const float &widthRatio, const float &heightRatio) {

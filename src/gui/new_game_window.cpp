@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-26 13:10:25
- * @modify date 2023-03-26 13:10:25
+ * @modify date 2023-03-31 16:06:14
  */
 
 #include "gui/new_game_window.h"
@@ -92,8 +92,36 @@ void NewGameWindow::initUI() {
     layout_->addWidget(*it, layout_row, layout_col++);
   }
 
+  layout_row += 1;
+  layout_col = 0;
+  layout_->addWidget(new QLabel("Your Color"), layout_row, layout_col++, 1, 1);
+  color_group_ = new QButtonGroup(this);
+  connect(color_group_, qOverload<int>(&QButtonGroup::buttonClicked), this, &NewGameWindow::onColorGroupClicked);
+  color_group_->addButton(createPushButton("Black"));
+  color_group_->addButton(createPushButton("White"));
+  color_group_->addButton(createPushButton("Random"));
+  buttonList = color_group_->buttons();
+  for (QList<QAbstractButton *>::const_iterator it = buttonList.cbegin(); it != buttonList.cend(); ++it) {
+    layout_->addWidget(*it, layout_row, layout_col++);
+  }
+
+  initDefaultConfiguration();
+
   widget_->setLayout(layout_);
   this->setCentralWidget(widget_);
+}
+
+void NewGameWindow::initDefaultConfiguration() {
+  // TODO: QKey (remove hardcoded values)
+
+  // 3x3
+  size_group_->button(-2)->setStyleSheet("QPushButton{ background-color: cyan}");
+  // DFPN
+  opponent_group_->button(-3)->setStyleSheet("QPushButton{ background-color: cyan}");
+  // 4
+  value_group_->button(-2)->setStyleSheet("QPushButton{ background-color: cyan}");
+  // random
+  color_group_->button(-4)->setStyleSheet("QPushButton{ background-color: cyan}");
 }
 
 QPushButton *NewGameWindow::createPushButton(QString name, bool is_enabled) {
@@ -149,6 +177,10 @@ void NewGameWindow::onOpponentGroupClicked(int id) {
       opponent_group_->button(i)->setStyleSheet("");
     }
   }
+  for (int i = -2; i >= -4; i--) {
+    color_group_->button(i)->setEnabled(true);
+  }
+
   switch (id) {
     case -2:  // PNS
       emit this->selectOpponent(helper::SOLVER::PNS);
@@ -165,9 +197,14 @@ void NewGameWindow::onOpponentGroupClicked(int id) {
     case -6:  // Human remote
       emit this->selectOpponent(helper::SOLVER::HUMAN_REMOTE);
       break;
-    case -7:  // Human local
+    case -7: {  // Human local
       emit this->selectOpponent(helper::SOLVER::HUMAN_LOCAL);
+      // and disable color selection for local play
+      for (int i = -2; i >= -4; i--) {
+        color_group_->button(i)->setEnabled(false);
+      }
       break;
+    }
     default:
       break;
   }
@@ -201,6 +238,36 @@ void NewGameWindow::onValueGroupClicked(int id) {
     case -7:  // 9
       break;
     default:
+      break;
+  }
+}
+
+void NewGameWindow::onColorGroupClicked(int id) {
+  for (int i = -2; i >= -4; i--) {
+    if (id == i) {
+      color_group_->button(id)->setStyleSheet("QPushButton{ background-color: cyan}");
+    } else {
+      color_group_->button(i)->setStyleSheet("");
+    }
+  }
+
+  switch (id) {
+    case -2:  // black
+      emit selectPlayerColor(PLAYER::BLACK);
+      break;
+    case -3:  // white
+      emit selectPlayerColor(PLAYER::WHITE);
+      break;
+    case -4: {  // random
+      if (helper::randomBool()) {
+        emit selectPlayerColor(PLAYER::BLACK);
+      } else {
+        emit selectPlayerColor(PLAYER::WHITE);
+      }
+      break;
+    }
+    default:  // black
+      emit selectPlayerColor(PLAYER::BLACK);
       break;
   }
 }
