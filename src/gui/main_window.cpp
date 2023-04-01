@@ -94,7 +94,6 @@ void MainWindow::startNewGame() {
     _gameString += "*";
   }
   _gameString.pop_back();
-  std::cout << _gameString << std::endl;
 
   if (game_ != nullptr) {
     game_ = nullptr;
@@ -409,7 +408,6 @@ void MainWindow::onClientMessageReceived(QString data) {
     QString row = data.left(first);
     QString col = data.mid(first + 1, second - first - 1);
     QString val = data.right(1);  // value will always be length 1 (1,2,..,9)
-    qDebug() << row << col << val;
 
     Pos cell_pos{helper::QStringToUint8(row), helper::QStringToUint8(col)};
     Move next_move;
@@ -421,8 +419,7 @@ void MainWindow::onClientMessageReceived(QString data) {
     is_opponent_turn_ = false;
     return;
   } else if (data[0] == "E") {  // event
-    qDebug() << "event";
-    if (data[1] == "0") {  // game starts
+    if (data[1] == "0") {       // game starts
       new_game_window_->close();
       gui_player_ = PLAYER::WHITE;
       this->startNewGame();
