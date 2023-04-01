@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 17:04:59
- * @modify date 2023-03-26 15:02:35
+ * @modify date 2023-04-01 16:52:33
  */
 
 #include "gui/main_window_menu_bar.h"
@@ -49,6 +49,7 @@ void MainWindowMenuBar::initGameMenu() {
   connect(startLastGame, &QAction::triggered, [this]() {
     emit this->startLastGame();
   });
+  game_menu_->addAction(startLastGame);
 
   game_menu_->addSeparator();
   /*

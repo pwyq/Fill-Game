@@ -56,6 +56,7 @@ void MainWindow::initUI() {
   // Top Menu Bar
   this->setWindowTitle(QString::fromStdString("Fill Game"));
   connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::onNewGameRequested);
+  connect(menu_bar_, &MainWindowMenuBar::startLastGame, this, &MainWindow::startNewGame);
   connect(menu_bar_, &MainWindowMenuBar::openSettings, this, &MainWindow::onSettingsOpened);
   this->setMenuBar(menu_bar_);
 
@@ -120,9 +121,11 @@ void MainWindow::startNewGame() {
       is_opponent_turn_ = true;
     }
   } else {
-    // you start first as black
-    QString event = QString("E0");  // event: game starts
-    tcp_client_->sendMessage(event);
+    if (solver_ == helper::SOLVER::HUMAN_REMOTE) {
+      // you start first as black
+      QString event = QString("E0");  // event: game starts
+      tcp_client_->sendMessage(event);
+    }
   }
   return;
 }
@@ -273,8 +276,10 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
       QString s = "Winner: " + info_dock_->getCurrentPlayer();
       helper::displayMessage(s);
 
-      QString event = QString("E1");  // event: game ends
-      tcp_client_->sendMessage(event);
+      if (solver_ == helper::SOLVER::HUMAN_REMOTE) {
+        QString event = QString("E1");  // event: game ends
+        tcp_client_->sendMessage(event);
+      }
     } else {
       // the move was successful
       cell->setEnabled(false);
