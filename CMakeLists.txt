@@ -2,7 +2,7 @@
 # @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-03-23 23:29:06
+# @modify date 2023-03-24 23:18:07
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -16,7 +16,7 @@ option(IS_BUILD_GUI "to build with Qt GUI or not" OFF)
 
 # ################################
 # Following is a temporary fix for VSCode GUI Dev; comment it out if you don't develop GUI
-# set(IS_BUILD_GUI ON)
+set(IS_BUILD_GUI ON)
 
 # ################################
 if(IS_BUILD_GUI)

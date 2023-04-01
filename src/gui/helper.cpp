@@ -15,4 +15,11 @@ bool randomBool() {
   return dis(gen) == 1;
 }
 
+uint8_t getBoardCellSize(uint8_t width, uint8_t height) {
+  // TODO: set cell size based on screen resolution
+  uint8_t min_edge = (width < height) ? width : height;
+  // get the minimum resolution
+  return min_edge;
+}
+
 }  // namespace gui::helper

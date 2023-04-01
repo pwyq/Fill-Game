@@ -112,6 +112,7 @@ void NewGameWindow::initUI() {
   start_button_ = new QPushButton(tr("Start"));
   connect(start_button_, &QPushButton::pressed, [this]() {
     emit this->startGame();
+    this->close();
   });
   layout_->addWidget(start_button_, layout_row, layout_col);
 
@@ -164,26 +165,26 @@ void NewGameWindow::onSizeGroupClicked(int id) {
   switch (id) {
     case -2:  // 3x3
       emit this->changeGameSize(3, 3);
-      statusBar()->showMessage(tr("Changed game board size to 3 by 3."), 1000);
+      statusBar()->showMessage(tr("Changed game board size to 3 by 3."), 2000);
       break;
     case -3:  // 5x5
       emit this->changeGameSize(5, 5);
-      statusBar()->showMessage(tr("Changed game board size to 5 by 5."), 1000);
+      statusBar()->showMessage(tr("Changed game board size to 5 by 5."), 2000);
       break;
     case -4:  // 7x7
       emit this->changeGameSize(7, 7);
-      statusBar()->showMessage(tr("Changed game board size to 7 by 7."), 1000);
+      statusBar()->showMessage(tr("Changed game board size to 7 by 7."), 2000);
       break;
     case -5:  //10x10
       emit this->changeGameSize(10, 10);
-      statusBar()->showMessage(tr("Changed game board size to 10 by 10."), 1000);
+      statusBar()->showMessage(tr("Changed game board size to 10 by 10."), 2000);
       break;
     case -6: {  // ?x?
       std::pair<uint8_t, uint8_t> res = InputDialog::getInputs(this);
       if (res.first != 0 && res.second != 0) {
         emit this->changeGameSize(res.first, res.second);
         statusBar()->showMessage(tr("Changed game board size to %1 by %2.").arg(helper::uint8ToQstring(res.first), helper::uint8ToQstring(res.second)),
-                                 1000);
+                                 2000);
       }
       break;
     }
@@ -207,27 +208,27 @@ void NewGameWindow::onOpponentGroupClicked(int id) {
   switch (id) {
     case -2:  // PNS
       emit this->selectOpponent(helper::SOLVER::PNS);
-      statusBar()->showMessage(tr("Changed opponent agent to PNS"), 1000);
+      statusBar()->showMessage(tr("Changed opponent agent to PNS"), 2000);
       break;
     case -3:  // DFPN
       emit this->selectOpponent(helper::SOLVER::DFPN);
-      statusBar()->showMessage(tr("Changed opponent agent to DFPN"), 1000);
+      statusBar()->showMessage(tr("Changed opponent agent to DFPN"), 2000);
       break;
     case -4:  // MINIMAX
       emit this->selectOpponent(helper::SOLVER::MINIMAX_AB_TT);
-      statusBar()->showMessage(tr("Changed opponent agent to Minimax+AB+TT"), 1000);
+      statusBar()->showMessage(tr("Changed opponent agent to Minimax+AB+TT"), 2000);
       break;
     case -5:  // NEGAMAX
       emit this->selectOpponent(helper::SOLVER::NEGAMAX_AB_TT);
-      statusBar()->showMessage(tr("Changed opponent agent to Negamax+AB+TT"), 1000);
+      statusBar()->showMessage(tr("Changed opponent agent to Negamax+AB+TT"), 2000);
       break;
     case -6:  // Human remote
       emit this->selectOpponent(helper::SOLVER::HUMAN_REMOTE);
-      statusBar()->showMessage(tr("Changing opponent to human (remote)..."), 1000);
+      statusBar()->showMessage(tr("Changing opponent to human (remote)..."), 2000);
       break;
     case -7: {  // Human local
       emit this->selectOpponent(helper::SOLVER::HUMAN_LOCAL);
-      statusBar()->showMessage(tr("Changed opponent to human (local)"), 1000);
+      statusBar()->showMessage(tr("Changed opponent to human (local)"), 2000);
       // and disable color selection for local play
       for (int i = -2; i >= -4; i--) {
         color_group_->button(i)->setEnabled(false);
@@ -255,25 +256,25 @@ void NewGameWindow::onValueGroupClicked(int id) {
   }
   switch (id) {
     case -2:  // 4
-      statusBar()->showMessage(tr("Changed max value to 4"), 1000);
+      statusBar()->showMessage(tr("Changed max value to 4"), 2000);
       break;
     case -3:  // 5
-      statusBar()->showMessage(tr("Changed max value to 5"), 1000);
+      statusBar()->showMessage(tr("Changed max value to 5"), 2000);
       break;
     case -4:  // 6
-      statusBar()->showMessage(tr("Changed max value to 6"), 1000);
+      statusBar()->showMessage(tr("Changed max value to 6"), 2000);
       break;
     case -5:  // 7
-      statusBar()->showMessage(tr("Changed max value to 7"), 1000);
+      statusBar()->showMessage(tr("Changed max value to 7"), 2000);
       break;
     case -6:  // 8
-      statusBar()->showMessage(tr("Changed max value to 8"), 1000);
+      statusBar()->showMessage(tr("Changed max value to 8"), 2000);
       break;
     case -7:  // 9
-      statusBar()->showMessage(tr("Changed max value to 9"), 1000);
+      statusBar()->showMessage(tr("Changed max value to 9"), 2000);
       break;
     default:  // 4
-      statusBar()->showMessage(tr("Changed max value to 4"), 1000);
+      statusBar()->showMessage(tr("Changed max value to 4"), 2000);
       break;
   }
 }
@@ -290,14 +291,14 @@ void NewGameWindow::onColorGroupClicked(int id) {
   switch (id) {
     case -2:  // black
       emit selectPlayerColor(PLAYER::BLACK);
-      statusBar()->showMessage(tr("Changed player color to Black"), 1000);
+      statusBar()->showMessage(tr("Changed player color to Black"), 2000);
       break;
     case -3:  // white
-      statusBar()->showMessage(tr("Changed player color to White"), 1000);
+      statusBar()->showMessage(tr("Changed player color to White"), 2000);
       emit selectPlayerColor(PLAYER::WHITE);
       break;
     case -4: {  // random
-      statusBar()->showMessage(tr("Changed player color to Random"), 1000);
+      statusBar()->showMessage(tr("Changed player color to Random"), 2000);
       if (helper::randomBool()) {
         emit selectPlayerColor(PLAYER::BLACK);
       } else {
@@ -306,7 +307,7 @@ void NewGameWindow::onColorGroupClicked(int id) {
       break;
     }
     default:  // black
-      statusBar()->showMessage(tr("Changed player color to Black"), 1000);
+      statusBar()->showMessage(tr("Changed player color to Black"), 2000);
       emit selectPlayerColor(PLAYER::BLACK);
       break;
   }

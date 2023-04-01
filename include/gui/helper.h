@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:26:24
- * @modify date 2023-03-24 01:24:24
+ * @modify date 2023-03-31 19:31:04
  * @desc GUI helpers
  */
 #ifndef FG_GUI_HELPER_H_
@@ -48,6 +48,7 @@ inline void displayMessage(QString s) {
 ///////////////////////////////////////
 
 bool randomBool();
+uint8_t getBoardCellSize(uint8_t width, uint8_t height);  // TODO: dynamic size
 
 }  // namespace gui::helper
 

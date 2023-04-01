@@ -33,9 +33,6 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   menu_bar_     = MainWindowMenuBar::GetInstance(this);
   ip_settings_  = IPSettingDialog::GetInstance(this);
 
-  // Solver elements
-  // this->startNewGame();  // TODO
-
   // UI related
   this->initUI();
   // TODO: allow proportionally resize in the future
@@ -109,40 +106,15 @@ void MainWindow::startNewGame() {
 }
 
 void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
-  is_game_end_            = false;
-  board_height_           = height;
-  board_width_            = width;
-  std::string _gameString = "";
-  for (uint8_t row = 0; row < board_height_; row++) {
-    for (uint8_t col = 0; col < board_width_; col++) {
-      _gameString += ".";
-    }
-    _gameString += "*";
-  }
-  _gameString.pop_back();
-
-  if (game_ != nullptr) {
-    game_ = nullptr;
-    delete game_;
-  }
-  game_ = new solver::Game(_gameString);
+  board_height_ = height;
+  board_width_  = width;
 
   // redraw & clear UI
   this->clearBoardLayout();
   board_cells_.clear();
   this->drawBoard();
-  info_dock_->resetPlayer();
-  info_dock_->browser()->clear();
-  // TODO: resize window to board
-  // qDebug() << this->_mainWidget->size();
-  // qDebug() << this->_mainWidget->sizeHint();
-  // qDebug() << this->_mainWidget->minimumSizeHint();
-  // this->resize(this->_mainWidget->minimumSizeHint());
-  for (uint8_t i = 0; i < 2; i++)
-    this->adjustSize();  // TODO: not fully working; if the board change form
-                         // large to small for the first time, it will not work;
-                         // all other cases work fine. Current work around is to
-                         // start with the smallest board
+
+  this->adjustSize();  // BUG: the native API not fully works (not priority)
 }
 
 void MainWindow::clearBoardLayout() {
@@ -169,6 +141,7 @@ void MainWindow::drawBoard() {
     for (uint8_t col = 0; col < board_width_; col++) {
       QString t         = "";
       BoardCell *button = new BoardCell(t, QPoint(col, row), this);  // note that col=x, row=y, from top down
+      button->setEnabled(false);
       board_cells_.push_back(button);
       connect(button, &QPushButton::pressed, [button, this]() {
         this->onBoardCellPressed(button);
@@ -205,9 +178,6 @@ void MainWindow::solverController() {
 }
 
 void MainWindow::playAndUpdate(solver::helper::Move next_move) {
-  // Play
-  game_->unsafePlay(next_move.pos, next_move.value);
-
   // GUI update
   BoardCell *cell = nullptr;
   for (auto c : board_cells_) {
@@ -221,6 +191,9 @@ void MainWindow::playAndUpdate(solver::helper::Move next_move) {
   cell->setEnabled(false);
   info_dock_->browser()->append(this->getMoveMessage(next_move.pos, moveValue));
   info_dock_->updatePlayer();
+
+  // Play
+  game_->unsafePlay(next_move.pos, next_move.value);
 
   // Game update
   game_string_ = game_->toString();
@@ -413,7 +386,6 @@ void MainWindow::onClientMessageReceived(QString data) {
   return;
 }
 void MainWindow::onPlayerColorSelected(PLAYER color) {
-  // TODO: disable color changing when game isn't finished
   gui_player_ = color;
 }
 
@@ -424,10 +396,9 @@ void MainWindow::onNewGameRequested() {
   connect(new_game_window_, &NewGameWindow::changeGameSize, this, &MainWindow::changeGameSize);
   connect(new_game_window_, &NewGameWindow::selectOpponent, this, &MainWindow::onOpponentSelected);
   connect(new_game_window_, &NewGameWindow::selectPlayerColor, this, &MainWindow::onPlayerColorSelected);
+  connect(new_game_window_, &NewGameWindow::startGame, this, &MainWindow::startNewGame);
 
   new_game_window_->show();
-
-  // startNewGame();
 
   return;
 }
