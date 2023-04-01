@@ -98,8 +98,8 @@ void NewGameWindow::initUI() {
   layout_->addWidget(new QLabel("Your Color"), layout_row, layout_col++, 1, 1);
   color_group_ = new QButtonGroup(this);
   connect(color_group_, qOverload<int>(&QButtonGroup::buttonClicked), this, &NewGameWindow::onColorGroupClicked);
-  color_group_->addButton(createPushButton("Black"));
-  color_group_->addButton(createPushButton("White"));
+  color_group_->addButton(createPushButton("Black (1st)"));
+  color_group_->addButton(createPushButton("White (2nd)"));
   color_group_->addButton(createPushButton("Random"));
   buttonList = color_group_->buttons();
   for (QList<QAbstractButton *>::const_iterator it = buttonList.cbegin(); it != buttonList.cend(); ++it) {
@@ -224,7 +224,12 @@ void NewGameWindow::onOpponentGroupClicked(int id) {
       break;
     case -6:  // Human remote
       emit this->selectOpponent(helper::SOLVER::HUMAN_REMOTE);
-      statusBar()->showMessage(tr("Changing opponent to human (remote)..."), 2000);
+      statusBar()->showMessage(tr("Changing opponent to human (remote). Ensure connection is made before start."));
+      // and disable color selection for remote play // for now, whoever first press start, starts first
+      for (int i = -2; i >= -4; i--) {
+        color_group_->button(i)->setEnabled(false);
+        color_group_->button(i)->setStyleSheet("");
+      }
       break;
     case -7: {  // Human local
       emit this->selectOpponent(helper::SOLVER::HUMAN_LOCAL);
@@ -232,6 +237,7 @@ void NewGameWindow::onOpponentGroupClicked(int id) {
       // and disable color selection for local play
       for (int i = -2; i >= -4; i--) {
         color_group_->button(i)->setEnabled(false);
+        color_group_->button(i)->setStyleSheet("");
       }
       break;
     }

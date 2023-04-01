@@ -65,10 +65,10 @@ class MainWindow : public QMainWindow {
   helper::SOLVER solver_ = helper::SOLVER::DFPN;
   uint32_t move_counter_ = 1;  // BLACK always play the odd number of round
   std::string game_string_;
-  bool is_AI_          = false;
-  bool is_AI_turn_     = false;
-  bool is_select_done_ = true;
-  bool is_game_end_    = false;
+  bool is_AI_            = false;
+  bool is_game_end_      = false;
+  bool is_opponent_turn_ = false;
+  bool is_select_done_   = true;
 
   // TCP
   TCPServer *tcp_server_;

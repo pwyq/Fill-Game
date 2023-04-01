@@ -33,6 +33,7 @@ class TCPServer : public QObject {
  signals:
   void newMessage(QString data);
   void clientMessage(QString data);
+  void lostConnection();
 
  private slots:
   void

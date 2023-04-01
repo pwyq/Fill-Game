@@ -34,7 +34,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   ip_settings_  = IPSettingDialog::GetInstance(this);
 
   // UI related
-  this->initUI();
+  initUI();
   // TODO: allow proportionally resize in the future
   this->setWindowFlags(windowFlags() & (~Qt::WindowMaximizeButtonHint));
   // https://en.cppreference.com/w/cpp/language/rule_of_three rule of 3/5/0
@@ -44,6 +44,12 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   tcp_server_ = new TCPServer(this);
   tcp_client_ = new TCPClient(this);
   connect(tcp_server_, &TCPServer::clientMessage, this, &MainWindow::onClientMessageReceived);
+  connect(tcp_server_, &TCPServer::lostConnection, [this]() {
+    is_game_end_ = true;
+    emit this->stopGameTimer();
+    QString s = "Your opponent lost connection";
+    helper::displayMessage(s);
+  });
 }
 
 void MainWindow::initUI() {
@@ -56,10 +62,10 @@ void MainWindow::initUI() {
   connect(ip_settings_, &IPSettingDialog::confirmIPs, this, &MainWindow::onTargetIPConfirmed);
 
   // Central Area
-  this->drawBoard();
+  drawBoard();
   // Right Info Dock
   connect(info_dock_, &InfoDock::gameTimeOut, [this](QString msg) {
-    this->is_game_end_ = true;
+    is_game_end_ = true;
     helper::displayMessage(msg);
   });
   // stop timer when game ends
@@ -76,8 +82,8 @@ void MainWindow::initUI() {
  * 
  */
 void MainWindow::startNewGame() {
-  is_game_end_ = false;
-  is_AI_turn_  = false;
+  is_game_end_      = false;
+  is_opponent_turn_ = false;
 
   std::string _gameString = "";
   for (uint8_t row = 0; row < board_height_; row++) {
@@ -87,6 +93,7 @@ void MainWindow::startNewGame() {
     _gameString += "*";
   }
   _gameString.pop_back();
+  std::cout << _gameString << std::endl;
 
   if (game_ != nullptr) {
     game_ = nullptr;
@@ -103,6 +110,21 @@ void MainWindow::startNewGame() {
   }
   info_dock_->resetPlayer();
   info_dock_->browser()->clear();
+
+  if (gui_player_ == PLAYER::WHITE) {
+    if (is_AI_) {
+      playByAI();
+    } else {
+      // when reach here, only possibility is HUMAN_REMOTE
+      qDebug() << "human remote: opponent turn...";
+      is_opponent_turn_ = true;
+    }
+  } else {
+    // you start first as black
+    QString event = QString("E0");  // event: game starts
+    tcp_client_->sendMessage(event);
+  }
+  return;
 }
 
 void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
@@ -110,9 +132,9 @@ void MainWindow::changeGameSize(uint8_t width, uint8_t height) {
   board_width_  = width;
 
   // redraw & clear UI
-  this->clearBoardLayout();
+  clearBoardLayout();
   board_cells_.clear();
-  this->drawBoard();
+  drawBoard();
 
   this->adjustSize();  // BUG: the native API not fully works (not priority)
 }
@@ -153,17 +175,18 @@ void MainWindow::drawBoard() {
 }
 
 void MainWindow::playByAI() {
-  is_AI_turn_ = true;
+  is_opponent_turn_ = true;
   solverController();
 }
 
+// TODO: if start a new game with an agent thinking, how to kill the old agent?
 void MainWindow::solverController() {
   QThread *thread      = new QThread;
   SolverWorker *worker = new SolverWorker(solver_);
   worker->moveToThread(thread);
   // connects the thread’s started() signal to the processing() slot in the worker, causing it to start.
   connect(thread, &QThread::started, worker, [worker, this]() {
-    worker->process(this->game_);
+    worker->process(game_);
   });
   connect(worker, &SolverWorker::finished, this, &MainWindow::onSolverFinished);
   // when the worker instance emits finished(), it will signal the thread to quit, i.e. shut down.
@@ -212,8 +235,8 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
     helper::displayMessage("Game is ended. Please start a new game.");
     return;
   }
-  if (is_AI_turn_) {
-    helper::displayMessage("AI is thinking... Please wait...");
+  if (is_opponent_turn_) {
+    helper::displayMessage("Your opponent is thinking... Please wait...");
     return;
   }
   // _mainWidget->setEnabled(false);    // prevent from clicking another cell
@@ -249,6 +272,9 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
       emit this->stopGameTimer();
       QString s = "Winner: " + info_dock_->getCurrentPlayer();
       helper::displayMessage(s);
+
+      QString event = QString("E1");  // event: game ends
+      tcp_client_->sendMessage(event);
     } else {
       // the move was successful
       cell->setEnabled(false);
@@ -261,8 +287,9 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
     }
 
     if (solver_ == helper::SOLVER::HUMAN_REMOTE) {
-      QString data = QString("%1-%2=%3").arg(QString::number(cell_pos.row), QString::number(cell_pos.col), moveValue);
-      this->tcp_client_->sendMessage(data);
+      QString data = QString("D%1-%2=%3").arg(QString::number(cell_pos.row), QString::number(cell_pos.col), moveValue);
+      tcp_client_->sendMessage(data);
+      is_opponent_turn_ = true;
     }
   });
   pop_selection_->move(QCursor::pos());
@@ -288,7 +315,7 @@ void MainWindow::onSolverFinished(solver::helper::Move next_move) {
     helper::displayMessage("AI wins!");
   }
 
-  is_AI_turn_ = false;
+  is_opponent_turn_ = false;
   return;
 }
 
@@ -368,30 +395,45 @@ void MainWindow::onTargetIPConfirmed(QStringList str_list) {
 }
 
 void MainWindow::onClientMessageReceived(QString data) {
-  // construct pos and value from data
-  // data is of the form <row>-<col>=<value>
-  int first   = data.indexOf('-');
-  int second  = data.indexOf('=');
-  QString row = data.left(first);
-  QString col = data.mid(first + 1, second - first - 1);
-  QString val = data.right(1);  // value will always be length 1 (1,2,..,9)
+  if (data[0] == "D") {  // data
+    data.remove(0, 1);   // remove first character
+    // construct pos and value from data
+    // data is of the form <row>-<col>=<value>
+    int first   = data.indexOf('-');
+    int second  = data.indexOf('=');
+    QString row = data.left(first);
+    QString col = data.mid(first + 1, second - first - 1);
+    QString val = data.right(1);  // value will always be length 1 (1,2,..,9)
+    qDebug() << row << col << val;
 
-  Pos cell_pos{helper::QStringToUint8(row), helper::QStringToUint8(col)};
-  Move next_move;
-  next_move.pos   = cell_pos;
-  next_move.value = helper::QStringToUint8(val);
+    Pos cell_pos{helper::QStringToUint8(row), helper::QStringToUint8(col)};
+    Move next_move;
+    next_move.pos   = cell_pos;
+    next_move.value = helper::QStringToUint8(val);
 
-  playAndUpdate(next_move);
+    playAndUpdate(next_move);
 
-  return;
+    is_opponent_turn_ = false;
+    return;
+  } else if (data[0] == "E") {  // event
+    qDebug() << "event";
+    if (data[1] == "0") {  // game starts
+      new_game_window_->close();
+      gui_player_ = PLAYER::WHITE;
+      this->startNewGame();
+    } else if (data[1] == "1") {  // game ends
+      is_game_end_ = true;
+      emit this->stopGameTimer();
+      QString s = "Your opponent wins";
+      helper::displayMessage(s);
+    }
+  }
 }
 void MainWindow::onPlayerColorSelected(PLAYER color) {
   gui_player_ = color;
 }
 
 void MainWindow::onNewGameRequested() {
-  qDebug() << "connected";
-
   new_game_window_ = NewGameWindow::GetInstance();
   connect(new_game_window_, &NewGameWindow::changeGameSize, this, &MainWindow::changeGameSize);
   connect(new_game_window_, &NewGameWindow::selectOpponent, this, &MainWindow::onOpponentSelected);

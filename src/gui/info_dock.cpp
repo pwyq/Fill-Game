@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-22 23:41:55
- * @modify date 2023-03-23 02:53:35
+ * @modify date 2023-03-31 22:32:57
  */
 #include "gui/info_dock.h"
 // std
@@ -54,7 +54,7 @@ void InfoDock::initUI() {
   this->setTitleBarWidget(new QWidget());
   this->loadQSS();
 
-  playerB_->setEnabled(true);  // always black first
+  playerB_->setEnabled(false);
   playerW_->setEnabled(false);
   playerB_->setAlignment(Qt::AlignCenter);
   playerW_->setAlignment(Qt::AlignCenter);
@@ -87,7 +87,6 @@ void InfoDock::initUI() {
 void InfoDock::resetPlayer() {
   playerW_->setEnabled(false);
   playerB_->setEnabled(true);
-
   this->resetTimerUI();
   timerB_->start(1000);
 }

@@ -71,6 +71,7 @@ void TCPServer::readSocket() {
 }
 
 void TCPServer::discardSocket() {
+  emit this->lostConnection();  // notify the MainWindow
   target_socket_->deleteLater();
   target_socket_ = nullptr;
   qDebug() << ("server: Disconnected!");

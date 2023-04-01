@@ -16,7 +16,7 @@ option(IS_BUILD_GUI "to build with Qt GUI or not" OFF)
 
 # ################################
 # Following is a temporary fix for VSCode GUI Dev; comment it out if you don't develop GUI
-set(IS_BUILD_GUI ON)
+# set(IS_BUILD_GUI ON)
 
 # ################################
 if(IS_BUILD_GUI)

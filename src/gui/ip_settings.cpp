@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-25 02:05:03
- * @modify date 2023-03-26 03:37:43
+ * @modify date 2023-04-01 00:13:47
  */
 
 #include "gui/ip_settings.h"
@@ -27,6 +27,7 @@ GeneralTab::GeneralTab(QWidget *parent)
   mainLayout->addWidget(new QLabel(tr("Your IP")), 0, 0, 1, 1);
   QString placeholder_ip = getAddress().toString();
   my_ip_                 = new QLabel(placeholder_ip);
+  my_ip_->setTextInteractionFlags(Qt::TextSelectableByMouse);
   mainLayout->addWidget(my_ip_, 0, 1, 1, 2);
 
   mainLayout->addWidget(new QLabel(tr("Port")), 0, 4, 1, 1);
