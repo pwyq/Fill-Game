@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 17:04:59
- * @modify date 2023-03-23 17:11:27
+ * @modify date 2023-03-26 15:02:35
  */
 
 #include "gui/main_window_menu_bar.h"
@@ -20,14 +20,10 @@ MainWindowMenuBar *MainWindowMenuBar::pinstance_{nullptr};
 std::mutex MainWindowMenuBar::mutex_;
 
 MainWindowMenuBar::MainWindowMenuBar(QWidget *parent) : QMenuBar(parent) {
-  game_menu_     = this->addMenu("&Game");
-  opponent_menu_ = this->addMenu("&Opponent");
-  board_menu_    = this->addMenu("&Board");
-  help_menu_     = this->addMenu("&Help");
+  game_menu_ = this->addMenu("&Game");
+  help_menu_ = this->addMenu("&Help");
 
   this->initGameMenu();
-  this->initOpponentMenu();
-  this->initBoardMenu();
   this->initHelpMenu();
 }
 
@@ -49,84 +45,27 @@ void MainWindowMenuBar::initGameMenu() {
   });
   game_menu_->addAction(startNewGame);
 
+  QAction *startLastGame = new QAction("Start Last Game", game_menu_);
+  connect(startLastGame, &QAction::triggered, [this]() {
+    emit this->startLastGame();
+  });
+
   game_menu_->addSeparator();
+  /*
+  QAction *settings = new QAction("&Settings", game_menu_);
+  connect(settings, &QAction::triggered, [this]() {
+    emit this->openSettings();
+  });
+  game_menu_->addAction(settings);
+
+  game_menu_->addSeparator();
+  */
 
   QAction *quit = new QAction("&Quit", game_menu_);
   connect(quit, &QAction::triggered, [this]() {
-    this->close();
+    QCoreApplication::quit();
   });
   game_menu_->addAction(quit);
-}
-
-void MainWindowMenuBar::initOpponentMenu() {
-  QAction *dfpn = new QAction("DFPN", opponent_menu_);
-  connect(dfpn, &QAction::triggered, [this]() {
-    emit this->selectOpponent(helper::SOLVER::DFPN);
-  });
-  opponent_menu_->addAction(dfpn);
-
-  QAction *pns = new QAction("PNS (TODO)", opponent_menu_);
-  connect(pns, &QAction::triggered, [this]() {
-    emit this->selectOpponent(helper::SOLVER::PNS);
-  });
-  opponent_menu_->addAction(pns);
-
-  QAction *minimax = new QAction("Minimax + AB + TT (TODO)", opponent_menu_);
-  connect(minimax, &QAction::triggered, [this]() {
-    emit this->selectOpponent(helper::SOLVER::MINIMAX_AB_TT);
-  });
-  opponent_menu_->addAction(minimax);
-
-  QAction *negamax = new QAction("Negamax + AB + TT (TODO)", opponent_menu_);
-  connect(negamax, &QAction::triggered, [this]() {
-    emit this->selectOpponent(helper::SOLVER::NEGAMAX_AB_TT);
-  });
-  opponent_menu_->addAction(negamax);
-
-  opponent_menu_->addSeparator();
-
-  QAction *human = new QAction("Human vs Human (local)", opponent_menu_);
-  connect(human, &QAction::triggered, [this]() {
-    emit this->selectOpponent(helper::SOLVER::HUMAN_LOCAL);
-  });
-  opponent_menu_->addAction(human);
-}
-
-void MainWindowMenuBar::initBoardMenu() {
-  QAction *three = new QAction("3 x 3", board_menu_);
-  connect(three, &QAction::triggered, [this]() {
-    emit this->changeGameSize(3, 3);
-  });
-  board_menu_->addAction(three);
-
-  QAction *five = new QAction("5 x 5", board_menu_);
-  connect(five, &QAction::triggered, [this]() {
-    emit this->changeGameSize(5, 5);
-  });
-  board_menu_->addAction(five);
-
-  QAction *seven = new QAction("7 x 7", board_menu_);
-  connect(seven, &QAction::triggered, [this]() {
-    emit this->changeGameSize(7, 7);
-  });
-  board_menu_->addAction(seven);
-
-  QAction *ten = new QAction("10 x 10", board_menu_);
-  connect(ten, &QAction::triggered, [this]() {
-    emit this->changeGameSize(10, 10);
-  });
-  board_menu_->addAction(ten);
-
-  QAction *custom = new QAction("&Custom Board Size", board_menu_);
-  connect(custom, &QAction::triggered, [this]() {
-    // QStringList list = InputDialog::getStrings(this);
-    // if (!list.isEmpty()) {
-    // use list
-    // }
-    std::pair<uint8_t, uint8_t> res = InputDialog::getInputs(this);
-    emit this->changeGameSize(res.first, res.second);
-  });
-  board_menu_->addAction(custom);
 }
 
 void MainWindowMenuBar::initHelpMenu() {

@@ -2,13 +2,16 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:27:13
- * @modify date 2023-03-23 18:36:19
+ * @modify date 2023-03-31 18:05:58
  * @desc GUI's Main window, including title bar, menu bar, game board, info
  * panel
  */
 #ifndef FG_GUI_MAIN_WINDOW_H_
 #define FG_GUI_MAIN_WINDOW_H_
 
+// std
+#include <iostream>
+#include <vector>
 // Qt
 #include <QDebug>
 #include <QGridLayout>
@@ -17,17 +20,17 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QWidget>
-// std
-#include <iostream>
-#include <vector>
 // local
 #include "gui/board_cell.h"
 #include "gui/helper.h"
 #include "gui/info_dock.h"
+#include "gui/ip_settings.h"
 #include "gui/main_window_menu_bar.h"
+#include "gui/new_game_window.h"
 #include "gui/popup_selection.h"
+#include "gui/tcp_client.h"
+#include "gui/tcp_server.h"
 #include "gui/worker.h"
-#include "solver/dfpn.h"
 #include "solver/game.h"
 
 using solver::helper::PLAYER;
@@ -39,13 +42,15 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
   MainWindow();
-  // ~MainWindow();   // No need of destructor; otherwise double free(); the rule of 3/5/0
+  // ~MainWindow();  // No need of destructor; otherwise double free(); the rule of 3/5/0
 
  private:
   // UI members
-  MainWindowMenuBar *menu_bar_   = nullptr;
-  InfoDock *info_dock_           = nullptr;
-  PopupSelection *pop_selection_ = nullptr;
+  MainWindowMenuBar *menu_bar_    = nullptr;
+  InfoDock *info_dock_            = nullptr;
+  PopupSelection *pop_selection_  = nullptr;
+  IPSettingDialog *ip_settings_   = nullptr;
+  NewGameWindow *new_game_window_ = nullptr;
   QHBoxLayout *main_layout_;
   QGridLayout *board_layout_;
   QWidget *main_widget_;
@@ -53,30 +58,39 @@ class MainWindow : public QMainWindow {
   uint8_t board_width_;
   uint8_t board_height_;
   std::vector<BoardCell *> board_cells_;
+  PLAYER gui_player_ = PLAYER::BLACK;
 
   // Solver members
   solver::Game *game_    = nullptr;  // TODO: std::auto_ptr, std::shared_ptr?
   helper::SOLVER solver_ = helper::SOLVER::DFPN;
-  uint32_t move_counter_ = 1;
+  uint32_t move_counter_ = 1;  // BLACK always play the odd number of round
   std::string game_string_;
+  bool is_AI_            = false;
+  bool is_game_end_      = false;
+  bool is_opponent_turn_ = false;
+  bool is_select_done_   = true;
 
-  bool is_AI_          = false;
-  bool is_AI_turn_     = false;
-  bool is_select_done_ = true;
-  bool is_game_end_    = false;
+  // TCP
+  TCPServer *tcp_server_;
+  TCPClient *tcp_client_;
 
   void initUI();
   void clearBoardLayout();
   void drawBoard();
   void playByAI();
   void solverController();
-  inline void displayMessage(QString s);
+  void startNewGame();
+  void playAndUpdate(solver::helper::Move next_move);
   inline QString getMoveMessage(Pos pos, QString moveValue);
  private slots:
   void onBoardCellPressed(BoardCell *cell);
+  void onClientMessageReceived(QString data);
+  void onNewGameRequested();
+  void onOpponentSelected(helper::SOLVER opponent);
+  void onPlayerColorSelected(PLAYER color);
+  void onSettingsOpened();
   void onSolverFinished(solver::helper::Move move);
-  void onSelectOpponent(helper::SOLVER opponent);
-  void startNewGame();
+  void onTargetIPConfirmed(QStringList str_list);
   void changeGameSize(uint8_t width, uint8_t height);
 
  signals:
@@ -91,12 +105,6 @@ inline QString MainWindow::getMoveMessage(Pos p, QString val) {
   res += " - ";
   res += val;
   return res;
-}
-
-inline void MainWindow::displayMessage(QString s) {
-  QMessageBox msgBox;
-  msgBox.setText(s);
-  msgBox.exec();
 }
 
 }  // namespace gui

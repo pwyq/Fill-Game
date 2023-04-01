@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}",
                 "${workspaceFolder}/include",
-                "/usr/include/x86_64-linux-gnu/qt5/QtCore/**"
+                "/usr/include/x86_64-linux-gnu/qt5/QtCore/**",
+                "/usr/include/x86_64-linux-gnu/qt5/QtNetwork/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
@@ -22,7 +23,8 @@
                     "${workspaceFolder}/**",
                     "${workspaceFolder}",
                     "${workspaceFolder}/include",
-                    "/usr/include/x86_64-linux-gnu/qt5/QtCore/**"
+                    "/usr/include/x86_64-linux-gnu/qt5/QtCore/**",
+                    "/usr/include/x86_64-linux-gnu/qt5/QtNetwork/**"
                 ]
             }
         }

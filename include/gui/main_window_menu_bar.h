@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 17:04:46
- * @modify date 2023-03-23 17:04:54
+ * @modify date 2023-03-26 15:02:39
  * @desc Main Window Menu Bar
  */
 
@@ -15,8 +15,6 @@
 // Qt
 #include <QMenu>
 #include <QMenuBar>
-// local
-#include "gui/helper.h"
 
 namespace gui {
 class MainWindowMenuBar : public QMenuBar {
@@ -38,18 +36,14 @@ class MainWindowMenuBar : public QMenuBar {
 
  private:
   QMenu *game_menu_;
-  QMenu *opponent_menu_;
-  QMenu *board_menu_;
   QMenu *help_menu_;
 
   void initGameMenu();
-  void initOpponentMenu();
-  void initBoardMenu();
   void initHelpMenu();
  signals:
-  void selectOpponent(helper::SOLVER opponent);
+  void openSettings();
   void startNewGame();
-  void changeGameSize(uint8_t width, uint8_t height);
+  void startLastGame();
 };
 
 }  // namespace gui

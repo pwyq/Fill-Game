@@ -2,7 +2,7 @@
 # @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:37:39
-# @modify date 2023-03-23 09:14:08
+# @modify date 2023-03-24 23:18:07
 # @desc This is the top-level CMakeLists.txt
 # ##
 
@@ -17,6 +17,7 @@ option(IS_BUILD_GUI "to build with Qt GUI or not" OFF)
 # ################################
 # Following is a temporary fix for VSCode GUI Dev; comment it out if you don't develop GUI
 # set(IS_BUILD_GUI ON)
+
 # ################################
 if(IS_BUILD_GUI)
   message(STATUS "\nBuilding with Qt GUI...\n")
@@ -27,8 +28,8 @@ if(IS_BUILD_GUI)
   set(CMAKE_AUTORCC ON)
 
   # Find the QtWidgets library
-  find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Core Gui REQUIRED)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui REQUIRED)
+  find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Core Gui Network REQUIRED)
+  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Gui Network REQUIRED)
 else()
   message(STATUS "\nBuilding without Qt GUI...\n")
 endif()

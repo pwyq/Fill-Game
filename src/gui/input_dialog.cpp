@@ -28,12 +28,12 @@ InputDialog::InputDialog(QWidget *parent) : QDialog(parent) {
   QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this);
   lytMain->addWidget(buttonBox);
 
-  bool conn = connect(buttonBox, &QDialogButtonBox::accepted, this, &InputDialog::accept);
-  Q_ASSERT(conn);
-  conn = connect(buttonBox, &QDialogButtonBox::rejected, this, &InputDialog::reject);
-  Q_ASSERT(conn);
+  connect(buttonBox, &QDialogButtonBox::accepted, this, &InputDialog::accept);
+  connect(buttonBox, &QDialogButtonBox::rejected, this, &InputDialog::reject);
 
   setLayout(lytMain);
+
+  this->setMinimumSize(300, 150);
 }
 
 std::pair<uint8_t, uint8_t> InputDialog::getInputs(QWidget *parent, bool *ok) {
@@ -45,9 +45,7 @@ std::pair<uint8_t, uint8_t> InputDialog::getInputs(QWidget *parent, bool *ok) {
   if (ok) *ok = !!ret;
 
   if (ret) {
-    foreach (auto field, dialog->fields_) {
-      res = std::make_pair(dialog->fields_[0]->value(), dialog->fields_[1]->value());
-    }
+    res = std::make_pair(dialog->fields_[0]->value(), dialog->fields_[1]->value());
   }
 
   dialog->deleteLater();
