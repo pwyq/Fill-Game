@@ -45,6 +45,11 @@ void MainWindowMenuBar::initGameMenu() {
   });
   game_menu_->addAction(startNewGame);
 
+  QAction *startLastGame = new QAction("Start Last Game", game_menu_);
+  connect(startLastGame, &QAction::triggered, [this]() {
+    emit this->startLastGame();
+  });
+
   game_menu_->addSeparator();
   /*
   QAction *settings = new QAction("&Settings", game_menu_);

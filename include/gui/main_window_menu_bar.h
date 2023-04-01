@@ -43,6 +43,7 @@ class MainWindowMenuBar : public QMenuBar {
  signals:
   void openSettings();
   void startNewGame();
+  void startLastGame();
 };
 
 }  // namespace gui
