@@ -48,8 +48,10 @@ class NewGameWindow : public QMainWindow {
   QWidget *widget_;
   QButtonGroup *size_group_;      // board size
   QButtonGroup *opponent_group_;  // AI type / Human
-  QButtonGroup *value_group_;     // board value
+  QButtonGroup *value_group_;     // board value (min 4, max 9)
   QButtonGroup *color_group_;     // black / white / random
+  QPushButton *start_button_;
+  // QPushButton *cancel_button_;
 
   void initUI();
   void initDefaultConfiguration();
@@ -64,6 +66,7 @@ class NewGameWindow : public QMainWindow {
   void changeGameSize(uint8_t width, uint8_t height);
   void selectOpponent(helper::SOLVER opponent);
   void selectPlayerColor(PLAYER color);
+  void startGame();
 };
 
 inline void NewGameWindow::setWindowSize(const float &widthRatio, const float &heightRatio) {

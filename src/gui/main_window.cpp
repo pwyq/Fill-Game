@@ -34,7 +34,7 @@ MainWindow::MainWindow() : board_width_(2), board_height_(3), is_AI_(true) {
   ip_settings_  = IPSettingDialog::GetInstance(this);
 
   // Solver elements
-  this->startNewGame();
+  // this->startNewGame();  // TODO
 
   // UI related
   this->initUI();
@@ -65,6 +65,7 @@ void MainWindow::initUI() {
     this->is_game_end_ = true;
     helper::displayMessage(msg);
   });
+  // stop timer when game ends
   connect(this, &MainWindow::stopGameTimer, info_dock_, &InfoDock::onStopGameTimer);
   this->addDockWidget(Qt::RightDockWidgetArea, info_dock_);
 
@@ -73,6 +74,10 @@ void MainWindow::initUI() {
   this->setCentralWidget(main_widget_);
 }
 
+/**
+ * @brief Transit from NewGameWindow to MainWindow
+ * 
+ */
 void MainWindow::startNewGame() {
   is_game_end_ = false;
   is_AI_turn_  = false;
@@ -315,51 +320,39 @@ void MainWindow::onSolverFinished(solver::helper::Move next_move) {
 }
 
 void MainWindow::onOpponentSelected(helper::SOLVER opponent) {
-  if (solver_ == opponent) {
-    QString s = "[WARNING] same opponent. no change is made";
-    info_dock_->browser()->append(s);
-    return;
-  }
   solver_ = opponent;
 
-  QString out_str;
   switch (solver_) {
     case helper::SOLVER::DFPN: {
-      is_AI_  = true;
-      out_str = "[INFO] switched to opponent=DFPN";
+      is_AI_ = true;
       break;
     }
     case helper::SOLVER::PNS: {
       // TODO
-      is_AI_  = true;
-      out_str = "[INFO] switched to opponent=PNS";
+      is_AI_ = true;
       break;
     }
     case helper::SOLVER::MINIMAX_AB_TT: {
       // TODO
-      is_AI_  = true;
-      out_str = "[INFO] switched to opponent=MINIMAX_AB_TT";
+      is_AI_ = true;
       break;
     }
     case helper::SOLVER::NEGAMAX_AB_TT: {
       // TODO
-      is_AI_  = true;
-      out_str = "[INFO] switched to opponent=NEGAMAX_AB_TT";
+      is_AI_ = true;
       break;
     }
     case helper::SOLVER::HUMAN_REMOTE: {
       is_AI_ = false;
       ip_settings_->show();
-      out_str = "[INFO] switching to opponent=Human (remote)";
       break;
     }
     case helper::SOLVER::HUMAN_LOCAL: {
-      is_AI_  = false;
-      out_str = "[INFO] switched to opponent=Human (local)";
+      is_AI_ = false;
       break;
     }
   }
-  info_dock_->browser()->append(out_str);
+  // info_dock_->browser()->append(out_str);
 
   return;
 }
@@ -434,7 +427,7 @@ void MainWindow::onNewGameRequested() {
 
   new_game_window_->show();
 
-  startNewGame();
+  // startNewGame();
 
   return;
 }
