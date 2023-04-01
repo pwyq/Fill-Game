@@ -23,8 +23,8 @@ InfoDock::InfoDock() {
   layout_ = new QGridLayout();
   widget_ = new QWidget();
 
-  playerW_      = new QLabel("WHITE");
-  playerB_      = new QLabel("BLACK");
+  playerW_      = new QLabel(tr("WHITE"));
+  playerB_      = new QLabel(tr("BLACK"));
   timerB_       = new QTimer(this);
   timerW_       = new QTimer(this);
   timerB_label_ = new QLabel();

@@ -44,7 +44,7 @@ void NewGameWindow::initUI() {
 
   int layout_row = 0;
   int layout_col = 0;
-  layout_->addWidget(new QLabel("Board Size"), layout_row, layout_col++, 1, 1);
+  layout_->addWidget(new QLabel(tr("Board Size")), layout_row, layout_col++, 1, 1);
   size_group_ = new QButtonGroup(this);
   connect(size_group_, qOverload<int>(&QButtonGroup::buttonClicked), this, &NewGameWindow::onSizeGroupClicked);
   size_group_->addButton(createPushButton("3x3"));
@@ -61,7 +61,7 @@ void NewGameWindow::initUI() {
   layout_row += 1;
   layout_col = 0;
 
-  layout_->addWidget(new QLabel("Opponent"), layout_row, layout_col++, 1, 1);
+  layout_->addWidget(new QLabel(tr("Opponent")), layout_row, layout_col++, 1, 1);
 
   opponent_group_ = new QButtonGroup(this);
   connect(opponent_group_, qOverload<int>(&QButtonGroup::buttonClicked), this, &NewGameWindow::onOpponentGroupClicked);
@@ -79,7 +79,7 @@ void NewGameWindow::initUI() {
   layout_row += 1;
   layout_col = 0;
 
-  layout_->addWidget(new QLabel("Board Value"), layout_row, layout_col++, 1, 1);
+  layout_->addWidget(new QLabel(tr("Board Value")), layout_row, layout_col++, 1, 1);
   value_group_ = new QButtonGroup(this);
   connect(value_group_, qOverload<int>(&QButtonGroup::buttonClicked), this, &NewGameWindow::onValueGroupClicked);
   value_group_->addButton(createPushButton("4"));
@@ -95,7 +95,7 @@ void NewGameWindow::initUI() {
 
   layout_row += 1;
   layout_col = 0;
-  layout_->addWidget(new QLabel("Your Color"), layout_row, layout_col++, 1, 1);
+  layout_->addWidget(new QLabel(tr("Your Color")), layout_row, layout_col++, 1, 1);
   color_group_ = new QButtonGroup(this);
   connect(color_group_, qOverload<int>(&QButtonGroup::buttonClicked), this, &NewGameWindow::onColorGroupClicked);
   color_group_->addButton(createPushButton("Black (1st)"));

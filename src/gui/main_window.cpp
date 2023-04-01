@@ -56,6 +56,7 @@ void MainWindow::initUI() {
   // Top Menu Bar
   this->setWindowTitle(QString::fromStdString("Fill Game"));
   connect(menu_bar_, &MainWindowMenuBar::startNewGame, this, &MainWindow::onNewGameRequested);
+  connect(menu_bar_, &MainWindowMenuBar::startLastGame, this, &MainWindow::startNewGame);
   connect(menu_bar_, &MainWindowMenuBar::openSettings, this, &MainWindow::onSettingsOpened);
   this->setMenuBar(menu_bar_);
 
@@ -93,7 +94,6 @@ void MainWindow::startNewGame() {
     _gameString += "*";
   }
   _gameString.pop_back();
-  std::cout << _gameString << std::endl;
 
   if (game_ != nullptr) {
     game_ = nullptr;
@@ -120,9 +120,11 @@ void MainWindow::startNewGame() {
       is_opponent_turn_ = true;
     }
   } else {
-    // you start first as black
-    QString event = QString("E0");  // event: game starts
-    tcp_client_->sendMessage(event);
+    if (solver_ == helper::SOLVER::HUMAN_REMOTE) {
+      // you start first as black
+      QString event = QString("E0");  // event: game starts
+      tcp_client_->sendMessage(event);
+    }
   }
   return;
 }
@@ -273,8 +275,10 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
       QString s = "Winner: " + info_dock_->getCurrentPlayer();
       helper::displayMessage(s);
 
-      QString event = QString("E1");  // event: game ends
-      tcp_client_->sendMessage(event);
+      if (solver_ == helper::SOLVER::HUMAN_REMOTE) {
+        QString event = QString("E1");  // event: game ends
+        tcp_client_->sendMessage(event);
+      }
     } else {
       // the move was successful
       cell->setEnabled(false);
@@ -404,7 +408,6 @@ void MainWindow::onClientMessageReceived(QString data) {
     QString row = data.left(first);
     QString col = data.mid(first + 1, second - first - 1);
     QString val = data.right(1);  // value will always be length 1 (1,2,..,9)
-    qDebug() << row << col << val;
 
     Pos cell_pos{helper::QStringToUint8(row), helper::QStringToUint8(col)};
     Move next_move;
@@ -416,8 +419,7 @@ void MainWindow::onClientMessageReceived(QString data) {
     is_opponent_turn_ = false;
     return;
   } else if (data[0] == "E") {  // event
-    qDebug() << "event";
-    if (data[1] == "0") {  // game starts
+    if (data[1] == "0") {       // game starts
       new_game_window_->close();
       gui_player_ = PLAYER::WHITE;
       this->startNewGame();

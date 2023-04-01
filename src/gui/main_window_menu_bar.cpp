@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-23 17:04:59
- * @modify date 2023-03-26 15:02:35
+ * @modify date 2023-04-01 16:52:33
  */
 
 #include "gui/main_window_menu_bar.h"
@@ -20,8 +20,8 @@ MainWindowMenuBar *MainWindowMenuBar::pinstance_{nullptr};
 std::mutex MainWindowMenuBar::mutex_;
 
 MainWindowMenuBar::MainWindowMenuBar(QWidget *parent) : QMenuBar(parent) {
-  game_menu_ = this->addMenu("&Game");
-  help_menu_ = this->addMenu("&Help");
+  game_menu_ = this->addMenu(tr("&Game"));
+  help_menu_ = this->addMenu(tr("&Help"));
 
   this->initGameMenu();
   this->initHelpMenu();
@@ -39,16 +39,17 @@ MainWindowMenuBar *MainWindowMenuBar::GetInstance(QWidget *parent) {
 /////////////////////////////////////
 
 void MainWindowMenuBar::initGameMenu() {
-  QAction *startNewGame = new QAction("Start &New Game", game_menu_);
+  QAction *startNewGame = new QAction(tr("Start &New Game"), game_menu_);
   connect(startNewGame, &QAction::triggered, [this]() {
     emit this->startNewGame();
   });
   game_menu_->addAction(startNewGame);
 
-  QAction *startLastGame = new QAction("Start Last Game", game_menu_);
+  QAction *startLastGame = new QAction(tr("Start Last Game"), game_menu_);
   connect(startLastGame, &QAction::triggered, [this]() {
     emit this->startLastGame();
   });
+  game_menu_->addAction(startLastGame);
 
   game_menu_->addSeparator();
   /*
@@ -61,7 +62,7 @@ void MainWindowMenuBar::initGameMenu() {
   game_menu_->addSeparator();
   */
 
-  QAction *quit = new QAction("&Quit", game_menu_);
+  QAction *quit = new QAction(tr("&Quit"), game_menu_);
   connect(quit, &QAction::triggered, [this]() {
     QCoreApplication::quit();
   });
@@ -69,7 +70,7 @@ void MainWindowMenuBar::initGameMenu() {
 }
 
 void MainWindowMenuBar::initHelpMenu() {
-  QAction *rules = new QAction("&Rules", help_menu_);
+  QAction *rules = new QAction(tr("&Rules"), help_menu_);
   connect(rules, &QAction::triggered, []() {
     PopupWindow *a = new PopupWindow("Rules", "qrc:/resource/html/rules.html");
     a->setWindowSize(0.2, 0.4);
@@ -78,7 +79,7 @@ void MainWindowMenuBar::initHelpMenu() {
   });
   help_menu_->addAction(rules);
 
-  QAction *about = new QAction("&About", help_menu_);
+  QAction *about = new QAction(tr("&About"), help_menu_);
   connect(about, &QAction::triggered, []() {
     PopupWindow *a = new PopupWindow("About", "qrc:/resource/html/about.html");
     a->setWindowSize(0.6, 0.8);
