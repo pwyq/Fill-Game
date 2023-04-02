@@ -77,14 +77,14 @@ bool Game::isValid() {
     PosSet filled_visited;
     PosSet empty_visited;
     floodFill(pos, filled_visited, empty_visited, value);
-    size_t num_in_group = filled_visited.size();
-    if (num_in_group > value) {
+    // size_t num_in_group = filled_visited.size();
+    if (filled_visited.size() > value) {
       // We made a group that's too large
       return false;
     }
 
-    size_t num_liberties = empty_visited.size();
-    if (num_liberties == 0 && num_in_group < value) {
+    // size_t num_liberties = empty_visited.size();
+    if (empty_visited.size() == 0 && filled_visited.size() < value) {
       // We surrounded the group and it's too small
       return false;
     }
@@ -146,7 +146,7 @@ std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> Game::getPossibleMoves(
         }
         // Good to try the board to see if it's valid
         unsafePlay(pos, n);
-        if (isValid()) {  // TODO: can we optimize this, this call getFilledPosition, nested for-loops
+        if (isValid()) {
           values.push_back(n);
         }
         undo(pos);
@@ -190,9 +190,6 @@ bool Game::isValidGameString(const std::string &game_string) {
 }
 
 void Game::parseGameString(const std::string &game_string) {
-  if (!isValidGameString(game_string)) {
-    throw std::invalid_argument("Invalid game string");
-  }
   bool width_found = false;
   width_           = 0;
   height_          = 1;

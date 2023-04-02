@@ -28,6 +28,9 @@ namespace solver {
 void startSolver(std::string& input, size_t time_limit) {
   Game game(input);
   cout << game << endl;
+  if (!game.isValidGameString(input)) {
+    throw std::invalid_argument("Invalid game string");
+  }
 
   cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);
