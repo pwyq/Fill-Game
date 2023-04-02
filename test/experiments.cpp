@@ -28,10 +28,8 @@ static constexpr uint32_t hash(const std::string_view& string) noexcept {
   }
   return hash;
 }
-template <class T>
-static constexpr auto toMilliseconds(const T& duration) {
-  return std::chrono::duration<double, std::milli>(duration);
-}
+
+using namespace solver::helper;
 
 int main(int argc, char** argv) {
   if (argc != 3) {
@@ -41,7 +39,7 @@ int main(int argc, char** argv) {
   std::string game_string = argv[1];
   std::string algorithm   = argv[2];
   std::ofstream logFile;
-  auto timer = solver::helper::Timer();
+  auto timer = Timer();
   switch (hash(algorithm)) {
     case hash("minimax"): {
       std::cout << "Run minimax on " << game_string << std::endl;
@@ -52,7 +50,7 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS  = solver::helper::getPeakRSS();
+      auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -69,7 +67,7 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getAlphaBetaResult();
       timer.stop();
-      auto peakRSS  = solver::helper::getPeakRSS();
+      auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -86,7 +84,7 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getAlphaBetaTranspositionTableResult();
       timer.stop();
-      auto peakRSS  = solver::helper::getPeakRSS();
+      auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -103,7 +101,7 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS  = solver::helper::getPeakRSS();
+      auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -120,7 +118,7 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getAlphaBetaResult();
       timer.stop();
-      auto peakRSS  = solver::helper::getPeakRSS();
+      auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -137,7 +135,7 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getAlphaBetaTranspositionTableResult();
       timer.stop();
-      auto peakRSS  = solver::helper::getPeakRSS();
+      auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -154,7 +152,7 @@ int main(int argc, char** argv) {
       timer.start();
       agent.solve();
       timer.stop();
-      auto peakRSS  = solver::helper::getPeakRSS();
+      auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
@@ -171,7 +169,7 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS  = solver::helper::getPeakRSS();
+      auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
