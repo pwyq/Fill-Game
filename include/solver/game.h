@@ -2,7 +2,7 @@
  * @author      Yanqing Wu, Junwen Shen, Luke Kapeluck
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:29:55
- * @modify date 2023-02-10 05:29:55
+ * @modify date 2023-04-01 20:26:47
  * @desc Game class,responsible for play, find possible_moves
  */
 #ifndef FG_SOLVER_GAME_H_
@@ -37,7 +37,7 @@ class Game {
   void undo(const Pos &pos);
   inline void changeToPlay();
 
-  bool isValid() const;
+  bool isValid();
   bool isTerminal();
 
   std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> getPossibleMoves();
@@ -47,9 +47,10 @@ class Game {
   void set(const Pos &pos, uint8_t value);
   void reset(const Pos &pos);
 
+  void generateAllPositions();
   std::vector<Pos> getNeighbours(const Pos &pos) const;
-  std::vector<Pos> getEmptyPositions() const;
-  std::vector<Pos> getFilledPositions() const;
+  std::vector<Pos> getEmptyPositions();
+  std::vector<Pos> getFilledPositions();
 
   PLAYER toPlay() const { return to_play_; }
 
@@ -59,8 +60,12 @@ class Game {
   uint8_t height_ : 4;
   std::valarray<uint8_t> data_;
 
+  std::vector<Pos> empty_positions_;
+  std::vector<Pos> filled_positions_;
+
   std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> possible_moves_;
-  bool is_expanded_ = false;
+  bool is_expanded_  = false;
+  bool is_generated_ = false;
 
   void floodFill(const Pos &starting_pos, PosSet &filled_visited,
                  PosSet &empty_visited) const;

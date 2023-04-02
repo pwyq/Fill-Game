@@ -2,7 +2,7 @@
  * @author      Luke Kapeluck, Yanqing Wu, Junwen Shen
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:34:37
- * @modify date 2023-03-19 11:48:47
+ * @modify date 2023-04-01 20:26:43
  */
 #include "solver/game.h"
 // std
@@ -66,7 +66,7 @@ void Game::floodFill(const Pos &starting_pos, PosSet &filled_visited,
   }
 }
 
-bool Game::isValid() const {
+bool Game::isValid() {
   PosSet examined;
   for (auto pos : getFilledPositions()) {
     if (examined.find(pos) != examined.end()) {
@@ -268,58 +268,18 @@ std::vector<Pos> Game::getNeighbours(const Pos &pos) const {
   return ret;
 }
 
-std::vector<Pos> Game::getEmptyPositions() const {
-  std::vector<Pos> ret;
-  for (uint8_t row = 0; row < height_; ++row) {
-    for (uint8_t col = 0; col < width_; ++col) {
-      if (get(row, col) != 0) {
-        continue;
-      }
-      Pos p = Pos{row, col};
-      if (row > 0) {
-        if (get(Pos{(uint8_t)(row - 1), col}) > 0) {
-          p.is_important = true;
-          ret.push_back(p);
-          continue;
-        }
-      }
-      if (row + 1 < height_) {
-        if (get(Pos{(uint8_t)(row + 1), col}) > 0) {
-          p.is_important = true;
-          ret.push_back(p);
-          continue;
-        }
-      }
-      if (col > 0) {
-        if (get(Pos{row, (uint8_t)(col - 1)}) > 0) {
-          p.is_important = true;
-          ret.push_back(p);
-          continue;
-        }
-      }
-      if (col + 1 < width_) {
-        if (get(Pos{row, (uint8_t)(col + 1)}) > 0) {
-          p.is_important = true;
-          ret.push_back(p);
-          continue;
-        }
-      }
-      ret.push_back(p);
-    }
+std::vector<Pos> Game::getEmptyPositions() {
+  if (!is_generated_) {
+    generateAllPositions();
   }
-  return ret;
+  return empty_positions_;
 }
 
-std::vector<Pos> Game::getFilledPositions() const {
-  std::vector<Pos> ret;
-  for (uint8_t row = 0; row < height_; ++row) {
-    for (uint8_t col = 0; col < width_; ++col) {
-      if (get(row, col) != 0) {
-        ret.push_back(Pos{row, col});
-      }
-    }
+std::vector<Pos> Game::getFilledPositions() {
+  if (!is_generated_) {
+    generateAllPositions();
   }
-  return ret;
+  return filled_positions_;
 }
 
 std::string Game::toString() const {
@@ -337,6 +297,48 @@ std::string Game::toString() const {
   }
   ret.pop_back();
   return ret;
+}
+
+void Game::generateAllPositions() {
+  is_generated_ = true;
+  for (uint8_t row = 0; row < height_; ++row) {
+    for (uint8_t col = 0; col < width_; ++col) {
+      if (get(row, col) != 0) {
+        filled_positions_.push_back(Pos{row, col});
+        continue;
+      }
+      Pos p = Pos{row, col};
+      if (row > 0) {
+        if (get(Pos{(uint8_t)(row - 1), col}) > 0) {
+          p.is_important = true;
+          empty_positions_.push_back(p);
+          continue;
+        }
+      }
+      if (row + 1 < height_) {
+        if (get(Pos{(uint8_t)(row + 1), col}) > 0) {
+          p.is_important = true;
+          empty_positions_.push_back(p);
+          continue;
+        }
+      }
+      if (col > 0) {
+        if (get(Pos{row, (uint8_t)(col - 1)}) > 0) {
+          p.is_important = true;
+          empty_positions_.push_back(p);
+          continue;
+        }
+      }
+      if (col + 1 < width_) {
+        if (get(Pos{row, (uint8_t)(col + 1)}) > 0) {
+          p.is_important = true;
+          empty_positions_.push_back(p);
+          continue;
+        }
+      }
+      empty_positions_.push_back(p);
+    }
+  }
 }
 
 }  // namespace solver

@@ -37,6 +37,7 @@ void startSolver(std::string& input, size_t time_limit) {
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
 
+  /*
   cout << "using minimax..." << endl;
   minimax::Minimax minimax(game);
   // cout << minimax.getResult() << endl;
@@ -52,6 +53,7 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using pns..." << endl;
   pns::PNS pns(game);
   cout << pns.getResult() << endl;
+  */
 }
 
 /*
