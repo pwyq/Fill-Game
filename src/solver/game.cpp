@@ -145,7 +145,7 @@ std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> Game::getPossibleMoves(
         }
         // Good to try the board to see if it's valid
         unsafePlay(pos, n);
-        if (isValid()) {
+        if (isValid()) {  // TODO: can we optimize this, this call getFilledPosition, nested for-loops
           values.push_back(n);
         }
         undo(pos);
@@ -272,16 +272,39 @@ std::vector<Pos> Game::getEmptyPositions() const {
   std::vector<Pos> ret;
   for (uint8_t row = 0; row < height_; ++row) {
     for (uint8_t col = 0; col < width_; ++col) {
-      if (get(row, col) == 0) {
-        Pos p = Pos{row, col};
-        for (auto neighbour : getNeighbours(p)) {
-          if (get(neighbour) > 0) {
-            p.is_important = true;
-            break;
-          }
-        }
-        ret.push_back(p);
+      if (get(row, col) != 0) {
+        continue;
       }
+      Pos p = Pos{row, col};
+      if (row > 0) {
+        if (get(Pos{(uint8_t)(row - 1), col}) > 0) {
+          p.is_important = true;
+          ret.push_back(p);
+          continue;
+        }
+      }
+      if (row + 1 < height_) {
+        if (get(Pos{(uint8_t)(row + 1), col}) > 0) {
+          p.is_important = true;
+          ret.push_back(p);
+          continue;
+        }
+      }
+      if (col > 0) {
+        if (get(Pos{row, (uint8_t)(col - 1)}) > 0) {
+          p.is_important = true;
+          ret.push_back(p);
+          continue;
+        }
+      }
+      if (col + 1 < width_) {
+        if (get(Pos{row, (uint8_t)(col + 1)}) > 0) {
+          p.is_important = true;
+          ret.push_back(p);
+          continue;
+        }
+      }
+      ret.push_back(p);
     }
   }
   return ret;
