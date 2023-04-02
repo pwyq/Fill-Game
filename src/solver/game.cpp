@@ -108,53 +108,62 @@ void Game::play(const Pos &pos, uint8_t value) {
 
 bool Game::isTerminal() { return getPossibleMoves().empty(); }
 
-std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash>
-Game::getPossibleMoves() {
-  if (!is_expanded_ && possible_moves_.empty()) {
-    is_expanded_ = true;
-    if (width_ == 1 && height_ == 1 && get(0, 0) == 0) {
-      possible_moves_[Pos{0, 0}] = {1};
-      return possible_moves_;
+std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> Game::getPossibleMoves() {
+  if (is_expanded_) {
+    return possible_moves_;
+  }
+  is_expanded_ = true;
+  if (width_ == 1 && height_ == 1 && get(0, 0) == 0) {
+    possible_moves_[Pos{0, 0}] = {1};
+    return possible_moves_;
+  }
+  std::vector<Pos> empty_positions = getEmptyPositions();
+  for (auto pos : empty_positions) {
+    if (pos.is_important == false) {
+      // It's an unimportant position, it can have every possibility
+      possible_moves_[pos] = {1, 2, 3, 4};
+      continue;
     }
-    std::vector<Pos> empty_positions = getEmptyPositions();
-    for (auto pos : empty_positions) {
-      if (pos.is_important == false) {
-        // It's an unimportant position, it can have every possibility
-        possible_moves_[pos] = {1, 2, 3, 4};
-        continue;
+    uint8_t counts[4]     = {0};
+    uint8_t num_liberties = 0;
+    for (Pos neighbor : getNeighbours(pos)) {
+      uint8_t neighbor_value = get(neighbor);
+      if (neighbor_value > 0) {
+        ++counts[neighbor_value - 1];
+      } else {
+        ++num_liberties;
       }
-      uint8_t counts[4]     = {0};
-      uint8_t num_liberties = 0;
-      for (Pos neighbor : getNeighbours(pos)) {
-        uint8_t neighbor_value = get(neighbor);
-        if (neighbor_value > 0) {
-          ++counts[neighbor_value - 1];
-        } else {
-          ++num_liberties;
+    }
+    std::vector<uint8_t> values;
+    for (uint8_t n = 1; n <= 4; ++n) {
+      if (counts[n - 1] < n) {
+        // There's not too many 1s,2s,3s, or 4s
+        if (num_liberties == 0 && n != 1 && counts[n - 1] == 0) {
+          // This is basically the equivalent of a suicide
+          // No liberties, no friends, and not a 1
+          continue;
         }
-      }
-      std::vector<uint8_t> values;
-      for (uint8_t n = 1; n <= 4; ++n) {
-        if (counts[n - 1] < n) {
-          // There's not too many 1s,2s,3s, or 4s
-          if (num_liberties == 0 && n != 1 && counts[n - 1] == 0) {
-            // This is basically the equivalent of a suicide
-            // No liberties, no friends, and not a 1
-            continue;
-          }
-          // Good to try the board to see if it's valid
-          unsafePlay(pos, n);
-          if (isValid()) {
-            values.push_back(n);
-          }
-          undo(pos);
+        // Good to try the board to see if it's valid
+        unsafePlay(pos, n);
+        if (isValid()) {
+          values.push_back(n);
         }
+        undo(pos);
       }
-      if (!values.empty()) {
-        possible_moves_[pos] = values;
-      }
+    }
+    if (!values.empty()) {
+      possible_moves_[pos] = values;
     }
   }
+
+  // std::cout << "-------------------------------------1" << std::endl;
+  // for (auto &possible_move : possible_moves_) {
+  //   for (auto &value : possible_move.second) {
+  //     std::cout << +possible_move.first.row << ", " << +possible_move.first.col << " = " << +value << std::endl;
+  //   }
+  // }
+  // std::cout << "-------------------------------------2" << std::endl;
+
   return possible_moves_;
 }
 
