@@ -62,7 +62,7 @@ class Game {
   void reset(const Pos &pos);
 
   void parseGameString(const std::string &game_string);
-  void floodFill(const Pos &starting_pos, PosSet &filled_visited, PosSet &empty_visited) const;
+  void floodFill(const Pos &starting_pos, PosSet &filled_visited, PosSet &empty_visited, uint8_t &value) const;
 
   void generateAllPositions();
   std::vector<Pos> getNeighbours(const Pos &pos) const;

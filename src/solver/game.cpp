@@ -47,20 +47,21 @@ void Game::undo(const Pos &pos) {
   changeToPlay();
 }
 
-void Game::floodFill(const Pos &starting_pos, PosSet &filled_visited,
-                     PosSet &empty_visited) const {  // NOLINT
+void Game::floodFill(const Pos &starting_pos, PosSet &filled_visited, PosSet &empty_visited, uint8_t &value) const {  // NOLINT
   filled_visited.insert(starting_pos);
-  uint8_t value = get(starting_pos);
+  if (filled_visited.size() > value) {  // early return if we made a group that's too large
+    return;
+  }
   for (auto neighbour : getNeighbours(starting_pos)) {
     uint8_t neighbour_value = get(neighbour);
     if (neighbour_value == 0) {
       // It's empty, add it to the set of liberties we saw
       empty_visited.insert(neighbour);
-    } else if (neighbour_value == value) {
+    } else if (neighbour_value == get(starting_pos)) {
       // It's in our group
       if (filled_visited.find(neighbour) == filled_visited.end()) {
         // We haven't been there yet, go there
-        floodFill(neighbour, filled_visited, empty_visited);
+        floodFill(neighbour, filled_visited, empty_visited, value);
       }
     }
   }
@@ -75,7 +76,7 @@ bool Game::isValid() {
     uint8_t value = get(pos);
     PosSet filled_visited;
     PosSet empty_visited;
-    floodFill(pos, filled_visited, empty_visited);
+    floodFill(pos, filled_visited, empty_visited, value);
     size_t num_in_group = filled_visited.size();
     if (num_in_group > value) {
       // We made a group that's too large
