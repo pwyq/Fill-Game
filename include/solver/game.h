@@ -32,7 +32,6 @@ class Game {
 
   std::string toString() const;
   static bool isValidGameString(const std::string &game_string);
-  void parseGameString(const std::string &game_string);
   void unsafePlay(const Pos &pos, uint8_t value);
   void undo(const Pos &pos);
   inline void changeToPlay();
@@ -42,17 +41,7 @@ class Game {
 
   std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> getPossibleMoves();
 
-  uint8_t get(uint8_t row, uint8_t col) const;
-  uint8_t get(const Pos &pos) const;
-  void set(const Pos &pos, uint8_t value);
-  void reset(const Pos &pos);
-
-  void generateAllPositions();
-  std::vector<Pos> getNeighbours(const Pos &pos) const;
-  std::vector<Pos> getEmptyPositions();
-  std::vector<Pos> getFilledPositions();
-
-  PLAYER toPlay() const { return to_play_; }
+  inline PLAYER toPlay() const { return to_play_; }
 
  private:
   PLAYER to_play_;
@@ -67,8 +56,18 @@ class Game {
   bool is_expanded_  = false;
   bool is_generated_ = false;
 
-  void floodFill(const Pos &starting_pos, PosSet &filled_visited,
-                 PosSet &empty_visited) const;
+  uint8_t get(uint8_t row, uint8_t col) const;
+  uint8_t get(const Pos &pos) const;
+  void set(const Pos &pos, uint8_t value);
+  void reset(const Pos &pos);
+
+  void parseGameString(const std::string &game_string);
+  void floodFill(const Pos &starting_pos, PosSet &filled_visited, PosSet &empty_visited) const;
+
+  void generateAllPositions();
+  std::vector<Pos> getNeighbours(const Pos &pos) const;
+  std::vector<Pos> getEmptyPositions();
+  std::vector<Pos> getFilledPositions();
 };
 
 // inline function declaration
