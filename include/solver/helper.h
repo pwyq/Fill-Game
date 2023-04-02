@@ -104,6 +104,11 @@ class Timer {
 
 extern Timer<> g_timer;
 
+template <class DurationT>
+constexpr auto toMilliseconds(const DurationT& duration) {
+  return std::chrono::duration<double, std::milli>(duration);
+}
+
 ///////////////////////////////////////
 //  helper functions
 ///////////////////////////////////////
