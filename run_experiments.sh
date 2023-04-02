@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 build_dir="experiment-build"
 mkdir -p $build_dir
 # https://stackoverflow.com/a/677212
