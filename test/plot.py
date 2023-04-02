@@ -3,6 +3,7 @@
 import os
 from typing import Dict, List, Tuple, Optional
 import json
+from matplotlib import pyplot as plt
 
 LOG_FOLDER = "logs"
 Values = List[Tuple[int, float]]
@@ -32,9 +33,10 @@ def parse() -> Optional[Log]:
         return
 
 
-def plot(logs: Log):
+def plot(logs: Log, pick_up: Optional[str] = None):
     algorithms = list(logs.keys())
     game_strings = list(logs[algorithms[0]].keys())
+    picked_up: Dict[str, Tuple[int, float]] = {}
     for game_string in game_strings:
         print(f"Game: {game_string}")
         for algorithm in algorithms:
@@ -43,13 +45,30 @@ def plot(logs: Log):
             max_time = max(values, key=lambda x: x[1])[1]
             min_mem = min(values, key=lambda x: x[0])[0]
             min_time = min(values, key=lambda x: x[1])[1]
-            avg_mem = round(sum([x[0] for x in values]) / len(values))
-            avg_time = round(sum([x[1] for x in values]) / len(values))
+            avg_mem = round(sum([x[0] for x in values]) / len(values) / 1024)
+            avg_time = round(sum([x[1] for x in values]) / len(values), 3)
             print(f"{algorithm}: \n"
-                  f"\tavg: {avg_mem} B, {avg_time} ms\n"
+                  f"\tavg: {avg_mem} kB, {avg_time} ms\n"
                   f"\tmin: {min_mem} B, {min_time} ms\n"
                   f"\tmax: {max_mem} B, {max_time} ms")
+            if game_string == pick_up:
+                picked_up[algorithm.replace("_", "\n")] = (avg_mem, avg_time)
         print()
+    if pick_up is None:
+        return
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 9), layout='constrained')
+    fig.suptitle(f"Performance of Algorithms on Game {pick_up}")
+    ax1.set_xlabel("Peak Memory Usage (kB)")
+    ax1.set_ylabel("Algorithm")
+    ax1.barh(list(picked_up.keys()), [x[0] for x in picked_up.values()])
+    for i, key in enumerate(picked_up.keys()):
+        mem, time = picked_up[key]
+        ax1.text(mem, i, mem)
+        ax2.text(time, i, time)
+    ax2.set_xlabel("Execution Time (ms)")
+    ax2.set_ylabel("Algorithm")
+    ax2.barh(list(picked_up.keys()), [x[1] for x in picked_up.values()])
+    plt.show()
 
 
 def main():
@@ -63,7 +82,7 @@ def main():
     else:
         logs = parse()
     if logs is not None:
-        plot(logs)
+        plot(logs, "1...*2...*..43")
 
 
 if __name__ == '__main__':
