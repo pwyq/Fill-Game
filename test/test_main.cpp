@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-17 22:32:33
- * @modify date 2023-04-03 01:06:20
+ * @modify date 2023-04-03 02:15:46
  * @desc main test entry
  */
 // gtest
@@ -20,17 +20,18 @@
 int main(int argc, char **argv) {
   // https://stackoverflow.com/questions/12076072/how-to-run-specific-test-cases-in-googletest
   ::testing::InitGoogleTest(&argc, argv);
-  // Minimax and Negamax is slow on MEDIUM
+  // Minimax and Negamax are slow on MEDIUM
   ::testing::GTEST_FLAG(filter) =
-      "DFPN_*:"
-      "*PNS_*:"
+      "VALID_ALGO_TEST_CASES*:"
+      "*DFPNTest*:"
+      "*PNSTest*:"
       "*MinimaxTest.SIMPLE*:"
       "*MinimaxTest.HARD*:"
-      "*MINIMAX_ALPHABETA_*:"
-      "*MINIMAX_ALPHABETA_TT_*:"
-      "*NEGAMAX_SIMPLE*:"
-      "*NEGAMAX_LARGE*:"
-      "*NEGAMAX_ALPHABETA_*:"
-      "*NEGAMAX_ALPHABETA_TT_*:";
+      "*MinimaxAlphaBetaTest*:"
+      "*MinimaxAlphaBetaTTTest*:"
+      "*NegamaxTest.SIMPLE*:"
+      "*NegamaxTest.HARD*:"
+      "*NegamaxAlphaBetaTest*:"
+      "*NegamaxAlphaBetaTTTest*:";
   return RUN_ALL_TESTS();
 }

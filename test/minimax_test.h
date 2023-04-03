@@ -11,8 +11,8 @@
 // gtest
 #include <gtest/gtest.h>
 // local
+#include "algorithm_test_cases.h"
 #include "game.h"
-#include "game_string_test.h"
 #include "minimax.h"
 
 class MinimaxTest : public testing::Test {
@@ -225,21 +225,21 @@ TEST_F(MinimaxTest, MEDIUM_7) {
 ///// MINIMAX_LARGE
 ///////////////////////////////////////////////////
 
-TEST_F(MinimaxTest, LARGE_1) {
+TEST_F(MinimaxTest, HARD_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
   agent_ = new Minimax(game);
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-TEST_F(MinimaxTest, LARGE_2) {
+TEST_F(MinimaxTest, HARD_2) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
   agent_ = new Minimax(game);
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-TEST_F(MinimaxTest, LARGE_3) {
+TEST_F(MinimaxTest, HARD_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
   agent_ = new Minimax(game);

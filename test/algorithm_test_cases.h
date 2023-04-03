@@ -8,12 +8,16 @@
  * https://github.com/google/googletest/blob/main/docs/advanced.md#sharing-resources-between-tests-in-the-same-test-suite
  */
 
-#ifndef FG_TEST_GAME_STRING_TEST_H_
-#define FG_TEST_GAME_STRING_TEST_H_
+#ifndef FG_TEST_ALGORITHM_TEST_CASES_H_
+#define FG_TEST_ALGORITHM_TEST_CASES_H_
 
+// gtest
+#include <gtest/gtest.h>
 // std
 #include <sstream>
 #include <vector>
+// local
+#include "game.h"
 
 /**
  * @brief We are testing against the WIN/LOSS/UNKNOWN result.
@@ -35,6 +39,8 @@ unsigned short getIndexFromName(const char* x) {
   }
   unsigned short y;
   s >> y;
+  // std::cout << x << std::endl;   // for the very weird bug in minimax-ab-tt and negamax-ab-tt medium.1 and medium.3
+  // std::cout << y << " " << y - 1 << std::endl;
   return y - 1;
 }
 
@@ -110,48 +116,66 @@ const TestContainer SHARED_MEDIUM = {
 
 const TestContainer SHARED_HARD = {
     // 1
-    std::make_pair(
-        "1223334444\
-        *4444223331\
-        *1223334444\
-        *4444223331\
-        *1223334444\
-        *4444223331\
-        *1223334444\
-        *44.4223331\
-        *1223334444\
-        *4444223.31\
-        ",
-        -1),
+    std::make_pair("\
+1223334444*\
+4444223331*\
+1223334444*\
+4444223331*\
+1223334444*\
+4444223331*\
+1223334444*\
+44.4223331*\
+1223334444*\
+4444223.31",
+                   -1),
     // 2
-    std::make_pair(
-        "1223334444\
-        *4444223331\
-        *1223334444\
-        *4444223331\
-        *1223334444\
-        *4444223331\
-        *1223334444\
-        *4444223331\
-        *1223334444\
-        *4444223.31\
-        ",
-        1),
+    std::make_pair("\
+1223334444*\
+4444223331*\
+1223334444*\
+4444223331*\
+1223334444*\
+4444223331*\
+1223334444*\
+4444223331*\
+1223334444*\
+4444223.31",
+                   1),
     // 3
-    std::make_pair(
-        "1223334444\
-        *444422.331\
-        *122.334444\
-        *4444223331\
-        *122333.444\
-        *4444223331\
-        *1223334444\
-        *4444223.31\
-        *1223334444\
-        *4444223.31\
-        ",
-        1)
+    std::make_pair("\
+1223334444*\
+444422.331*\
+122.334444*\
+4444223331*\
+122333.444*\
+4444223331*\
+1223334444*\
+4444223.31*\
+1223334444*\
+4444223.31",
+                   1)
 
 };  // end of TestContainer SHARED_HARD
+
+TEST(VALID_ALGO_TEST_CASES, SIMPLE) {
+  solver::Game game(".");  // dummy board
+  for (uint8_t i = 0; i < SHARED_SIMPLE.size(); ++i) {
+    EXPECT_EQ(true, game.isValidGameString(SHARED_SIMPLE[i].first));
+  }
+}
+
+TEST(VALID_ALGO_TEST_CASES, MEDIUM) {
+  solver::Game game(".");  // dummy board
+  for (uint8_t i = 0; i < SHARED_MEDIUM.size(); ++i) {
+    EXPECT_EQ(true, game.isValidGameString(SHARED_MEDIUM[i].first));
+  }
+}
+
+TEST(VALID_ALGO_TEST_CASES, HARD) {
+  solver::Game game(".");  // dummy board
+  for (uint8_t i = 0; i < SHARED_HARD.size(); ++i) {
+    EXPECT_EQ(true, game.isValidGameString(SHARED_HARD[i].first));
+  }
+}
 
 #endif

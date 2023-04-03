@@ -26,11 +26,12 @@ namespace solver {
 #define MEMORY_LIMIT (1073741824)
 
 void startSolver(std::string& input, size_t time_limit) {
-  Game game(input);
-  cout << game << endl;
+  Game game(".");  // dummy board
   if (!game.isValidGameString(input)) {
     throw std::invalid_argument("Invalid game string");
   }
+  cout << game << endl;
+  game = Game(input);
 
   cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);

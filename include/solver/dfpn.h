@@ -24,6 +24,7 @@ class DFPN {
   explicit DFPN(const Game &game);
 
   void solve();
+  short getResult() const;
   std::string formatResult() const;
   static void signalHandler([[maybe_unused]] int signum);
 
