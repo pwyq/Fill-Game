@@ -13,6 +13,7 @@
 #include "solver/constraint.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
+#include "solver/mcts.h"
 #include "solver/minimax.h"
 #include "solver/negamax.h"
 #include "solver/pns.h"
@@ -27,11 +28,14 @@ namespace solver {
 
 void startSolver(std::string& input, size_t time_limit) {
   Game game(".");  // dummy board
-  if (!game.isValidGameString(input)) {
+  if (!solver::Game::isValidGameString(input)) {
     throw std::invalid_argument("Invalid game string");
   }
   cout << game << endl;
   game = Game(input);
+  auto mcts = mcts::MCTS(game);
+  auto move = mcts.search();
+  cout << "Pos: " << (int)move.pos.row << ", " << (int)move.pos.col << endl << "Value: " << (int)move.value << endl;
 
   cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);

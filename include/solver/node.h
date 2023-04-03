@@ -7,6 +7,8 @@
  */
 #ifndef FG_SOLVER_NODE_H_
 #define FG_SOLVER_NODE_H_
+// std
+#include <memory>
 // local
 #include "game.h"
 
@@ -129,6 +131,27 @@ class NodeTT : public Node {
 };
 
 }  // namespace negamax
+
+/////////////////////////////////////
+//  MCTS Node Class
+/////////////////////////////////////
+namespace mcts {
+
+class Node {
+  public:
+   Game game_;
+   helper::Move move_;
+   std::weak_ptr<Node> parent_{};
+   size_t visits_ = 1;
+   int wins_ = 0;
+   std::vector<std::shared_ptr<Node>> children_;
+
+   explicit Node(const Game& game);
+   Node(const Game& game, const helper::Pos &pos, uint8_t value, const std::shared_ptr<Node>& parent = nullptr);
+   ~Node();
+};
+
+}  // namespace mcts
 
 }  // namespace solver
 
