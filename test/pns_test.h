@@ -16,6 +16,8 @@
 #include "game.h"
 #include "pns.h"
 
+namespace solver::pns {
+
 class PNSTest : public testing::Test {
  protected:
   PNSTest()          = default;
@@ -46,9 +48,6 @@ class PNSTest : public testing::Test {
 
 solver::pns::PNS* PNSTest::agent_ = nullptr;
 ////////////////////////////////////////////////////////////////////
-
-namespace solver {
-namespace pns {
 
 TEST_F(PNSTest, SIMPLE_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
@@ -247,7 +246,6 @@ TEST_F(PNSTest, HARD_3) {
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace pns
-}  // namespace solver
+}  // namespace solver::pns
 
 #endif  // FG_TEST_PNS_H_

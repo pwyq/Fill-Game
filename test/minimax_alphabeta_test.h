@@ -16,8 +16,7 @@
 #include "game.h"
 #include "minimax.h"
 
-namespace solver {
-namespace minimax {
+namespace solver::minimax {
 
 class MinimaxAlphaBetaTest : public testing::Test {
  protected:
@@ -55,7 +54,7 @@ TEST_F(MinimaxAlphaBetaTest, SIMPLE_1) {
   Game game(SHARED_SIMPLE[index].first);
   agent_ = new Minimax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
-};
+}
 
 TEST_F(MinimaxAlphaBetaTest, SIMPLE_2) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
@@ -247,7 +246,6 @@ TEST_F(MinimaxAlphaBetaTest, HARD_3) {
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace minimax
-}  // namespace solver
+}  // namespace solver::minimax
 
 #endif  // FG_TEST_MINIMAX_ALPHABETA_H_
