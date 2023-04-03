@@ -156,7 +156,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
   short best_eval = (player == helper::PLAYER::BLACK) ? -INF_SHORT : INF_SHORT;
   if (player == helper::PLAYER::BLACK) {
     for (auto& child : node.children()) {
-      short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
+      short eval = solveAlphaBetaTranspositionTable(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
       best_eval  = std::max(best_eval, eval);
 
       alpha = std::max(alpha, eval);
@@ -167,7 +167,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
   } else {
     // if it's minimizing player
     for (auto& child : node.children()) {
-      short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
+      short eval = solveAlphaBetaTranspositionTable(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
       best_eval  = std::min(best_eval, eval);
 
       beta = std::min(beta, eval);
