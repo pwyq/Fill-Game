@@ -247,13 +247,25 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
                      static_cast<uint8_t>(cell->getPos().x())};
 
   auto all_moves = game_->getPossibleMoves();
-  // if (all_moves.find(cell_pos) == all_moves.end()) {
-  if (std::find(all_moves.begin(), all_moves.end(), cell_pos) != all_moves.end()) {
+
+  auto it = std::find_if(all_moves.begin(), all_moves.end(), [&cell_pos](const std::pair<Pos, uint8_t> &element) {
+    return element.first == cell_pos;
+  });
+  if (it == all_moves.end()) {
     helper::displayMessage("No Possible Move");
     cell->setEnabled(false);
     return;
   }
-  auto moves = all_moves.at(cell_pos);
+
+  std::vector<uint8_t> moves;
+  for (const auto &pair : all_moves) {
+    if (pair.first == cell_pos) {
+      moves.push_back(pair.second);
+    }
+    if (moves.size() == 4) {  // TODO: change upperbound to user-selected value;
+      break;
+    }
+  }
 
   if (true == is_select_done_) {
     is_select_done_ = false;
