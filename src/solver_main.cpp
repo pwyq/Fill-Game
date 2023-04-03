@@ -41,23 +41,21 @@ void startSolver(std::string& input, size_t time_limit) {
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
 
-  /*
   cout << "using minimax..." << endl;
   minimax::Minimax minimax(game);
-  // cout << minimax.getResult() << endl;
+  cout << minimax.getResult() << endl;
   cout << minimax.getAlphaBetaResult() << endl;
   cout << minimax.getAlphaBetaTranspositionTableResult() << endl;
 
   cout << "using negamax..." << endl;
   negamax::Negamax negamax(game);
-  // cout << negamax.getResult() << endl;
+  cout << negamax.getResult() << endl;
   cout << negamax.getAlphaBetaResult() << endl;
   cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
 
   cout << "using pns..." << endl;
   pns::PNS pns(game);
   cout << pns.getResult() << endl;
-  */
 }
 
 /*

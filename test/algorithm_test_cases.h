@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-04-02 22:32:23
- * @modify date 2023-04-03 01:02:09
+ * @modify date 2023-04-03 15:05:15
  * @desc Sharing Test
  * 
  * https://github.com/google/googletest/blob/main/docs/advanced.md#sharing-resources-between-tests-in-the-same-test-suite
@@ -78,7 +78,11 @@ const TestContainer SHARED_SIMPLE = {
     // 16
     std::make_pair("144*3.4*134", 1),
     // 17
-    std::make_pair("131*4.2*141", -1)
+    std::make_pair("131*4.2*141", -1),
+    // 18
+    std::make_pair("1..*.1.*..1", -1),
+    // 19
+    std::make_pair("1.1.*.1.1*..1.*...1", -1)
 
 };  // end of TestContainer SHARED_SIMPLE
 
