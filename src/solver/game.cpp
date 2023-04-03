@@ -17,7 +17,6 @@ namespace solver {
 
 Game::Game(const std::string &input)
     : to_play_(PLAYER::BLACK), width_(0), height_(0), is_expanded_(false) {
-  // std::cout << input;
   parseGameString(input);
 }
 
@@ -192,9 +191,6 @@ bool Game::isValidGameString(const std::string &game_string) {
 }
 
 void Game::parseGameString(const std::string &game_string) {
-  // if (!isValidGameString(game_string)) {               // assume game string is valid during the game; only check validity at the beginning of the game
-  // throw std::invalid_argument("Invalid game string");
-  // }
   bool width_found = false;
   width_           = 0;
   height_          = 1;

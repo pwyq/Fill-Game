@@ -185,5 +185,16 @@ std::string DFPN::formatResult() const {
   return ret;
 }
 
+short DFPN::getResult() const {
+  switch (result_) {
+    case WIN:
+      return 1;
+    case LOSS:
+      return -1;
+    default:  // Handled by signal handler
+      return 0;
+  }
+}
+
 }  // namespace dfpn
 }  // namespace solver

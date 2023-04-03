@@ -12,17 +12,17 @@
 // local
 #include "helper.h"
 
+#define TEST_NUM 10000000
+
 constexpr double MB = 1024 * 1024;
-constexpr size_t MILLION = 1000000;
-constexpr size_t TEST_NUM = 10 * MILLION;
 
 using namespace solver::helper;
 
 ////////////////////////////////////////
 class Board {
  public:
-  virtual ~Board() = default;
-  virtual uint8_t get(uint8_t row, uint8_t col) = 0;
+  virtual ~Board()                                        = default;
+  virtual uint8_t get(uint8_t row, uint8_t col)           = 0;
   virtual void set(uint8_t row, uint8_t col, uint8_t val) = 0;
 
  protected:
@@ -30,7 +30,7 @@ class Board {
   uint8_t col_;
 };
 
-class TwoD: public Board {
+class TwoD : public Board {
  public:
   explicit TwoD(const std::string& game_string);
   inline uint8_t get(uint8_t row, uint8_t col) override { return game_[row][col]; }
@@ -93,8 +93,8 @@ class OneD : public Board {
 };
 
 OneD::OneD(const std::string& game_string) {
-  row_ = 0;
-  col_ = 1;
+  row_             = 0;
+  col_             = 1;
   bool width_found = false;
   for (char c : game_string) {
     if (c == '*') {
@@ -104,7 +104,7 @@ OneD::OneD(const std::string& game_string) {
       ++col_;
     }
   }
-  game_ = std::valarray<uint8_t>(game_string.size());
+  game_       = std::valarray<uint8_t>(game_string.size());
   uint8_t row = 0;
   uint8_t col = 0;
   for (char c : game_string) {
@@ -133,7 +133,7 @@ int main(int argc, char* argv[]) {
   }
   std::string which(argv[1]);
   std::string game_string = "123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789";
-  auto timer = Timer();
+  auto timer              = Timer();
   // Test initialization
   std::valarray<Board*> board_ptrs(TEST_NUM);
   if (which == "1D") {
@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
   }
 
   // Test get
-  Board *b;
+  Board* b;
   if (which == "1D") {
     b = new OneD(game_string);
   } else {
