@@ -39,7 +39,7 @@ class Game {
   bool isValid();
   bool isTerminal();
 
-  std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> getPossibleMoves();
+  std::vector<std::pair<Pos, uint8_t>> getPossibleMoves();
 
   inline PLAYER toPlay() const { return to_play_; }
 
@@ -52,7 +52,7 @@ class Game {
   std::vector<Pos> empty_positions_;
   std::vector<Pos> filled_positions_;
 
-  std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> possible_moves_;
+  std::vector<std::pair<Pos, uint8_t>> possible_moves_;
   bool is_expanded_  = false;
   bool is_generated_ = false;
 

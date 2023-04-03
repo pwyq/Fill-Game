@@ -109,20 +109,24 @@ void Game::play(const Pos &pos, uint8_t value) {
 
 bool Game::isTerminal() { return getPossibleMoves().empty(); }
 
-std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> Game::getPossibleMoves() {
+std::vector<std::pair<Pos, uint8_t>> Game::getPossibleMoves() {
   if (is_expanded_) {
     return possible_moves_;
   }
   is_expanded_ = true;
   if (width_ == 1 && height_ == 1 && get(0, 0) == 0) {
-    possible_moves_[Pos{0, 0}] = {1};
+    possible_moves_.push_back(std::make_pair(Pos{0, 0}, 1));
+
     return possible_moves_;
   }
   std::vector<Pos> empty_positions = getEmptyPositions();
   for (auto pos : empty_positions) {
     if (pos.is_important == false) {
       // It's an unimportant position, it can have every possibility
-      possible_moves_[pos] = {1, 2, 3, 4};
+      possible_moves_.push_back(std::make_pair(pos, 1));
+      possible_moves_.push_back(std::make_pair(pos, 2));
+      possible_moves_.push_back(std::make_pair(pos, 3));
+      possible_moves_.push_back(std::make_pair(pos, 4));
       continue;
     }
     uint8_t counts[4]     = {0};
@@ -153,17 +157,15 @@ std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash> Game::getPossibleMoves(
       }
     }
     if (!values.empty()) {
-      possible_moves_[pos] = values;
+      for (const auto &v : values) {
+        possible_moves_.push_back(std::make_pair(pos, v));
+      }
     }
   }
 
-  // std::cout << "-------------------------------------1" << std::endl;
-  // for (auto &possible_move : possible_moves_) {
-  //   for (auto &value : possible_move.second) {
-  //     std::cout << +possible_move.first.row << ", " << +possible_move.first.col << " = " << +value << std::endl;
-  //   }
-  // }
-  // std::cout << "-------------------------------------2" << std::endl;
+  std::sort(possible_moves_.begin(), possible_moves_.end(), [](auto &left, auto &right) {
+    return left.second < right.second;
+  });
 
   return possible_moves_;
 }
@@ -190,6 +192,9 @@ bool Game::isValidGameString(const std::string &game_string) {
 }
 
 void Game::parseGameString(const std::string &game_string) {
+  // if (!isValidGameString(game_string)) {               // assume game string is valid during the game; only check validity at the beginning of the game
+  // throw std::invalid_argument("Invalid game string");
+  // }
   bool width_found = false;
   width_           = 0;
   height_          = 1;

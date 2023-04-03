@@ -4,11 +4,12 @@
  * @create date 2023-02-10 05:32:27
  * @modify date 2023-03-26 02:51:51
  *
- * TODO: for remote mode, open a new window, when both player agrees on black/white, board size, timer etc, then start
  * TODO: same timer constraint (as the UI) on solver
  * TODO: save/load a game ?
  */
 #include "gui/main_window.h"
+// std
+#include <algorithm>
 // Qt
 #include <QHostAddress>
 #include <QThread>
@@ -246,7 +247,8 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
                      static_cast<uint8_t>(cell->getPos().x())};
 
   auto all_moves = game_->getPossibleMoves();
-  if (all_moves.find(cell_pos) == all_moves.end()) {
+  // if (all_moves.find(cell_pos) == all_moves.end()) {
+  if (std::find(all_moves.begin(), all_moves.end(), cell_pos) != all_moves.end()) {
     helper::displayMessage("No Possible Move");
     cell->setEnabled(false);
     return;

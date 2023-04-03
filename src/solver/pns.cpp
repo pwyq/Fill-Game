@@ -109,12 +109,10 @@ void PNS::generateChildren(Node* node) {
   auto possible_moves = node->game().getPossibleMoves();
 
   for (auto& pm : possible_moves) {
-    for (auto& v : pm.second) {
-      if (node->type() == helper::NODE_TYPE::OR) {
-        node->addChild(new Node(node->game(), pm.first, v, helper::NODE_TYPE::AND, node, helper::changePlayer(node->player())));
-      } else {
-        node->addChild(new Node(node->game(), pm.first, v, helper::NODE_TYPE::OR, node, helper::changePlayer(node->player())));
-      }
+    if (node->type() == helper::NODE_TYPE::OR) {
+      node->addChild(new Node(node->game(), pm.first, pm.second, helper::NODE_TYPE::AND, node, helper::changePlayer(node->player())));
+    } else {
+      node->addChild(new Node(node->game(), pm.first, pm.second, helper::NODE_TYPE::OR, node, helper::changePlayer(node->player())));
     }
   }
 }

@@ -53,9 +53,7 @@ void Node::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 }  // namespace dfpn
@@ -96,9 +94,7 @@ void Node::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 
@@ -121,9 +117,7 @@ void NodeTT::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 
@@ -153,9 +147,7 @@ void Node::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 
@@ -178,9 +170,7 @@ void NodeTT::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 
