@@ -18,10 +18,13 @@ class PNS {
   explicit PNS(const Game& game);
   short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
+  helper::Move best_move() const;
+
  protected:
   Node* root_;
+  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
 
-  short solveGame(Node* root, helper::PLAYER player);
+  short solve(Node* root, helper::PLAYER player);
   Node* selectMostProvingNode(Node* node);
   void expandNode(Node* node);
   Node* updateAncestors(Node* node, Node* root);

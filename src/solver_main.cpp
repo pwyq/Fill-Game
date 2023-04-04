@@ -41,35 +41,36 @@ void startSolver(std::string& input, size_t time_limit) {
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
 
-  cout << "using minimax..." << endl;
   minimax::Minimax minimax(game);
-  cout << minimax.getResult() << endl;
-  cout << minimax.best_move().toString() << endl;
-  cout << "using minimax-ab..." << endl;
-  minimax = minimax::Minimax(game);
-  cout << minimax.getAlphaBetaResult() << endl;
-  cout << minimax.best_move().toString() << endl;
+  // cout << "using minimax..." << endl;
+  // cout << minimax.getResult() << endl;
+  // cout << minimax.best_move().toString() << endl;
+  // cout << "using minimax-ab..." << endl;
+  // minimax = minimax::Minimax(game);
+  // cout << minimax.getAlphaBetaResult() << endl;
+  // cout << minimax.best_move().toString() << endl;
   cout << "using minimax-ab-tt..." << endl;
   minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaTranspositionTableResult() << endl;
   cout << minimax.best_move().toString() << endl;
 
-  cout << "using negamax..." << endl;
   negamax::Negamax negamax(game);
-  cout << negamax.getResult() << endl;
-  cout << negamax.best_move().toString() << endl;
-  cout << "using negamax-ab..." << endl;
-  negamax = negamax::Negamax(game);
-  cout << negamax.getAlphaBetaResult() << endl;
-  cout << negamax.best_move().toString() << endl;
+  // cout << "using negamax..." << endl;
+  // cout << negamax.getResult() << endl;
+  // cout << negamax.best_move().toString() << endl;
+  // cout << "using negamax-ab..." << endl;
+  // negamax = negamax::Negamax(game);
+  // cout << negamax.getAlphaBetaResult() << endl;
+  // cout << negamax.best_move().toString() << endl;
   cout << "using negamax-ab-tt..." << endl;
   negamax = negamax::Negamax(game);
   cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
   cout << negamax.best_move().toString() << endl;
 
-  // cout << "using pns..." << endl;
-  // pns::PNS pns(game);
-  // cout << pns.getResult() << endl;
+  cout << "using pns..." << endl;
+  pns::PNS pns(game);
+  cout << pns.getResult() << endl;
+  cout << pns.best_move().toString() << endl;
 }
 
 /*
