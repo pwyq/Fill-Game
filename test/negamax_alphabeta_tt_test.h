@@ -16,6 +16,8 @@
 #include "game.h"
 #include "negamax.h"
 
+namespace solver::negamax {
+
 class NegamaxAlphaBetaTTTest : public testing::Test {
  protected:
   NegamaxAlphaBetaTTTest()          = default;
@@ -47,8 +49,6 @@ class NegamaxAlphaBetaTTTest : public testing::Test {
 solver::negamax::Negamax* NegamaxAlphaBetaTTTest::agent_ = nullptr;
 ////////////////////////////////////////////////////////////////////
 
-namespace solver {
-namespace negamax {
 TEST_F(NegamaxAlphaBetaTTTest, SIMPLE_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
@@ -175,7 +175,7 @@ TEST_F(NegamaxAlphaBetaTTTest, SIMPLE_17) {
 TEST_F(NegamaxAlphaBetaTTTest, MEDIUM_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
 
-  index = 0;  // same weird bug
+  // index = 0;  // same weird bug
   Game game(SHARED_MEDIUM[index].first);
   agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_MEDIUM[index].second);
@@ -191,7 +191,7 @@ TEST_F(NegamaxAlphaBetaTTTest, MEDIUM_2) {
 TEST_F(NegamaxAlphaBetaTTTest, MEDIUM_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
 
-  index = 2;  // same weird bug
+  // index = 2;  // same weird bug
   Game game(SHARED_MEDIUM[index].first);
   agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_MEDIUM[index].second);
@@ -250,7 +250,6 @@ TEST_F(NegamaxAlphaBetaTTTest, HARD_3) {
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace negamax
-}  // namespace solver
+}  // namespace solver::negamax
 
 #endif  // FG_TEST_NEGAMAX_ALPHABETA_TT_H_

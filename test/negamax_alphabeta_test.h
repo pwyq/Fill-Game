@@ -16,6 +16,8 @@
 #include "game.h"
 #include "negamax.h"
 
+namespace solver::negamax {
+
 class NegamaxAlphaBetaTest : public testing::Test {
  protected:
   NegamaxAlphaBetaTest()          = default;
@@ -47,8 +49,6 @@ class NegamaxAlphaBetaTest : public testing::Test {
 solver::negamax::Negamax* NegamaxAlphaBetaTest::agent_ = nullptr;
 ////////////////////////////////////////////////////////////////////
 
-namespace solver {
-namespace negamax {
 TEST_F(NegamaxAlphaBetaTest, SIMPLE_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
@@ -245,7 +245,6 @@ TEST_F(NegamaxAlphaBetaTest, HARD_3) {
   agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
 }
-}  // namespace negamax
-}  // namespace solver
+}  // namespace solver::negamax
 
 #endif  // FG_TEST_NEGAMAX_ALPHABETA_H_
