@@ -1,9 +1,10 @@
 /**
- * @author    Junwen Shen
+ * @author      Junwen Shen, Yanqing Wu
  * @create date 2023-03-21 17:32:51
- * @modify date 2023-03-22 10:19:27
- *
+ * @modify date 2023-04-04 03:27:28
+ * @desc Measure the average runtime and average peak RSS of algorithms
  */
+
 // std
 #include <fstream>
 #include <iostream>

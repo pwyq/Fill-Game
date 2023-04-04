@@ -128,8 +128,6 @@ void OneD::set(uint8_t row, uint8_t col, uint8_t val) {
 
 ////////////////////
 
-/* TODO: comment out because can't have two main(); think of a way to let all tests works.
-
 int main(int argc, char* argv[]) {
   if (argc != 2) {
     std::cout << "Usage: ./twoD_vs_oneD <1D>/<2D>" << std::endl;
@@ -188,4 +186,3 @@ int main(int argc, char* argv[]) {
 
   return 0;
 }
-*/
