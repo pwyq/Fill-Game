@@ -35,7 +35,7 @@ void startSolver(std::string& input, size_t time_limit) {
 
   cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);
-  Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
+  // Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
   // constraint.signalHandler = DFPN::signalHandler;
   // constraint.apply();
   dfpn.solve();
@@ -44,18 +44,26 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using minimax..." << endl;
   minimax::Minimax minimax(game);
   cout << minimax.getResult() << endl;
+  cout << minimax.best_move().toString() << endl;
+  cout << "using minimax-ab..." << endl;
+  minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaResult() << endl;
+  cout << minimax.best_move().toString() << endl;
+  cout << "using minimax-ab-tt..." << endl;
+  minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaTranspositionTableResult() << endl;
+  cout << minimax.best_move().toString() << endl;
 
-  cout << "using negamax..." << endl;
-  negamax::Negamax negamax(game);
-  cout << negamax.getResult() << endl;
-  cout << negamax.getAlphaBetaResult() << endl;
-  cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
+  // cout << "using negamax..." << endl;
+  // negamax::Negamax negamax(game);
+  // cout << negamax.getResult() << endl;
+  // cout << negamax.getAlphaBetaResult() << endl;
+  // cout << "using negamax-ab-tt..." << endl;
+  // cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
 
-  cout << "using pns..." << endl;
-  pns::PNS pns(game);
-  cout << pns.getResult() << endl;
+  // cout << "using pns..." << endl;
+  // pns::PNS pns(game);
+  // cout << pns.getResult() << endl;
 }
 
 /*

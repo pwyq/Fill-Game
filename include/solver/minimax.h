@@ -37,9 +37,12 @@ class Minimax {
   short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
   short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
+  helper::Move best_move() const;
+
  private:
   Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
+  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
 
   ttEntry transpositionTableLookup(NodeTT& node);
   inline void transpositionTableStore(NodeTT& node, ttEntry entry);
