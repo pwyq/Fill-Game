@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-04-03 21:34:32
- * @modify date 2023-04-03 23:43:55
+ * @modify date 2023-04-04 00:20:53
  * @desc Test agents playing against each other
  * 
  * TODO: time constraint and memory constraint
@@ -32,6 +32,10 @@ using solver::dfpn::DFPN;
 using solver::minimax::Minimax;
 using solver::negamax::Negamax;
 using solver::pns::PNS;
+
+///////////////////////////////////////
+// Test - Agent Match
+///////////////////////////////////////
 
 namespace test {
 
@@ -159,6 +163,10 @@ bool playSingleMatch(std::string p1, std::string p2, int board_size) {
 
 }  // namespace test
 
+///////////////////////////////////////
+// Main
+///////////////////////////////////////
+
 bool isValidAgentName(std::string name) {
   // TODO: how to make this easier...?
   if (name == "pns" || name == "dfpn" || name == "minimax" || name == "mini-ab" || name == "mini-ab-tt" || name == "negamax" || name == "nega-ab" || name == "nega-ab-tt") {
@@ -203,7 +211,7 @@ int main(int argc, char* argv[]) {
   std::string player2(argv[2]);
   if (isValidAgentName(player2) == false) {
     printHelp();
-    throw std::invalid_argument("Invalid algo1 name");
+    throw std::invalid_argument("Invalid algo2 name");
     return -1;
   }
   int board_size = atoi(argv[3]);
