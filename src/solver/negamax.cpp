@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:18:44
- * @modify date 2023-03-21 17:59:42
+ * @modify date 2023-04-03 19:48:28
  */
 
 #include "solver/negamax.h"
@@ -11,28 +11,29 @@ namespace solver {
 namespace negamax {
 
 Negamax::Negamax(const Game& game) : root_(game), tt_({}) {
+  best_move_ = helper::Move{Pos{0, 0}, 0};
 }
 
-short Negamax::getResult(helper::PLAYER root_player) {
+short Negamax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), root_player);
+  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
-short Negamax::getAlphaBetaResult(helper::PLAYER root_player) {
+short Negamax::getAlphaBetaResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
-short Negamax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
+short Negamax::getAlphaBetaTranspositionTableResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
   NodeTT rootTT_(root_.game());
-  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**
@@ -45,6 +46,9 @@ short Negamax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) 
  */
 short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && player == helper::WHITE) {
+      best_move_ = node.move();
+    }
     return -1;
   }
   node.generateChildren();
@@ -69,6 +73,9 @@ short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
  */
 short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && player == helper::WHITE) {
+      best_move_ = node.move();
+    }
     return -1;
   }
   node.generateChildren();
@@ -121,6 +128,9 @@ short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
   }
 
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && player == helper::WHITE) {
+      best_move_ = node.move();
+    }
     return -1;
   }
   node.generateChildren();
@@ -175,6 +185,20 @@ ttEntry Negamax::transpositionTableLookup(NodeTT& node) {
     ttEntry temp;
     return temp;
   }
+}
+
+/**
+ * @brief Return the first move that result in a WIN
+ *        if not found
+ *          no time limit, resign (return a dummy value) {{0,0}, 0}
+ *          has time limit, return a random move that hasn't been examined? (TODO? this case)
+ * 
+ * @return helper::Move 
+ */
+helper::Move Negamax::best_move() const {
+  // if has time limit (the agent is probably forced to stop) return a random move
+  //  TODO
+  return best_move_;
 }
 
 }  // namespace negamax

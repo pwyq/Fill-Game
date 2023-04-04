@@ -55,8 +55,8 @@ struct Pos {
   }
 
   [[nodiscard]] std::string toString() const {
-    return std::to_string((unsigned int)col) + " " +
-           std::to_string((unsigned int)row);
+    return std::to_string((unsigned int)row) + " " +
+           std::to_string((unsigned int)col);
   }
 
   struct Hash {
@@ -105,7 +105,7 @@ class Timer {
 extern Timer<> g_timer;
 
 template <class DurationT>
-constexpr auto toMilliseconds(const DurationT& duration) {
+constexpr auto toMilliseconds(const DurationT &duration) {
   return std::chrono::duration<double, std::milli>(duration);
 }
 

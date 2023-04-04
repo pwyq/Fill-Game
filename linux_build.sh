@@ -2,7 +2,7 @@
 # @author      Yanqing Wu
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:39:00
-# @modify date 2023-03-18 00:52:09
+# @modify date 2023-04-04 00:18:10
 # @desc build file
 ###
 
@@ -54,3 +54,4 @@ elif [ -f ./build/src/fillgame_cli ]; then
     mv ./build/src/fillgame_cli .
 fi
 mv ./build/test/test_main .
+mv ./build/test/other_tests .

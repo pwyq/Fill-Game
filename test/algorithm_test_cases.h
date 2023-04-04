@@ -1,8 +1,8 @@
 /**
- * @author      Yanqing Wu
+ * @author      Yanqing Wu, Junwen Shen
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-04-02 22:32:23
- * @modify date 2023-04-03 15:05:15
+ * @modify date 2023-04-03 23:31:20
  * @desc Sharing Test
  *
  * https://github.com/google/googletest/blob/main/docs/advanced.md#sharing-resources-between-tests-in-the-same-test-suite
@@ -162,23 +162,20 @@ const TestContainer SHARED_HARD = {
 };  // end of TestContainer SHARED_HARD
 
 TEST(VALID_ALGO_TEST_CASES, SIMPLE) {
-  solver::Game game(".");  // dummy board
-  for (const auto & i : SHARED_SIMPLE) {
-    EXPECT_EQ(true, game.isValidGameString(i.first));
+  for (const auto& i : SHARED_SIMPLE) {
+    EXPECT_EQ(true, solver::Game::isValidGameString(i.first));
   }
 }
 
 TEST(VALID_ALGO_TEST_CASES, MEDIUM) {
-  solver::Game game(".");  // dummy board
-  for (const auto & i : SHARED_MEDIUM) {
-    EXPECT_EQ(true, game.isValidGameString(i.first));
+  for (const auto& i : SHARED_MEDIUM) {
+    EXPECT_EQ(true, solver::Game::isValidGameString(i.first));
   }
 }
 
 TEST(VALID_ALGO_TEST_CASES, HARD) {
-  solver::Game game(".");  // dummy board
-  for (const auto & i : SHARED_HARD) {
-    EXPECT_EQ(true, game.isValidGameString(i.first));
+  for (const auto& i : SHARED_HARD) {
+    EXPECT_EQ(true, solver::Game::isValidGameString(i.first));
   }
 }
 

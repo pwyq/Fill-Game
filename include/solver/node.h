@@ -64,6 +64,7 @@ class Node {
 
   inline Game game() const { return game_; }
   inline int value() const { return eval_val_; }
+  inline helper::Move move() const { return move_; }
   inline std::vector<Node> children() const { return children_; }
 
  protected:
@@ -104,6 +105,7 @@ class Node {
   void generateChildren();
 
   inline Game game() const { return game_; }
+  inline helper::Move move() const { return move_; }
   inline std::vector<Node> children() const { return children_; }
 
  protected:

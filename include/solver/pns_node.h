@@ -31,6 +31,7 @@ class Node {
   inline Node *parent() const { return parent_; }
   inline Node *children() const { return children_; }
   inline Node *sibling() const { return sibling_; }
+  inline helper::Move move() const { return move_; }
   inline helper::PLAYER player() const { return player_; }
   inline helper::PROOF_VALUE value() const { return value_; }
   inline bool isExpanded() const { return is_expanded_; }
