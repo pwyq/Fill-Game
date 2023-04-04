@@ -12,18 +12,19 @@
 #include "solver/game.h"
 #include "solver/pns_node.h"
 
-namespace solver {
-namespace pns {
+namespace solver::pns {
 
 PNS::PNS(const Game& game) {
   root_ = new Node(game, helper::NODE_TYPE::OR, nullptr, helper::PLAYER::BLACK);
+
+  best_move_ = helper::Move{Pos{0, 0}, 0};
 }
 
 short PNS::getResult(helper::PLAYER root_player) {
-  return solveGame(root_, root_player);
+  return solve(root_, root_player);
 }
 
-short PNS::solveGame(Node* root, helper::PLAYER player) {
+short PNS::solve(Node* root, helper::PLAYER player) {
   if (root->game().isTerminal()) {
     return -1;
   }
@@ -46,11 +47,11 @@ short PNS::solveGame(Node* root, helper::PLAYER player) {
 }
 
 /**
- * @brief Find the node 
+ * @brief Find the node
  *            with minimum disproven number for AND nodes
  *            with minimum proven number for OR nodes
- * @param node 
- * @return Node& 
+ * @param node
+ * @return Node&
  */
 Node* PNS::selectMostProvingNode(Node* node) {
   while (node->isExpanded()) {
@@ -76,8 +77,11 @@ void PNS::expandNode(Node* node) {
   while (n != nullptr) {
     n->evaluate();
     n->setProofAndDisproofNumbers();
-    if ((node->type() == helper::NODE_TYPE::OR && node->pn() == 0) ||
-        (node->type() == helper::NODE_TYPE::AND && node->dn() == 0)) {
+    if (best_move_.value == 0 && n->value() == helper::PROOF_VALUE::WIN) {
+      best_move_ = n->move();
+    }
+    if ((node->type() == helper::NODE_TYPE::OR && n->pn() == 0) ||
+        (node->type() == helper::NODE_TYPE::AND && n->dn() == 0)) {
       break;
     }
     n = n->sibling();
@@ -109,15 +113,26 @@ void PNS::generateChildren(Node* node) {
   auto possible_moves = node->game().getPossibleMoves();
 
   for (auto& pm : possible_moves) {
-    for (auto& v : pm.second) {
-      if (node->type() == helper::NODE_TYPE::OR) {
-        node->addChild(new Node(node->game(), pm.first, v, helper::NODE_TYPE::AND, node, helper::changePlayer(node->player())));
-      } else {
-        node->addChild(new Node(node->game(), pm.first, v, helper::NODE_TYPE::OR, node, helper::changePlayer(node->player())));
-      }
+    if (node->type() == helper::NODE_TYPE::OR) {
+      node->addChild(new Node(node->game(), pm.first, pm.second, helper::NODE_TYPE::AND, node, helper::changePlayer(node->player())));
+    } else {
+      node->addChild(new Node(node->game(), pm.first, pm.second, helper::NODE_TYPE::OR, node, helper::changePlayer(node->player())));
     }
   }
 }
 
-}  // namespace pns
-}  // namespace solver
+/**
+ * @brief Return the first move that result in a WIN
+ *        if not found
+ *          no time limit, resign (return a dummy value) {{0,0}, 0}
+ *          has time limit, return a random move that hasn't been examined? (TODO? this case)
+ *
+ * @return helper::Move
+ */
+helper::Move PNS::bestMove() const {
+  // if has time limit (the agent is probably forced to stop) return a random move
+  //  TODO
+  return best_move_;
+}
+
+}  // namespace solver::pns

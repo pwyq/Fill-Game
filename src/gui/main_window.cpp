@@ -4,11 +4,12 @@
  * @create date 2023-02-10 05:32:27
  * @modify date 2023-03-26 02:51:51
  *
- * TODO: for remote mode, open a new window, when both player agrees on black/white, board size, timer etc, then start
  * TODO: same timer constraint (as the UI) on solver
  * TODO: save/load a game ?
  */
 #include "gui/main_window.h"
+// std
+#include <algorithm>
 // Qt
 #include <QHostAddress>
 #include <QThread>
@@ -246,12 +247,25 @@ void MainWindow::onBoardCellPressed(BoardCell *cell) {
                      static_cast<uint8_t>(cell->getPos().x())};
 
   auto all_moves = game_->getPossibleMoves();
-  if (all_moves.find(cell_pos) == all_moves.end()) {
+
+  auto it = std::find_if(all_moves.begin(), all_moves.end(), [&cell_pos](const std::pair<Pos, uint8_t> &element) {
+    return element.first == cell_pos;
+  });
+  if (it == all_moves.end()) {
     helper::displayMessage("No Possible Move");
     cell->setEnabled(false);
     return;
   }
-  auto moves = all_moves.at(cell_pos);
+
+  std::vector<uint8_t> moves;
+  for (const auto &pair : all_moves) {
+    if (pair.first == cell_pos) {
+      moves.push_back(pair.second);
+    }
+    if (moves.size() == 4) {  // TODO: change upperbound to user-selected value;
+      break;
+    }
+  }
 
   if (true == is_select_done_) {
     is_select_done_ = false;

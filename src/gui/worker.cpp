@@ -45,7 +45,7 @@ void SolverWorker::process(solver::Game* game) {
     case helper::SOLVER::DFPN: {
       solver::dfpn::DFPN* agent = new solver::dfpn::DFPN(*game);
       agent->solve();
-      solver::helper::Move next_move = agent->best_move();
+      solver::helper::Move next_move = agent->bestMove();
       emit finished(next_move);
       delete agent;
       break;

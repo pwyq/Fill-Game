@@ -2,7 +2,7 @@
  * @author      Luke Kapeluck, Yanqing Wu, Junwen Shen
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:34:37
- * @modify date 2023-03-19 11:48:47
+ * @modify date 2023-04-01 20:26:43
  */
 #include "solver/game.h"
 // std
@@ -17,7 +17,6 @@ namespace solver {
 
 Game::Game(const std::string &input)
     : to_play_(PLAYER::BLACK), width_(0), height_(0), is_expanded_(false) {
-  // std::cout << input;
   parseGameString(input);
 }
 
@@ -47,26 +46,27 @@ void Game::undo(const Pos &pos) {
   changeToPlay();
 }
 
-void Game::floodFill(const Pos &starting_pos, PosSet &filled_visited,
-                     PosSet &empty_visited) const {  // NOLINT
+void Game::floodFill(const Pos &starting_pos, PosSet &filled_visited, PosSet &empty_visited, uint8_t &value) const {  // NOLINT
   filled_visited.insert(starting_pos);
-  uint8_t value = get(starting_pos);
+  if (filled_visited.size() > value) {  // early return if we made a group that's too large
+    return;
+  }
   for (auto neighbour : getNeighbours(starting_pos)) {
     uint8_t neighbour_value = get(neighbour);
     if (neighbour_value == 0) {
       // It's empty, add it to the set of liberties we saw
       empty_visited.insert(neighbour);
-    } else if (neighbour_value == value) {
+    } else if (neighbour_value == get(starting_pos)) {
       // It's in our group
       if (filled_visited.find(neighbour) == filled_visited.end()) {
         // We haven't been there yet, go there
-        floodFill(neighbour, filled_visited, empty_visited);
+        floodFill(neighbour, filled_visited, empty_visited, value);
       }
     }
   }
 }
 
-bool Game::isValid() const {
+bool Game::isValid() {
   PosSet examined;
   for (auto pos : getFilledPositions()) {
     if (examined.find(pos) != examined.end()) {
@@ -75,15 +75,15 @@ bool Game::isValid() const {
     uint8_t value = get(pos);
     PosSet filled_visited;
     PosSet empty_visited;
-    floodFill(pos, filled_visited, empty_visited);
-    size_t num_in_group = filled_visited.size();
-    if (num_in_group > value) {
+    floodFill(pos, filled_visited, empty_visited, value);
+    // size_t num_in_group = filled_visited.size();
+    if (filled_visited.size() > value) {
       // We made a group that's too large
       return false;
     }
 
-    size_t num_liberties = empty_visited.size();
-    if (num_liberties == 0 && num_in_group < value) {
+    // size_t num_liberties = empty_visited.size();
+    if (empty_visited.empty() && filled_visited.size() < value) {
       // We surrounded the group and it's too small
       return false;
     }
@@ -108,53 +108,64 @@ void Game::play(const Pos &pos, uint8_t value) {
 
 bool Game::isTerminal() { return getPossibleMoves().empty(); }
 
-std::unordered_map<Pos, std::vector<uint8_t>, Pos::Hash>
-Game::getPossibleMoves() {
-  if (!is_expanded_ && possible_moves_.empty()) {
-    is_expanded_ = true;
-    if (width_ == 1 && height_ == 1 && get(0, 0) == 0) {
-      possible_moves_[Pos{0, 0}] = {1};
-      return possible_moves_;
+std::vector<std::pair<Pos, uint8_t>> Game::getPossibleMoves() {
+  if (is_expanded_) {
+    return possible_moves_;
+  }
+  is_expanded_ = true;
+  if (width_ == 1 && height_ == 1 && get(0, 0) == 0) {
+    possible_moves_.emplace_back(Pos{0, 0}, 1);
+
+    return possible_moves_;
+  }
+  std::vector<Pos> empty_positions = getEmptyPositions();
+  for (auto pos : empty_positions) {
+    if (!pos.is_important) {
+      // It's an unimportant position, it can have every possibility
+      possible_moves_.emplace_back(pos, 1);
+      possible_moves_.emplace_back(pos, 2);
+      possible_moves_.emplace_back(pos, 3);
+      possible_moves_.emplace_back(pos, 4);
+      continue;
     }
-    std::vector<Pos> empty_positions = getEmptyPositions();
-    for (auto pos : empty_positions) {
-      if (pos.is_important == false) {
-        // It's an unimportant position, it can have every possibility
-        possible_moves_[pos] = {1, 2, 3, 4};
-        continue;
+    uint8_t counts[4]     = {0};
+    uint8_t num_liberties = 0;
+    for (Pos neighbor : getNeighbours(pos)) {
+      uint8_t neighbor_value = get(neighbor);
+      if (neighbor_value > 0) {
+        ++counts[neighbor_value - 1];
+      } else {
+        ++num_liberties;
       }
-      uint8_t counts[4]     = {0};
-      uint8_t num_liberties = 0;
-      for (Pos neighbor : getNeighbours(pos)) {
-        uint8_t neighbor_value = get(neighbor);
-        if (neighbor_value > 0) {
-          ++counts[neighbor_value - 1];
-        } else {
-          ++num_liberties;
+    }
+    std::vector<uint8_t> values;
+    for (uint8_t n = 1; n <= 4; ++n) {
+      if (counts[n - 1] < n) {
+        // There's not too many 1s,2s,3s, or 4s
+        if (num_liberties == 0 && n != 1 && counts[n - 1] == 0) {
+          // This is basically the equivalent of a suicide
+          // No liberties, no friends, and not a 1
+          continue;
         }
-      }
-      std::vector<uint8_t> values;
-      for (uint8_t n = 1; n <= 4; ++n) {
-        if (counts[n - 1] < n) {
-          // There's not too many 1s,2s,3s, or 4s
-          if (num_liberties == 0 && n != 1 && counts[n - 1] == 0) {
-            // This is basically the equivalent of a suicide
-            // No liberties, no friends, and not a 1
-            continue;
-          }
-          // Good to try the board to see if it's valid
-          unsafePlay(pos, n);
-          if (isValid()) {
-            values.push_back(n);
-          }
-          undo(pos);
+        // Good to try the board to see if it's valid
+        unsafePlay(pos, n);
+        if (isValid()) {
+          values.push_back(n);
         }
+        undo(pos);
       }
-      if (!values.empty()) {
-        possible_moves_[pos] = values;
+    }
+    if (!values.empty()) {
+      for (const auto &v : values) {
+        possible_moves_.emplace_back(pos, v);
       }
     }
   }
+
+  std::sort(possible_moves_.begin(), possible_moves_.end(), [](auto &left, auto &right) {
+    return left.second < right.second;
+  });
+
   return possible_moves_;
 }
 
@@ -180,9 +191,6 @@ bool Game::isValidGameString(const std::string &game_string) {
 }
 
 void Game::parseGameString(const std::string &game_string) {
-  if (!isValidGameString(game_string)) {
-    throw std::invalid_argument("Invalid game string");
-  }
   bool width_found = false;
   width_           = 0;
   height_          = 1;
@@ -259,35 +267,18 @@ std::vector<Pos> Game::getNeighbours(const Pos &pos) const {
   return ret;
 }
 
-std::vector<Pos> Game::getEmptyPositions() const {
-  std::vector<Pos> ret;
-  for (uint8_t row = 0; row < height_; ++row) {
-    for (uint8_t col = 0; col < width_; ++col) {
-      if (get(row, col) == 0) {
-        Pos p = Pos{row, col};
-        for (auto neighbour : getNeighbours(p)) {
-          if (get(neighbour) > 0) {
-            p.is_important = true;
-            break;
-          }
-        }
-        ret.push_back(p);
-      }
-    }
+std::vector<Pos> Game::getEmptyPositions() {
+  if (!is_generated_) {
+    generateAllPositions();
   }
-  return ret;
+  return empty_positions_;
 }
 
-std::vector<Pos> Game::getFilledPositions() const {
-  std::vector<Pos> ret;
-  for (uint8_t row = 0; row < height_; ++row) {
-    for (uint8_t col = 0; col < width_; ++col) {
-      if (get(row, col) != 0) {
-        ret.push_back(Pos{row, col});
-      }
-    }
+std::vector<Pos> Game::getFilledPositions() {
+  if (!is_generated_) {
+    generateAllPositions();
   }
-  return ret;
+  return filled_positions_;
 }
 
 std::string Game::toString() const {
@@ -311,5 +302,48 @@ void Game::deleteChildren() {
   possible_moves_.clear();
   is_expanded_ = false;
 }
+
+void Game::generateAllPositions() {
+  is_generated_ = true;
+  for (uint8_t row = 0; row < height_; ++row) {
+    for (uint8_t col = 0; col < width_; ++col) {
+      if (get(row, col) != 0) {
+        filled_positions_.push_back(Pos{row, col});
+        continue;
+      }
+      Pos p = Pos{row, col};
+      if (row > 0) {
+        if (get(Pos{(uint8_t)(row - 1), col}) > 0) {
+          p.is_important = true;
+          empty_positions_.push_back(p);
+          continue;
+        }
+      }
+      if (row + 1 < height_) {
+        if (get(Pos{(uint8_t)(row + 1), col}) > 0) {
+          p.is_important = true;
+          empty_positions_.push_back(p);
+          continue;
+        }
+      }
+      if (col > 0) {
+        if (get(Pos{row, (uint8_t)(col - 1)}) > 0) {
+          p.is_important = true;
+          empty_positions_.push_back(p);
+          continue;
+        }
+      }
+      if (col + 1 < width_) {
+        if (get(Pos{row, (uint8_t)(col + 1)}) > 0) {
+          p.is_important = true;
+          empty_positions_.push_back(p);
+          continue;
+        }
+      }
+      empty_positions_.push_back(p);
+    }
+  }
+}
+
 
 }  // namespace solver

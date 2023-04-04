@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:18:44
- * @modify date 2023-03-21 17:59:42
+ * @modify date 2023-04-03 19:48:28
  */
 
 #include "solver/negamax.h"
@@ -11,40 +11,44 @@ namespace solver {
 namespace negamax {
 
 Negamax::Negamax(const Game& game) : root_(game), tt_({}) {
+  best_move_ = helper::Move{Pos{0, 0}, 0};
 }
 
-short Negamax::getResult(helper::PLAYER root_player) {
+short Negamax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), root_player);
+  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
-short Negamax::getAlphaBetaResult(helper::PLAYER root_player) {
+short Negamax::getAlphaBetaResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
-short Negamax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
+short Negamax::getAlphaBetaTranspositionTableResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
   NodeTT rootTT_(root_.game());
-  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**
  * @brief This is the plain Negamax algorithm
- * 
- * @param node 
+ *
+ * @param node
  * @param depth
- * @param player 
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && player == helper::WHITE) {
+      best_move_ = node.move();
+    }
     return -1;
   }
   node.generateChildren();
@@ -59,16 +63,19 @@ short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
 
 /**
  * @brief This is the Negamax with alpha-beta pruning
- * 
- * @param node 
+ *
+ * @param node
  * @param depth
- * @param alpha 
- * @param beta 
- * @param player 
+ * @param alpha
+ * @param beta
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && player == helper::WHITE) {
+      best_move_ = node.move();
+    }
     return -1;
   }
   node.generateChildren();
@@ -89,12 +96,12 @@ short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
 /**
  * @brief This is the Negamax with alpha-beta pruning + transposition table
  *        https://en.wikipedia.org/wiki/Negamax#Negamax_with_alpha_beta_pruning_and_transposition_tables
- * 
- * @param node 
- * @param depth 
- * @param alpha 
- * @param beta 
- * @param player 
+ *
+ * @param node
+ * @param depth
+ * @param alpha
+ * @param beta
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
@@ -121,6 +128,9 @@ short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
   }
 
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && player == helper::WHITE) {
+      best_move_ = node.move();
+    }
     return -1;
   }
   node.generateChildren();
@@ -153,10 +163,10 @@ short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
 /**
  * @brief count the number of empty cells in the root node
  *        The return is used for the starting `depth`
- * 
+ *
  *        TODO: optimum depth for minimax?
- * @param node 
- * @return uint16_t 
+ * @param node
+ * @return uint16_t
  */
 uint16_t Negamax::countEmptyCells(Node& node) {
   uint16_t res = 0;
@@ -175,6 +185,20 @@ ttEntry Negamax::transpositionTableLookup(NodeTT& node) {
     ttEntry temp;
     return temp;
   }
+}
+
+/**
+ * @brief Return the first move that result in a WIN
+ *        if not found
+ *          no time limit, resign (return a dummy value) {{0,0}, 0}
+ *          has time limit, return a random move that hasn't been examined? (TODO? this case)
+ *
+ * @return helper::Move
+ */
+helper::Move Negamax::bestMove() const {
+  // if has time limit (the agent is probably forced to stop) return a random move
+  //  TODO
+  return best_move_;
 }
 
 }  // namespace negamax

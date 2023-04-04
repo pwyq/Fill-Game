@@ -53,9 +53,7 @@ void Node::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 }  // namespace dfpn
@@ -96,9 +94,7 @@ void Node::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 
@@ -129,9 +125,7 @@ void NodeTT::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 
@@ -161,9 +155,7 @@ void Node::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 
@@ -186,12 +178,24 @@ void NodeTT::generateChildren() {
 
   auto possible_moves = game_.getPossibleMoves();
   for (auto &possible_move : possible_moves) {
-    for (auto &value : possible_move.second) {
-      children_.emplace_back(game_, possible_move.first, value);
-    }
+    children_.emplace_back(game_, possible_move.first, possible_move.second);
   }
 }
 
 }  // namespace negamax
+
+//////////////////////////////////////////
+
+namespace mcts {
+
+Node::Node(const Game& game): game_(game) {
+
+}
+
+Node::Node(const Game& game, const helper::Pos &pos, uint8_t value,
+           const std::shared_ptr<Node>& parent): game_(game), move_({pos, value}), parent_(parent) {
+  game_.unsafePlay(pos, value);
+}
+}  // namespace mcts
 
 }  // namespace solver

@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:14:21
- * @modify date 2023-03-21 17:59:45
+ * @modify date 2023-04-03 19:48:17
  * @desc Negamax
  */
 
@@ -19,8 +19,7 @@
 using std::cerr;
 using std::endl;
 
-namespace solver {
-namespace negamax {
+namespace solver::negamax {
 
 // This TT setup is only for alpha-beta
 enum EntryFlag {
@@ -39,13 +38,16 @@ struct ttEntry {
 class Negamax {
  public:
   explicit Negamax(const Game& game);
-  short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
-  short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
-  short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
+  short getResult();
+  short getAlphaBetaResult();
+  short getAlphaBetaTranspositionTableResult();
+
+  helper::Move bestMove() const;
 
  private:
   Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
+  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
 
   ttEntry transpositionTableLookup(NodeTT& node);
   inline void transpositionTableStore(NodeTT& node, ttEntry entry);
@@ -61,7 +63,6 @@ inline void Negamax::transpositionTableStore(NodeTT& node, ttEntry entry) {
   tt_[node.id()] = entry;
 }
 
-}  // namespace negamax
-}  // namespace solver
+}  // namespace solver::negamax
 
-#endif  // FG_SOLVER_MINIMAX_H_
+#endif  // FG_SOLVER_NEGAMAX_H_

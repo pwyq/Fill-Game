@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-03-21 17:59:47
+ * @modify date 2023-04-03 19:36:15
  */
 #include "solver/minimax.h"
 // std
@@ -12,28 +12,29 @@ namespace solver {
 namespace minimax {
 
 Minimax::Minimax(const Game& game) : root_(game) {
+  best_move_ = helper::Move{Pos{0, 0}, 0};
 }
 
-short Minimax::getResult(helper::PLAYER root_player) {
+short Minimax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), root_player);
+  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
-short Minimax::getAlphaBetaResult(helper::PLAYER root_player) {
+short Minimax::getAlphaBetaResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
-short Minimax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
+short Minimax::getAlphaBetaTranspositionTableResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
   NodeTT rootTT_(root_.game());
-  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**
@@ -47,6 +48,9 @@ short Minimax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) 
 short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && node.value() == 1) {
+      best_move_ = node.move();
+    }
     return node.value();
   }
   node.generateChildren();
@@ -84,6 +88,9 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
 short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && node.value() == 1) {
+      best_move_ = node.move();
+    }
     return node.value();
   }
   node.generateChildren();
@@ -153,6 +160,9 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
 
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
+    if (best_move_.value == 0 && node.value() == 1) {
+      best_move_ = node.move();
+    }
     return node.value();
   }
   // node.generateChildren();
@@ -160,7 +170,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
   short best_eval = (player == helper::PLAYER::BLACK) ? -INF_SHORT : INF_SHORT;
   if (player == helper::PLAYER::BLACK) {
     for (auto& child : node.children()) {
-      short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
+      short eval = solveAlphaBetaTranspositionTable(child, depth - 1, alpha, beta, helper::PLAYER::WHITE);
       best_eval  = std::max(best_eval, eval);
 
       alpha = std::max(alpha, eval);
@@ -171,7 +181,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
   } else {
     // if it's minimizing player
     for (auto& child : node.children()) {
-      short eval = solveAlphaBeta(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
+      short eval = solveAlphaBetaTranspositionTable(child, depth - 1, alpha, beta, helper::PLAYER::BLACK);
       best_eval  = std::min(best_eval, eval);
 
       beta = std::min(beta, eval);
@@ -223,6 +233,20 @@ ttEntry Minimax::transpositionTableLookup(NodeTT& node) {
     ttEntry temp;
     return temp;
   }
+}
+
+/**
+ * @brief Return the first move that result in a WIN
+ *        if not found
+ *          no time limit, resign (return a dummy value) {{0,0}, 0}
+ *          has time limit, return a random move that hasn't been examined? (TODO? this case)
+ *
+ * @return helper::Move
+ */
+helper::Move Minimax::bestMove() const {
+  // if has time limit (the agent is probably forced to stop) return a random move
+  //  TODO
+  return best_move_;
 }
 
 }  // namespace minimax
