@@ -89,7 +89,7 @@ void DFPN::MID(Node &node) {  // NOLINT
     if (delta_2 != INF) {
       ++delta_2;
     }
-    best_child.delta_ = std::min(node.phi_, delta_2);
+    best_child.delta_ = (std::min)(node.phi_, delta_2);
     MID(best_child);
     phi   = computeSumPhi(node);
     delta = computeMinDelta(node);
@@ -152,7 +152,7 @@ uint32_t DFPN::computeMinDelta(Node &node) {
   uint32_t _phi, _delta;
   for (auto &child : node.children_) {
     retrieveProofAndDisproofNumbers(child, _phi, _delta);
-    _min = std::min(_min, _delta);
+    _min = (std::min)(_min, _delta);
   }
   return _min;
 }
