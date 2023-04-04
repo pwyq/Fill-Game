@@ -12,6 +12,7 @@
 #include <utility>
 // local
 #include "node.h"
+#include "constraint.h"
 
 namespace solver::dfpn {
 
@@ -25,7 +26,10 @@ class DFPN {
   void solve();
   short getResult() const;
   std::string formatResult() const;
-  static void signalHandler([[maybe_unused]] int signum);
+#if defined(__linux__)
+  static void signalHandler(int signum);
+#endif
+  [[maybe_unused]] static void setConstraint(Constraint &constraint);
 
   inline helper::PROOF_VALUE result() const { return result_; }
   inline helper::Move bestMove() const { return best_move_; }

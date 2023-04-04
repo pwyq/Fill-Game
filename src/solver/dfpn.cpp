@@ -15,16 +15,15 @@
 using solver::helper::LOSS;
 using solver::helper::WIN;
 
-namespace solver {
-namespace dfpn {
+namespace solver::dfpn {
 
 helper::Timer<> g_timer{};  // total time used
 size_t g_counter = 0;       // num node visited
 
-DFPN::DFPN(const Game &game) : root_(game) {}
+DFPN::DFPN(const Game &game) : root_(game) { }
 
-void DFPN::signalHandler([[maybe_unused]] int sig) {
-  /**
+#if defined(__linux__)
+void DFPN::signalHandler(int sig) {
   switch (sig) {
       case SIGSEGV:
           std::cerr << "SIGSEGV" << std::endl;
@@ -38,11 +37,18 @@ void DFPN::signalHandler([[maybe_unused]] int sig) {
       default:
           break;
   }
-  **/
   g_timer.stop();
   std::cout << "? None " << g_timer.duration().count() << " " << g_counter
             << std::endl;
   exit(EXIT_FAILURE);
+}
+#endif
+
+[[maybe_unused]] void DFPN::setConstraint(Constraint &constraint) {
+#if defined(__linux__)
+  constraint.signalHandler = signalHandler;
+  constraint.apply();
+#endif
 }
 
 void DFPN::solve() {
@@ -196,5 +202,4 @@ short DFPN::getResult() const {
   }
 }
 
-}  // namespace dfpn
-}  // namespace solver
+}  // namespace solver::dfpn

@@ -8,7 +8,6 @@
 #include "solver/constraint.h"
 // std
 #include <csignal>
-#include <cstring>
 #include <iostream>
 
 namespace solver {

@@ -24,7 +24,7 @@ using std::endl;
 namespace solver {
 
 // 1024 * 1024 * 1024 = 1073741824 Bytes = 1GB
-#define MEMORY_LIMIT (1073741824)
+constexpr size_t MEMORY_LIMIT = 1073741824;
 
 void startSolver(std::string& input, size_t time_limit) {
   if (!Game::isValidGameString(input)) {
@@ -35,9 +35,8 @@ void startSolver(std::string& input, size_t time_limit) {
 
   dfpn::DFPN dfpn(game);
   cout << "using DFPN..." << endl;
-  // Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
-  // constraint.signalHandler = DFPN::signalHandler;
-  // constraint.apply();
+//  Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
+//  dfpn::DFPN::setConstraint(constraint);
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
 
