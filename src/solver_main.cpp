@@ -26,12 +26,11 @@ namespace solver {
 #define MEMORY_LIMIT (1073741824)
 
 void startSolver(std::string& input, size_t time_limit) {
-  Game game(".");  // dummy board
-  if (!game.isValidGameString(input)) {
+  if (!Game::isValidGameString(input)) {
     throw std::invalid_argument("Invalid game string");
   }
+  Game game = Game(input);
   cout << game << endl;
-  game = Game(input);
 
   cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);
@@ -42,26 +41,26 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << dfpn.formatResult() << endl;
 
   minimax::Minimax minimax(game);
-  // cout << "using minimax..." << endl;
-  // cout << minimax.getResult() << endl;
-  // cout << minimax.best_move().toString() << endl;
-  // cout << "using minimax-ab..." << endl;
-  // minimax = minimax::Minimax(game);
-  // cout << minimax.getAlphaBetaResult() << endl;
-  // cout << minimax.best_move().toString() << endl;
+  cout << "using minimax..." << endl;
+  cout << minimax.getResult() << endl;
+  cout << minimax.best_move().toString() << endl;
+  cout << "using minimax-ab..." << endl;
+  minimax = minimax::Minimax(game);
+  cout << minimax.getAlphaBetaResult() << endl;
+  cout << minimax.best_move().toString() << endl;
   cout << "using minimax-ab-tt..." << endl;
   minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaTranspositionTableResult() << endl;
   cout << minimax.best_move().toString() << endl;
 
   negamax::Negamax negamax(game);
-  // cout << "using negamax..." << endl;
-  // cout << negamax.getResult() << endl;
-  // cout << negamax.best_move().toString() << endl;
-  // cout << "using negamax-ab..." << endl;
-  // negamax = negamax::Negamax(game);
-  // cout << negamax.getAlphaBetaResult() << endl;
-  // cout << negamax.best_move().toString() << endl;
+  cout << "using negamax..." << endl;
+  cout << negamax.getResult() << endl;
+  cout << negamax.best_move().toString() << endl;
+  cout << "using negamax-ab..." << endl;
+  negamax = negamax::Negamax(game);
+  cout << negamax.getAlphaBetaResult() << endl;
+  cout << negamax.best_move().toString() << endl;
   cout << "using negamax-ab-tt..." << endl;
   negamax = negamax::Negamax(game);
   cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
