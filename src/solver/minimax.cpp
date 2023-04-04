@@ -39,10 +39,10 @@ short Minimax::getAlphaBetaTranspositionTableResult() {
 
 /**
  * @brief This is the plain Minimax algorithm
- * 
- * @param node 
- * @param depth 
- * @param player 
+ *
+ * @param node
+ * @param depth
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
@@ -75,12 +75,12 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
 
 /**
  * @brief This is the Minimax with alpha-beta pruning
- * 
- * @param node 
- * @param depth 
- * @param alpha 
- * @param beta 
- * @param player 
+ *
+ * @param node
+ * @param depth
+ * @param alpha
+ * @param beta
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
@@ -123,12 +123,12 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
 
 /**
  * @brief This is the Minimax with alpha-beta pruning + transposition table
- * 
- * @param node 
- * @param depth 
- * @param alpha 
- * @param beta 
- * @param player 
+ *
+ * @param node
+ * @param depth
+ * @param alpha
+ * @param beta
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
@@ -205,10 +205,10 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
 /**
  * @brief count the number of empty cells in the root node
  *        The return is used for the starting `depth`
- * 
+ *
  *        TODO: optimum depth for minimax?
- * @param node 
- * @return uint16_t 
+ * @param node
+ * @return uint16_t
  */
 uint16_t Minimax::countEmptyCells(Node& node) {
   uint16_t res = 0;
@@ -234,10 +234,10 @@ ttEntry Minimax::transpositionTableLookup(NodeTT& node) {
  *        if not found
  *          no time limit, resign (return a dummy value) {{0,0}, 0}
  *          has time limit, return a random move that hasn't been examined? (TODO? this case)
- * 
- * @return helper::Move 
+ *
+ * @return helper::Move
  */
-helper::Move Minimax::best_move() const {
+helper::Move Minimax::bestMove() const {
   // if has time limit (the agent is probably forced to stop) return a random move
   //  TODO
   return best_move_;

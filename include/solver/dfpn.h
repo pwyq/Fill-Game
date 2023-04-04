@@ -13,8 +13,7 @@
 // local
 #include "node.h"
 
-namespace solver {
-namespace dfpn {
+namespace solver::dfpn {
 
 extern helper::Timer<> g_timer;
 extern size_t g_counter;
@@ -29,7 +28,7 @@ class DFPN {
   static void signalHandler([[maybe_unused]] int signum);
 
   inline helper::PROOF_VALUE result() const { return result_; }
-  inline helper::Move best_move() const { return best_move_; }
+  inline helper::Move bestMove() const { return best_move_; }
 
  private:
   Node root_;
@@ -51,7 +50,6 @@ inline void DFPN::saveProofAndDisproofNumbers(Node &node, uint32_t phi, uint32_t
   tt_[node.id_] = std::make_pair(phi, delta);
 }
 
-}  // namespace dfpn
-}  // namespace solver
+}  // namespace solver::dfpn
 
 #endif  // FG_SOLVER_DFPN_H_

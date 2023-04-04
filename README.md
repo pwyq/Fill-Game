@@ -9,7 +9,7 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
 - [x] Local play
     - [x] Two human players
     - [x] Human vs. AI player
-- [ ] Cross-machine play
+- [x] Cross-machine play
 - [x] Cross-platform deployment
 
 ### Algorithms
@@ -18,6 +18,7 @@ Fill-Game is a two-player (adversarial) version of [Fillomino](https://en.wikipe
 - Depth-First Proof Number Search (DFPN)
 - Minimax (with alpha-beta pruning and transposition table)
 - Negamax (with alpha-beta pruning and transposition table)
+- Monte Carlo Tree Search (MCTS)
 
 ## Build
 

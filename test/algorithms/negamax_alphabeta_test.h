@@ -2,30 +2,33 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 00:44:38
- * @modify date 2023-04-03 01:56:38
- * @desc Minimax with Alpha-Beta pruning
+ * @modify date 2023-04-03 02:02:07
+ * @desc Negamax with Alpha-Beta pruning
  */
 
-#ifndef FG_TEST_MINIMAX_ALPHABETA_H_
-#define FG_TEST_MINIMAX_ALPHABETA_H_
+#ifndef FG_TEST_NEGAMAX_ALPHABETA_H_
+#define FG_TEST_NEGAMAX_ALPHABETA_H_
 
 // gtest
 #include <gtest/gtest.h>
 // local
 #include "algorithm_test_cases.h"
-#include "game.h"
-#include "minimax.h"
+#include "solver/game.h"
+#include "solver/negamax.h"
 
-namespace solver::minimax {
+using solver::Game;
+using solver::negamax::Negamax;
 
-class MinimaxAlphaBetaTest : public testing::Test {
+namespace fgtest {
+
+class NegamaxAlphaBetaTest : public testing::Test {
  protected:
-  MinimaxAlphaBetaTest()          = default;
-  virtual ~MinimaxAlphaBetaTest() = default;
+  NegamaxAlphaBetaTest()          = default;
+  virtual ~NegamaxAlphaBetaTest() = default;
 
  public:
   // Some expensive resource shared by all tests.
-  static solver::minimax::Minimax* agent_;
+  static solver::negamax::Negamax* agent_;
 
   static void SetUpTestSuite() {
     agent_ = nullptr;
@@ -46,206 +49,205 @@ class MinimaxAlphaBetaTest : public testing::Test {
   }
 };
 
-solver::minimax::Minimax* MinimaxAlphaBetaTest::agent_ = nullptr;
+solver::negamax::Negamax* NegamaxAlphaBetaTest::agent_ = nullptr;
 ////////////////////////////////////////////////////////////////////
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_1) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
+  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+};
+
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_2) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_2) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_3) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_4) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_4) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_5) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_5) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_6) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_6) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_7) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_7) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_8) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_8) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_9) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_9) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_10) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_10) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_11) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_11) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_12) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_12) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_13) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_13) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_14) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_14) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_15) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_15) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_16) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_16) {
+TEST_F(NegamaxAlphaBetaTest, SIMPLE_17) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
-}
-
-TEST_F(MinimaxAlphaBetaTest, SIMPLE_17) {
-  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
-  Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
 ///////////////////////////////////////////////////
-///// MINIMAX_ALPHABETA_MEDIUM
+///// NEGAMAX_ALPHABETA_MEDIUM
 ///////////////////////////////////////////////////
 
-TEST_F(MinimaxAlphaBetaTest, MEDIUM_1) {
+TEST_F(NegamaxAlphaBetaTest, MEDIUM_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, MEDIUM_2) {
+TEST_F(NegamaxAlphaBetaTest, MEDIUM_2) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, MEDIUM_3) {
+TEST_F(NegamaxAlphaBetaTest, MEDIUM_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, MEDIUM_4) {
+TEST_F(NegamaxAlphaBetaTest, MEDIUM_4) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, MEDIUM_5) {
+TEST_F(NegamaxAlphaBetaTest, MEDIUM_5) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, MEDIUM_6) {
+TEST_F(NegamaxAlphaBetaTest, MEDIUM_6) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, MEDIUM_7) {
+TEST_F(NegamaxAlphaBetaTest, MEDIUM_7) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
 }
 
 ///////////////////////////////////////////////////
-///// MINIMAX_ALPHABETA_LARGE
+///// NEGAMAX_ALPHABETA_HARD
 ///////////////////////////////////////////////////
 
-TEST_F(MinimaxAlphaBetaTest, HARD_1) {
+TEST_F(NegamaxAlphaBetaTest, HARD_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, HARD_2) {
+TEST_F(NegamaxAlphaBetaTest, HARD_2) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
 }
 
-TEST_F(MinimaxAlphaBetaTest, HARD_3) {
+TEST_F(NegamaxAlphaBetaTest, HARD_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
-  agent_ = new Minimax(game);
+  agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
 }
+}  // namespace fgtest
 
-}  // namespace solver::minimax
-
-#endif  // FG_TEST_MINIMAX_ALPHABETA_H_
+#endif  // FG_TEST_NEGAMAX_ALPHABETA_H_

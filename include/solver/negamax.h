@@ -19,8 +19,7 @@
 using std::cerr;
 using std::endl;
 
-namespace solver {
-namespace negamax {
+namespace solver::negamax {
 
 // This TT setup is only for alpha-beta
 enum EntryFlag {
@@ -43,7 +42,7 @@ class Negamax {
   short getAlphaBetaResult();
   short getAlphaBetaTranspositionTableResult();
 
-  helper::Move best_move() const;
+  helper::Move bestMove() const;
 
  private:
   Node root_;
@@ -64,7 +63,6 @@ inline void Negamax::transpositionTableStore(NodeTT& node, ttEntry entry) {
   tt_[node.id()] = entry;
 }
 
-}  // namespace negamax
-}  // namespace solver
+}  // namespace solver::negamax
 
-#endif  // FG_SOLVER_MINIMAX_H_
+#endif  // FG_SOLVER_NEGAMAX_H_

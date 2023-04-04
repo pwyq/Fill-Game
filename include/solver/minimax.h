@@ -13,8 +13,7 @@
 #include "helper.h"
 #include "node.h"
 
-namespace solver {
-namespace minimax {
+namespace solver::minimax {
 
 // This TT setup is only for alpha-beta
 enum EntryFlag {
@@ -37,7 +36,7 @@ class Minimax {
   short getAlphaBetaResult();
   short getAlphaBetaTranspositionTableResult();
 
-  helper::Move best_move() const;
+  helper::Move bestMove() const;
 
  private:
   Node root_;
@@ -58,7 +57,6 @@ inline void Minimax::transpositionTableStore(NodeTT& node, ttEntry entry) {
   tt_[node.id()] = entry;
 }
 
-}  // namespace minimax
-}  // namespace solver
+}  // namespace solver::minimax
 
 #endif  // FG_SOLVER_MINIMAX_H_

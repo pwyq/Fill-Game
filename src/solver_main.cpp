@@ -13,6 +13,7 @@
 #include "solver/constraint.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
+#include "solver/mcts.h"
 #include "solver/minimax.h"
 #include "solver/negamax.h"
 #include "solver/pns.h"
@@ -32,8 +33,8 @@ void startSolver(std::string& input, size_t time_limit) {
   Game game = Game(input);
   cout << game << endl;
 
-  cout << "using DFPN..." << endl;
   dfpn::DFPN dfpn(game);
+  cout << "using DFPN..." << endl;
   // Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
   // constraint.signalHandler = DFPN::signalHandler;
   // constraint.apply();
@@ -43,33 +44,37 @@ void startSolver(std::string& input, size_t time_limit) {
   minimax::Minimax minimax(game);
   cout << "using minimax..." << endl;
   cout << minimax.getResult() << endl;
-  cout << minimax.best_move().toString() << endl;
+  cout << minimax.bestMove().toString() << endl;
   cout << "using minimax-ab..." << endl;
   minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaResult() << endl;
-  cout << minimax.best_move().toString() << endl;
+  cout << minimax.bestMove().toString() << endl;
   cout << "using minimax-ab-tt..." << endl;
   minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaTranspositionTableResult() << endl;
-  cout << minimax.best_move().toString() << endl;
+  cout << minimax.bestMove().toString() << endl;
 
   negamax::Negamax negamax(game);
   cout << "using negamax..." << endl;
   cout << negamax.getResult() << endl;
-  cout << negamax.best_move().toString() << endl;
+  cout << negamax.bestMove().toString() << endl;
   cout << "using negamax-ab..." << endl;
   negamax = negamax::Negamax(game);
   cout << negamax.getAlphaBetaResult() << endl;
-  cout << negamax.best_move().toString() << endl;
+  cout << negamax.bestMove().toString() << endl;
   cout << "using negamax-ab-tt..." << endl;
   negamax = negamax::Negamax(game);
   cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
-  cout << negamax.best_move().toString() << endl;
+  cout << negamax.bestMove().toString() << endl;
 
-  cout << "using pns..." << endl;
   pns::PNS pns(game);
+  cout << "using pns..." << endl;
   cout << pns.getResult() << endl;
-  cout << pns.best_move().toString() << endl;
+  cout << pns.bestMove().toString() << endl;
+
+  mcts::MCTS mcts(game);
+  cout << "using mcts..." << endl;
+  cout << mcts.bestMove().toString() << endl;
 }
 
 /*

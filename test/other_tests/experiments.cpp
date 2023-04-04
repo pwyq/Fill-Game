@@ -1,35 +1,27 @@
 /**
- * @author    Junwen Shen
+ * @author      Junwen Shen, Yanqing Wu
  * @create date 2023-03-21 17:32:51
- * @modify date 2023-03-22 10:19:27
- *
+ * @modify date 2023-04-04 03:27:28
+ * @desc Measure the average runtime and average peak RSS of algorithms
  */
+
 // std
 #include <fstream>
 #include <iostream>
 // local
-#include "dfpn.h"
-#include "game.h"
 #include "helper.h"
-#include "minimax.h"
-#include "negamax.h"
-#include "pns.h"
+#include "solver/dfpn.h"
+#include "solver/game.h"
+#include "solver/helper.h"
+#include "solver/minimax.h"
+#include "solver/negamax.h"
+#include "solver/pns.h"
 
-/**
- * source: https://stackoverflow.com/a/46711735
- * @param data
- * @param size
- * @return
- */
-static constexpr uint32_t hash(const std::string_view& string) noexcept {
-  uint32_t hash = 5381;
-  for (const auto& c : string) {
-    hash = ((hash << 5) + hash) + (unsigned char)c;
-  }
-  return hash;
-}
+using solver::helper::getPeakRSS;
+using solver::helper::Timer;
+using solver::helper::toMilliseconds;
 
-using namespace solver::helper;
+using fgtest::helper::hash;
 
 int main(int argc, char** argv) {
   if (argc != 3) {

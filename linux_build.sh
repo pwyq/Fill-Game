@@ -54,4 +54,3 @@ elif [ -f ./build/src/fillgame_cli ]; then
     mv ./build/src/fillgame_cli .
 fi
 mv ./build/test/test_main .
-mv ./build/test/other_tests .
