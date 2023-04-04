@@ -1,10 +1,7 @@
-The DFPN test cases are the base line.
-
-## A
-
 Under `test/algorithms`:
 
 The files are for gtest unit tests.
+The DFPN test cases are the base line.
 
 Under `test/other_tests`:
 
