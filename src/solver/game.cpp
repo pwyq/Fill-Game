@@ -307,4 +307,9 @@ std::string Game::toString() const {
   return ret;
 }
 
+void Game::deleteChildren() {
+  possible_moves_.clear();
+  is_expanded_ = false;
+}
+
 }  // namespace solver

@@ -62,6 +62,8 @@ class Node {
   void evaluate(helper::PLAYER player);
   void generateChildren();
 
+  void deleteChildren();
+
   inline Game game() const { return game_; }
   inline int value() const { return eval_val_; }
   inline std::vector<Node> children() const { return children_; }

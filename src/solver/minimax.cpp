@@ -38,10 +38,10 @@ short Minimax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) 
 
 /**
  * @brief This is the plain Minimax algorithm
- * 
- * @param node 
- * @param depth 
- * @param player 
+ *
+ * @param node
+ * @param depth
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
@@ -57,6 +57,7 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
       short eval = solve(child, depth - 1, helper::PLAYER::WHITE);
       max_eval   = std::max(max_eval, eval);
     }
+    // node.deleteChildren();
     return max_eval;
   } else {
     // if it's minimizing player
@@ -65,18 +66,19 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
       short eval = solve(child, depth - 1, helper::PLAYER::BLACK);
       min_eval   = std::min(min_eval, eval);
     }
+    // node.deleteChildren();
     return min_eval;
   }
 }
 
 /**
  * @brief This is the Minimax with alpha-beta pruning
- * 
- * @param node 
- * @param depth 
- * @param alpha 
- * @param beta 
- * @param player 
+ *
+ * @param node
+ * @param depth
+ * @param alpha
+ * @param beta
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
@@ -97,6 +99,7 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
         break;
       }
     }
+    node.deleteChildren();
     return max_eval;
   } else {
     // if it's minimizing player
@@ -110,18 +113,19 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
         break;
       }
     }
+    node.deleteChildren();
     return min_eval;
   }
 }
 
 /**
  * @brief This is the Minimax with alpha-beta pruning + transposition table
- * 
- * @param node 
- * @param depth 
- * @param alpha 
- * @param beta 
- * @param player 
+ *
+ * @param node
+ * @param depth
+ * @param alpha
+ * @param beta
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
@@ -151,7 +155,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
   if (depth == 0 || node.game().isTerminal()) {
     return node.value();
   }
-  node.generateChildren();
+  // node.generateChildren();
 
   short best_eval = (player == helper::PLAYER::BLACK) ? -INF_SHORT : INF_SHORT;
   if (player == helper::PLAYER::BLACK) {
@@ -177,6 +181,8 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
     }
   }
 
+  node.deleteChildren();
+
   // store tt entry
   entry.value = best_eval;
   if (best_eval <= old_alpha) {
@@ -195,10 +201,10 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
 /**
  * @brief count the number of empty cells in the root node
  *        The return is used for the starting `depth`
- * 
+ *
  *        TODO: optimum depth for minimax?
- * @param node 
- * @return uint16_t 
+ * @param node
+ * @return uint16_t
  */
 uint16_t Minimax::countEmptyCells(Node& node) {
   uint16_t res = 0;

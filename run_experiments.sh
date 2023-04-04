@@ -19,8 +19,7 @@ else
 fi
 cmake --build $build_dir -j 4
 declare -a algorithms=(
-"pns" "dfpn" "minimax" "minimax_alphabeta" "minimax_alphabeta_tt"
-"negamax" "negamax_alphabeta" "negamax_alphabeta_tt"
+"minimax_alphabeta" # "pns" "dfpn" "minimax" "minimax_alphabeta" "minimax_alphabeta_tt" # "negamax" "negamax_alphabeta" "negamax_alphabeta_tt"
 )
 declare -a game_strings=(
 "1.*.3" "13*.3" "1.*33" "1.*.2" "1..*.2."

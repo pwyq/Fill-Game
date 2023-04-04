@@ -1,0 +1,2165 @@
+-- 
+Building without Qt GUI...
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /cshome/kapeluck/Documents/CMPUT_657/Fill-Game/experiment-build
+ninja: no work to do.
+Run pns on 1.*.3
+Peak RSS: 1626112
+Duration: 0.018128
+Run pns on 1.*.3
+Peak RSS: 1626112
+Duration: 0.017615
+Run pns on 1.*.3
+Peak RSS: 1495040
+Duration: 0.017845
+Run pns on 1.*.3
+Peak RSS: 1626112
+Duration: 0.019284
+Run pns on 1.*.3
+Peak RSS: 1495040
+Duration: 0.023981
+Run pns on 1.*.3
+Peak RSS: 1560576
+Duration: 0.018271
+Run pns on 1.*.3
+Peak RSS: 1560576
+Duration: 0.019257
+Run pns on 1.*.3
+Peak RSS: 1626112
+Duration: 0.017769
+Run pns on 1.*.3
+Peak RSS: 1499136
+Duration: 0.018509
+Run pns on 1.*.3
+Peak RSS: 1564672
+Duration: 0.018538
+Run pns on 13*.3
+Peak RSS: 1630208
+Duration: 0.008963
+Run pns on 13*.3
+Peak RSS: 1564672
+Duration: 0.008778
+Run pns on 13*.3
+Peak RSS: 1626112
+Duration: 0.008549
+Run pns on 13*.3
+Peak RSS: 1626112
+Duration: 0.008324
+Run pns on 13*.3
+Peak RSS: 1499136
+Duration: 0.008335
+Run pns on 13*.3
+Peak RSS: 1564672
+Duration: 0.008278
+Run pns on 13*.3
+Peak RSS: 1495040
+Duration: 0.008637
+Run pns on 13*.3
+Peak RSS: 1560576
+Duration: 0.008678
+Run pns on 13*.3
+Peak RSS: 1560576
+Duration: 0.007934
+Run pns on 13*.3
+Peak RSS: 1560576
+Duration: 0.00844
+Run pns on 1.*33
+Peak RSS: 1626112
+Duration: 0.008317
+Run pns on 1.*33
+Peak RSS: 1495040
+Duration: 0.008327
+Run pns on 1.*33
+Peak RSS: 1560576
+Duration: 0.008064
+Run pns on 1.*33
+Peak RSS: 1564672
+Duration: 0.009553
+Run pns on 1.*33
+Peak RSS: 1626112
+Duration: 0.009363
+Run pns on 1.*33
+Peak RSS: 1499136
+Duration: 0.00887
+Run pns on 1.*33
+Peak RSS: 1626112
+Duration: 0.008524
+Run pns on 1.*33
+Peak RSS: 1560576
+Duration: 0.008376
+Run pns on 1.*33
+Peak RSS: 1626112
+Duration: 0.00857
+Run pns on 1.*33
+Peak RSS: 1626112
+Duration: 0.008379
+Run pns on 1.*.2
+Peak RSS: 1560576
+Duration: 0.014626
+Run pns on 1.*.2
+Peak RSS: 1564672
+Duration: 0.014495
+Run pns on 1.*.2
+Peak RSS: 1560576
+Duration: 0.013711
+Run pns on 1.*.2
+Peak RSS: 1495040
+Duration: 0.014905
+Run pns on 1.*.2
+Peak RSS: 1495040
+Duration: 0.014723
+Run pns on 1.*.2
+Peak RSS: 1495040
+Duration: 0.014067
+Run pns on 1.*.2
+Peak RSS: 1560576
+Duration: 0.022492
+Run pns on 1.*.2
+Peak RSS: 1626112
+Duration: 0.014046
+Run pns on 1.*.2
+Peak RSS: 1626112
+Duration: 0.015095
+Run pns on 1.*.2
+Peak RSS: 1626112
+Duration: 0.01453
+Run pns on 1..*.2.
+Peak RSS: 1630208
+Duration: 0.591105
+Run pns on 1..*.2.
+Peak RSS: 1499136
+Duration: 0.535364
+Run pns on 1..*.2.
+Peak RSS: 1560576
+Duration: 0.519441
+Run pns on 1..*.2.
+Peak RSS: 1626112
+Duration: 0.533893
+Run pns on 1..*.2.
+Peak RSS: 1564672
+Duration: 0.484157
+Run pns on 1..*.2.
+Peak RSS: 1630208
+Duration: 0.483869
+Run pns on 1..*.2.
+Peak RSS: 1495040
+Duration: 0.482906
+Run pns on 1..*.2.
+Peak RSS: 1630208
+Duration: 0.488223
+Run pns on 1..*.2.
+Peak RSS: 1560576
+Duration: 0.485037
+Run pns on 1..*.2.
+Peak RSS: 1626112
+Duration: 0.531976
+Run pns on 1..*.2.*2..
+Peak RSS: 3526656
+Duration: 4.09127
+Run pns on 1..*.2.*2..
+Peak RSS: 3510272
+Duration: 4.093
+Run pns on 1..*.2.*2..
+Peak RSS: 3481600
+Duration: 4.1089
+Run pns on 1..*.2.*2..
+Peak RSS: 3657728
+Duration: 4.12453
+Run pns on 1..*.2.*2..
+Peak RSS: 3514368
+Duration: 4.09169
+Run pns on 1..*.2.*2..
+Peak RSS: 3514368
+Duration: 4.08368
+Run pns on 1..*.2.*2..
+Peak RSS: 3534848
+Duration: 4.10076
+Run pns on 1..*.2.*2..
+Peak RSS: 3629056
+Duration: 4.09413
+Run pns on 1..*.2.*2..
+Peak RSS: 3678208
+Duration: 4.09514
+Run pns on 1..*.2.*2..
+Peak RSS: 3481600
+Duration: 4.08429
+Run pns on 1..*.2.*1..
+Peak RSS: 3457024
+Duration: 4.54092
+Run pns on 1..*.2.*1..
+Peak RSS: 3481600
+Duration: 4.53603
+Run pns on 1..*.2.*1..
+Peak RSS: 3661824
+Duration: 4.51371
+Run pns on 1..*.2.*1..
+Peak RSS: 3543040
+Duration: 4.52567
+Run pns on 1..*.2.*1..
+Peak RSS: 3473408
+Duration: 4.61582
+Run pns on 1..*.2.*1..
+Peak RSS: 3538944
+Duration: 4.51515
+Run pns on 1..*.2.*1..
+Peak RSS: 3645440
+Duration: 4.52757
+Run pns on 1..*.2.*1..
+Peak RSS: 3678208
+Duration: 4.58234
+Run pns on 1..*.2.*1..
+Peak RSS: 3461120
+Duration: 4.55288
+Run pns on 1..*.2.*1..
+Peak RSS: 3530752
+Duration: 4.56368
+Run pns on .33*.23*121
+Peak RSS: 1564672
+Duration: 0.05624
+Run pns on .33*.23*121
+Peak RSS: 1499136
+Duration: 0.048226
+Run pns on .33*.23*121
+Peak RSS: 1630208
+Duration: 0.047303
+Run pns on .33*.23*121
+Peak RSS: 1499136
+Duration: 0.046313
+Run pns on .33*.23*121
+Peak RSS: 1560576
+Duration: 0.056173
+Run pns on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.04745
+Run pns on .33*.23*121
+Peak RSS: 1495040
+Duration: 0.046942
+Run pns on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.047193
+Run pns on .33*.23*121
+Peak RSS: 1560576
+Duration: 0.05685
+Run pns on .33*.23*121
+Peak RSS: 1495040
+Duration: 0.047128
+Run pns on .
+Peak RSS: 1495040
+Duration: 0.003021
+Run pns on .
+Peak RSS: 1495040
+Duration: 0.003058
+Run pns on .
+Peak RSS: 1560576
+Duration: 0.004181
+Run pns on .
+Peak RSS: 1560576
+Duration: 0.003431
+Run pns on .
+Peak RSS: 1630208
+Duration: 0.003255
+Run pns on .
+Peak RSS: 1630208
+Duration: 0.003197
+Run pns on .
+Peak RSS: 1560576
+Duration: 0.003272
+Run pns on .
+Peak RSS: 1560576
+Duration: 0.003106
+Run pns on .
+Peak RSS: 1495040
+Duration: 0.003621
+Run pns on .
+Peak RSS: 1499136
+Duration: 0.003151
+Run pns on .*.*.
+Peak RSS: 1626112
+Duration: 0.033103
+Run pns on .*.*.
+Peak RSS: 1495040
+Duration: 0.033022
+Run pns on .*.*.
+Peak RSS: 1626112
+Duration: 0.033145
+Run pns on .*.*.
+Peak RSS: 1626112
+Duration: 0.033384
+Run pns on .*.*.
+Peak RSS: 1630208
+Duration: 0.032363
+Run pns on .*.*.
+Peak RSS: 1630208
+Duration: 0.032119
+Run pns on .*.*.
+Peak RSS: 1626112
+Duration: 0.033998
+Run pns on .*.*.
+Peak RSS: 1630208
+Duration: 0.038278
+Run pns on .*.*.
+Peak RSS: 1499136
+Duration: 0.03377
+Run pns on .*.*.
+Peak RSS: 1499136
+Duration: 0.032925
+Run pns on ...
+Peak RSS: 1630208
+Duration: 0.033018
+Run pns on ...
+Peak RSS: 1626112
+Duration: 0.033256
+Run pns on ...
+Peak RSS: 1499136
+Duration: 0.033228
+Run pns on ...
+Peak RSS: 1564672
+Duration: 0.040969
+Run pns on ...
+Peak RSS: 1564672
+Duration: 0.033123
+Run pns on ...
+Peak RSS: 1626112
+Duration: 0.032877
+Run pns on ...
+Peak RSS: 1560576
+Duration: 0.04147
+Run pns on ...
+Peak RSS: 1626112
+Duration: 0.033672
+Run pns on ...
+Peak RSS: 1630208
+Duration: 0.032846
+Run pns on ...
+Peak RSS: 1626112
+Duration: 0.040568
+Run pns on 1.1*...*1.1
+Peak RSS: 1560576
+Duration: 0.31982
+Run pns on 1.1*...*1.1
+Peak RSS: 1564672
+Duration: 0.360842
+Run pns on 1.1*...*1.1
+Peak RSS: 1626112
+Duration: 0.336827
+Run pns on 1.1*...*1.1
+Peak RSS: 1630208
+Duration: 0.3549
+Run pns on 1.1*...*1.1
+Peak RSS: 1626112
+Duration: 0.355146
+Run pns on 1.1*...*1.1
+Peak RSS: 1626112
+Duration: 0.34929
+Run pns on 1.1*...*1.1
+Peak RSS: 1560576
+Duration: 0.351893
+Run pns on 1.1*...*1.1
+Peak RSS: 1630208
+Duration: 0.355001
+Run pns on 1.1*...*1.1
+Peak RSS: 1499136
+Duration: 0.320216
+Run pns on 1.1*...*1.1
+Peak RSS: 1560576
+Duration: 0.319182
+Run pns on 3.3*.3.
+Peak RSS: 1499136
+Duration: 0.078263
+Run pns on 3.3*.3.
+Peak RSS: 1560576
+Duration: 0.078149
+Run pns on 3.3*.3.
+Peak RSS: 1564672
+Duration: 0.07782
+Run pns on 3.3*.3.
+Peak RSS: 1560576
+Duration: 0.076843
+Run pns on 3.3*.3.
+Peak RSS: 1626112
+Duration: 0.079357
+Run pns on 3.3*.3.
+Peak RSS: 1495040
+Duration: 0.092729
+Run pns on 3.3*.3.
+Peak RSS: 1626112
+Duration: 0.077517
+Run pns on 3.3*.3.
+Peak RSS: 1564672
+Duration: 0.077458
+Run pns on 3.3*.3.
+Peak RSS: 1630208
+Duration: 0.077011
+Run pns on 3.3*.3.
+Peak RSS: 1499136
+Duration: 0.077328
+Run pns on .33
+Peak RSS: 1626112
+Duration: 0.009047
+Run pns on .33
+Peak RSS: 1560576
+Duration: 0.009869
+Run pns on .33
+Peak RSS: 1560576
+Duration: 0.009343
+Run pns on .33
+Peak RSS: 1626112
+Duration: 0.009934
+Run pns on .33
+Peak RSS: 1499136
+Duration: 0.008722
+Run pns on .33
+Peak RSS: 1560576
+Duration: 0.008523
+Run pns on .33
+Peak RSS: 1626112
+Duration: 0.00977
+Run pns on .33
+Peak RSS: 1626112
+Duration: 0.008978
+Run pns on .33
+Peak RSS: 1630208
+Duration: 0.012473
+Run pns on .33
+Peak RSS: 1626112
+Duration: 0.008759
+Run pns on .2
+Peak RSS: 1626112
+Duration: 0.007061
+Run pns on .2
+Peak RSS: 1626112
+Duration: 0.007236
+Run pns on .2
+Peak RSS: 1564672
+Duration: 0.008057
+Run pns on .2
+Peak RSS: 1560576
+Duration: 0.007631
+Run pns on .2
+Peak RSS: 1564672
+Duration: 0.007131
+Run pns on .2
+Peak RSS: 1560576
+Duration: 0.007031
+Run pns on .2
+Peak RSS: 1560576
+Duration: 0.007079
+Run pns on .2
+Peak RSS: 1564672
+Duration: 0.00733
+Run pns on .2
+Peak RSS: 1560576
+Duration: 0.007283
+Run pns on .2
+Peak RSS: 1626112
+Duration: 0.006767
+Run pns on 144*3.4*134
+Peak RSS: 1560576
+Duration: 0.051602
+Run pns on 144*3.4*134
+Peak RSS: 1626112
+Duration: 0.065497
+Run pns on 144*3.4*134
+Peak RSS: 1499136
+Duration: 0.019448
+Run pns on 144*3.4*134
+Peak RSS: 1564672
+Duration: 0.018999
+Run pns on 144*3.4*134
+Peak RSS: 1560576
+Duration: 0.019237
+Run pns on 144*3.4*134
+Peak RSS: 1626112
+Duration: 0.028418
+Run pns on 144*3.4*134
+Peak RSS: 1626112
+Duration: 0.018764
+Run pns on 144*3.4*134
+Peak RSS: 1564672
+Duration: 0.018893
+Run pns on 144*3.4*134
+Peak RSS: 1626112
+Duration: 0.018646
+Run pns on 144*3.4*134
+Peak RSS: 1560576
+Duration: 0.019004
+Run pns on 131*4.2*141
+Peak RSS: 1495040
+Duration: 0.005815
+Run pns on 131*4.2*141
+Peak RSS: 1564672
+Duration: 0.006058
+Run pns on 131*4.2*141
+Peak RSS: 1626112
+Duration: 0.005833
+Run pns on 131*4.2*141
+Peak RSS: 1630208
+Duration: 0.005639
+Run pns on 131*4.2*141
+Peak RSS: 1564672
+Duration: 0.005514
+Run pns on 131*4.2*141
+Peak RSS: 1626112
+Duration: 0.005689
+Run pns on 131*4.2*141
+Peak RSS: 1564672
+Duration: 0.005572
+Run pns on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005932
+Run pns on 131*4.2*141
+Peak RSS: 1564672
+Duration: 0.005821
+Run pns on 131*4.2*141
+Peak RSS: 1626112
+Duration: 0.006548
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4538368
+Duration: 192.872
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4616192
+Duration: 191.258
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4739072
+Duration: 191.964
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4571136
+Duration: 189.661
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4657152
+Duration: 189.043
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4739072
+Duration: 189.619
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4763648
+Duration: 189.287
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4616192
+Duration: 189.766
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4616192
+Duration: 190.073
+Run pns on ..4.*44.4*..4.
+Peak RSS: 4722688
+Duration: 190.515
+Run pns on 2241*44.4*2241
+Peak RSS: 1495040
+Duration: 0.004827
+Run pns on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003969
+Run pns on 2241*44.4*2241
+Peak RSS: 1564672
+Duration: 0.003721
+Run pns on 2241*44.4*2241
+Peak RSS: 1499136
+Duration: 0.00771
+Run pns on 2241*44.4*2241
+Peak RSS: 1560576
+Duration: 0.003998
+Run pns on 2241*44.4*2241
+Peak RSS: 1630208
+Duration: 0.003819
+Run pns on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003779
+Run pns on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003912
+Run pns on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003954
+Run pns on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.004215
+Run pns on 1...*2...*..43
+Peak RSS: 19578880
+Duration: 924.476
+Run pns on 1...*2...*..43
+Peak RSS: 19525632
+Duration: 927.24
+Run pns on 1...*2...*..43
+Peak RSS: 19533824
+Duration: 930.537
+Run pns on 1...*2...*..43
+Peak RSS: 19415040
+Duration: 956.738
+Run pns on 1...*2...*..43
+Peak RSS: 19439616
+Duration: 929.69
+Run pns on 1...*2...*..43
+Peak RSS: 19484672
+Duration: 924.342
+Run pns on 1...*2...*..43
+Peak RSS: 19406848
+Duration: 932.113
+Run pns on 1...*2...*..43
+Peak RSS: 19443712
+Duration: 923.669
+Run pns on 1...*2...*..43
+Peak RSS: 19410944
+Duration: 924.804
+Run pns on 1...*2...*..43
+Peak RSS: 19410944
+Duration: 936.628
+Run pns on 1...*2...
+Peak RSS: 4608000
+Duration: 68.7966
+Run pns on 1...*2...
+Peak RSS: 4612096
+Duration: 69.331
+Run pns on 1...*2...
+Peak RSS: 4538368
+Duration: 70.8359
+Run pns on 1...*2...
+Peak RSS: 4710400
+Duration: 69.7706
+Run pns on 1...*2...
+Peak RSS: 4608000
+Duration: 69.4563
+Run pns on 1...*2...
+Peak RSS: 4665344
+Duration: 69.3278
+Run pns on 1...*2...
+Peak RSS: 4575232
+Duration: 70.3769
+Run pns on 1...*2...
+Peak RSS: 4620288
+Duration: 70.534
+Run pns on 1...*2...
+Peak RSS: 4562944
+Duration: 70.6998
+Run pns on 1...*2...
+Peak RSS: 4665344
+Duration: 70.5485
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1495040
+Duration: 0.435453
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1560576
+Duration: 0.430367
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1630208
+Duration: 0.430596
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1560576
+Duration: 0.481304
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1499136
+Duration: 0.430722
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1564672
+Duration: 0.437081
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1499136
+Duration: 0.43136
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1626112
+Duration: 0.430307
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1495040
+Duration: 0.428966
+Run pns on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1626112
+Duration: 0.440384
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3584000
+Duration: 21.2763
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3682304
+Duration: 21.2581
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3489792
+Duration: 21.3456
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3514368
+Duration: 21.239
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3526656
+Duration: 21.2293
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3637248
+Duration: 21.2847
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3588096
+Duration: 21.2529
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3526656
+Duration: 21.2592
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3637248
+Duration: 21.2526
+Run pns on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3518464
+Duration: 21.2259
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79876096
+Duration: 10802.4
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79749120
+Duration: 10833.6
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79724544
+Duration: 10851.8
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79728640
+Duration: 10815.7
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79892480
+Duration: 10834.2
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79867904
+Duration: 10787.4
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79728640
+Duration: 10788.7
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79876096
+Duration: 10795.1
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79728640
+Duration: 10811
+Run pns on ..*1.*..*22*..*..
+Peak RSS: 79740928
+Duration: 10792.3
+Run dfpn on 1.*.3
+Peak RSS: 1499136
+Duration: 0.016277
+Run dfpn on 1.*.3
+Peak RSS: 1626112
+Duration: 0.015037
+Run dfpn on 1.*.3
+Peak RSS: 1499136
+Duration: 0.015539
+Run dfpn on 1.*.3
+Peak RSS: 1626112
+Duration: 0.015897
+Run dfpn on 1.*.3
+Peak RSS: 1630208
+Duration: 0.015012
+Run dfpn on 1.*.3
+Peak RSS: 1626112
+Duration: 0.014894
+Run dfpn on 1.*.3
+Peak RSS: 1630208
+Duration: 0.01532
+Run dfpn on 1.*.3
+Peak RSS: 1630208
+Duration: 0.014975
+Run dfpn on 1.*.3
+Peak RSS: 1630208
+Duration: 0.015048
+Run dfpn on 1.*.3
+Peak RSS: 1560576
+Duration: 0.016239
+Run dfpn on 13*.3
+Peak RSS: 1560576
+Duration: 0.006419
+Run dfpn on 13*.3
+Peak RSS: 1560576
+Duration: 0.0065
+Run dfpn on 13*.3
+Peak RSS: 1560576
+Duration: 0.006451
+Run dfpn on 13*.3
+Peak RSS: 1564672
+Duration: 0.006176
+Run dfpn on 13*.3
+Peak RSS: 1560576
+Duration: 0.006788
+Run dfpn on 13*.3
+Peak RSS: 1630208
+Duration: 0.005848
+Run dfpn on 13*.3
+Peak RSS: 1556480
+Duration: 0.006432
+Run dfpn on 13*.3
+Peak RSS: 1495040
+Duration: 0.006574
+Run dfpn on 13*.3
+Peak RSS: 1495040
+Duration: 0.00636
+Run dfpn on 13*.3
+Peak RSS: 1560576
+Duration: 0.006866
+Run dfpn on 1.*33
+Peak RSS: 1564672
+Duration: 0.006348
+Run dfpn on 1.*33
+Peak RSS: 1560576
+Duration: 0.00647
+Run dfpn on 1.*33
+Peak RSS: 1626112
+Duration: 0.006023
+Run dfpn on 1.*33
+Peak RSS: 1564672
+Duration: 0.006037
+Run dfpn on 1.*33
+Peak RSS: 1626112
+Duration: 0.006258
+Run dfpn on 1.*33
+Peak RSS: 1626112
+Duration: 0.006555
+Run dfpn on 1.*33
+Peak RSS: 1626112
+Duration: 0.007191
+Run dfpn on 1.*33
+Peak RSS: 1630208
+Duration: 0.007462
+Run dfpn on 1.*33
+Peak RSS: 1626112
+Duration: 0.006207
+Run dfpn on 1.*33
+Peak RSS: 1564672
+Duration: 0.006291
+Run dfpn on 1.*.2
+Peak RSS: 1560576
+Duration: 0.011574
+Run dfpn on 1.*.2
+Peak RSS: 1626112
+Duration: 0.011039
+Run dfpn on 1.*.2
+Peak RSS: 1626112
+Duration: 0.010798
+Run dfpn on 1.*.2
+Peak RSS: 1626112
+Duration: 0.01087
+Run dfpn on 1.*.2
+Peak RSS: 1630208
+Duration: 0.010651
+Run dfpn on 1.*.2
+Peak RSS: 1499136
+Duration: 0.010964
+Run dfpn on 1.*.2
+Peak RSS: 1626112
+Duration: 0.011121
+Run dfpn on 1.*.2
+Peak RSS: 1564672
+Duration: 0.010551
+Run dfpn on 1.*.2
+Peak RSS: 1499136
+Duration: 0.010857
+Run dfpn on 1.*.2
+Peak RSS: 1560576
+Duration: 0.011549
+Run dfpn on 1..*.2.
+Peak RSS: 1495040
+Duration: 0.539782
+Run dfpn on 1..*.2.
+Peak RSS: 1564672
+Duration: 0.492879
+Run dfpn on 1..*.2.
+Peak RSS: 1626112
+Duration: 0.49082
+Run dfpn on 1..*.2.
+Peak RSS: 1499136
+Duration: 0.497393
+Run dfpn on 1..*.2.
+Peak RSS: 1495040
+Duration: 0.491229
+Run dfpn on 1..*.2.
+Peak RSS: 1630208
+Duration: 0.490958
+Run dfpn on 1..*.2.
+Peak RSS: 1626112
+Duration: 0.498009
+Run dfpn on 1..*.2.
+Peak RSS: 1564672
+Duration: 0.490063
+Run dfpn on 1..*.2.
+Peak RSS: 1495040
+Duration: 0.491562
+Run dfpn on 1..*.2.
+Peak RSS: 1626112
+Duration: 0.489505
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3694592
+Duration: 4.26026
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3637248
+Duration: 4.25875
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3641344
+Duration: 4.24646
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3694592
+Duration: 4.31508
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3657728
+Duration: 4.32825
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3653632
+Duration: 4.32292
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3637248
+Duration: 4.25346
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3702784
+Duration: 4.25907
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3616768
+Duration: 4.24982
+Run dfpn on 1..*.2.*2..
+Peak RSS: 3719168
+Duration: 4.26044
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3719168
+Duration: 4.67527
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3653632
+Duration: 4.68
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3612672
+Duration: 4.74994
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3522560
+Duration: 4.67201
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3756032
+Duration: 4.6575
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3706880
+Duration: 4.69075
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3579904
+Duration: 4.66877
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3633152
+Duration: 4.67031
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3702784
+Duration: 4.6958
+Run dfpn on 1..*.2.*1..
+Peak RSS: 3706880
+Duration: 4.66299
+Run dfpn on .33*.23*121
+Peak RSS: 1560576
+Duration: 0.030648
+Run dfpn on .33*.23*121
+Peak RSS: 1495040
+Duration: 0.030579
+Run dfpn on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.030957
+Run dfpn on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.03065
+Run dfpn on .33*.23*121
+Peak RSS: 1560576
+Duration: 0.030454
+Run dfpn on .33*.23*121
+Peak RSS: 1560576
+Duration: 0.031238
+Run dfpn on .33*.23*121
+Peak RSS: 1560576
+Duration: 0.030521
+Run dfpn on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.031056
+Run dfpn on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.030718
+Run dfpn on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.030111
+Run dfpn on .
+Peak RSS: 1560576
+Duration: 0.00903
+Run dfpn on .
+Peak RSS: 1495040
+Duration: 0.009015
+Run dfpn on .
+Peak RSS: 1495040
+Duration: 0.009084
+Run dfpn on .
+Peak RSS: 1560576
+Duration: 0.009159
+Run dfpn on .
+Peak RSS: 1626112
+Duration: 0.009442
+Run dfpn on .
+Peak RSS: 1499136
+Duration: 0.00917
+Run dfpn on .
+Peak RSS: 1626112
+Duration: 0.009811
+Run dfpn on .
+Peak RSS: 1560576
+Duration: 0.009727
+Run dfpn on .
+Peak RSS: 1626112
+Duration: 0.011576
+Run dfpn on .
+Peak RSS: 1626112
+Duration: 0.006903
+Run dfpn on .*.*.
+Peak RSS: 1560576
+Duration: 0.040407
+Run dfpn on .*.*.
+Peak RSS: 1626112
+Duration: 0.049392
+Run dfpn on .*.*.
+Peak RSS: 1560576
+Duration: 0.040914
+Run dfpn on .*.*.
+Peak RSS: 1499136
+Duration: 0.042386
+Run dfpn on .*.*.
+Peak RSS: 1499136
+Duration: 0.0401
+Run dfpn on .*.*.
+Peak RSS: 1626112
+Duration: 0.043747
+Run dfpn on .*.*.
+Peak RSS: 1626112
+Duration: 0.038639
+Run dfpn on .*.*.
+Peak RSS: 1560576
+Duration: 0.04016
+Run dfpn on .*.*.
+Peak RSS: 1560576
+Duration: 0.039774
+Run dfpn on .*.*.
+Peak RSS: 1495040
+Duration: 0.040357
+Run dfpn on ...
+Peak RSS: 1560576
+Duration: 0.040371
+Run dfpn on ...
+Peak RSS: 1560576
+Duration: 0.048545
+Run dfpn on ...
+Peak RSS: 1626112
+Duration: 0.04217
+Run dfpn on ...
+Peak RSS: 1630208
+Duration: 0.038132
+Run dfpn on ...
+Peak RSS: 1564672
+Duration: 0.040275
+Run dfpn on ...
+Peak RSS: 1564672
+Duration: 0.04088
+Run dfpn on ...
+Peak RSS: 1564672
+Duration: 0.040746
+Run dfpn on ...
+Peak RSS: 1630208
+Duration: 0.046964
+Run dfpn on ...
+Peak RSS: 1626112
+Duration: 0.038659
+Run dfpn on ...
+Peak RSS: 1560576
+Duration: 0.040042
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1564672
+Duration: 0.294562
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1630208
+Duration: 0.294255
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1564672
+Duration: 0.327983
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1560576
+Duration: 0.325325
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1630208
+Duration: 0.297033
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1630208
+Duration: 0.294283
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1564672
+Duration: 0.293052
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1560576
+Duration: 0.296171
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1495040
+Duration: 0.293756
+Run dfpn on 1.1*...*1.1
+Peak RSS: 1564672
+Duration: 0.292996
+Run dfpn on 3.3*.3.
+Peak RSS: 1495040
+Duration: 0.07332
+Run dfpn on 3.3*.3.
+Peak RSS: 1560576
+Duration: 0.073724
+Run dfpn on 3.3*.3.
+Peak RSS: 1626112
+Duration: 0.0727
+Run dfpn on 3.3*.3.
+Peak RSS: 1560576
+Duration: 0.073412
+Run dfpn on 3.3*.3.
+Peak RSS: 1560576
+Duration: 0.074364
+Run dfpn on 3.3*.3.
+Peak RSS: 1630208
+Duration: 0.073096
+Run dfpn on 3.3*.3.
+Peak RSS: 1630208
+Duration: 0.073824
+Run dfpn on 3.3*.3.
+Peak RSS: 1630208
+Duration: 0.073635
+Run dfpn on 3.3*.3.
+Peak RSS: 1626112
+Duration: 0.073644
+Run dfpn on 3.3*.3.
+Peak RSS: 1499136
+Duration: 0.074291
+Run dfpn on .33
+Peak RSS: 1630208
+Duration: 0.006396
+Run dfpn on .33
+Peak RSS: 1626112
+Duration: 0.006442
+Run dfpn on .33
+Peak RSS: 1564672
+Duration: 0.006588
+Run dfpn on .33
+Peak RSS: 1626112
+Duration: 0.006573
+Run dfpn on .33
+Peak RSS: 1564672
+Duration: 0.006832
+Run dfpn on .33
+Peak RSS: 1564672
+Duration: 0.006019
+Run dfpn on .33
+Peak RSS: 1630208
+Duration: 0.006304
+Run dfpn on .33
+Peak RSS: 1560576
+Duration: 0.006365
+Run dfpn on .33
+Peak RSS: 1630208
+Duration: 0.006372
+Run dfpn on .33
+Peak RSS: 1626112
+Duration: 0.006728
+Run dfpn on .2
+Peak RSS: 1626112
+Duration: 0.005578
+Run dfpn on .2
+Peak RSS: 1626112
+Duration: 0.006275
+Run dfpn on .2
+Peak RSS: 1495040
+Duration: 0.005944
+Run dfpn on .2
+Peak RSS: 1626112
+Duration: 0.006264
+Run dfpn on .2
+Peak RSS: 1626112
+Duration: 0.006229
+Run dfpn on .2
+Peak RSS: 1560576
+Duration: 0.005942
+Run dfpn on .2
+Peak RSS: 1564672
+Duration: 0.005886
+Run dfpn on .2
+Peak RSS: 1560576
+Duration: 0.005855
+Run dfpn on .2
+Peak RSS: 1626112
+Duration: 0.005856
+Run dfpn on .2
+Peak RSS: 1626112
+Duration: 0.005867
+Run dfpn on 144*3.4*134
+Peak RSS: 1564672
+Duration: 0.011365
+Run dfpn on 144*3.4*134
+Peak RSS: 1499136
+Duration: 0.01178
+Run dfpn on 144*3.4*134
+Peak RSS: 1564672
+Duration: 0.011511
+Run dfpn on 144*3.4*134
+Peak RSS: 1626112
+Duration: 0.012063
+Run dfpn on 144*3.4*134
+Peak RSS: 1630208
+Duration: 0.011726
+Run dfpn on 144*3.4*134
+Peak RSS: 1499136
+Duration: 0.011727
+Run dfpn on 144*3.4*134
+Peak RSS: 1564672
+Duration: 0.011697
+Run dfpn on 144*3.4*134
+Peak RSS: 1626112
+Duration: 0.011617
+Run dfpn on 144*3.4*134
+Peak RSS: 1495040
+Duration: 0.011541
+Run dfpn on 144*3.4*134
+Peak RSS: 1560576
+Duration: 0.011434
+Run dfpn on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005484
+Run dfpn on 131*4.2*141
+Peak RSS: 1626112
+Duration: 0.005482
+Run dfpn on 131*4.2*141
+Peak RSS: 1495040
+Duration: 0.005499
+Run dfpn on 131*4.2*141
+Peak RSS: 1626112
+Duration: 0.005373
+Run dfpn on 131*4.2*141
+Peak RSS: 1626112
+Duration: 0.005655
+Run dfpn on 131*4.2*141
+Peak RSS: 1552384
+Duration: 0.005489
+Run dfpn on 131*4.2*141
+Peak RSS: 1630208
+Duration: 0.005429
+Run dfpn on 131*4.2*141
+Peak RSS: 1495040
+Duration: 0.005621
+Run dfpn on 131*4.2*141
+Peak RSS: 1626112
+Duration: 0.005544
+Run dfpn on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005356
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5517312
+Duration: 79.1838
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5664768
+Duration: 78.1352
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5529600
+Duration: 78.0046
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5550080
+Duration: 78.7214
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5550080
+Duration: 79.2239
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5591040
+Duration: 79.2683
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5615616
+Duration: 79.284
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5632000
+Duration: 78.564
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5545984
+Duration: 78.613
+Run dfpn on ..4.*44.4*..4.
+Peak RSS: 5529600
+Duration: 77.5538
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1560576
+Duration: 0.004491
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.004529
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1630208
+Duration: 0.003968
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1630208
+Duration: 0.003942
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1560576
+Duration: 0.003838
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1499136
+Duration: 0.003753
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003918
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003807
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003825
+Run dfpn on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003996
+Run dfpn on 1...*2...*..43
+Peak RSS: 8769536
+Duration: 356.317
+Run dfpn on 1...*2...*..43
+Peak RSS: 8876032
+Duration: 350.516
+Run dfpn on 1...*2...*..43
+Peak RSS: 8826880
+Duration: 345.264
+Run dfpn on 1...*2...*..43
+Peak RSS: 8749056
+Duration: 348.341
+Run dfpn on 1...*2...*..43
+Peak RSS: 8835072
+Duration: 345.841
+Run dfpn on 1...*2...*..43
+Peak RSS: 8773632
+Duration: 351.133
+Run dfpn on 1...*2...*..43
+Peak RSS: 8835072
+Duration: 352.342
+Run dfpn on 1...*2...*..43
+Peak RSS: 8908800
+Duration: 352.642
+Run dfpn on 1...*2...*..43
+Peak RSS: 8830976
+Duration: 347.67
+Run dfpn on 1...*2...*..43
+Peak RSS: 8773632
+Duration: 345.401
+Run dfpn on 1...*2...
+Peak RSS: 4804608
+Duration: 36.8509
+Run dfpn on 1...*2...
+Peak RSS: 4808704
+Duration: 37.7162
+Run dfpn on 1...*2...
+Peak RSS: 4698112
+Duration: 37.697
+Run dfpn on 1...*2...
+Peak RSS: 4665344
+Duration: 37.7455
+Run dfpn on 1...*2...
+Peak RSS: 4775936
+Duration: 37.7212
+Run dfpn on 1...*2...
+Peak RSS: 4661248
+Duration: 37.7146
+Run dfpn on 1...*2...
+Peak RSS: 4833280
+Duration: 37.6578
+Run dfpn on 1...*2...
+Peak RSS: 4710400
+Duration: 37.7955
+Run dfpn on 1...*2...
+Peak RSS: 4820992
+Duration: 37.7277
+Run dfpn on 1...*2...
+Peak RSS: 4780032
+Duration: 37.7089
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1630208
+Duration: 0.350503
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1626112
+Duration: 0.344119
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1499136
+Duration: 0.344819
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1560576
+Duration: 0.345093
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1630208
+Duration: 0.343912
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1495040
+Duration: 0.351194
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1560576
+Duration: 0.344625
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1626112
+Duration: 0.392016
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1499136
+Duration: 0.34598
+Run dfpn on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1560576
+Duration: 0.348068
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3629056
+Duration: 15.89
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3584000
+Duration: 16.0002
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3694592
+Duration: 15.8951
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3637248
+Duration: 15.9201
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3768320
+Duration: 15.9931
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3723264
+Duration: 15.8785
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3723264
+Duration: 15.9404
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3702784
+Duration: 15.9387
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3657728
+Duration: 15.9103
+Run dfpn on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3641344
+Duration: 15.8955
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51834880
+Duration: 2212.83
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51752960
+Duration: 2206.28
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51744768
+Duration: 2212.12
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51863552
+Duration: 2216.27
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51818496
+Duration: 2205.75
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51888128
+Duration: 2218.21
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51843072
+Duration: 2195.17
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51871744
+Duration: 2213.29
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51888128
+Duration: 2193.67
+Run dfpn on ..*1.*..*22*..*..
+Peak RSS: 51740672
+Duration: 2221.07
+Run minimax on 1.*.3
+Peak RSS: 1626112
+Duration: 0.048781
+Run minimax on 1.*.3
+Peak RSS: 1626112
+Duration: 0.022312
+Run minimax on 1.*.3
+Peak RSS: 1560576
+Duration: 0.023913
+Run minimax on 1.*.3
+Peak RSS: 1552384
+Duration: 0.02403
+Run minimax on 1.*.3
+Peak RSS: 1499136
+Duration: 0.023917
+Run minimax on 1.*.3
+Peak RSS: 1499136
+Duration: 0.023518
+Run minimax on 1.*.3
+Peak RSS: 1626112
+Duration: 0.039005
+Run minimax on 1.*.3
+Peak RSS: 1495040
+Duration: 0.024266
+Run minimax on 1.*.3
+Peak RSS: 1626112
+Duration: 0.02593
+Run minimax on 1.*.3
+Peak RSS: 1499136
+Duration: 0.023604
+Run minimax on 13*.3
+Peak RSS: 1630208
+Duration: 0.011569
+Run minimax on 13*.3
+Peak RSS: 1564672
+Duration: 0.014349
+Run minimax on 13*.3
+Peak RSS: 1630208
+Duration: 0.012248
+Run minimax on 13*.3
+Peak RSS: 1560576
+Duration: 0.014546
+Run minimax on 13*.3
+Peak RSS: 1499136
+Duration: 0.015952
+Run minimax on 13*.3
+Peak RSS: 1560576
+Duration: 0.014394
+Run minimax on 13*.3
+Peak RSS: 1626112
+Duration: 0.012304
+Run minimax on 13*.3
+Peak RSS: 1626112
+Duration: 0.01644
+Run minimax on 13*.3
+Peak RSS: 1626112
+Duration: 0.012145
+Run minimax on 13*.3
+Peak RSS: 1626112
+Duration: 0.016612
+Run minimax on 1.*33
+Peak RSS: 1630208
+Duration: 0.017158
+Run minimax on 1.*33
+Peak RSS: 1564672
+Duration: 0.01389
+Run minimax on 1.*33
+Peak RSS: 1560576
+Duration: 0.0146
+Run minimax on 1.*33
+Peak RSS: 1626112
+Duration: 0.01197
+Run minimax on 1.*33
+Peak RSS: 1495040
+Duration: 0.014374
+Run minimax on 1.*33
+Peak RSS: 1495040
+Duration: 0.025442
+Run minimax on 1.*33
+Peak RSS: 1560576
+Duration: 0.014464
+Run minimax on 1.*33
+Peak RSS: 1495040
+Duration: 0.017513
+Run minimax on 1.*33
+Peak RSS: 1560576
+Duration: 0.01747
+Run minimax on 1.*33
+Peak RSS: 1630208
+Duration: 0.017737
+Run minimax on 1.*.2
+Peak RSS: 1626112
+Duration: 0.024605
+Run minimax on 1.*.2
+Peak RSS: 1560576
+Duration: 0.022216
+Run minimax on 1.*.2
+Peak RSS: 1564672
+Duration: 0.02289
+Run minimax on 1.*.2
+Peak RSS: 1630208
+Duration: 0.020069
+Run minimax on 1.*.2
+Peak RSS: 1626112
+Duration: 0.020015
+Run minimax on 1.*.2
+Peak RSS: 1560576
+Duration: 0.044276
+Run minimax on 1.*.2
+Peak RSS: 1630208
+Duration: 0.031855
+Run minimax on 1.*.2
+Peak RSS: 1560576
+Duration: 0.02199
+Run minimax on 1.*.2
+Peak RSS: 1626112
+Duration: 0.01976
+Run minimax on 1.*.2
+Peak RSS: 1564672
+Duration: 0.021693
+Run minimax on 1..*.2.
+Peak RSS: 1626112
+Duration: 1.00537
+Run minimax on 1..*.2.
+Peak RSS: 1630208
+Duration: 1.00203
+Run minimax on 1..*.2.
+Peak RSS: 1560576
+Duration: 1.03303
+Run minimax on 1..*.2.
+Peak RSS: 1626112
+Duration: 1.00604
+Run minimax on 1..*.2.
+Peak RSS: 1560576
+Duration: 1.00704
+Run minimax on 1..*.2.
+Peak RSS: 1495040
+Duration: 1.00367
+Run minimax on 1..*.2.
+Peak RSS: 1495040
+Duration: 1.03197
+Run minimax on 1..*.2.
+Peak RSS: 1560576
+Duration: 1.0052
+Run minimax on 1..*.2.
+Peak RSS: 1564672
+Duration: 1.05115
+Run minimax on 1..*.2.
+Peak RSS: 1630208
+Duration: 1.00788
+Run minimax on 1..*.2.*2..
+Peak RSS: 3653632
+Duration: 31.3161
+Run minimax on 1..*.2.*2..
+Peak RSS: 3584000
+Duration: 31.2934
+Run minimax on 1..*.2.*2..
+Peak RSS: 3723264
+Duration: 31.2016
+Run minimax on 1..*.2.*2..
+Peak RSS: 3768320
+Duration: 31.2964
+Run minimax on 1..*.2.*2..
+Peak RSS: 3543040
+Duration: 31.281
+Run minimax on 1..*.2.*2..
+Peak RSS: 3612672
+Duration: 31.2364
+Run minimax on 1..*.2.*2..
+Peak RSS: 3641344
+Duration: 31.2669
+Run minimax on 1..*.2.*2..
+Peak RSS: 3698688
+Duration: 31.3207
+Run minimax on 1..*.2.*2..
+Peak RSS: 3694592
+Duration: 31.3629
+Run minimax on 1..*.2.*2..
+Peak RSS: 3616768
+Duration: 31.2239
+Run minimax on 1..*.2.*1..
+Peak RSS: 3731456
+Duration: 82.2545
+Run minimax on 1..*.2.*1..
+Peak RSS: 3604480
+Duration: 81.6923
+Run minimax on 1..*.2.*1..
+Peak RSS: 3555328
+Duration: 81.8869
+Run minimax on 1..*.2.*1..
+Peak RSS: 3698688
+Duration: 81.9996
+Run minimax on 1..*.2.*1..
+Peak RSS: 3596288
+Duration: 80.8235
+Run minimax on 1..*.2.*1..
+Peak RSS: 3624960
+Duration: 81.9045
+Run minimax on 1..*.2.*1..
+Peak RSS: 3735552
+Duration: 80.6101
+Run minimax on 1..*.2.*1..
+Peak RSS: 3596288
+Duration: 80.7436
+Run minimax on 1..*.2.*1..
+Peak RSS: 3670016
+Duration: 81.0729
+Run minimax on 1..*.2.*1..
+Peak RSS: 3682304
+Duration: 80.7938
+Run minimax on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.06313
+Run minimax on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.061591
+Run minimax on .33*.23*121
+Peak RSS: 1560576
+Duration: 0.063464
+Run minimax on .33*.23*121
+Peak RSS: 1499136
+Duration: 0.063584
+Run minimax on .33*.23*121
+Peak RSS: 1626112
+Duration: 0.063965
+Run minimax on .33*.23*121
+Peak RSS: 1630208
+Duration: 0.061603
+Run minimax on .33*.23*121
+Peak RSS: 1560576
+Duration: 0.063688
+Run minimax on .33*.23*121
+Peak RSS: 1564672
+Duration: 0.063208
+Run minimax on .33*.23*121
+Peak RSS: 1564672
+Duration: 0.062105
+Run minimax on .33*.23*121
+Peak RSS: 1564672
+Duration: 0.063123
+Run minimax on .
+Peak RSS: 1626112
+Duration: 0.003352
+Run minimax on .
+Peak RSS: 1495040
+Duration: 0.003574
+Run minimax on .
+Peak RSS: 1560576
+Duration: 0.003463
+Run minimax on .
+Peak RSS: 1499136
+Duration: 0.003368
+Run minimax on .
+Peak RSS: 1495040
+Duration: 0.003386
+Run minimax on .
+Peak RSS: 1495040
+Duration: 0.003814
+Run minimax on .
+Peak RSS: 1626112
+Duration: 0.003631
+Run minimax on .
+Peak RSS: 1626112
+Duration: 0.003375
+Run minimax on .
+Peak RSS: 1560576
+Duration: 0.003688
+Run minimax on .
+Peak RSS: 1626112
+Duration: 0.003901
+Run minimax on .*.*.
+Peak RSS: 1560576
+Duration: 0.17483
+Run minimax on .*.*.
+Peak RSS: 1626112
+Duration: 0.175337
+Run minimax on .*.*.
+Peak RSS: 1626112
+Duration: 0.173246
+Run minimax on .*.*.
+Peak RSS: 1564672
+Duration: 0.173656
+Run minimax on .*.*.
+Peak RSS: 1499136
+Duration: 0.173255
+Run minimax on .*.*.
+Peak RSS: 1626112
+Duration: 0.173404
+Run minimax on .*.*.
+Peak RSS: 1630208
+Duration: 0.1741
+Run minimax on .*.*.
+Peak RSS: 1626112
+Duration: 0.185172
+Run minimax on .*.*.
+Peak RSS: 1626112
+Duration: 0.17385
+Run minimax on .*.*.
+Peak RSS: 1626112
+Duration: 0.276051
+Run minimax on ...
+Peak RSS: 1630208
+Duration: 0.175103
+Run minimax on ...
+Peak RSS: 1626112
+Duration: 0.180324
+Run minimax on ...
+Peak RSS: 1495040
+Duration: 0.188186
+Run minimax on ...
+Peak RSS: 1560576
+Duration: 0.174332
+Run minimax on ...
+Peak RSS: 1626112
+Duration: 0.176373
+Run minimax on ...
+Peak RSS: 1499136
+Duration: 0.17538
+Run minimax on ...
+Peak RSS: 1564672
+Duration: 0.198539
+Run minimax on ...
+Peak RSS: 1564672
+Duration: 0.22542
+Run minimax on ...
+Peak RSS: 1495040
+Duration: 0.175579
+Run minimax on ...
+Peak RSS: 1564672
+Duration: 0.174747
+Run minimax on 1.1*...*1.1
+Peak RSS: 3670016
+Duration: 22.115
+Run minimax on 1.1*...*1.1
+Peak RSS: 3674112
+Duration: 22.1313
+Run minimax on 1.1*...*1.1
+Peak RSS: 3727360
+Duration: 22.0463
+Run minimax on 1.1*...*1.1
+Peak RSS: 3571712
+Duration: 22.1314
+Run minimax on 1.1*...*1.1
+Peak RSS: 3600384
+Duration: 22.2003
+Run minimax on 1.1*...*1.1
+Peak RSS: 3600384
+Duration: 22.0317
+Run minimax on 1.1*...*1.1
+Peak RSS: 3665920
+Duration: 22.1104
+Run minimax on 1.1*...*1.1
+Peak RSS: 3702784
+Duration: 22.0835
+Run minimax on 1.1*...*1.1
+Peak RSS: 3772416
+Duration: 22.1386
+Run minimax on 1.1*...*1.1
+Peak RSS: 3674112
+Duration: 22.107
+Run minimax on 3.3*.3.
+Peak RSS: 1560576
+Duration: 0.094686
+Run minimax on 3.3*.3.
+Peak RSS: 1630208
+Duration: 0.092649
+Run minimax on 3.3*.3.
+Peak RSS: 1626112
+Duration: 0.092928
+Run minimax on 3.3*.3.
+Peak RSS: 1630208
+Duration: 0.093228
+Run minimax on 3.3*.3.
+Peak RSS: 1630208
+Duration: 0.096665
+Run minimax on 3.3*.3.
+Peak RSS: 1495040
+Duration: 0.094984
+Run minimax on 3.3*.3.
+Peak RSS: 1499136
+Duration: 0.09524
+Run minimax on 3.3*.3.
+Peak RSS: 1630208
+Duration: 0.097865
+Run minimax on 3.3*.3.
+Peak RSS: 1560576
+Duration: 0.094847
+Run minimax on 3.3*.3.
+Peak RSS: 1560576
+Duration: 0.110905
+Run minimax on .33
+Peak RSS: 1626112
+Duration: 0.01698
+Run minimax on .33
+Peak RSS: 1626112
+Duration: 0.012498
+Run minimax on .33
+Peak RSS: 1626112
+Duration: 0.016827
+Run minimax on .33
+Peak RSS: 1560576
+Duration: 0.01427
+Run minimax on .33
+Peak RSS: 1560576
+Duration: 0.014653
+Run minimax on .33
+Peak RSS: 1626112
+Duration: 0.017087
+Run minimax on .33
+Peak RSS: 1564672
+Duration: 0.014492
+Run minimax on .33
+Peak RSS: 1626112
+Duration: 0.014773
+Run minimax on .33
+Peak RSS: 1495040
+Duration: 0.015314
+Run minimax on .33
+Peak RSS: 1495040
+Duration: 0.016602
+Run minimax on .2
+Peak RSS: 1626112
+Duration: 0.010977
+Run minimax on .2
+Peak RSS: 1495040
+Duration: 0.01512
+Run minimax on .2
+Peak RSS: 1560576
+Duration: 0.013777
+Run minimax on .2
+Peak RSS: 1560576
+Duration: 0.013235
+Run minimax on .2
+Peak RSS: 1626112
+Duration: 0.016086
+Run minimax on .2
+Peak RSS: 1626112
+Duration: 0.015873
+Run minimax on .2
+Peak RSS: 1499136
+Duration: 0.013095
+Run minimax on .2
+Peak RSS: 1495040
+Duration: 0.014864
+Run minimax on .2
+Peak RSS: 1495040
+Duration: 0.013458
+Run minimax on .2
+Peak RSS: 1495040
+Duration: 0.013406
+Run minimax on 144*3.4*134
+Peak RSS: 1495040
+Duration: 0.028213
+Run minimax on 144*3.4*134
+Peak RSS: 1560576
+Duration: 0.025939
+Run minimax on 144*3.4*134
+Peak RSS: 1626112
+Duration: 0.032141
+Run minimax on 144*3.4*134
+Peak RSS: 1560576
+Duration: 0.025249
+Run minimax on 144*3.4*134
+Peak RSS: 1626112
+Duration: 0.029315
+Run minimax on 144*3.4*134
+Peak RSS: 1630208
+Duration: 0.028212
+Run minimax on 144*3.4*134
+Peak RSS: 1630208
+Duration: 0.023732
+Run minimax on 144*3.4*134
+Peak RSS: 1495040
+Duration: 0.025853
+Run minimax on 144*3.4*134
+Peak RSS: 1630208
+Duration: 0.02342
+Run minimax on 144*3.4*134
+Peak RSS: 1560576
+Duration: 0.025847
+Run minimax on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005459
+Run minimax on 131*4.2*141
+Peak RSS: 1564672
+Duration: 0.005289
+Run minimax on 131*4.2*141
+Peak RSS: 1564672
+Duration: 0.005528
+Run minimax on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005398
+Run minimax on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005114
+Run minimax on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005523
+Run minimax on 131*4.2*141
+Peak RSS: 1564672
+Duration: 0.005437
+Run minimax on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005291
+Run minimax on 131*4.2*141
+Peak RSS: 1560576
+Duration: 0.005388
+Run minimax on 131*4.2*141
+Peak RSS: 1626112
+Duration: 0.005423
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3727360
+Duration: 804.713
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3698688
+Duration: 832.7
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3694592
+Duration: 798.311
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3608576
+Duration: 798.76
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3653632
+Duration: 808.398
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3612672
+Duration: 797.759
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3751936
+Duration: 803.587
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3633152
+Duration: 800.942
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3661824
+Duration: 797.126
+Run minimax on ..4.*44.4*..4.
+Peak RSS: 3637248
+Duration: 811.34
+Run minimax on 2241*44.4*2241
+Peak RSS: 1630208
+Duration: 0.004469
+Run minimax on 2241*44.4*2241
+Peak RSS: 1495040
+Duration: 0.003967
+Run minimax on 2241*44.4*2241
+Peak RSS: 1495040
+Duration: 0.003964
+Run minimax on 2241*44.4*2241
+Peak RSS: 1564672
+Duration: 0.003884
+Run minimax on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.003755
+Run minimax on 2241*44.4*2241
+Peak RSS: 1630208
+Duration: 0.00395
+Run minimax on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.004152
+Run minimax on 2241*44.4*2241
+Peak RSS: 1626112
+Duration: 0.004027
+Run minimax on 2241*44.4*2241
+Peak RSS: 1560576
+Duration: 0.004125
+Run minimax on 2241*44.4*2241
+Peak RSS: 1495040
+Duration: 0.003514
+Run minimax on 1...*2...*..43
+Peak RSS: 3895296
+Duration: 62127.6
+Run minimax on 1...*2...*..43
+Peak RSS: 4001792
+Duration: 63402.2
+Run minimax on 1...*2...*..43
+Peak RSS: 3842048
+Duration: 67138.5
+Run minimax on 1...*2...*..43
+Peak RSS: 3866624
+Duration: 63261.8
+Run minimax on 1...*2...*..43
+Peak RSS: 3878912
+Duration: 63311
+Run minimax on 1...*2...*..43
+Peak RSS: 3932160
+Duration: 63368.8
+Run minimax on 1...*2...*..43
+Peak RSS: 4014080
+Duration: 63336.3
+Run minimax on 1...*2...*..43
+Peak RSS: 3817472
+Duration: 63536.3
+Run minimax on 1...*2...*..43
+Peak RSS: 3817472
+Duration: 63587.1
+Run minimax on 1...*2...*..43
+Peak RSS: 3932160
+Duration: 63545.4
+Run minimax on 1...*2...
+Peak RSS: 3772416
+Duration: 368.306
+Run minimax on 1...*2...
+Peak RSS: 3694592
+Duration: 368.992
+Run minimax on 1...*2...
+Peak RSS: 3637248
+Duration: 386.481
+Run minimax on 1...*2...
+Peak RSS: 3698688
+Duration: 369.009
+Run minimax on 1...*2...
+Peak RSS: 3551232
+Duration: 370.983
+Run minimax on 1...*2...
+Peak RSS: 3629056
+Duration: 393.403
+Run minimax on 1...*2...
+Peak RSS: 3579904
+Duration: 370.687
+Run minimax on 1...*2...
+Peak RSS: 3719168
+Duration: 369.94
+Run minimax on 1...*2...
+Peak RSS: 3653632
+Duration: 370.053
+Run minimax on 1...*2...
+Peak RSS: 3620864
+Duration: 395.671
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1626112
+Duration: 0.598056
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1495040
+Duration: 0.594391
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1495040
+Duration: 0.596724
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1564672
+Duration: 0.591831
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1626112
+Duration: 0.593926
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1499136
+Duration: 0.599268
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1560576
+Duration: 0.591149
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1630208
+Duration: 0.613858
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1564672
+Duration: 0.604489
+Run minimax on 33213*2..33*44.22*33314*2244.
+Peak RSS: 1560576
+Duration: 0.596181
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3608576
+Duration: 113.762
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3723264
+Duration: 113.658
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3768320
+Duration: 114.243
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3624960
+Duration: 113.813
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3612672
+Duration: 114.081
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3584000
+Duration: 114.157
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3723264
+Duration: 113.897
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3768320
+Duration: 113.899
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3772416
+Duration: 113.705
+Run minimax on 33..3*2..33*44.22*33314*2244.
+Peak RSS: 3653632
+Duration: 114.1
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4112384
+Duration: 493021
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4087808
+Duration: 501365
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4186112
+Duration: 492729
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4173824
+Duration: 492993
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4186112
+Duration: 493937
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4108288
+Duration: 492545
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4190208
+Duration: 485430
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4235264
+Duration: 473660
+Run minimax on ..*1.*..*22*..*..
+Peak RSS: 4071424
+Duration: 476439
+Run minimax on ..*1.*..*22*..*..

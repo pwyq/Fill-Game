@@ -53,6 +53,8 @@ class Game {
 
   PLAYER toPlay() const { return to_play_; }
 
+  void deleteChildren();
+
  private:
   PLAYER to_play_;
   uint8_t width_ : 4;

@@ -102,6 +102,14 @@ void Node::generateChildren() {
   }
 }
 
+void Node::deleteChildren() {
+  // We toss out the children of this node
+  for (auto child : children_) {
+    child.deleteChildren();
+  }
+  children_.clear();
+}
+
 //////////////////////////////////////////
 
 NodeTT::NodeTT(const Game &game) : Node(game) {
