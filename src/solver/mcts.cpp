@@ -9,9 +9,8 @@
 
 namespace solver::mcts {
 
-MCTS::MCTS(Game& game) {
+MCTS::MCTS(const Game& game) {
   root_ = std::make_shared<Node>(game);
-  num_simulations_ = game.getPossibleMoves().size() * 1000;
 }
 
 std::shared_ptr<Node> MCTS::selectBestChild(const std::shared_ptr<Node>& node) const {
@@ -65,6 +64,7 @@ bool MCTS::simulate(const std::shared_ptr<Node>& node) {
 }
 
 solver::helper::Move MCTS::bestMove() {
+  num_simulations_ = root_->game_.getPossibleMoves().size() * 1000;
   mcts::MCTS::expand(root_);
   for (size_t i = 0; i < num_simulations_; ++i) {
     auto node = root_;

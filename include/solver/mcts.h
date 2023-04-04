@@ -17,7 +17,7 @@ namespace solver::mcts {
 class MCTS {
  public:
   std::shared_ptr<solver::mcts::Node> root_;
-  explicit MCTS(Game& game);
+  explicit MCTS(const Game& game);
   helper::Move bestMove();
 
  private:
