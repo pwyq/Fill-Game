@@ -16,8 +16,7 @@
 #include "game.h"
 #include "minimax.h"
 
-namespace solver {
-namespace minimax {
+namespace solver::minimax {
 
 class MinimaxAlphaBetaTTTest : public testing::Test {
  protected:
@@ -55,7 +54,7 @@ TEST_F(MinimaxAlphaBetaTTTest, SIMPLE_1) {
   Game game(SHARED_SIMPLE[index].first);
   agent_ = new Minimax(game);
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_SIMPLE[index].second);
-};
+}
 
 TEST_F(MinimaxAlphaBetaTTTest, SIMPLE_2) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
@@ -175,10 +174,6 @@ TEST_F(MinimaxAlphaBetaTTTest, SIMPLE_17) {
 
 TEST_F(MinimaxAlphaBetaTTTest, MEDIUM_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
-  // std::cout << "index = " << index << std::endl;
-  index = 0;  // there is a very weird bug here, same name for other can be parsed correctly, this one looks correct, but got wrong result
-  // MEDIUM_1
-  // 0 -1
   Game game(SHARED_MEDIUM[index].first);
   agent_ = new Minimax(game);
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_MEDIUM[index].second);
@@ -193,9 +188,6 @@ TEST_F(MinimaxAlphaBetaTTTest, MEDIUM_2) {
 
 TEST_F(MinimaxAlphaBetaTTTest, MEDIUM_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
-  // std::cout << "index = " << index << std::endl;
-  index = 2;  // also the same weird bug (happens to nega-ab-tt as well)
-
   Game game(SHARED_MEDIUM[index].first);
   agent_ = new Minimax(game);
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_MEDIUM[index].second);
@@ -254,7 +246,6 @@ TEST_F(MinimaxAlphaBetaTTTest, HARD_3) {
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace minimax
-}  // namespace solver
+}  // namespace solver::minimax
 
 #endif  // FG_TEST_MINIMAX_ALPHABETA_TT_H_

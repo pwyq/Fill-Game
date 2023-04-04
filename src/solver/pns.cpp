@@ -17,13 +17,15 @@ namespace pns {
 
 PNS::PNS(const Game& game) {
   root_ = new Node(game, helper::NODE_TYPE::OR, nullptr, helper::PLAYER::BLACK);
+
+  best_move_ = helper::Move{Pos{0, 0}, 0};
 }
 
 short PNS::getResult(helper::PLAYER root_player) {
-  return solveGame(root_, root_player);
+  return solve(root_, root_player);
 }
 
-short PNS::solveGame(Node* root, helper::PLAYER player) {
+short PNS::solve(Node* root, helper::PLAYER player) {
   if (root->game().isTerminal()) {
     return -1;
   }
@@ -76,8 +78,11 @@ void PNS::expandNode(Node* node) {
   while (n != nullptr) {
     n->evaluate();
     n->setProofAndDisproofNumbers();
-    if ((node->type() == helper::NODE_TYPE::OR && node->pn() == 0) ||
-        (node->type() == helper::NODE_TYPE::AND && node->dn() == 0)) {
+    if (best_move_.value == 0 && n->value() == helper::PROOF_VALUE::WIN) {
+      best_move_ = n->move();
+    }
+    if ((node->type() == helper::NODE_TYPE::OR && n->pn() == 0) ||
+        (node->type() == helper::NODE_TYPE::AND && n->dn() == 0)) {
       break;
     }
     n = n->sibling();
@@ -115,6 +120,20 @@ void PNS::generateChildren(Node* node) {
       node->addChild(new Node(node->game(), pm.first, pm.second, helper::NODE_TYPE::OR, node, helper::changePlayer(node->player())));
     }
   }
+}
+
+/**
+ * @brief Return the first move that result in a WIN
+ *        if not found
+ *          no time limit, resign (return a dummy value) {{0,0}, 0}
+ *          has time limit, return a random move that hasn't been examined? (TODO? this case)
+ * 
+ * @return helper::Move 
+ */
+helper::Move PNS::best_move() const {
+  // if has time limit (the agent is probably forced to stop) return a random move
+  //  TODO
+  return best_move_;
 }
 
 }  // namespace pns

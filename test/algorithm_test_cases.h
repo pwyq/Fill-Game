@@ -1,10 +1,10 @@
 /**
- * @author      Yanqing Wu
+ * @author      Yanqing Wu, Junwen Shen
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-04-02 22:32:23
- * @modify date 2023-04-03 15:05:15
+ * @modify date 2023-04-03 23:31:20
  * @desc Sharing Test
- * 
+ *
  * https://github.com/google/googletest/blob/main/docs/advanced.md#sharing-resources-between-tests-in-the-same-test-suite
  */
 
@@ -33,7 +33,7 @@ using TestContainer = std::vector<std::pair<std::string, short>>;
 
 unsigned short getIndexFromName(const char* x) {
   std::stringstream s(x);
-  char c;
+  char c = 0;
   while (c != '_') {
     s >> c;
   }
@@ -162,23 +162,20 @@ const TestContainer SHARED_HARD = {
 };  // end of TestContainer SHARED_HARD
 
 TEST(VALID_ALGO_TEST_CASES, SIMPLE) {
-  solver::Game game(".");  // dummy board
-  for (uint8_t i = 0; i < SHARED_SIMPLE.size(); ++i) {
-    EXPECT_EQ(true, game.isValidGameString(SHARED_SIMPLE[i].first));
+  for (const auto& i : SHARED_SIMPLE) {
+    EXPECT_EQ(true, solver::Game::isValidGameString(i.first));
   }
 }
 
 TEST(VALID_ALGO_TEST_CASES, MEDIUM) {
-  solver::Game game(".");  // dummy board
-  for (uint8_t i = 0; i < SHARED_MEDIUM.size(); ++i) {
-    EXPECT_EQ(true, game.isValidGameString(SHARED_MEDIUM[i].first));
+  for (const auto& i : SHARED_MEDIUM) {
+    EXPECT_EQ(true, solver::Game::isValidGameString(i.first));
   }
 }
 
 TEST(VALID_ALGO_TEST_CASES, HARD) {
-  solver::Game game(".");  // dummy board
-  for (uint8_t i = 0; i < SHARED_HARD.size(); ++i) {
-    EXPECT_EQ(true, game.isValidGameString(SHARED_HARD[i].first));
+  for (const auto& i : SHARED_HARD) {
+    EXPECT_EQ(true, solver::Game::isValidGameString(i.first));
   }
 }
 

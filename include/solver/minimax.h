@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:46
- * @modify date 2023-03-21 17:59:48
+ * @modify date 2023-04-03 19:48:11
  * @desc Minimax implementation
  */
 
@@ -33,13 +33,16 @@ struct ttEntry {
 class Minimax {
  public:
   explicit Minimax(const Game& game);
-  short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
-  short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
-  short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
+  short getResult();
+  short getAlphaBetaResult();
+  short getAlphaBetaTranspositionTableResult();
+
+  helper::Move best_move() const;
 
  private:
   Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
+  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
 
   ttEntry transpositionTableLookup(NodeTT& node);
   inline void transpositionTableStore(NodeTT& node, ttEntry entry);
