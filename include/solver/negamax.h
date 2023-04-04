@@ -42,7 +42,7 @@ class Negamax {
   short getAlphaBetaResult();
   short getAlphaBetaTranspositionTableResult();
 
-  helper::Move best_move() const;
+  helper::Move bestMove() const;
 
  private:
   Node root_;

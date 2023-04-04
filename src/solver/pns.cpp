@@ -12,8 +12,7 @@
 #include "solver/game.h"
 #include "solver/pns_node.h"
 
-namespace solver {
-namespace pns {
+namespace solver::pns {
 
 PNS::PNS(const Game& game) {
   root_ = new Node(game, helper::NODE_TYPE::OR, nullptr, helper::PLAYER::BLACK);
@@ -48,11 +47,11 @@ short PNS::solve(Node* root, helper::PLAYER player) {
 }
 
 /**
- * @brief Find the node 
+ * @brief Find the node
  *            with minimum disproven number for AND nodes
  *            with minimum proven number for OR nodes
- * @param node 
- * @return Node& 
+ * @param node
+ * @return Node&
  */
 Node* PNS::selectMostProvingNode(Node* node) {
   while (node->isExpanded()) {
@@ -127,14 +126,13 @@ void PNS::generateChildren(Node* node) {
  *        if not found
  *          no time limit, resign (return a dummy value) {{0,0}, 0}
  *          has time limit, return a random move that hasn't been examined? (TODO? this case)
- * 
- * @return helper::Move 
+ *
+ * @return helper::Move
  */
-helper::Move PNS::best_move() const {
+helper::Move PNS::bestMove() const {
   // if has time limit (the agent is probably forced to stop) return a random move
   //  TODO
   return best_move_;
 }
 
-}  // namespace pns
-}  // namespace solver
+}  // namespace solver::pns

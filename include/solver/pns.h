@@ -10,15 +10,14 @@
 
 #include "pns_node.h"
 
-namespace solver {
-namespace pns {
+namespace solver::pns {
 
 class PNS {
  public:
   explicit PNS(const Game& game);
   short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
 
-  helper::Move best_move() const;
+  helper::Move bestMove() const;
 
  protected:
   Node* root_;
@@ -31,7 +30,6 @@ class PNS {
   void generateChildren(Node* node);
 };
 
-}  // namespace pns
 }  // namespace solver
 
 #endif  // FG_SOLVER_PNS_H_

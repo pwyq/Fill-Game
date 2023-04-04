@@ -11,8 +11,7 @@
 // local
 #include "game.h"
 
-namespace solver {
-namespace pns {
+namespace solver::pns {
 
 class Node {
  public:
@@ -55,6 +54,5 @@ class Node {
   helper::Move move_;
 };
 
-}  // namespace pns
-}  // namespace solver
+}  // namespace solver::pns
 #endif

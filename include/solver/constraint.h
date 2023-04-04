@@ -3,7 +3,7 @@
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-02-10 05:28:28
  * @modify date 2023-02-10 05:28:28
- * @desc Apply memory limit and time limit to the search algorithm
+ * @desc Apply memory limit and time limit to the bestMove algorithm
  */
 #ifndef FG_SOLVER_CONSTRAINT_H
 #define FG_SOLVER_CONSTRAINT_H

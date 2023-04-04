@@ -150,7 +150,7 @@ class Node {
 
    explicit Node(const Game& game);
    Node(const Game& game, const helper::Pos &pos, uint8_t value, const std::shared_ptr<Node>& parent = nullptr);
-   ~Node();
+   ~Node() = default;
 };
 
 }  // namespace mcts

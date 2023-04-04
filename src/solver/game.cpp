@@ -83,7 +83,7 @@ bool Game::isValid() {
     }
 
     // size_t num_liberties = empty_visited.size();
-    if (empty_visited.size() == 0 && filled_visited.size() < value) {
+    if (empty_visited.empty() && filled_visited.size() < value) {
       // We surrounded the group and it's too small
       return false;
     }
@@ -114,18 +114,18 @@ std::vector<std::pair<Pos, uint8_t>> Game::getPossibleMoves() {
   }
   is_expanded_ = true;
   if (width_ == 1 && height_ == 1 && get(0, 0) == 0) {
-    possible_moves_.push_back(std::make_pair(Pos{0, 0}, 1));
+    possible_moves_.emplace_back(Pos{0, 0}, 1);
 
     return possible_moves_;
   }
   std::vector<Pos> empty_positions = getEmptyPositions();
   for (auto pos : empty_positions) {
-    if (pos.is_important == false) {
+    if (!pos.is_important) {
       // It's an unimportant position, it can have every possibility
-      possible_moves_.push_back(std::make_pair(pos, 1));
-      possible_moves_.push_back(std::make_pair(pos, 2));
-      possible_moves_.push_back(std::make_pair(pos, 3));
-      possible_moves_.push_back(std::make_pair(pos, 4));
+      possible_moves_.emplace_back(pos, 1);
+      possible_moves_.emplace_back(pos, 2);
+      possible_moves_.emplace_back(pos, 3);
+      possible_moves_.emplace_back(pos, 4);
       continue;
     }
     uint8_t counts[4]     = {0};
@@ -157,7 +157,7 @@ std::vector<std::pair<Pos, uint8_t>> Game::getPossibleMoves() {
     }
     if (!values.empty()) {
       for (const auto &v : values) {
-        possible_moves_.push_back(std::make_pair(pos, v));
+        possible_moves_.emplace_back(pos, v);
       }
     }
   }

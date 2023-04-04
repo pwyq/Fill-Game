@@ -4,13 +4,11 @@
  * @create date 2023-04-03 21:34:32
  * @modify date 2023-04-04 00:20:53
  * @desc Test agents playing against each other
- * 
+ *
  * TODO: time constraint and memory constraint
  */
 
 // std
-#include <stdio.h>
-
 #include <exception>
 #include <iostream>
 #include <string>
@@ -53,68 +51,68 @@ std::string generateBoardString(int board_size) {
   return res;
 }
 
-Move getMove(std::string agent_name, Game game) {
+Move getMove(const std::string& agent_name, const Game& game) {
   Move res_move;
   switch (hash(agent_name)) {
     case hash("pns"): {
-      PNS* pns = new PNS(game);
+      auto pns = new PNS(game);
       pns->getResult();
-      res_move = pns->best_move();
+      res_move = pns->bestMove();
       delete pns;
       break;
     }
     case hash("dfpn"): {
-      DFPN* dfpn = new DFPN(game);
+      auto dfpn = new DFPN(game);
       dfpn->solve();
-      res_move = dfpn->best_move();
+      res_move = dfpn->bestMove();
       delete dfpn;
       break;
     }
     case hash("minimax"): {
-      Minimax* minimax = new Minimax(game);
+      auto minimax = new Minimax(game);
       minimax->getResult();
-      res_move = minimax->best_move();
+      res_move = minimax->bestMove();
       delete minimax;
       break;
     }
     case hash("mini-ab"): {
-      Minimax* minimax = new Minimax(game);
+      auto minimax = new Minimax(game);
       minimax->getAlphaBetaResult();
-      res_move = minimax->best_move();
+      res_move = minimax->bestMove();
       delete minimax;
       break;
     }
     case hash("mini-ab-tt"): {
-      Minimax* minimax = new Minimax(game);
+      auto minimax = new Minimax(game);
       minimax->getAlphaBetaTranspositionTableResult();
-      res_move = minimax->best_move();
+      res_move = minimax->bestMove();
       delete minimax;
       break;
     }
     case hash("negamax"): {
-      Negamax* negamax = new Negamax(game);
+      auto negamax = new Negamax(game);
       negamax->getResult();
-      res_move = negamax->best_move();
+      res_move = negamax->bestMove();
       delete negamax;
       break;
     }
     case hash("nega-ab"): {
-      Negamax* negamax = new Negamax(game);
+      auto negamax = new Negamax(game);
       negamax->getAlphaBetaResult();
-      res_move = negamax->best_move();
+      res_move = negamax->bestMove();
       delete negamax;
       break;
     }
     case hash("nega-ab-tt"): {
-      Negamax* negamax = new Negamax(game);
+      auto negamax = new Negamax(game);
       negamax->getAlphaBetaTranspositionTableResult();
-      res_move = negamax->best_move();
+      res_move = negamax->bestMove();
       delete negamax;
       break;
     }
     case hash("mcts"): {
-      MCTS* mcts = new MCTS(game);
-      res_move   = mcts->search();
+      auto mcts = new MCTS(game);
+      res_move   = mcts->bestMove();
       delete mcts;
       break;
     }
@@ -129,10 +127,10 @@ Move getMove(std::string agent_name, Game game) {
 /**
  * @brief play a single match between agent p1 and agent p2.
  *        Board is square-shaped.
- * 
- * @param p1 
- * @param p2 
- * @param board_size 
+ *
+ * @param p1
+ * @param p2
+ * @param board_size
  * @return true       if p1 wins
  * @return false      if p1 loss
  */
@@ -147,7 +145,7 @@ bool playSingleMatch(std::string p1, std::string p2, int board_size) {
 
   /////////////////////////////////////////////////
   cout << curr_game << endl;
-  while (curr_game.isTerminal() == false) {
+  while (!curr_game.isTerminal()) {
     if (turn % 2 == 1) {
       next_move = getMove(p1, curr_game);
       if (next_move.value == 0) {
@@ -203,7 +201,7 @@ void printHelp() {
   cout << "nega-ab-tt   Negamax with Alpha-Beta Pruning and Transposition Table" << endl;
   cout << "mcts         Monte Carlo Tree Search" << endl;
   cout << "--------------------------------------------------------------------" << endl;
-  cout << "Availalbe Board Size: [2, 19]" << endl;
+  cout << "Available Board Size: [2, 19]" << endl;
   cout << "Suggested Board Size: 3" << endl;
   cout << "--------------------------------------------------------------------" << endl;
 }
@@ -212,26 +210,22 @@ int main(int argc, char* argv[]) {
   if (argc != 4) {
     printHelp();
     throw std::invalid_argument("Invalid inputs");
-    return -1;
   }
 
   std::string player1(argv[1]);
-  if (isValidAgentName(player1) == false) {
+  if (!isValidAgentName(player1)) {
     printHelp();
     throw std::invalid_argument("Invalid algo1 name");
-    return -1;
   }
   std::string player2(argv[2]);
-  if (isValidAgentName(player2) == false) {
+  if (!isValidAgentName(player2)) {
     printHelp();
     throw std::invalid_argument("Invalid algo2 name");
-    return -1;
   }
   int board_size = atoi(argv[3]);
   if (board_size < 2 || board_size > 19) {
     printHelp();
     throw std::invalid_argument("Invalid board size");
-    return -1;
   }
 
   fgtest::playSingleMatch(player1, player2, board_size);

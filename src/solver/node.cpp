@@ -188,12 +188,6 @@ Node::Node(const Game& game, const helper::Pos &pos, uint8_t value,
            const std::shared_ptr<Node>& parent): game_(game), move_({pos, value}), parent_(parent) {
   game_.unsafePlay(pos, value);
 }
-
-Node::~Node() {
-  for (auto &child : children_) {
-    child->~Node();
-  }
-}
 }  // namespace mcts
 
 }  // namespace solver

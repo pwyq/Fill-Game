@@ -9,17 +9,19 @@
 
 namespace solver::mcts {
 
-MCTS::MCTS(const Game& game) {
+MCTS::MCTS(Game& game) {
   root_ = std::make_shared<Node>(game);
+  num_simulations_ = game.getPossibleMoves().size() * 1000;
 }
 
-std::shared_ptr<Node> MCTS::select_best_child(const std::shared_ptr<Node>& node)  {
+std::shared_ptr<Node> MCTS::selectBestChild(const std::shared_ptr<Node>& node) const {
   double best_uct = -INF_SHORT;
   std::shared_ptr<Node> best_child = nullptr;
 
   for (const auto& child : node->children_) {
-    double uct = (child->wins_ / (double)child->visits_)
-                 + C * std::sqrt(2.0 * std::log(node->visits_) / child->visits_);
+    // UCT = exploitation + exploration
+    double uct = (static_cast<double>(child->wins_) / child->visits_)  // exploitation (win rate)
+                 + exploration_const_ * std::sqrt(std::log(node->visits_) / child->visits_);  // exploration
     if (uct > best_uct) {
       best_uct = uct;
       best_child = child;
@@ -62,13 +64,13 @@ bool MCTS::simulate(const std::shared_ptr<Node>& node) {
   return root_->game_.toPlay() != game.toPlay();
 }
 
-solver::helper::Move MCTS::search() {
+solver::helper::Move MCTS::bestMove() {
   mcts::MCTS::expand(root_);
-  for (int i = 0; i < N; ++i) {
+  for (size_t i = 0; i < num_simulations_; ++i) {
     auto node = root_;
 
     while (!node->children_.empty()) {
-      node = select_best_child(node);
+      node = selectBestChild(node);
     }
 
     auto expanded = expand(node);
@@ -79,7 +81,7 @@ solver::helper::Move MCTS::search() {
     bool win = MCTS::simulate(node);
     backpropagation(node, win);
   }
-  auto best_child = select_best_child(root_);
+  auto best_child = selectBestChild(root_);
   return best_child->move_;
 }
 

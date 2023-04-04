@@ -38,10 +38,10 @@ short Negamax::getAlphaBetaTranspositionTableResult() {
 
 /**
  * @brief This is the plain Negamax algorithm
- * 
- * @param node 
+ *
+ * @param node
  * @param depth
- * @param player 
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
@@ -63,12 +63,12 @@ short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
 
 /**
  * @brief This is the Negamax with alpha-beta pruning
- * 
- * @param node 
+ *
+ * @param node
  * @param depth
- * @param alpha 
- * @param beta 
- * @param player 
+ * @param alpha
+ * @param beta
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
@@ -96,12 +96,12 @@ short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
 /**
  * @brief This is the Negamax with alpha-beta pruning + transposition table
  *        https://en.wikipedia.org/wiki/Negamax#Negamax_with_alpha_beta_pruning_and_transposition_tables
- * 
- * @param node 
- * @param depth 
- * @param alpha 
- * @param beta 
- * @param player 
+ *
+ * @param node
+ * @param depth
+ * @param alpha
+ * @param beta
+ * @param player
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
@@ -163,10 +163,10 @@ short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
 /**
  * @brief count the number of empty cells in the root node
  *        The return is used for the starting `depth`
- * 
+ *
  *        TODO: optimum depth for minimax?
- * @param node 
- * @return uint16_t 
+ * @param node
+ * @return uint16_t
  */
 uint16_t Negamax::countEmptyCells(Node& node) {
   uint16_t res = 0;
@@ -192,10 +192,10 @@ ttEntry Negamax::transpositionTableLookup(NodeTT& node) {
  *        if not found
  *          no time limit, resign (return a dummy value) {{0,0}, 0}
  *          has time limit, return a random move that hasn't been examined? (TODO? this case)
- * 
- * @return helper::Move 
+ *
+ * @return helper::Move
  */
-helper::Move Negamax::best_move() const {
+helper::Move Negamax::bestMove() const {
   // if has time limit (the agent is probably forced to stop) return a random move
   //  TODO
   return best_move_;
