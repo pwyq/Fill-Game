@@ -170,6 +170,27 @@ TEST_F(NegamaxTest, SIMPLE_17) {
   EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
+TEST_F(NegamaxTest, SIMPLE_18) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Negamax(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(NegamaxTest, SIMPLE_19) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Negamax(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(NegamaxTest, SIMPLE_20) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Negamax(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
 ///////////////////////////////////////////////////
 ///// NEGAMAX_MEDIUM
 ///////////////////////////////////////////////////

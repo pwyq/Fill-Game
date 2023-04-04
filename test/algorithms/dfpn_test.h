@@ -187,6 +187,30 @@ TEST_F(DFPNTest, SIMPLE_17) {
   EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
+TEST_F(DFPNTest, SIMPLE_18) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new DFPN(game);
+  agent_->solve();
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(DFPNTest, SIMPLE_19) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new DFPN(game);
+  agent_->solve();
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(DFPNTest, SIMPLE_20) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new DFPN(game);
+  agent_->solve();
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
 ///////////////////////////////////////////////////
 ///// DFPN_MEDIUM
 ///////////////////////////////////////////////////

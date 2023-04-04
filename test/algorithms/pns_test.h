@@ -171,6 +171,27 @@ TEST_F(PNSTest, SIMPLE_17) {
   EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
+TEST_F(PNSTest, SIMPLE_18) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(PNSTest, SIMPLE_19) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(PNSTest, SIMPLE_20) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
 ///////////////////////////////////////////////////
 ///// PNS_MEDIUM
 ///////////////////////////////////////////////////

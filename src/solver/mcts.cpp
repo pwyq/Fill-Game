@@ -1,11 +1,13 @@
 /**
- * @author    Junwen Shen
+ * @author    Junwen Shen, Yanqing Wu
  * @create date 2023-04-03 10:22:24
- * @modify date 2023-04-03 10:22:24
+ * @modify date 2023-04-04 16:30:16
  *
  */
 //local
 #include "solver/mcts.h"
+
+#include <iostream>
 
 namespace solver::mcts {
 
@@ -14,29 +16,29 @@ MCTS::MCTS(const Game& game) {
 }
 
 std::shared_ptr<Node> MCTS::selectBestChild(const std::shared_ptr<Node>& node) const {
-  double best_uct = -INF_SHORT;
+  double best_uct                  = -INF_SHORT;
   std::shared_ptr<Node> best_child = nullptr;
 
   for (const auto& child : node->children_) {
     // UCT = exploitation + exploration
-    double uct = (static_cast<double>(child->wins_) / child->visits_)  // exploitation (win rate)
+    double uct = (static_cast<double>(child->wins_) / child->visits_)                         // exploitation (win rate)
                  + exploration_const_ * std::sqrt(std::log(node->visits_) / child->visits_);  // exploration
     if (uct > best_uct) {
-      best_uct = uct;
+      best_uct   = uct;
       best_child = child;
     }
   }
   return best_child;
 }
 
-void MCTS::backpropagation(const std::shared_ptr<Node>& node, bool win)  {
+void MCTS::backpropagation(const std::shared_ptr<Node>& node, bool win) {
   std::shared_ptr<Node> current = node;
   while (current) {
     current->visits_++;
     if (win) {
       current->wins_++;
     }
-    win = !win;
+    win     = !win;
     current = current->parent_.lock();
   }
 }
@@ -63,7 +65,16 @@ bool MCTS::simulate(const std::shared_ptr<Node>& node) {
   return root_->game_.toPlay() != game.toPlay();
 }
 
-solver::helper::Move MCTS::bestMove() {
+/**
+ * @brief Perform Search. Store the best move if found one; otherwise store Move{{0,0}, 0}
+ * 
+ */
+void MCTS::search() {
+  if (root_->game_.isTerminal()) {
+    best_move_ = helper::Move{{0, 0}, 0};
+    return;
+  }
+
   num_simulations_ = root_->game_.getPossibleMoves().size() * 1000;
   mcts::MCTS::expand(root_);
   for (size_t i = 0; i < num_simulations_; ++i) {
@@ -82,7 +93,9 @@ solver::helper::Move MCTS::bestMove() {
     backpropagation(node, win);
   }
   auto best_child = selectBestChild(root_);
-  return best_child->move_;
+
+  best_move_ = best_child->move_;
+  return;
 }
 
 }  // namespace solver::mcts

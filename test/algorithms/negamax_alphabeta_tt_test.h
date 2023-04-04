@@ -171,6 +171,27 @@ TEST_F(NegamaxAlphaBetaTTTest, SIMPLE_17) {
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_SIMPLE[index].second);
 }
 
+TEST_F(NegamaxAlphaBetaTTTest, SIMPLE_18) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Negamax(game);
+  EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(NegamaxAlphaBetaTTTest, SIMPLE_19) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Negamax(game);
+  EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(NegamaxAlphaBetaTTTest, SIMPLE_20) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Negamax(game);
+  EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_SIMPLE[index].second);
+}
+
 ///////////////////////////////////////////////////
 ///// NEGAMAX_ALPHABETA_TT_MEDIUM
 ///////////////////////////////////////////////////

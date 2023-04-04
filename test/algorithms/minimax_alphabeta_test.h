@@ -171,6 +171,27 @@ TEST_F(MinimaxAlphaBetaTest, SIMPLE_17) {
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
 }
 
+TEST_F(MinimaxAlphaBetaTest, SIMPLE_18) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Minimax(game);
+  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(MinimaxAlphaBetaTest, SIMPLE_19) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Minimax(game);
+  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(MinimaxAlphaBetaTest, SIMPLE_20) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new Minimax(game);
+  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+}
+
 ///////////////////////////////////////////////////
 ///// MINIMAX_ALPHABETA_MEDIUM
 ///////////////////////////////////////////////////
