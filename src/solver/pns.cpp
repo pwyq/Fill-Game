@@ -36,12 +36,7 @@ short PNS::solve(Node* root, helper::PLAYER player) {
     Node* mpn = selectMostProvingNode(curr);
     expandNode(mpn);
     curr = updateAncestors(mpn, root);
-    // std::cout << "  mpn = " << mpn->game().toString() << std::endl;
-    // std::cout << "  mpn.move = " << mpn->move().toString() << std::endl;
-    // std::cout << "  root.pn = " << root->pn() << ", root.dn = " << root->dn() << std::endl;
   }
-
-  // std::cout << ">>>root.pn = " << root->pn() << ", root.dn = " << root->dn() << std::endl;
 
   if (root->pn() == 0) {
     return (root->player() == player) ? 1 : -1;
@@ -86,9 +81,8 @@ void PNS::expandNode(Node* node) {
     if (best_move_.value == 0 && n->value() == helper::PROOF_VALUE::WIN) {
       best_move_ = n->move();
     }
-    // TODO: this if-condition seems never being reached? try comment it out
-    if ((node->type() == helper::NODE_TYPE::OR && node->pn() == 0) ||
-        (node->type() == helper::NODE_TYPE::AND && node->dn() == 0)) {
+    if ((node->type() == helper::NODE_TYPE::OR && n->pn() == 0) ||
+        (node->type() == helper::NODE_TYPE::AND && n->dn() == 0)) {
       break;
     }
     n = n->sibling();
