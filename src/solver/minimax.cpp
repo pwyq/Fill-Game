@@ -238,7 +238,7 @@ ttEntry Minimax::transpositionTableLookup(NodeTT& node) {
  * @return helper::Move 
  */
 helper::Move Minimax::best_move() const {
-  // if has time limit (the agent is probably fored stop) return a random move
+  // if has time limit (the agent is probably forced to stop) return a random move
   //  TODO
   return best_move_;
 }

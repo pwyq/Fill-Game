@@ -105,6 +105,7 @@ class Node {
   void generateChildren();
 
   inline Game game() const { return game_; }
+  inline helper::Move move() const { return move_; }
   inline std::vector<Node> children() const { return children_; }
 
  protected:
