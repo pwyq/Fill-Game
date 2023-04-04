@@ -14,26 +14,26 @@ Negamax::Negamax(const Game& game) : root_(game), tt_({}) {
   best_move_ = helper::Move{Pos{0, 0}, 0};
 }
 
-short Negamax::getResult(helper::PLAYER root_player) {
+short Negamax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), root_player);
+  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
-short Negamax::getAlphaBetaResult(helper::PLAYER root_player) {
+short Negamax::getAlphaBetaResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
-short Negamax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
+short Negamax::getAlphaBetaTranspositionTableResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
   NodeTT rootTT_(root_.game());
-  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**

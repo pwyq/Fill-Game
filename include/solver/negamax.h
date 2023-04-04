@@ -39,9 +39,9 @@ struct ttEntry {
 class Negamax {
  public:
   explicit Negamax(const Game& game);
-  short getResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
-  short getAlphaBetaResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
-  short getAlphaBetaTranspositionTableResult(helper::PLAYER root_player = helper::PLAYER::BLACK);
+  short getResult();
+  short getAlphaBetaResult();
+  short getAlphaBetaTranspositionTableResult();
 
   helper::Move best_move() const;
 

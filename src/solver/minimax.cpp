@@ -15,26 +15,26 @@ Minimax::Minimax(const Game& game) : root_(game) {
   best_move_ = helper::Move{Pos{0, 0}, 0};
 }
 
-short Minimax::getResult(helper::PLAYER root_player) {
+short Minimax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), root_player);
+  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
-short Minimax::getAlphaBetaResult(helper::PLAYER root_player) {
+short Minimax::getAlphaBetaResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
-short Minimax::getAlphaBetaTranspositionTableResult(helper::PLAYER root_player) {
+short Minimax::getAlphaBetaTranspositionTableResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
   NodeTT rootTT_(root_.game());
-  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, root_player);
+  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**
