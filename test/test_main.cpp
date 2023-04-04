@@ -28,10 +28,12 @@ int main(int argc, char **argv) {
       "*PNSTest*:"
       "*MinimaxTest.SIMPLE*:"
       "*MinimaxTest.HARD*:"
+      "*MinimaxTest.MOVE*:"
       "*MinimaxAlphaBetaTest*:"
       "*MinimaxAlphaBetaTTTest*:"
       "*NegamaxTest.SIMPLE*:"
       "*NegamaxTest.HARD*:"
+      "*NegamaxTest.MOVE*:"
       "*NegamaxAlphaBetaTest*:"
       "*NegamaxAlphaBetaTTTest*:"
       "*MCTSTest*:";

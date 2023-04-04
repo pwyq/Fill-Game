@@ -14,9 +14,11 @@
 // local
 #include "algorithm_test_cases.h"
 #include "solver/game.h"
+#include "solver/helper.h"
 #include "solver/minimax.h"
 
 using solver::Game;
+using solver::helper::Move;
 using solver::minimax::Minimax;
 
 namespace fgtest {
@@ -268,6 +270,37 @@ TEST_F(MinimaxAlphaBetaTest, HARD_3) {
   Game game(SHARED_HARD[index].first);
   agent_ = new Minimax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
+}
+
+///////////////////////////////////////////////////
+///// Winning moves
+///////////////////////////////////////////////////
+
+TEST_F(MinimaxAlphaBetaTest, MOVE_1) {
+  Game game(".*.*.");
+  agent_ = new Minimax(game);
+  agent_->getAlphaBetaResult();
+
+  Move ans{{1, 0}, 1};
+  EXPECT_EQ(agent_->bestMove(), ans);
+}
+
+TEST_F(MinimaxAlphaBetaTest, MOVE_2) {
+  Game game("...");
+  agent_ = new Minimax(game);
+  agent_->getAlphaBetaResult();
+
+  Move ans{{0, 1}, 1};
+  EXPECT_EQ(agent_->bestMove(), ans);
+}
+
+TEST_F(MinimaxAlphaBetaTest, MOVE_3) {
+  Game game("1");
+  agent_ = new Minimax(game);
+  agent_->getAlphaBetaResult();
+
+  Move ans{{0, 0}, 0};
+  EXPECT_EQ(agent_->bestMove(), ans);
 }
 
 }  // namespace fgtest

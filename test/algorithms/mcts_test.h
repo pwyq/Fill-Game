@@ -60,7 +60,7 @@ solver::mcts::MCTS* MCTSTest::agent_ = nullptr;
  * 
  */
 
-TEST_F(MCTSTest, SIMPLE_1) {
+TEST_F(MCTSTest, MOVE_1) {
   Game game("13*.3");
   agent_ = new MCTS(game);
   agent_->search();
@@ -69,7 +69,7 @@ TEST_F(MCTSTest, SIMPLE_1) {
   EXPECT_EQ(agent_->bestMove(), ans);
 }
 
-TEST_F(MCTSTest, SIMPLE_2) {
+TEST_F(MCTSTest, MOVE_2) {
   Game game("1.*33");
   agent_ = new MCTS(game);
   agent_->search();
@@ -78,7 +78,7 @@ TEST_F(MCTSTest, SIMPLE_2) {
   EXPECT_EQ(agent_->bestMove(), ans);
 }
 
-TEST_F(MCTSTest, SIMPLE_3) {
+TEST_F(MCTSTest, MOVE_3) {
   Game game("1.*.2");
   agent_ = new MCTS(game);
   agent_->search();
@@ -92,7 +92,7 @@ TEST_F(MCTSTest, SIMPLE_3) {
       << " nor: " << ans2.toString() << ".";
 }
 
-TEST_F(MCTSTest, SIMPLE_4) {
+TEST_F(MCTSTest, MOVE_4) {
   Game game("12*..");
   agent_ = new MCTS(game);
   agent_->search();
@@ -106,7 +106,7 @@ TEST_F(MCTSTest, SIMPLE_4) {
       << " nor: " << ans2.toString() << ".";
 }
 
-TEST_F(MCTSTest, SIMPLE_5) {
+TEST_F(MCTSTest, MOVE_5) {
   Game game("1.*2.");
   agent_ = new MCTS(game);
   agent_->search();
@@ -120,7 +120,7 @@ TEST_F(MCTSTest, SIMPLE_5) {
       << " nor: " << ans2.toString() << ".";
 }
 
-TEST_F(MCTSTest, SIMPLE_6) {
+TEST_F(MCTSTest, MOVE_6) {
   Game game(".");
   agent_ = new MCTS(game);
   agent_->search();
@@ -129,7 +129,7 @@ TEST_F(MCTSTest, SIMPLE_6) {
   EXPECT_EQ(agent_->bestMove(), ans);
 }
 
-TEST_F(MCTSTest, SIMPLE_7) {
+TEST_F(MCTSTest, MOVE_7) {
   Game game("1");
   agent_ = new MCTS(game);
   agent_->search();
@@ -138,12 +138,21 @@ TEST_F(MCTSTest, SIMPLE_7) {
   EXPECT_EQ(agent_->bestMove(), ans);
 }
 
-TEST_F(MCTSTest, SIMPLE_8) {
+TEST_F(MCTSTest, MOVE_8) {
   Game game(".*.*.");
   agent_ = new MCTS(game);
   agent_->search();
 
-  Move ans{{1, 0}, 0};
+  Move ans{{1, 0}, 1};
+  EXPECT_EQ(agent_->bestMove(), ans);
+}
+
+TEST_F(MCTSTest, MOVE_9) {
+  Game game("...");
+  agent_ = new MCTS(game);
+  agent_->search();
+
+  Move ans{{0, 1}, 1};
   EXPECT_EQ(agent_->bestMove(), ans);
 }
 

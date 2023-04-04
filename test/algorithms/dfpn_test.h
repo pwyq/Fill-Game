@@ -14,9 +14,11 @@
 #include "algorithm_test_cases.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
+#include "solver/helper.h"
 
 using solver::Game;
 using solver::dfpn::DFPN;
+using solver::helper::Move;
 
 namespace fgtest {
 
@@ -297,6 +299,37 @@ TEST_F(DFPNTest, HARD_3) {
   agent_ = new DFPN(game);
   agent_->solve();
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
+}
+
+///////////////////////////////////////////////////
+///// Winning moves
+///////////////////////////////////////////////////
+
+TEST_F(DFPNTest, MOVE_1) {
+  Game game(".*.*.");
+  agent_ = new DFPN(game);
+  agent_->solve();
+
+  Move ans{{1, 0}, 1};
+  EXPECT_EQ(agent_->bestMove(), ans);
+}
+
+TEST_F(DFPNTest, MOVE_2) {
+  Game game("...");
+  agent_ = new DFPN(game);
+  agent_->solve();
+
+  Move ans{{0, 1}, 1};
+  EXPECT_EQ(agent_->bestMove(), ans);
+}
+
+TEST_F(DFPNTest, MOVE_3) {
+  Game game("1");
+  agent_ = new DFPN(game);
+  agent_->solve();
+
+  Move ans{{0, 0}, 0};
+  EXPECT_EQ(agent_->bestMove(), ans);
 }
 
 }  // namespace fgtest

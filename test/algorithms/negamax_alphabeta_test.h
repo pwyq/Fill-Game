@@ -14,9 +14,11 @@
 // local
 #include "algorithm_test_cases.h"
 #include "solver/game.h"
+#include "solver/helper.h"
 #include "solver/negamax.h"
 
 using solver::Game;
+using solver::helper::Move;
 using solver::negamax::Negamax;
 
 namespace fgtest {
@@ -269,6 +271,38 @@ TEST_F(NegamaxAlphaBetaTest, HARD_3) {
   agent_ = new Negamax(game);
   EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
 }
+
+///////////////////////////////////////////////////
+///// Winning moves
+///////////////////////////////////////////////////
+
+TEST_F(NegamaxAlphaBetaTest, MOVE_1) {
+  Game game(".*.*.");
+  agent_ = new Negamax(game);
+  agent_->getAlphaBetaResult();
+
+  Move ans{{1, 0}, 1};
+  EXPECT_EQ(agent_->bestMove(), ans);
+}
+
+TEST_F(NegamaxAlphaBetaTest, MOVE_2) {
+  Game game("...");
+  agent_ = new Negamax(game);
+  agent_->getAlphaBetaResult();
+
+  Move ans{{0, 1}, 1};
+  EXPECT_EQ(agent_->bestMove(), ans);
+}
+
+TEST_F(NegamaxAlphaBetaTest, MOVE_3) {
+  Game game("1");
+  agent_ = new Negamax(game);
+  agent_->getAlphaBetaResult();
+
+  Move ans{{0, 0}, 0};
+  EXPECT_EQ(agent_->bestMove(), ans);
+}
+
 }  // namespace fgtest
 
 #endif  // FG_TEST_NEGAMAX_ALPHABETA_H_
