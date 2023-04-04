@@ -16,7 +16,10 @@
 #include "solver/game.h"
 #include "solver/negamax.h"
 
-namespace solver::negamax {
+using solver::Game;
+using solver::negamax::Negamax;
+
+namespace fgtest {
 
 class NegamaxAlphaBetaTTTest : public testing::Test {
  protected:
@@ -250,6 +253,6 @@ TEST_F(NegamaxAlphaBetaTTTest, HARD_3) {
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace solver::negamax
+}  // namespace fgtest
 
 #endif  // FG_TEST_NEGAMAX_ALPHABETA_TT_H_

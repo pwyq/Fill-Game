@@ -16,7 +16,10 @@
 #include "solver/game.h"
 #include "solver/pns.h"
 
-namespace solver::pns {
+using solver::Game;
+using solver::pns::PNS;
+
+namespace fgtest {
 
 class PNSTest : public testing::Test {
  protected:
@@ -246,6 +249,6 @@ TEST_F(PNSTest, HARD_3) {
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace solver::pns
+}  // namespace fgtest
 
 #endif  // FG_TEST_PNS_H_

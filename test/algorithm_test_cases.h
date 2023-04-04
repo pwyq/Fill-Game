@@ -19,6 +19,8 @@
 // local
 #include "solver/game.h"
 
+namespace fgtest {
+
 /**
  * @brief We are testing against the WIN/LOSS/UNKNOWN result.
  * With result=WIN, we are also testing against the winning move (only for
@@ -178,5 +180,7 @@ TEST(VALID_ALGO_TEST_CASES, HARD) {
     EXPECT_EQ(true, solver::Game::isValidGameString(i.first));
   }
 }
+
+}  // namespace fgtest
 
 #endif

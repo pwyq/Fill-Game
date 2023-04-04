@@ -15,6 +15,11 @@
 #include "solver/dfpn.h"
 #include "solver/game.h"
 
+using solver::Game;
+using solver::dfpn::DFPN;
+
+namespace fgtest {
+
 class DFPNTest : public testing::Test {
  protected:
   DFPNTest()          = default;
@@ -45,9 +50,6 @@ class DFPNTest : public testing::Test {
 
 solver::dfpn::DFPN* DFPNTest::agent_ = nullptr;
 ////////////////////////////////////////////////////////////////////
-
-namespace solver {
-namespace dfpn {
 
 TEST_F(DFPNTest, SIMPLE_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
@@ -273,7 +275,6 @@ TEST_F(DFPNTest, HARD_3) {
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace dfpn
-}  // namespace solver
+}  // namespace fgtest
 
 #endif  //FG_TEST_DFPN_H_

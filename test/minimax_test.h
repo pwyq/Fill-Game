@@ -15,6 +15,11 @@
 #include "solver/game.h"
 #include "solver/minimax.h"
 
+using solver::Game;
+using solver::minimax::Minimax;
+
+namespace fgtest {
+
 class MinimaxTest : public testing::Test {
  protected:
   MinimaxTest()          = default;
@@ -45,8 +50,6 @@ class MinimaxTest : public testing::Test {
 
 solver::minimax::Minimax* MinimaxTest::agent_ = nullptr;
 ////////////////////////////////////////////////////////////////////
-
-namespace solver::minimax {
 
 TEST_F(MinimaxTest, SIMPLE_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
@@ -245,6 +248,6 @@ TEST_F(MinimaxTest, HARD_3) {
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace solver::minimax
+}  // namespace fgtest
 
 #endif  // FG_TEST_MINIMAX_H_

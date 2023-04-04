@@ -16,7 +16,10 @@
 #include "solver/game.h"
 #include "solver/minimax.h"
 
-namespace solver::minimax {
+using solver::Game;
+using solver::minimax::Minimax;
+
+namespace fgtest {
 
 class MinimaxAlphaBetaTTTest : public testing::Test {
  protected:
@@ -246,6 +249,6 @@ TEST_F(MinimaxAlphaBetaTTTest, HARD_3) {
   EXPECT_EQ(agent_->getAlphaBetaTranspositionTableResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace solver::minimax
+}  // namespace fgtest
 
 #endif  // FG_TEST_MINIMAX_ALPHABETA_TT_H_
