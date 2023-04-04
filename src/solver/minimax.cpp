@@ -165,7 +165,7 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
     }
     return node.value();
   }
-  // node.generateChildren();
+  node.generateChildren();
 
   short best_eval = (player == helper::PLAYER::BLACK) ? -INF_SHORT : INF_SHORT;
   if (player == helper::PLAYER::BLACK) {
