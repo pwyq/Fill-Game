@@ -1,31 +1,34 @@
 /**
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
- * @create date 2023-03-18 00:44:38
- * @modify date 2023-04-03 02:02:07
- * @desc Negamax with Alpha-Beta pruning
+ * @create date 2023-03-18 22:43:39
+ * @modify date 2023-04-03 02:07:43
+ * @desc Proof Number Search
  */
 
-#ifndef FG_TEST_NEGAMAX_ALPHABETA_H_
-#define FG_TEST_NEGAMAX_ALPHABETA_H_
+#ifndef FG_TEST_PNS_H_
+#define FG_TEST_PNS_H_
 
 // gtest
 #include <gtest/gtest.h>
 // local
 #include "algorithm_test_cases.h"
-#include "game.h"
-#include "negamax.h"
+#include "solver/game.h"
+#include "solver/pns.h"
 
-namespace solver::negamax {
+using solver::Game;
+using solver::pns::PNS;
 
-class NegamaxAlphaBetaTest : public testing::Test {
+namespace fgtest {
+
+class PNSTest : public testing::Test {
  protected:
-  NegamaxAlphaBetaTest()          = default;
-  virtual ~NegamaxAlphaBetaTest() = default;
+  PNSTest()          = default;
+  virtual ~PNSTest() = default;
 
  public:
   // Some expensive resource shared by all tests.
-  static solver::negamax::Negamax* agent_;
+  static solver::pns::PNS* agent_;
 
   static void SetUpTestSuite() {
     agent_ = nullptr;
@@ -46,205 +49,206 @@ class NegamaxAlphaBetaTest : public testing::Test {
   }
 };
 
-solver::negamax::Negamax* NegamaxAlphaBetaTest::agent_ = nullptr;
+solver::pns::PNS* PNSTest::agent_ = nullptr;
 ////////////////////////////////////////////////////////////////////
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_1) {
+TEST_F(PNSTest, SIMPLE_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 };
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_2) {
+TEST_F(PNSTest, SIMPLE_2) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_3) {
+TEST_F(PNSTest, SIMPLE_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_4) {
+TEST_F(PNSTest, SIMPLE_4) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_5) {
+TEST_F(PNSTest, SIMPLE_5) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_6) {
+TEST_F(PNSTest, SIMPLE_6) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_7) {
+TEST_F(PNSTest, SIMPLE_7) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_8) {
+TEST_F(PNSTest, SIMPLE_8) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_9) {
+TEST_F(PNSTest, SIMPLE_9) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_10) {
+TEST_F(PNSTest, SIMPLE_10) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_11) {
+TEST_F(PNSTest, SIMPLE_11) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_12) {
+TEST_F(PNSTest, SIMPLE_12) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_13) {
+TEST_F(PNSTest, SIMPLE_13) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_14) {
+TEST_F(PNSTest, SIMPLE_14) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_15) {
+TEST_F(PNSTest, SIMPLE_15) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_16) {
+TEST_F(PNSTest, SIMPLE_16) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, SIMPLE_17) {
+TEST_F(PNSTest, SIMPLE_17) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_SIMPLE[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_SIMPLE[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
 ///////////////////////////////////////////////////
-///// NEGAMAX_ALPHABETA_MEDIUM
+///// PNS_MEDIUM
 ///////////////////////////////////////////////////
 
-TEST_F(NegamaxAlphaBetaTest, MEDIUM_1) {
+TEST_F(PNSTest, MEDIUM_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, MEDIUM_2) {
+TEST_F(PNSTest, MEDIUM_2) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, MEDIUM_3) {
+TEST_F(PNSTest, MEDIUM_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, MEDIUM_4) {
+TEST_F(PNSTest, MEDIUM_4) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, MEDIUM_5) {
+TEST_F(PNSTest, MEDIUM_5) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, MEDIUM_6) {
+TEST_F(PNSTest, MEDIUM_6) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_MEDIUM[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, MEDIUM_7) {
+TEST_F(PNSTest, MEDIUM_7) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_MEDIUM[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_MEDIUM[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_MEDIUM[index].second);
 }
 
 ///////////////////////////////////////////////////
-///// NEGAMAX_ALPHABETA_HARD
+///// PNS_HARD
 ///////////////////////////////////////////////////
 
-TEST_F(NegamaxAlphaBetaTest, HARD_1) {
+TEST_F(PNSTest, HARD_1) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, HARD_2) {
+TEST_F(PNSTest, HARD_2) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-TEST_F(NegamaxAlphaBetaTest, HARD_3) {
+TEST_F(PNSTest, HARD_3) {
   unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
   Game game(SHARED_HARD[index].first);
-  agent_ = new Negamax(game);
-  EXPECT_EQ(agent_->getAlphaBetaResult(), SHARED_HARD[index].second);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
-}  // namespace solver::negamax
 
-#endif  // FG_TEST_NEGAMAX_ALPHABETA_H_
+}  // namespace fgtest
+
+#endif  // FG_TEST_PNS_H_

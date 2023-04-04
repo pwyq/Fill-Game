@@ -17,7 +17,9 @@
 #include <sstream>
 #include <vector>
 // local
-#include "game.h"
+#include "solver/game.h"
+
+namespace fgtest {
 
 /**
  * @brief We are testing against the WIN/LOSS/UNKNOWN result.
@@ -178,5 +180,7 @@ TEST(VALID_ALGO_TEST_CASES, HARD) {
     EXPECT_EQ(true, solver::Game::isValidGameString(i.first));
   }
 }
+
+}  // namespace fgtest
 
 #endif

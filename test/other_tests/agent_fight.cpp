@@ -15,12 +15,14 @@
 #include <iostream>
 #include <string>
 // local
-#include "dfpn.h"
-#include "game.h"
 #include "helper.h"
-#include "minimax.h"
-#include "negamax.h"
-#include "pns.h"
+#include "solver/dfpn.h"
+#include "solver/game.h"
+#include "solver/helper.h"
+#include "solver/mcts.h"
+#include "solver/minimax.h"
+#include "solver/negamax.h"
+#include "solver/pns.h"
 
 using std::cout;
 using std::endl;
@@ -29,16 +31,18 @@ using solver::Game;
 using solver::helper::Move;
 
 using solver::dfpn::DFPN;
+using solver::mcts::MCTS;
 using solver::minimax::Minimax;
 using solver::negamax::Negamax;
 using solver::pns::PNS;
+
+using fgtest::helper::hash;
 
 ///////////////////////////////////////
 // Test - Agent Match
 ///////////////////////////////////////
 
-namespace test {
-
+namespace fgtest {
 std::string generateBoardString(int board_size) {
   std::string res = "";
   for (int i = 0; i < board_size; i++) {
@@ -49,12 +53,6 @@ std::string generateBoardString(int board_size) {
   return res;
 }
 
-constexpr uint32_t hash(const std::string_view data) noexcept {
-  uint32_t hash = 5385;
-  for (const auto& e : data) hash = ((hash << 5) + hash) + e;
-  return hash;
-}
-
 Move getMove(std::string agent_name, Game game) {
   Move res_move;
   switch (hash(agent_name)) {
@@ -62,48 +60,62 @@ Move getMove(std::string agent_name, Game game) {
       PNS* pns = new PNS(game);
       pns->getResult();
       res_move = pns->best_move();
+      delete pns;
       break;
     }
     case hash("dfpn"): {
       DFPN* dfpn = new DFPN(game);
       dfpn->solve();
       res_move = dfpn->best_move();
+      delete dfpn;
       break;
     }
     case hash("minimax"): {
       Minimax* minimax = new Minimax(game);
       minimax->getResult();
       res_move = minimax->best_move();
+      delete minimax;
       break;
     }
     case hash("mini-ab"): {
       Minimax* minimax = new Minimax(game);
       minimax->getAlphaBetaResult();
       res_move = minimax->best_move();
+      delete minimax;
       break;
     }
     case hash("mini-ab-tt"): {
       Minimax* minimax = new Minimax(game);
       minimax->getAlphaBetaTranspositionTableResult();
       res_move = minimax->best_move();
+      delete minimax;
       break;
     }
     case hash("negamax"): {
       Negamax* negamax = new Negamax(game);
       negamax->getResult();
       res_move = negamax->best_move();
+      delete negamax;
       break;
     }
     case hash("nega-ab"): {
       Negamax* negamax = new Negamax(game);
       negamax->getAlphaBetaResult();
       res_move = negamax->best_move();
+      delete negamax;
       break;
     }
     case hash("nega-ab-tt"): {
       Negamax* negamax = new Negamax(game);
       negamax->getAlphaBetaTranspositionTableResult();
       res_move = negamax->best_move();
+      delete negamax;
+      break;
+    }
+    case hash("mcts"): {
+      MCTS* mcts = new MCTS(game);
+      res_move   = mcts->search();
+      delete mcts;
       break;
     }
     default: {
@@ -161,7 +173,7 @@ bool playSingleMatch(std::string p1, std::string p2, int board_size) {
   return is_win;
 }
 
-}  // namespace test
+}  // namespace fgtest
 
 ///////////////////////////////////////
 // Main
@@ -169,7 +181,7 @@ bool playSingleMatch(std::string p1, std::string p2, int board_size) {
 
 bool isValidAgentName(std::string name) {
   // TODO: how to make this easier...?
-  if (name == "pns" || name == "dfpn" || name == "minimax" || name == "mini-ab" || name == "mini-ab-tt" || name == "negamax" || name == "nega-ab" || name == "nega-ab-tt") {
+  if (name == "pns" || name == "dfpn" || name == "minimax" || name == "mini-ab" || name == "mini-ab-tt" || name == "negamax" || name == "nega-ab" || name == "nega-ab-tt" || name == "mcts") {
     return true;
   }
   return false;
@@ -189,6 +201,7 @@ void printHelp() {
   cout << "negamax      Negamax" << endl;
   cout << "nega-ab      Negamax with Alpha-Beta Pruning" << endl;
   cout << "nega-ab-tt   Negamax with Alpha-Beta Pruning and Transposition Table" << endl;
+  cout << "mcts         Monte Carlo Tree Search" << endl;
   cout << "--------------------------------------------------------------------" << endl;
   cout << "Availalbe Board Size: [2, 19]" << endl;
   cout << "Suggested Board Size: 3" << endl;
@@ -221,7 +234,7 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  test::playSingleMatch(player1, player2, board_size);
+  fgtest::playSingleMatch(player1, player2, board_size);
 
   return 0;
 }

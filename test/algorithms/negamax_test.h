@@ -12,10 +12,13 @@
 #include <gtest/gtest.h>
 // local
 #include "algorithm_test_cases.h"
-#include "game.h"
-#include "negamax.h"
+#include "solver/game.h"
+#include "solver/negamax.h"
 
-namespace solver::negamax {
+using solver::Game;
+using solver::negamax::Negamax;
+
+namespace fgtest {
 
 class NegamaxTest : public testing::Test {
  protected:
@@ -245,6 +248,6 @@ TEST_F(NegamaxTest, HARD_3) {
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
 }
 
-}  // namespace solver::negamax
+}  // namespace fgtest
 
 #endif  // FG_TEST_NEGAMAX_H_
