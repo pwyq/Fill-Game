@@ -17,7 +17,7 @@
 #include <sstream>
 #include <vector>
 // local
-#include "game.h"
+#include "solver/game.h"
 
 /**
  * @brief We are testing against the WIN/LOSS/UNKNOWN result.

@@ -10,13 +10,15 @@
 #include <string>
 #include <valarray>
 // local
-#include "helper.h"
+#include "solver/helper.h"
 
 #define TEST_NUM 10000000
 
 constexpr double MB = 1024 * 1024;
 
-using namespace solver::helper;
+using solver::helper::getPeakRSS;
+using solver::helper::Timer;
+using solver::helper::toMilliseconds;
 
 ////////////////////////////////////////
 class Board {

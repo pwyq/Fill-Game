@@ -13,8 +13,8 @@
 #include <gtest/gtest.h>
 // local
 #include "algorithm_test_cases.h"
-#include "game.h"
-#include "pns.h"
+#include "solver/game.h"
+#include "solver/pns.h"
 
 namespace solver::pns {
 

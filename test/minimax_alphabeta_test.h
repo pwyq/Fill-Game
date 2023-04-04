@@ -13,8 +13,8 @@
 #include <gtest/gtest.h>
 // local
 #include "algorithm_test_cases.h"
-#include "game.h"
-#include "minimax.h"
+#include "solver/game.h"
+#include "solver/minimax.h"
 
 namespace solver::minimax {
 

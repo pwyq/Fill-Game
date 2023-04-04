@@ -13,8 +13,8 @@
 #include <gtest/gtest.h>
 // local
 #include "algorithm_test_cases.h"
-#include "game.h"
-#include "negamax.h"
+#include "solver/game.h"
+#include "solver/negamax.h"
 
 namespace solver::negamax {
 

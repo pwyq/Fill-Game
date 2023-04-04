@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 // local
 #include "algorithm_test_cases.h"
-#include "dfpn.h"
-#include "game.h"
+#include "solver/dfpn.h"
+#include "solver/game.h"
 
 class DFPNTest : public testing::Test {
  protected:

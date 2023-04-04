@@ -2,11 +2,11 @@
 # @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:38:11
-# @modify date 2023-03-16 22:03:23
+# @modify date 2023-04-04 02:45:33
 # @desc cmake file for test
 # ##
 enable_testing()
-include_directories(${FILLGAME_HEADER_DIR}/solver)
+include_directories(${FILLGAME_HEADER_DIR})
 
 set(BINARY_NAME test_main)
 
