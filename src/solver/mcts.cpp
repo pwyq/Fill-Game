@@ -39,15 +39,15 @@ void MCTS::backpropagation(const std::shared_ptr<Node>& node, bool win) {
       current->wins_++;
     }
     win     = !win;
-    current = current->parent_.lock();
+    current = current->parent().lock();
   }
 }
 
 std::shared_ptr<Node> MCTS::expand(const std::shared_ptr<Node>& node) {
-  auto moves = node->game_.getPossibleMoves();
+  auto moves = node->game().getPossibleMoves();
 
   for (const auto& move : moves) {
-    auto child = std::make_shared<Node>(node->game_, move.first, move.second, node);
+    auto child = std::make_shared<Node>(node->game(), move.first, move.second, node);
     node->children_.push_back(child);
   }
 
@@ -55,14 +55,19 @@ std::shared_ptr<Node> MCTS::expand(const std::shared_ptr<Node>& node) {
 }
 
 bool MCTS::simulate(const std::shared_ptr<Node>& node) {
-  Game game(node->game_);
-  while (!game.isTerminal()) {
-    auto moves = game.getPossibleMoves();
+  // Game game(node->game());
+  Game* game = new Game(node->game());
+  while (!game->isTerminal()) {
+    auto moves = game->getPossibleMoves();
     std::uniform_int_distribution<> dist(0, moves.size() - 1);
     auto move = moves[dist(rng_)];
-    game.unsafePlay(move.first, move.second);
+    game->unsafePlay(move.first, move.second);
+
+    Game* temp = game;
+    game       = new Game(temp->toString());
+    delete temp;
   }
-  return root_->game_.toPlay() != game.toPlay();
+  return root_->game().toPlay() != game->toPlay();
 }
 
 /**
@@ -70,16 +75,15 @@ bool MCTS::simulate(const std::shared_ptr<Node>& node) {
  * 
  */
 void MCTS::search() {
-  if (root_->game_.isTerminal()) {
+  if (root_->game().isTerminal()) {
     best_move_ = helper::Move{{0, 0}, 0};
     return;
   }
 
-  num_simulations_ = root_->game_.getPossibleMoves().size() * 1000;
+  num_simulations_ = root_->game().getPossibleMoves().size() * 1000;
   mcts::MCTS::expand(root_);
   for (size_t i = 0; i < num_simulations_; ++i) {
     auto node = root_;
-
     while (!node->children_.empty()) {
       node = selectBestChild(node);
     }
@@ -94,7 +98,7 @@ void MCTS::search() {
   }
   auto best_child = selectBestChild(root_);
 
-  best_move_ = best_child->move_;
+  best_move_ = best_child->move();
   return;
 }
 

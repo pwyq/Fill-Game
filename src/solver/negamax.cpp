@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:18:44
- * @modify date 2023-04-03 19:48:28
+ * @modify date 2023-04-05 23:32:38
  */
 
 #include "solver/negamax.h"

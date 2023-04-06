@@ -140,17 +140,23 @@ class NodeTT : public Node {
 namespace mcts {
 
 class Node {
-  public:
-   Game game_;
-   helper::Move move_;
-   std::weak_ptr<Node> parent_{};
-   size_t visits_ = 1;
-   int wins_ = 0;
-   std::vector<std::shared_ptr<Node>> children_;
+ public:
+  explicit Node(const Game &game);
+  Node(const Game &game, const helper::Pos &pos, uint8_t value, const std::shared_ptr<Node> &parent = nullptr);
+  ~Node() = default;
 
-   explicit Node(const Game& game);
-   Node(const Game& game, const helper::Pos &pos, uint8_t value, const std::shared_ptr<Node>& parent = nullptr);
-   ~Node() = default;
+  inline Game game() const { return game_; }
+  inline helper::Move move() const { return move_; }
+  inline std::weak_ptr<Node> parent() const { return parent_; }
+
+  size_t visits_ = 1;
+  int wins_      = 0;
+  std::vector<std::shared_ptr<Node>> children_;
+
+ protected:
+  Game game_;
+  helper::Move move_;
+  std::weak_ptr<Node> parent_{};
 };
 
 }  // namespace mcts
