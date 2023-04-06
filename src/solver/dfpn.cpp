@@ -21,7 +21,9 @@ namespace dfpn {
 helper::Timer<> g_timer{};  // total time used
 size_t g_counter = 0;       // num node visited
 
-DFPN::DFPN(const Game &game) : root_(game) {}
+DFPN::DFPN(const Game &game) : root_(game) {
+  best_move_ = helper::Move{Pos{0, 0}, 0};
+}
 
 void DFPN::signalHandler([[maybe_unused]] int sig) {
   /**
@@ -91,7 +93,9 @@ void DFPN::MID(Node &node) {  // NOLINT
   // store search results
   node.phi_   = delta;
   node.delta_ = phi;
-  best_move_  = node.children_[best_child_index].move_;
+  if (node.game_.toPlay() == helper::PLAYER::BLACK && node.delta_ == INF && best_move_.value == 0) {
+    best_move_ = node.children_[best_child_index].move_;
+  }
   /*
   if (best_child_index != UINT16_MAX) {
       best_move = node.children[best_child_index].move;
