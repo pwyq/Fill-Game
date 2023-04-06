@@ -6,7 +6,7 @@
 # @desc This is the top-level CMakeLists.txt
 # ##
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 
 # Set the project name and application name
 project(fillgame VERSION 0.1.0 LANGUAGES CXX)
