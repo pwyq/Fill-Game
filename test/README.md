@@ -1,7 +1,7 @@
 Under `test/algorithms`:
 
 The files are for gtest unit tests.
-The DFPN test cases are the base line.
+The DFPN test cases for board evaluation are the base line. The PNS test cases for best move are the base line.
 
 Under `test/other_tests`:
 

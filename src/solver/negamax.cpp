@@ -18,14 +18,44 @@ short Negamax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
+
+  // Finding the best move
+  //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
+  //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
+  uint16_t depth  = countEmptyCells(root_);
+  short final_res = solve(root_, depth, helper::PLAYER::BLACK);
+
+  for (auto& child : root_.children()) {
+    short res = solve(child, depth, helper::PLAYER::WHITE);
+    if (res == -1) {  // note here differs from minimax
+      best_move_ = child.move();
+      break;
+    }
+  }
+  return final_res;
+  // return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
 short Negamax::getAlphaBetaResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  // Finding the best move
+  //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
+  //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
+  uint16_t depth  = countEmptyCells(root_);
+  short final_res = solveAlphaBeta(root_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  for (auto& child : root_.children()) {
+    short res = solveAlphaBeta(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
+    if (res == -1) {  // note here differs from minimax
+      best_move_ = child.move();
+      break;
+    }
+  }
+  return final_res;
+  // return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 short Negamax::getAlphaBetaTranspositionTableResult() {
@@ -33,7 +63,22 @@ short Negamax::getAlphaBetaTranspositionTableResult() {
     return -1;
   }
   NodeTT rootTT_(root_.game());
-  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  // Finding the best move
+  //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
+  //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
+  uint16_t depth  = countEmptyCells(root_);
+  short final_res = solveAlphaBetaTranspositionTable(rootTT_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  for (auto& child : rootTT_.children()) {
+    short res = solveAlphaBetaTranspositionTable(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
+    if (res == -1) {  // note here differs from minimax
+      best_move_ = child.move();
+      break;
+    }
+  }
+  return final_res;
+  // return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**
@@ -193,9 +238,20 @@ ttEntry Negamax::transpositionTableLookup(NodeTT& node) {
  * @return helper::Move
  */
 helper::Move Negamax::bestMove() const {
-  // if has time limit (the agent is probably forced to stop) return a random move
+  // if game is terminal
+  // 	return 0
+  // if move != 0
+  // 	return move
+  // if move == 0 and game is not terminal
+  // 	return random
 
-  return best_move_;
+  if (root_.game().isTerminal() || best_move_.value != 0) {
+    return best_move_;
+  }
+
+  // if has time limit (the agent is probably forced to stop) return a random move
+  auto child = *helper::select_randomly(root_.children().begin(), root_.children().end());
+  return child.move();
 }
 
 }  // namespace negamax
