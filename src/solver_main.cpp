@@ -35,8 +35,6 @@ void startSolver(std::string& input, size_t time_limit) {
 
   dfpn::DFPN dfpn(game);
   cout << "using DFPN..." << endl;
-//  Constraint constraint = Constraint(MEMORY_LIMIT, time_limit);
-//  dfpn::DFPN::setConstraint(constraint);
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
 
@@ -76,7 +74,6 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << mcts.bestMove().toString() << endl;
 }
 
-/*
 void testStackMemoryLimit() {  // SIGSEGV
   // long long arr[UINTMAX_MAX] = {0};    // this will give direct error;
   long long arr[10000] = {0};
@@ -85,6 +82,8 @@ void testStackMemoryLimit() {  // SIGSEGV
 
 void testHeapMemoryLimit() {  // throw bad_alloc
   int* nmbr = new int[1024 * 1024 * 255];
+  // int* nmbr2 = new int[1024 * 1024 * 255];
+  // int* nmbr3 = new int[1024 * 1024 * 255];
 }
 
 void testTimeLimit() {  // SIGXCPU
@@ -92,7 +91,6 @@ void testTimeLimit() {  // SIGXCPU
     cout << "time limit test\n";
   }
 }
-*/
 
 }  // namespace solver
 
@@ -105,10 +103,15 @@ int main(int argc, char** argv) {
   int time_limit             = std::stoi(argv[2]);
 
   try {
-    solver::startSolver(input_sequence, time_limit);
-    // testStackMemoryLimit();
-    // testHeapMemoryLimit();
-    // testTimeLimit();
+    // solver::startSolver(input_sequence, time_limit);
+
+    // TODO: can we separate setConstraint from algorithm class?
+    solver::Constraint constraint = solver::Constraint(solver::MEMORY_LIMIT, time_limit);
+    solver::dfpn::DFPN::setConstraint(constraint);
+
+    // solver::testStackMemoryLimit();  // works
+    // solver::testHeapMemoryLimit();  // works
+    // solver::testTimeLimit();       // works
   } catch (const std::bad_alloc& e) {  // if a 'new' operator failed, it will throw a bad_alloc exception g_timer.stop();
     cout << "? None " << solver::dfpn::g_timer.duration().count() << " " << solver::dfpn::g_counter << endl;
   }
