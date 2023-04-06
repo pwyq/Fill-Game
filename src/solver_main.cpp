@@ -35,6 +35,7 @@ void startSolver(std::string& input, size_t time_limit) {
 
   dfpn::DFPN dfpn(game);
   cout << "using DFPN..." << endl;
+  dfpn.setTimeConstraint(time_limit);
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
 
@@ -103,11 +104,11 @@ int main(int argc, char** argv) {
   int time_limit             = std::stoi(argv[2]);
 
   try {
-    // solver::startSolver(input_sequence, time_limit);
+     solver::startSolver(input_sequence, time_limit);
 
     // TODO: can we separate setConstraint from algorithm class?
-    solver::Constraint constraint = solver::Constraint(solver::MEMORY_LIMIT, time_limit);
-    solver::dfpn::DFPN::setConstraint(constraint);
+    // solver::Constraint constraint = solver::Constraint(solver::MEMORY_LIMIT, time_limit);
+    // solver::dfpn::DFPN::setConstraint(constraint);
 
     // solver::testStackMemoryLimit();  // works
     // solver::testHeapMemoryLimit();  // works

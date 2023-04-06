@@ -7,10 +7,13 @@
 #ifndef FG_SOLVER_HELPER_H_
 #define FG_SOLVER_HELPER_H_
 // std
+#include <atomic>
 #include <cassert>
 #include <chrono>
 #include <functional>
+#include <future>
 #include <string>
+#include <thread>
 
 namespace solver::helper {
 
@@ -118,6 +121,31 @@ inline PLAYER changePlayer(PLAYER player) {
 }
 
 size_t getPeakRSS();
+
+// https://stackoverflow.com/a/40551227
+template<typename Duration = std::chrono::seconds, typename Callable, typename T>
+T timeout(Duration timeout, Callable&& func, std::atomic<T>& store) {
+  std::mutex mtx;
+  std::condition_variable cv;
+  bool task_finished = false;
+
+  // Start a new thread to execute the task
+  std::jthread task_thread([&](std::stop_token token) {
+    func(store, token);
+    std::lock_guard<std::mutex> lock(mtx);
+    task_finished = true;
+    cv.notify_one();  // Notify the main thread that the task is complete
+  });
+
+  std::unique_lock<std::mutex> lock(mtx);
+  if (!cv.wait_for(lock, timeout, [&]() { return task_finished; })) {
+    task_thread.request_stop();
+    return store.load();  // Return the partial result
+  }
+
+  task_thread.join();  // Ensure the task thread is joined before returning
+  return store.load();  // Return the final result
+}
 
 }  // namespace solver::helper
 

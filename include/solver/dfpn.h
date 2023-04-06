@@ -30,14 +30,18 @@ class DFPN {
   static void signalHandler(int signum);
 #endif
   [[maybe_unused]] static void setConstraint(Constraint &constraint);
+  bool constrained = false;
+  std::chrono::seconds time_limit_;
+  std::stop_token token{};
+  void setTimeConstraint(size_t time_limit);
 
   inline helper::PROOF_VALUE result() const { return result_; }
-  inline helper::Move bestMove() const { return best_move_; }
+  inline helper::Move bestMove() const { return best_move_.load(); }
 
  private:
   Node root_;
   helper::PROOF_VALUE result_ = helper::UNKNOWN;
-  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
+  std::atomic<helper::Move> best_move_;  // used for selecting next move when playing against Human/Other AI
   std::unordered_map<std::string, std::pair<uint32_t, uint32_t>> tt_;
 
   void MID(Node &node);

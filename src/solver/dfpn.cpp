@@ -52,20 +52,36 @@ void DFPN::signalHandler(int sig) {
 }
 
 void DFPN::solve() {
-  g_timer.start();
-  if (root_.game_.isTerminal()) {
-    result_ = LOSS;
+  if (!constrained) {
+    g_timer.start();
+    if (root_.game_.isTerminal()) {
+        result_ = LOSS;
+        g_timer.stop();
+        return;
+    }
+    MID(root_);
+    result_ = (root_.delta_ == INF) ? WIN : LOSS;
     g_timer.stop();
-    return;
+  } else {
+    auto func = [this](std::atomic<helper::Move>& move, const std::stop_token &stop_token) {
+      this->token = stop_token;
+      g_timer.start();
+      if (root_.game_.isTerminal()) {
+        result_ = LOSS;
+        g_timer.stop();
+        return;
+      }
+      MID(root_);
+      result_ = (root_.delta_ == INF) ? WIN : LOSS;
+      g_timer.stop();
+    };
+    (void)helper::timeout(time_limit_, func, best_move_);
   }
-  MID(root_);
-  result_ = (root_.delta_ == INF) ? WIN : LOSS;
-  g_timer.stop();
 }
 
 void DFPN::MID(Node &node) {  // NOLINT
   ++g_counter;
-  if (node.game_.isTerminal()) {
+  if (token.stop_requested() || node.game_.isTerminal()) {
     saveProofAndDisproofNumbers(node, node.phi_, node.delta_);
     return;
   }
@@ -97,7 +113,7 @@ void DFPN::MID(Node &node) {  // NOLINT
   // store search results
   node.phi_   = delta;
   node.delta_ = phi;
-  best_move_  = node.children_[best_child_index].move_;
+  best_move_.store(node.children_[best_child_index].move_);
   /*
   if (best_child_index != UINT16_MAX) {
       best_move = node.children[best_child_index].move;
@@ -176,7 +192,7 @@ std::string DFPN::formatResult() const {
   switch (result_) {
     case WIN:
       ret += "W ";
-      ret += best_move_.toString() + " ";
+      ret += best_move_.load().toString() + " ";
       ret += std::to_string(g_timer.duration().count()) + " ";
       ret += std::to_string(g_counter);
       break;
@@ -200,6 +216,11 @@ short DFPN::getResult() const {
     default:  // Handled by signal handler
       return 0;
   }
+}
+
+void DFPN::setTimeConstraint(size_t time_limit) {
+  constrained = true;
+  time_limit_ = std::chrono::seconds(time_limit);
 }
 
 }  // namespace solver::dfpn
