@@ -55,7 +55,6 @@ std::shared_ptr<Node> MCTS::expand(const std::shared_ptr<Node>& node) {
 }
 
 bool MCTS::simulate(const std::shared_ptr<Node>& node) {
-  // Game game(node->game());
   Game* game = new Game(node->game());
   while (!game->isTerminal()) {
     auto moves = game->getPossibleMoves();
@@ -67,7 +66,7 @@ bool MCTS::simulate(const std::shared_ptr<Node>& node) {
     game       = new Game(temp->toString());
     delete temp;
   }
-  return root_->game().toPlay() != game->toPlay();
+  return root_->game().toPlay() != node->game().toPlay();
 }
 
 /**
