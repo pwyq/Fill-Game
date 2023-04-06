@@ -19,14 +19,44 @@ short Minimax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
+
+  // Finding the best move
+  //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
+  //  This only works for plain minimax
+  root_.evaluate(helper::PLAYER::BLACK);
+  root_.generateChildren();
+  uint16_t depth = countEmptyCells(root_) - 1;
+  for (auto& child : root_.children()) {
+    short res = solve(child, depth, helper::PLAYER::WHITE);
+    if (res == 1) {
+      best_move_ = child.move();
+      return 1;
+    }
+  }
+  return -1;
+  // return solve(root_, depth, helper::PLAYER::BLACK);
 }
 
 short Minimax::getAlphaBetaResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  // Finding the best move
+  //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
+  //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
+  uint16_t depth  = countEmptyCells(root_);
+  short final_res = solveAlphaBeta(root_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  for (auto& child : root_.children()) {
+    short res = solveAlphaBeta(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
+    if (res == 1) {
+      best_move_ = child.move();
+      break;
+    }
+  }
+  return final_res;
+  // return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 short Minimax::getAlphaBetaTranspositionTableResult() {
@@ -34,7 +64,19 @@ short Minimax::getAlphaBetaTranspositionTableResult() {
     return -1;
   }
   NodeTT rootTT_(root_.game());
-  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+  uint16_t depth = countEmptyCells(root_);
+
+  short final_res = solveAlphaBetaTranspositionTable(rootTT_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  for (auto& child : rootTT_.children()) {
+    short res = solveAlphaBetaTranspositionTable(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
+    if (res == 1) {
+      best_move_ = child.move();
+      break;
+    }
+  }
+  return final_res;
+  // return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**
@@ -48,9 +90,6 @@ short Minimax::getAlphaBetaTranspositionTableResult() {
 short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
-    if (best_move_.value == 0 && node.value() == 1) {
-      best_move_ = node.move();
-    }
     return node.value();
   }
   node.generateChildren();
@@ -86,9 +125,6 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
 short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
-    if (best_move_.value == 0 && node.value() == 1) {
-      best_move_ = node.move();
-    }
     return node.value();
   }
   node.generateChildren();
@@ -156,9 +192,6 @@ short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, sh
 
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
-    if (best_move_.value == 0 && node.value() == 1) {
-      best_move_ = node.move();
-    }
     return node.value();
   }
   node.generateChildren();
@@ -233,14 +266,26 @@ ttEntry Minimax::transpositionTableLookup(NodeTT& node) {
  * @brief Return the first move that result in a WIN
  *        if not found
  *          no time limit, resign (return a dummy value) {{0,0}, 0}
- *          has time limit, return a random move that hasn't been examined? (TODO? this case)
+ *          has time limit, return a random move (todo? that hasn't been examined)
  *
  * @return helper::Move
  */
 helper::Move Minimax::bestMove() const {
+  // if game is terminal
+  // 	return 0
+  // if move != 0
+  // 	return move
+  // if move == 0 and game is not terminal
+  // 	return random
+
   // if has time limit (the agent is probably forced to stop) return a random move
-  //  TODO
-  return best_move_;
+  if (root_.game().isTerminal() || best_move_.value != 0) {  // if it's not terminal, then it must have children
+
+    return best_move_;
+  }
+
+  auto child = *helper::select_randomly(root_.children().begin(), root_.children().end());
+  return child.move();
 }
 
 }  // namespace minimax

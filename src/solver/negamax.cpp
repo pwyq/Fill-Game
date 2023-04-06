@@ -46,9 +46,6 @@ short Negamax::getAlphaBetaTranspositionTableResult() {
  */
 short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   if (depth == 0 || node.game().isTerminal()) {
-    if (best_move_.value == 0 && player == helper::WHITE) {
-      best_move_ = node.move();
-    }
     return -1;
   }
   node.generateChildren();
@@ -191,13 +188,13 @@ ttEntry Negamax::transpositionTableLookup(NodeTT& node) {
  * @brief Return the first move that result in a WIN
  *        if not found
  *          no time limit, resign (return a dummy value) {{0,0}, 0}
- *          has time limit, return a random move that hasn't been examined? (TODO? this case)
+ *          has time limit, return a random move (todo? that hasn't been examined)
  *
  * @return helper::Move
  */
 helper::Move Negamax::bestMove() const {
   // if has time limit (the agent is probably forced to stop) return a random move
-  //  TODO
+
   return best_move_;
 }
 

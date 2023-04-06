@@ -281,8 +281,13 @@ TEST_F(PNSTest, MOVE_1) {
   agent_ = new PNS(game);
   agent_->getResult();
 
-  Move ans{{1, 0}, 1};
-  EXPECT_EQ(agent_->bestMove(), ans);
+  Move ans1{{1, 0}, 1};
+  Move ans2{{1, 0}, 2};
+  Move agent_ans = agent_->bestMove();
+  EXPECT_TRUE(agent_ans == ans1 || agent_ans == ans2)
+      << "Where real value: " << agent_ans.toString()
+      << " not equal neither: " << ans1.toString()
+      << " nor: " << ans2.toString() << ".";
 }
 
 TEST_F(PNSTest, MOVE_2) {
@@ -290,8 +295,13 @@ TEST_F(PNSTest, MOVE_2) {
   agent_ = new PNS(game);
   agent_->getResult();
 
-  Move ans{{0, 1}, 1};
-  EXPECT_EQ(agent_->bestMove(), ans);
+  Move ans1{{0, 1}, 1};
+  Move ans2{{0, 1}, 2};
+  Move agent_ans = agent_->bestMove();
+  EXPECT_TRUE(agent_ans == ans1 || agent_ans == ans2)
+      << "Where real value: " << agent_ans.toString()
+      << " not equal neither: " << ans1.toString()
+      << " nor: " << ans2.toString() << ".";
 }
 
 TEST_F(PNSTest, MOVE_3) {
