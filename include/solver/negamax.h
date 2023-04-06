@@ -47,7 +47,8 @@ class Negamax {
  private:
   Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
-  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
+  helper::Move best_move_;                    // used for selecting next move when playing against Human/Other AI
+  std::vector<helper::Move> possible_moves_;  // for random selection
 
   ttEntry transpositionTableLookup(NodeTT& node);
   inline void transpositionTableStore(NodeTT& node, ttEntry entry);

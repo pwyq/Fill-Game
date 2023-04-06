@@ -7,6 +7,7 @@
  * TODO: is there a better way to get the best_move? 
  *    We are now returning the immediate win move if found one; otherwise return random.
  *    This is done by iterating the child, which can be inefficient.
+ *    ALTERNATIVE is to keep track of a move sequense, from depth=1 child all the way to the result (linked list? memory would be an issue)
  */
 #include "solver/minimax.h"
 // std
@@ -16,7 +17,8 @@ namespace solver {
 namespace minimax {
 
 Minimax::Minimax(const Game& game) : root_(game) {
-  best_move_ = helper::Move{Pos{0, 0}, 0};
+  best_move_      = helper::Move{Pos{0, 0}, 0};
+  possible_moves_ = {};
 }
 
 short Minimax::getResult() {
@@ -35,6 +37,8 @@ short Minimax::getResult() {
     if (res == 1) {
       best_move_ = child.move();
       return 1;
+    } else {
+      possible_moves_.push_back(child.move());
     }
   }
   return -1;
@@ -57,6 +61,8 @@ short Minimax::getAlphaBetaResult() {
     if (res == 1) {
       best_move_ = child.move();
       break;
+    } else {
+      possible_moves_.push_back(child.move());
     }
   }
   return final_res;
@@ -77,6 +83,8 @@ short Minimax::getAlphaBetaTranspositionTableResult() {
     if (res == 1) {
       best_move_ = child.move();
       break;
+    } else {
+      possible_moves_.push_back(child.move());
     }
   }
   return final_res;
@@ -287,8 +295,8 @@ helper::Move Minimax::bestMove() const {
   }
 
   // if has time limit (the agent is probably forced to stop) return a random move
-  auto child = *helper::select_randomly(root_.children().begin(), root_.children().end());
-  return child.move();
+  auto move = possible_moves_[rand() % possible_moves_.size() + 1];
+  return move;
 }
 
 }  // namespace minimax

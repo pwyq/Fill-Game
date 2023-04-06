@@ -11,7 +11,8 @@ namespace solver {
 namespace negamax {
 
 Negamax::Negamax(const Game& game) : root_(game), tt_({}) {
-  best_move_ = helper::Move{Pos{0, 0}, 0};
+  best_move_      = helper::Move{Pos{0, 0}, 0};
+  possible_moves_ = {};
 }
 
 short Negamax::getResult() {
@@ -30,6 +31,8 @@ short Negamax::getResult() {
     if (res == -1) {  // note here differs from minimax
       best_move_ = child.move();
       break;
+    } else {
+      possible_moves_.push_back(child.move());
     }
   }
   return final_res;
@@ -52,6 +55,8 @@ short Negamax::getAlphaBetaResult() {
     if (res == -1) {  // note here differs from minimax
       best_move_ = child.move();
       break;
+    } else {
+      possible_moves_.push_back(child.move());
     }
   }
   return final_res;
@@ -75,6 +80,8 @@ short Negamax::getAlphaBetaTranspositionTableResult() {
     if (res == -1) {  // note here differs from minimax
       best_move_ = child.move();
       break;
+    } else {
+      possible_moves_.push_back(child.move());
     }
   }
   return final_res;
@@ -250,8 +257,8 @@ helper::Move Negamax::bestMove() const {
   }
 
   // if has time limit (the agent is probably forced to stop) return a random move
-  auto child = *helper::select_randomly(root_.children().begin(), root_.children().end());
-  return child.move();
+  auto move = possible_moves_[rand() % possible_moves_.size() + 1];
+  return move;
 }
 
 }  // namespace negamax
