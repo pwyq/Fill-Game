@@ -2,7 +2,11 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-04-03 19:36:15
+ * @modify date 2023-04-05 22:33:52
+ * 
+ * TODO: is there a better way to get the best_move? 
+ *    We are now returning the immediate win move if found one; otherwise return random.
+ *    This is done by iterating the child, which can be inefficient.
  */
 #include "solver/minimax.h"
 // std
@@ -278,12 +282,11 @@ helper::Move Minimax::bestMove() const {
   // if move == 0 and game is not terminal
   // 	return random
 
-  // if has time limit (the agent is probably forced to stop) return a random move
-  if (root_.game().isTerminal() || best_move_.value != 0) {  // if it's not terminal, then it must have children
-
+  if (root_.game().isTerminal() || best_move_.value != 0) {
     return best_move_;
   }
 
+  // if has time limit (the agent is probably forced to stop) return a random move
   auto child = *helper::select_randomly(root_.children().begin(), root_.children().end());
   return child.move();
 }
