@@ -29,22 +29,33 @@ jobs:
       with:
         version: '5.12.8'
         host: ${{ matrix.host }}
+        cache: true
     - name: Install Qt (Windows)
       uses: jurplel/install-qt-action@v3
       if: ${{ matrix.os == 'windows-latest' }}
       with:
         version: '5.12.8'
         host: ${{ matrix.host }}
+        cache: true
     - name: Get latest CMake and Ninja
       uses: lukka/get-cmake@latest
+    - name: Cache LLVM and Clang
+      id: cache-llvm
+      uses: actions/cache@v3
+      with:
+        key: llvm-15
+        path: |
+          C:/Program Files/LLVM
+          ./llvm
     - name: Get Clang
       uses: KyleMayes/install-llvm-action@v1
       with:
         version: '15'
+        cached: ${{ steps.cache-llvm.outputs.cache-hit }}
     - name: Compile
       run: |
         mkdir -p build
-        cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -DIS_BUILD_GUI:BOOL=ON -S . -B build
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang '-DCMAKE_CXX_COMPILER=clang++' -G Ninja -DIS_BUILD_GUI:BOOL=ON -S . -B build
         cmake --build build
     - name: Run tests (Linux)
       if: ${{ matrix.os == 'ubuntu-latest' }}
