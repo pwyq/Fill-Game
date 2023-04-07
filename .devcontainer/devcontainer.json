@@ -1,4 +1,4 @@
 ﻿{
   "name": "fillgame-devcontainer",
-  "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu"
+  "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu-22.04"
 }
