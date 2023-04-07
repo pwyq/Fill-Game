@@ -84,7 +84,9 @@ const TestContainer SHARED_SIMPLE = {
     // 18
     std::make_pair("1..*.1.*..1", -1),
     // 19
-    std::make_pair("1.1.*.1.1*..1.*...1", -1)
+    std::make_pair("1.1.*.1.1*..1.*...1", -1),
+    // 20
+    std::make_pair("1", -1)
 
 };  // end of TestContainer SHARED_SIMPLE
 

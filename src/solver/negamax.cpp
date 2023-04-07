@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:18:44
- * @modify date 2023-04-03 19:48:28
+ * @modify date 2023-04-05 23:32:38
  */
 
 #include "solver/negamax.h"
@@ -11,21 +11,56 @@ namespace solver {
 namespace negamax {
 
 Negamax::Negamax(const Game& game) : root_(game), tt_({}) {
-  best_move_ = helper::Move{Pos{0, 0}, 0};
+  best_move_      = helper::Move{Pos{0, 0}, 0};
+  possible_moves_ = {};
 }
 
 short Negamax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
+
+  // Finding the best move
+  //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
+  //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
+  uint16_t depth  = countEmptyCells(root_);
+  short final_res = solve(root_, depth, helper::PLAYER::BLACK);
+
+  for (auto& child : root_.children()) {
+    short res = solve(child, depth, helper::PLAYER::WHITE);
+    if (res == -1) {  // note here differs from minimax
+      best_move_ = child.move();
+      break;
+    } else {
+      possible_moves_.push_back(child.move());
+    }
+  }
+  return final_res;
+  // return solve(root_, countEmptyCells(root_), helper::PLAYER::BLACK);
 }
 
 short Negamax::getAlphaBetaResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
-  return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  // Finding the best move
+  //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
+  //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
+  uint16_t depth  = countEmptyCells(root_);
+  short final_res = solveAlphaBeta(root_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  for (auto& child : root_.children()) {
+    short res = solveAlphaBeta(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
+    if (res == -1) {  // note here differs from minimax
+      best_move_ = child.move();
+      break;
+    } else {
+      possible_moves_.push_back(child.move());
+    }
+  }
+  return final_res;
+  // return solveAlphaBeta(root_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 short Negamax::getAlphaBetaTranspositionTableResult() {
@@ -33,7 +68,24 @@ short Negamax::getAlphaBetaTranspositionTableResult() {
     return -1;
   }
   NodeTT rootTT_(root_.game());
-  return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  // Finding the best move
+  //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
+  //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
+  uint16_t depth  = countEmptyCells(root_);
+  short final_res = solveAlphaBetaTranspositionTable(rootTT_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  for (auto& child : rootTT_.children()) {
+    short res = solveAlphaBetaTranspositionTable(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
+    if (res == -1) {  // note here differs from minimax
+      best_move_ = child.move();
+      break;
+    } else {
+      possible_moves_.push_back(child.move());
+    }
+  }
+  return final_res;
+  // return solveAlphaBetaTranspositionTable(rootTT_, countEmptyCells(root_), -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 }
 
 /**
@@ -46,9 +98,6 @@ short Negamax::getAlphaBetaTranspositionTableResult() {
  */
 short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
   if (depth == 0 || node.game().isTerminal()) {
-    if (best_move_.value == 0 && player == helper::WHITE) {
-      best_move_ = node.move();
-    }
     return -1;
   }
   node.generateChildren();
@@ -191,14 +240,25 @@ ttEntry Negamax::transpositionTableLookup(NodeTT& node) {
  * @brief Return the first move that result in a WIN
  *        if not found
  *          no time limit, resign (return a dummy value) {{0,0}, 0}
- *          has time limit, return a random move that hasn't been examined? (TODO? this case)
+ *          has time limit, return a random move (todo? that hasn't been examined)
  *
  * @return helper::Move
  */
 helper::Move Negamax::bestMove() const {
+  // if game is terminal
+  // 	return 0
+  // if move != 0
+  // 	return move
+  // if move == 0 and game is not terminal
+  // 	return random
+
+  if (root_.game().isTerminal() || best_move_.value != 0) {
+    return best_move_;
+  }
+
   // if has time limit (the agent is probably forced to stop) return a random move
-  //  TODO
-  return best_move_;
+  auto move = possible_moves_[rand() % possible_moves_.size() + 1];
+  return move;
 }
 
 }  // namespace negamax

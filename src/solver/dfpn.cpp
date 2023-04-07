@@ -20,7 +20,9 @@ namespace solver::dfpn {
 helper::Timer<> g_timer{};  // total time used
 size_t g_counter = 0;       // num node visited
 
-DFPN::DFPN(const Game &game) : root_(game) { }
+DFPN::DFPN(const Game &game) : root_(game) {
+  best_move_ = helper::Move{Pos{0, 0}, 0};
+}
 
 #if defined(__linux__)
 void DFPN::signalHandler(int sig) {
@@ -111,8 +113,9 @@ void DFPN::MID(Node &node) {  // NOLINT
     delta = computeMinDelta(node);
   }
   // store search results
-  node.phi_   = delta;
-  node.delta_ = phi;
+  node.phi_        = delta;
+  node.delta_      = phi;
+  best_child_index = selectChild(node, child_phi, delta_2);  // Need to recompute the best child. child_phi and delta_2 are unused after this anyways
   best_move_.store(node.children_[best_child_index].move_);
   /*
   if (best_child_index != UINT16_MAX) {

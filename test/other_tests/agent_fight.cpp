@@ -112,7 +112,8 @@ Move getMove(const std::string& agent_name, const Game& game) {
     }
     case hash("mcts"): {
       auto mcts = new MCTS(game);
-      res_move   = mcts->bestMove();
+      mcts->search();
+      res_move = mcts->bestMove();
       delete mcts;
       break;
     }

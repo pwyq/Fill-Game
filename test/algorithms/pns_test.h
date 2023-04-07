@@ -14,9 +14,11 @@
 // local
 #include "algorithm_test_cases.h"
 #include "solver/game.h"
+#include "solver/helper.h"
 #include "solver/pns.h"
 
 using solver::Game;
+using solver::helper::Move;
 using solver::pns::PNS;
 
 namespace fgtest {
@@ -171,6 +173,27 @@ TEST_F(PNSTest, SIMPLE_17) {
   EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
+TEST_F(PNSTest, SIMPLE_18) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(PNSTest, SIMPLE_19) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(PNSTest, SIMPLE_20) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new PNS(game);
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
 ///////////////////////////////////////////////////
 ///// PNS_MEDIUM
 ///////////////////////////////////////////////////
@@ -247,6 +270,47 @@ TEST_F(PNSTest, HARD_3) {
   Game game(SHARED_HARD[index].first);
   agent_ = new PNS(game);
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
+}
+
+///////////////////////////////////////////////////
+///// Winning moves
+///////////////////////////////////////////////////
+
+TEST_F(PNSTest, MOVE_1) {
+  Game game(".*.*.");
+  agent_ = new PNS(game);
+  agent_->getResult();
+
+  Move ans1{{1, 0}, 1};
+  Move ans2{{1, 0}, 2};
+  Move agent_ans = agent_->bestMove();
+  EXPECT_TRUE(agent_ans == ans1 || agent_ans == ans2)
+      << "Where real value: " << agent_ans.toString()
+      << " not equal neither: " << ans1.toString()
+      << " nor: " << ans2.toString() << ".";
+}
+
+TEST_F(PNSTest, MOVE_2) {
+  Game game("...");
+  agent_ = new PNS(game);
+  agent_->getResult();
+
+  Move ans1{{0, 1}, 1};
+  Move ans2{{0, 1}, 2};
+  Move agent_ans = agent_->bestMove();
+  EXPECT_TRUE(agent_ans == ans1 || agent_ans == ans2)
+      << "Where real value: " << agent_ans.toString()
+      << " not equal neither: " << ans1.toString()
+      << " nor: " << ans2.toString() << ".";
+}
+
+TEST_F(PNSTest, MOVE_3) {
+  Game game("1");
+  agent_ = new PNS(game);
+  agent_->getResult();
+
+  Move ans{{0, 0}, 0};
+  EXPECT_EQ(agent_->bestMove(), ans);
 }
 
 }  // namespace fgtest

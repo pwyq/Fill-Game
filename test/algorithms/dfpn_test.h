@@ -14,9 +14,11 @@
 #include "algorithm_test_cases.h"
 #include "solver/dfpn.h"
 #include "solver/game.h"
+#include "solver/helper.h"
 
 using solver::Game;
 using solver::dfpn::DFPN;
+using solver::helper::Move;
 
 namespace fgtest {
 
@@ -187,6 +189,30 @@ TEST_F(DFPNTest, SIMPLE_17) {
   EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
 }
 
+TEST_F(DFPNTest, SIMPLE_18) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new DFPN(game);
+  agent_->solve();
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(DFPNTest, SIMPLE_19) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new DFPN(game);
+  agent_->solve();
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
+TEST_F(DFPNTest, SIMPLE_20) {
+  unsigned short index = getIndexFromName(::testing::UnitTest::GetInstance()->current_test_info()->name());
+  Game game(SHARED_SIMPLE[index].first);
+  agent_ = new DFPN(game);
+  agent_->solve();
+  EXPECT_EQ(agent_->getResult(), SHARED_SIMPLE[index].second);
+}
+
 ///////////////////////////////////////////////////
 ///// DFPN_MEDIUM
 ///////////////////////////////////////////////////
@@ -273,6 +299,47 @@ TEST_F(DFPNTest, HARD_3) {
   agent_ = new DFPN(game);
   agent_->solve();
   EXPECT_EQ(agent_->getResult(), SHARED_HARD[index].second);
+}
+
+///////////////////////////////////////////////////
+///// Winning moves
+///////////////////////////////////////////////////
+
+TEST_F(DFPNTest, MOVE_1) {
+  Game game(".*.*.");
+  agent_ = new DFPN(game);
+  agent_->solve();
+
+  Move ans1{{1, 0}, 1};
+  Move ans2{{1, 0}, 2};
+  Move agent_ans = agent_->bestMove();
+  EXPECT_TRUE(agent_ans == ans1 || agent_ans == ans2)
+      << "Where real value: " << agent_ans.toString()
+      << " not equal neither: " << ans1.toString()
+      << " nor: " << ans2.toString() << ".";
+}
+
+TEST_F(DFPNTest, MOVE_2) {
+  Game game("...");
+  agent_ = new DFPN(game);
+  agent_->solve();
+
+  Move ans1{{0, 1}, 1};
+  Move ans2{{0, 1}, 2};
+  Move agent_ans = agent_->bestMove();
+  EXPECT_TRUE(agent_ans == ans1 || agent_ans == ans2)
+      << "Where real value: " << agent_ans.toString()
+      << " not equal neither: " << ans1.toString()
+      << " nor: " << ans2.toString() << ".";
+}
+
+TEST_F(DFPNTest, MOVE_3) {
+  Game game("1");
+  agent_ = new DFPN(game);
+  agent_->solve();
+
+  Move ans{{0, 0}, 0};
+  EXPECT_EQ(agent_->bestMove(), ans);
 }
 
 }  // namespace fgtest
