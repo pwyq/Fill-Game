@@ -91,11 +91,10 @@ void DFPN::MID(Node &node) {  // NOLINT
     delta = computeMinDelta(node);
   }
   // store search results
-  node.phi_   = delta;
-  node.delta_ = phi;
-  if (node.game_.toPlay() == helper::PLAYER::BLACK && node.delta_ == INF && best_move_.value == 0) {
-    best_move_ = node.children_[best_child_index].move_;
-  }
+  node.phi_        = delta;
+  node.delta_      = phi;
+  best_child_index = selectChild(node, child_phi, delta_2);  // Need to recompute the best child. child_phi and delta_2 are unused after this anyways
+  best_move_       = node.children_[best_child_index].move_;
   /*
   if (best_child_index != UINT16_MAX) {
       best_move = node.children[best_child_index].move;
