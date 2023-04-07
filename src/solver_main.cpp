@@ -40,6 +40,7 @@ void startSolver(std::string& input, size_t time_limit) {
   // constraint.apply();
   dfpn.solve();
   cout << dfpn.formatResult() << endl;
+  cout << "best move: " << dfpn.bestMove().toString() << endl;
 
   minimax::Minimax minimax(game);
   cout << "using minimax..." << endl;
