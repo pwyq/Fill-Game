@@ -1,5 +1,5 @@
 /**
- * @author    Junwen Shen
+ * @author    Junwen Shen, Yanqing Wu
  * @create date 2023-04-03 10:25:11
  * @modify date 2023-04-04 13:35:11
  *
@@ -18,12 +18,16 @@ class MCTS {
  public:
   std::shared_ptr<solver::mcts::Node> root_;
   explicit MCTS(const Game& game);
-  helper::Move bestMove();
+
+  void search();
+  inline helper::Move bestMove() const { return best_move_; }
 
  private:
   std::mt19937 rng_{std::random_device{}()};
   double exploration_const_ = 1.414;
   size_t num_simulations_;
+  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
+
   [[nodiscard]] std::shared_ptr<Node> selectBestChild(const std::shared_ptr<Node>& node) const;
   bool simulate(const std::shared_ptr<Node>& node);
   static void backpropagation(const std::shared_ptr<Node>& node, bool win);

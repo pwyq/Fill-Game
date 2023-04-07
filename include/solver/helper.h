@@ -70,6 +70,10 @@ struct Move {
   Pos pos{};
   uint8_t value = 0;
 
+  inline bool operator==(const Move &other) const {
+    return pos == other.pos && value == other.value;
+  }
+
   [[nodiscard]] std::string toString() const {
     return pos.toString() + " " + std::to_string((unsigned int)value);
   }

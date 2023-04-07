@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-18 11:14:21
- * @modify date 2023-04-03 19:48:17
+ * @modify date 2023-04-05 23:32:41
  * @desc Negamax
  */
 
@@ -47,7 +47,8 @@ class Negamax {
  private:
   Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
-  helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
+  helper::Move best_move_;                    // used for selecting next move when playing against Human/Other AI
+  std::vector<helper::Move> possible_moves_;  // for random selection
 
   ttEntry transpositionTableLookup(NodeTT& node);
   inline void transpositionTableStore(NodeTT& node, ttEntry entry);

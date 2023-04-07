@@ -21,7 +21,9 @@ namespace dfpn {
 helper::Timer<> g_timer{};  // total time used
 size_t g_counter = 0;       // num node visited
 
-DFPN::DFPN(const Game &game) : root_(game) {}
+DFPN::DFPN(const Game &game) : root_(game) {
+  best_move_ = helper::Move{Pos{0, 0}, 0};
+}
 
 void DFPN::signalHandler([[maybe_unused]] int sig) {
   /**
