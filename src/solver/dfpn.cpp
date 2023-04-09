@@ -199,5 +199,9 @@ short DFPN::getResult() const {
   }
 }
 
+helper::Move DFPN::bestMove() const {
+  return best_move_;
+}
+
 }  // namespace dfpn
 }  // namespace solver

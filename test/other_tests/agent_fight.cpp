@@ -21,6 +21,7 @@
 #include "solver/minimax.h"
 #include "solver/negamax.h"
 #include "solver/pns.h"
+#include "third_party/tqdm.hpp"
 
 using std::cout;
 using std::endl;
@@ -145,34 +146,65 @@ bool playSingleMatch(std::string p1, std::string p2, int board_size) {
   bool is_win = false;
 
   /////////////////////////////////////////////////
-  cout << curr_game << endl;
+  // cout << curr_game << endl;
   while (!curr_game.isTerminal()) {
     if (turn % 2 == 1) {
       next_move = getMove(p1, curr_game);
       if (next_move.value == 0) {
-        cout << "Turn " << turn << ": B (" << p1 << ") resigns." << endl;
+        // cout << "Turn " << turn << ": B (" << p1 << ") resigns." << endl;
         is_win = false;
         break;
       }
-      cout << "Turn " << turn << ": B (" << p1 << ")  plays " << next_move.toString() << endl;
+      // cout << "Turn " << turn << ": B (" << p1 << ")  plays " << next_move.toString() << endl;
     } else {
       next_move = getMove(p2, curr_game);
       if (next_move.value == 0) {
-        cout << "Turn " << turn << ": W (" << p2 << ") resigns." << endl;
+        // cout << "Turn " << turn << ": W (" << p2 << ") resigns." << endl;
         is_win = true;
         break;
       }
-      cout << "Turn " << turn << ": W (" << p2 << ") plays " << next_move.toString() << endl;
+      // cout << "Turn " << turn << ": W (" << p2 << ") plays " << next_move.toString() << endl;
     }
     curr_game.unsafePlay(next_move.pos, next_move.value);
-    cout << curr_game << endl;
+    // cout << curr_game << endl;
     turn += 1;
   }
+  cout << curr_game.toString() << endl;
 
   return is_win;
 }
 
 }  // namespace fgtest
+
+void runExperiment() {
+  std::vector<std::string> agents = {"pns", "dfpn", "mini-ab-tt", "nega-ab-tt", "mcts"};
+
+  uint16_t num_runs = 100;
+  int board_size    = 3;
+
+  (void)!freopen("agent_fight.txt", "w", stdout);
+
+  // p1 plays first, p2 plays second
+  for (auto p1 : agents) {
+    for (auto p2 : agents) {
+      if (p1 == p2) {
+        // no self-play
+        continue;
+      }
+      cout << p1 << " vs " << p2 << endl;
+      uint16_t wins = 0;
+      for ([[maybe_unused]] auto x : tq::trange(num_runs)) {
+        bool res = fgtest::playSingleMatch(p1, p2, board_size);
+        if (res) {
+          wins += 1;
+        }
+      }
+      cout << p1 << ": " << wins << "/" << num_runs << endl;
+    }
+  }
+
+  return;
+}
 
 ///////////////////////////////////////
 // Main
@@ -208,6 +240,7 @@ void printHelp() {
 }
 
 int main(int argc, char* argv[]) {
+  /*
   if (argc != 4) {
     printHelp();
     throw std::invalid_argument("Invalid inputs");
@@ -230,6 +263,9 @@ int main(int argc, char* argv[]) {
   }
 
   fgtest::playSingleMatch(player1, player2, board_size);
+  */
+
+  runExperiment();
 
   return 0;
 }
