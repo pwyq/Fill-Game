@@ -65,10 +65,10 @@ void NewGameWindow::initUI() {
 
   opponent_group_ = new QButtonGroup(this);
   connect(opponent_group_, qOverload<int>(&QButtonGroup::buttonClicked), this, &NewGameWindow::onOpponentGroupClicked);
-  opponent_group_->addButton(createPushButton("PNS", false));
+  opponent_group_->addButton(createPushButton("PNS"));
   opponent_group_->addButton(createPushButton("DFPN"));
-  opponent_group_->addButton(createPushButton("MINIMAX+AB+TT", false));
-  opponent_group_->addButton(createPushButton("NEGAMAX+AB+TT", false));
+  opponent_group_->addButton(createPushButton("MINIMAX+AB+TT"));
+  opponent_group_->addButton(createPushButton("NEGAMAX+AB+TT"));
   opponent_group_->addButton(createPushButton("Human (remote)"));
   opponent_group_->addButton(createPushButton("Human (local)"));
   buttonList = opponent_group_->buttons();
