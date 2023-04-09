@@ -1,7 +1,7 @@
 /**
- * @author    Junwen Shen, Yanqing Wu
+ * @author    Junwen Shen, Yanqing Wu, Luke Kapeluck
  * @create date 2023-04-03 10:25:11
- * @modify date 2023-04-04 13:35:11
+ * @modify date 2023-04-06 23:00:00
  *
  */
 #ifndef FG_SOLVER_MCTS_H_
@@ -29,6 +29,7 @@ class MCTS {
   helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
 
   [[nodiscard]] std::shared_ptr<Node> selectBestChild(const std::shared_ptr<Node>& node) const;
+  [[nodiscard]] std::shared_ptr<Node> selectFinalChild(const std::shared_ptr<Node>& node) const;
   bool simulate(const std::shared_ptr<Node>& node);
   static void backpropagation(const std::shared_ptr<Node>& node, bool win);
   static std::shared_ptr<Node> expand(const std::shared_ptr<Node>& node);

@@ -4,7 +4,7 @@
  * @modify date 2023-04-04 16:30:16
  *
  */
-//local
+// local
 #include "solver/mcts.h"
 
 #include <iostream>
@@ -31,6 +31,27 @@ std::shared_ptr<Node> MCTS::selectBestChild(const std::shared_ptr<Node>& node) c
   return best_child;
 }
 
+std::shared_ptr<Node> MCTS::selectFinalChild(const std::shared_ptr<Node>& node) const {
+  double highest_visit_count       = -INF_SHORT;
+  double highest_num_wins          = -INF_SHORT;
+  std::shared_ptr<Node> best_child = nullptr;
+
+  for (const auto& child : node->children_) {
+    if (child->visits_ > highest_visit_count) {
+      highest_visit_count = child->visits_;
+      highest_num_wins    = child->wins_;
+      best_child          = child;
+    } else if (child->visits_ == highest_visit_count) {
+      // There's a tie. We break it using the win-rate, which is equivalent to breaking it using child_wins_
+      if (child->wins_ > highest_num_wins) {
+        highest_num_wins = child->wins_;
+        best_child       = child;
+      }
+    }
+  }
+  return best_child;
+}
+
 void MCTS::backpropagation(const std::shared_ptr<Node>& node, bool win) {
   std::shared_ptr<Node> current = node;
   while (current) {
@@ -38,7 +59,6 @@ void MCTS::backpropagation(const std::shared_ptr<Node>& node, bool win) {
     if (win) {
       current->wins_++;
     }
-    win     = !win;
     current = current->parent().lock();
   }
 }
@@ -66,12 +86,12 @@ bool MCTS::simulate(const std::shared_ptr<Node>& node) {
     game       = new Game(temp->toString());
     delete temp;
   }
-  return root_->game().toPlay() != node->game().toPlay();
+  return root_->game().toPlay() != game->toPlay();  // Is it a win for the root?
 }
 
 /**
  * @brief Perform Search. Store the best move if found one; otherwise store Move{{0,0}, 0}
- * 
+ *
  */
 void MCTS::search() {
   if (root_->game().isTerminal()) {
@@ -95,7 +115,7 @@ void MCTS::search() {
     bool win = MCTS::simulate(node);
     backpropagation(node, win);
   }
-  auto best_child = selectBestChild(root_);
+  auto best_child = selectFinalChild(root_);
 
   best_move_ = best_child->move();
   return;
