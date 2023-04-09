@@ -2,7 +2,7 @@
 # @author      Yanqing Wu, Junwen Shen
 # @email       meet.yanqing.wu@gmail.com
 # @create date 2023-02-10 05:38:11
-# @modify date 2023-04-04 03:35:44
+# @modify date 2023-04-08 21:22:10
 # @desc cmake file for test
 # ##
 enable_testing()
@@ -13,8 +13,8 @@ set(BINARY_NAME test_main)
 file(GLOB TEST_SOURCES algorithms/*.h)
 
 add_executable(${BINARY_NAME} ${TEST_SOURCES} test_main.cpp)
-add_executable(experiments other_tests/experiments.cpp)
-add_executable(agent_fight other_tests/agent_fight.cpp)
+add_executable(experiments helper.h other_tests/experiments.cpp)
+add_executable(agent_fight helper.h other_tests/agent_fight.cpp)
 add_executable(twoD_vs_oneD other_tests/twoD_vs_oneD.cpp)
 
 target_link_libraries(${BINARY_NAME} PUBLIC ${CMAKE_PROJECT_NAME}_lib GTest::gtest_main)

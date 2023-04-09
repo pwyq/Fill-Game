@@ -22,7 +22,6 @@
 #include <QObject>
 // local
 #include "gui/helper.h"
-#include "solver/dfpn.h"
 #include "solver/game.h"
 #include "solver/helper.h"
 

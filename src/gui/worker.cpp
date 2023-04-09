@@ -8,6 +8,11 @@
 #include "gui/worker.h"
 // Qt
 #include <QDebug>
+// local
+#include "solver/dfpn.h"
+#include "solver/minimax.h"
+#include "solver/negamax.h"
+#include "solver/pns.h"
 
 namespace gui {
 
@@ -38,9 +43,6 @@ SolverWorker::~SolverWorker() {
 }
 
 void SolverWorker::process(solver::Game* game) {
-  // TODO: other than the switch cases,
-  //    how to better generalize worker to different solvers, given that it's impossible to use template for Qt's slots/signals?
-
   switch (solver_) {
     case helper::SOLVER::DFPN: {
       solver::dfpn::DFPN* agent = new solver::dfpn::DFPN(*game);
@@ -51,15 +53,27 @@ void SolverWorker::process(solver::Game* game) {
       break;
     }
     case helper::SOLVER::PNS: {
-      // TODO
+      solver::pns::PNS* agent = new solver::pns::PNS(*game);
+      agent->getResult();
+      solver::helper::Move next_move = agent->bestMove();
+      emit finished(next_move);
+      delete agent;
       break;
     }
     case helper::SOLVER::MINIMAX_AB_TT: {
-      // TODO
+      solver::minimax::Minimax* agent = new solver::minimax::Minimax(*game);
+      agent->getAlphaBetaTranspositionTableResult();
+      solver::helper::Move next_move = agent->bestMove();
+      emit finished(next_move);
+      delete agent;
       break;
     }
     case helper::SOLVER::NEGAMAX_AB_TT: {
-      // TODO
+      solver::negamax::Negamax* agent = new solver::negamax::Negamax(*game);
+      agent->getAlphaBetaTranspositionTableResult();
+      solver::helper::Move next_move = agent->bestMove();
+      emit finished(next_move);
+      delete agent;
       break;
     }
     default: {

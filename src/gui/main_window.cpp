@@ -346,17 +346,14 @@ void MainWindow::onOpponentSelected(helper::SOLVER opponent) {
       break;
     }
     case helper::SOLVER::PNS: {
-      // TODO
       is_AI_ = true;
       break;
     }
     case helper::SOLVER::MINIMAX_AB_TT: {
-      // TODO
       is_AI_ = true;
       break;
     }
     case helper::SOLVER::NEGAMAX_AB_TT: {
-      // TODO
       is_AI_ = true;
       break;
     }

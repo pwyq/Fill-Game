@@ -20,11 +20,11 @@ namespace gui::helper {
 ///////////////////////////////////////
 enum SOLVER {
   HUMAN_LOCAL = 0,
-  HUMAN_REMOTE,  // TESTING
+  HUMAN_REMOTE,  // need to optimize
   DFPN,
-  PNS,            // TODO
-  MINIMAX_AB_TT,  // TODO
-  NEGAMAX_AB_TT   // TODO
+  PNS,
+  MINIMAX_AB_TT,
+  NEGAMAX_AB_TT
 };
 
 ///////////////////////////////////////
