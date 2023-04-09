@@ -2,7 +2,7 @@
  * @author      Yanqing Wu
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
- * @modify date 2023-04-05 23:32:49
+ * @modify date 2023-04-09 14:32:07
  * 
  * TODO: is there a better way to get the best_move? 
  *    We are now returning the immediate win move if found one; otherwise return random.
@@ -12,6 +12,7 @@
 #include "solver/minimax.h"
 // std
 #include <iostream>
+#include <random>
 
 namespace solver {
 namespace minimax {
@@ -295,7 +296,16 @@ helper::Move Minimax::bestMove() const {
   }
 
   // if has time limit (the agent is probably forced to stop) return a random move
-  auto move = possible_moves_[rand() % possible_moves_.size() + 1];
+  // auto move = possible_moves_[rand() % possible_moves_.size() + 1];  // probably causing Henisenbug
+
+  // Seed with a real random value, if available
+  std::random_device r;
+
+  // Choose a random number
+  std::default_random_engine e1(r());
+  std::uniform_int_distribution<int> uniform_dist(1, possible_moves_.size());
+  int idx   = uniform_dist(e1);
+  auto move = possible_moves_[idx];
   return move;
 }
 
