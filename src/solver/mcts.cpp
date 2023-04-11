@@ -21,6 +21,10 @@ std::shared_ptr<Node> MCTS::selectBestChild(const std::shared_ptr<Node>& node) c
 
   for (const auto& child : node->children_) {
     // UCT = exploitation + exploration
+    if (child->visits_ == 0) {
+      // For exploration, its UCT is infty now. It's automatically the best
+      return child;
+    }
     double uct = (static_cast<double>(child->wins_) / child->visits_)                         // exploitation (win rate)
                  + exploration_const_ * std::sqrt(std::log(node->visits_) / child->visits_);  // exploration
     if (uct > best_uct) {
