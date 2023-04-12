@@ -13,6 +13,7 @@
 #include "solver/dfpn.h"
 #include "solver/game.h"
 #include "solver/helper.h"
+#include "solver/mcts.h"
 #include "solver/minimax.h"
 #include "solver/negamax.h"
 #include "solver/pns.h"
@@ -160,6 +161,23 @@ int main(int argc, char** argv) {
       auto agent = solver::pns::PNS(game);
       timer.start();
       agent.getResult();
+      timer.stop();
+      auto peakRSS  = getPeakRSS();
+      auto duration = toMilliseconds(timer.duration()).count();
+      std::cout << "Peak RSS: " << peakRSS << std::endl;
+      logFile << peakRSS << std::endl;
+      std::cout << "Duration: " << duration << std::endl;
+      logFile << duration << std::endl;
+      break;
+    }
+    case hash("mcts"): {
+      std::cout << "Run mcts on " << game_string << std::endl;
+      logFile.open(algorithm + ".log", std::ios::app);
+      logFile << game_string << std::endl;
+      auto game  = solver::Game(game_string);
+      auto agent = solver::mcts::MCTS(game);
+      timer.start();
+      agent.search();
       timer.stop();
       auto peakRSS  = getPeakRSS();
       auto duration = toMilliseconds(timer.duration()).count();

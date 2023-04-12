@@ -11,7 +11,7 @@ Data = Dict[str, Values]
 Log = Dict[str, Data]
 
 
-def parse() -> Optional[Log]:
+def parse() -> Log:
     if os.path.exists(LOG_FOLDER) and os.path.isdir(LOG_FOLDER):
         logs: Log = {}
         for file_name in os.listdir(LOG_FOLDER):
@@ -30,7 +30,7 @@ def parse() -> Optional[Log]:
         return logs
     else:
         print("No logs found")
-        return
+        exit(1)
 
 
 def plot(logs: Log, pick_up: Optional[str] = None):
@@ -81,8 +81,7 @@ def main():
             logs = parse()
     else:
         logs = parse()
-    if logs is not None:
-        plot(logs, "1...*2...*..43")
+    plot(logs)
 
 
 if __name__ == '__main__':
