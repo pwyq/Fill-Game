@@ -78,6 +78,7 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using pns..." << endl;
   cout << pns.getResult() << endl;
   cout << pns.bestMove().toString() << endl;
+  cout << "node count = " << pns.getNodeCount() << endl;
 
   mcts::MCTS mcts(game);
   cout << "using mcts..." << endl;
