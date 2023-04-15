@@ -62,7 +62,7 @@ short Minimax::getAlphaBetaResult() {
   uint16_t depth  = countEmptyCells(root_);
   short final_res = solveAlphaBeta(root_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 
-  node_count_ = 0;
+  node_count_ = 1;
 
   for (auto& child : root_.children()) {
     short res = solveAlphaBeta(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
@@ -88,7 +88,7 @@ short Minimax::getAlphaBetaTranspositionTableResult() {
 
   short final_res = solveAlphaBetaTranspositionTable(rootTT_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
 
-  node_count_ = 0;
+  node_count_ = 1;
 
   for (auto& child : rootTT_.children()) {
     short res = solveAlphaBetaTranspositionTable(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
