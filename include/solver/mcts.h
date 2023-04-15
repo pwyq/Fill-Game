@@ -22,17 +22,22 @@ class MCTS {
   void search();
   inline helper::Move bestMove() const { return best_move_; }
 
+  size_t getNodeCount() const {
+    return node_count_;
+  };
+
  private:
   std::mt19937 rng_{std::random_device{}()};
   double exploration_const_ = 1.414;
   size_t num_simulations_;
   helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
+  size_t node_count_;
 
   [[nodiscard]] std::shared_ptr<Node> selectBestChild(const std::shared_ptr<Node>& node) const;
   [[nodiscard]] std::shared_ptr<Node> selectFinalChild(const std::shared_ptr<Node>& node) const;
   bool simulate(const std::shared_ptr<Node>& node);
   static void backpropagation(const std::shared_ptr<Node>& node, bool win);
-  static std::shared_ptr<Node> expand(const std::shared_ptr<Node>& node);
+  std::shared_ptr<Node> expand(const std::shared_ptr<Node>& node);
 };
 
 }  // namespace solver::mcts

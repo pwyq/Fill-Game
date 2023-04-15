@@ -84,6 +84,7 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using mcts..." << endl;
   mcts.search();
   cout << mcts.bestMove().toString() << endl;
+  cout << "node count = " << mcts.getNodeCount() << endl;
 }
 
 /*
