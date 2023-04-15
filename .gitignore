@@ -2,7 +2,7 @@
 fillgame_gui
 fillgame_cli
 test_main
-other_tests
+# other_tests
 cmake-*
 ./fillgame
 fillgame

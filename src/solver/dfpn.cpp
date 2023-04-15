@@ -66,6 +66,7 @@ void DFPN::MID(Node &node) {  // NOLINT
     return;
   }
   node.generateChildren();
+  g_counter += node.children_.size();
 
   uint32_t phi   = computeSumPhi(node);
   uint32_t delta = computeMinDelta(node);
