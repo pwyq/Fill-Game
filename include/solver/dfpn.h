@@ -26,9 +26,9 @@ class DFPN {
   short getResult() const;
   std::string formatResult() const;
   static void signalHandler([[maybe_unused]] int signum);
+  helper::Move bestMove() const;
 
   inline helper::PROOF_VALUE result() const { return result_; }
-  inline helper::Move bestMove() const { return best_move_; }
 
  private:
   Node root_;
