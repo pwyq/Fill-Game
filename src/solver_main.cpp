@@ -62,14 +62,17 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using negamax..." << endl;
   cout << negamax.getResult() << endl;
   cout << negamax.bestMove().toString() << endl;
+  cout << "node count = " << negamax.getNodeCount() << endl;
   cout << "using negamax-ab..." << endl;
   negamax = negamax::Negamax(game);
   cout << negamax.getAlphaBetaResult() << endl;
   cout << negamax.bestMove().toString() << endl;
+  cout << "node count = " << negamax.getNodeCount() << endl;
   cout << "using negamax-ab-tt..." << endl;
   negamax = negamax::Negamax(game);
   cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
   cout << negamax.bestMove().toString() << endl;
+  cout << "node count = " << negamax.getNodeCount() << endl;
 
   pns::PNS pns(game);
   cout << "using pns..." << endl;
