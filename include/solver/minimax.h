@@ -8,7 +8,7 @@
 
 #ifndef FG_SOLVER_MINIMAX_H_
 #define FG_SOLVER_MINIMAX_H_
-//local
+// local
 #include "game.h"
 #include "helper.h"
 #include "node.h"
@@ -38,6 +38,10 @@ class Minimax {
 
   helper::Move bestMove() const;
 
+  size_t getNodeCount() {
+    return node_count_;
+  };
+
  private:
   Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
@@ -51,6 +55,8 @@ class Minimax {
   short solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   short solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player);
   uint16_t countEmptyCells(Node& node);
+
+  size_t node_count_;
 };
 
 inline void Minimax::transpositionTableStore(NodeTT& node, ttEntry entry) {

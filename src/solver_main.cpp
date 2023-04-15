@@ -46,14 +46,17 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using minimax..." << endl;
   cout << minimax.getResult() << endl;
   cout << minimax.bestMove().toString() << endl;
+  cout << "node count = " << minimax.getNodeCount() << endl;
   cout << "using minimax-ab..." << endl;
   minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaResult() << endl;
   cout << minimax.bestMove().toString() << endl;
+  cout << "node count = " << minimax.getNodeCount() << endl;
   cout << "using minimax-ab-tt..." << endl;
   minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaTranspositionTableResult() << endl;
   cout << minimax.bestMove().toString() << endl;
+  cout << "node count = " << minimax.getNodeCount() << endl;
 
   negamax::Negamax negamax(game);
   cout << "using negamax..." << endl;
