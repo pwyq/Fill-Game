@@ -3,8 +3,8 @@
  * @email       meet.yanqing.wu@gmail.com
  * @create date 2023-03-15 13:57:51
  * @modify date 2023-04-05 23:32:49
- * 
- * TODO: is there a better way to get the best_move? 
+ *
+ * TODO: is there a better way to get the best_move?
  *    We are now returning the immediate win move if found one; otherwise return random.
  *    This is done by iterating the child, which can be inefficient.
  *    ALTERNATIVE is to keep track of a move sequense, from depth=1 child all the way to the result (linked list? memory would be an issue)
@@ -19,12 +19,16 @@ namespace minimax {
 Minimax::Minimax(const Game& game) : root_(game) {
   best_move_      = helper::Move{Pos{0, 0}, 0};
   possible_moves_ = {};
+
+  node_count_ = 0;
 }
 
 short Minimax::getResult() {
   if (root_.game().isTerminal()) {
     return -1;
   }
+
+  node_count_ = 1;
 
   // Finding the best move
   //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
@@ -50,11 +54,15 @@ short Minimax::getAlphaBetaResult() {
     return -1;
   }
 
+  node_count_ = 0;
+
   // Finding the best move
   //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
   //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
   uint16_t depth  = countEmptyCells(root_);
   short final_res = solveAlphaBeta(root_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  node_count_ = 1;
 
   for (auto& child : root_.children()) {
     short res = solveAlphaBeta(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
@@ -76,7 +84,11 @@ short Minimax::getAlphaBetaTranspositionTableResult() {
   NodeTT rootTT_(root_.game());
   uint16_t depth = countEmptyCells(root_);
 
+  node_count_ = 0;
+
   short final_res = solveAlphaBetaTranspositionTable(rootTT_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  node_count_ = 1;
 
   for (auto& child : rootTT_.children()) {
     short res = solveAlphaBetaTranspositionTable(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
@@ -100,6 +112,8 @@ short Minimax::getAlphaBetaTranspositionTableResult() {
  * @return short  1 for WIN, -1 for LOSS
  */
 short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
+  ++node_count_;
+
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
     return node.value();
@@ -135,6 +149,8 @@ short Minimax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
  * @return short  1 for WIN, -1 for LOSS
  */
 short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
+  ++node_count_;
+
   node.evaluate(player);
   if (depth == 0 || node.game().isTerminal()) {
     return node.value();
@@ -181,6 +197,8 @@ short Minimax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
  */
 short Minimax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   short old_alpha = alpha;
+
+  ++node_count_;
 
   // get tt entry
   ttEntry entry = transpositionTableLookup(node);

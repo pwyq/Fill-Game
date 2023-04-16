@@ -13,6 +13,7 @@ namespace negamax {
 Negamax::Negamax(const Game& game) : root_(game), tt_({}) {
   best_move_      = helper::Move{Pos{0, 0}, 0};
   possible_moves_ = {};
+  node_count_     = 0;
 }
 
 short Negamax::getResult() {
@@ -20,11 +21,15 @@ short Negamax::getResult() {
     return -1;
   }
 
+  node_count_ = 0;
+
   // Finding the best move
   //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
   //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
   uint16_t depth  = countEmptyCells(root_);
   short final_res = solve(root_, depth, helper::PLAYER::BLACK);
+
+  node_count_ = 1;
 
   for (auto& child : root_.children()) {
     short res = solve(child, depth, helper::PLAYER::WHITE);
@@ -44,11 +49,15 @@ short Negamax::getAlphaBetaResult() {
     return -1;
   }
 
+  node_count_ = 0;
+
   // Finding the best move
   //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
   //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
   uint16_t depth  = countEmptyCells(root_);
   short final_res = solveAlphaBeta(root_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  node_count_ = 1;
 
   for (auto& child : root_.children()) {
     short res = solveAlphaBeta(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
@@ -69,11 +78,15 @@ short Negamax::getAlphaBetaTranspositionTableResult() {
   }
   NodeTT rootTT_(root_.game());
 
+  node_count_ = 0;
+
   // Finding the best move
   //  iterating through the depth=1 children, if we found an immediate win with the child, then return that move
   //  Note that we must run from the root node first; otherwise, the children ttEntry will be polluted.
   uint16_t depth  = countEmptyCells(root_);
   short final_res = solveAlphaBetaTranspositionTable(rootTT_, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::BLACK);
+
+  node_count_ = 1;
 
   for (auto& child : rootTT_.children()) {
     short res = solveAlphaBetaTranspositionTable(child, depth, -INF_SHORT, +INF_SHORT, helper::PLAYER::WHITE);
@@ -97,6 +110,8 @@ short Negamax::getAlphaBetaTranspositionTableResult() {
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
+  ++node_count_;
+
   if (depth == 0 || node.game().isTerminal()) {
     return -1;
   }
@@ -121,6 +136,8 @@ short Negamax::solve(Node& node, uint16_t depth, helper::PLAYER player) {
  * @return short  1 for WIN, -1 for LOSS
  */
 short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
+  ++node_count_;
+
   if (depth == 0 || node.game().isTerminal()) {
     if (best_move_.value == 0 && player == helper::WHITE) {
       best_move_ = node.move();
@@ -155,6 +172,8 @@ short Negamax::solveAlphaBeta(Node& node, uint16_t depth, short alpha, short bet
  */
 short Negamax::solveAlphaBetaTranspositionTable(NodeTT& node, uint16_t depth, short alpha, short beta, helper::PLAYER player) {
   short old_alpha = alpha;
+
+  ++node_count_;
 
   // get tt entry
   ttEntry entry = transpositionTableLookup(node);

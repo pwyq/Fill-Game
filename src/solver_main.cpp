@@ -46,37 +46,45 @@ void startSolver(std::string& input, size_t time_limit) {
   cout << "using minimax..." << endl;
   cout << minimax.getResult() << endl;
   cout << minimax.bestMove().toString() << endl;
+  cout << "node count = " << minimax.getNodeCount() << endl;
   cout << "using minimax-ab..." << endl;
   minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaResult() << endl;
   cout << minimax.bestMove().toString() << endl;
+  cout << "node count = " << minimax.getNodeCount() << endl;
   cout << "using minimax-ab-tt..." << endl;
   minimax = minimax::Minimax(game);
   cout << minimax.getAlphaBetaTranspositionTableResult() << endl;
   cout << minimax.bestMove().toString() << endl;
+  cout << "node count = " << minimax.getNodeCount() << endl;
 
   negamax::Negamax negamax(game);
   cout << "using negamax..." << endl;
   cout << negamax.getResult() << endl;
   cout << negamax.bestMove().toString() << endl;
+  cout << "node count = " << negamax.getNodeCount() << endl;
   cout << "using negamax-ab..." << endl;
   negamax = negamax::Negamax(game);
   cout << negamax.getAlphaBetaResult() << endl;
   cout << negamax.bestMove().toString() << endl;
+  cout << "node count = " << negamax.getNodeCount() << endl;
   cout << "using negamax-ab-tt..." << endl;
   negamax = negamax::Negamax(game);
   cout << negamax.getAlphaBetaTranspositionTableResult() << endl;
   cout << negamax.bestMove().toString() << endl;
+  cout << "node count = " << negamax.getNodeCount() << endl;
 
   pns::PNS pns(game);
   cout << "using pns..." << endl;
   cout << pns.getResult() << endl;
   cout << pns.bestMove().toString() << endl;
+  cout << "node count = " << pns.getNodeCount() << endl;
 
   mcts::MCTS mcts(game);
   cout << "using mcts..." << endl;
   mcts.search();
   cout << mcts.bestMove().toString() << endl;
+  cout << "node count = " << mcts.getNodeCount() << endl;
 }
 
 /*

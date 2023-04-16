@@ -8,7 +8,7 @@
 
 #ifndef FG_SOLVER_MINIMAX_H_
 #define FG_SOLVER_MINIMAX_H_
-//local
+// local
 #include "game.h"
 #include "helper.h"
 #include "node.h"
@@ -38,11 +38,16 @@ class Minimax {
 
   helper::Move bestMove() const;
 
+  size_t getNodeCount() const {
+    return node_count_;
+  };
+
  private:
   Node root_;
   std::unordered_map<std::string, ttEntry> tt_;
   helper::Move best_move_;                    // used for selecting next move when playing against Human/Other AI
   std::vector<helper::Move> possible_moves_;  // for random selection
+  size_t node_count_;
 
   ttEntry transpositionTableLookup(NodeTT& node);
   inline void transpositionTableStore(NodeTT& node, ttEntry entry);

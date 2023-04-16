@@ -19,9 +19,14 @@ class PNS {
 
   helper::Move bestMove() const;
 
+  size_t getNodeCount() const {
+    return node_count_;
+  };
+
  protected:
   Node* root_;
   helper::Move best_move_;  // used for selecting next move when playing against Human/Other AI
+  size_t node_count_;
 
   short solve(Node* root, helper::PLAYER player);
   Node* selectMostProvingNode(Node* node);
@@ -30,6 +35,6 @@ class PNS {
   void generateChildren(Node* node);
 };
 
-}  // namespace solver
+}  // namespace solver::pns
 
 #endif  // FG_SOLVER_PNS_H_

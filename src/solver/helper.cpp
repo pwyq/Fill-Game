@@ -1,19 +1,21 @@
 /**
-* @author      Junwen Shen
-* @create date 2023-03-21 15:32:34
-* @modify date 2023-03-21 15:32:34
-*/
+ * @author      Junwen Shen
+ * @create date 2023-03-21 15:32:34
+ * @modify date 2023-03-21 15:32:34
+ */
 // local
 #include "solver/helper.h"
 
 // std
 #if defined(_WIN32)
+// clang-format off
 #include <windows.h>
 #include <psapi.h>
+// clang-format on
 
 #elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
-#include <unistd.h>
 #include <sys/resource.h>
+#include <unistd.h>
 
 #if defined(__APPLE__) && defined(__MACH__)
 #include <mach/mach.h>
@@ -40,7 +42,6 @@ namespace solver::helper {
  * source: https://stackoverflow.com/a/14927379
  */
 size_t getPeakRSS() {
-
 #if defined(_WIN32)
   /* Windows -------------------------------------------------- */
   PROCESS_MEMORY_COUNTERS info;
@@ -51,19 +52,18 @@ size_t getPeakRSS() {
   /* AIX and Solaris ------------------------------------------ */
   struct psinfo psinfo;
   int fd = -1;
-  if ( (fd = open( "/proc/self/psinfo", O_RDONLY )) == -1 )
-    return (size_t)0L;      /* Can't open? */
-  if ( read( fd, &psinfo, sizeof(psinfo) ) != sizeof(psinfo) )
-  {
-    close( fd );
-    return (size_t)0L;      /* Can't read? */
+  if ((fd = open("/proc/self/psinfo", O_RDONLY)) == -1)
+    return (size_t)0L; /* Can't open? */
+  if (read(fd, &psinfo, sizeof(psinfo)) != sizeof(psinfo)) {
+    close(fd);
+    return (size_t)0L; /* Can't read? */
   }
-  close( fd );
+  close(fd);
   return (size_t)(psinfo.pr_rssize * 1024L);
 
 #elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
   /* BSD, Linux, and OSX -------------------------------------- */
-  struct rusage rusage{};
+  struct rusage rusage {};
   getrusage(RUSAGE_SELF, &rusage);
 #if defined(__APPLE__) && defined(__MACH__)
   return (size_t)rusage.ru_maxrss;
@@ -73,7 +73,7 @@ size_t getPeakRSS() {
 
 #else
   /* Unknown OS ----------------------------------------------- */
-  return (size_t)0L;          /* Unsupported. */
+  return (size_t)0L; /* Unsupported. */
 #endif
 }
 

@@ -15,16 +15,19 @@
 namespace solver::pns {
 
 PNS::PNS(const Game& game) {
-  root_ = new Node(game, helper::NODE_TYPE::OR, nullptr, helper::PLAYER::BLACK);
-
-  best_move_ = helper::Move{Pos{0, 0}, 0};
+  root_       = new Node(game, helper::NODE_TYPE::OR, nullptr, helper::PLAYER::BLACK);
+  best_move_  = helper::Move{Pos{0, 0}, 0};
+  node_count_ = 0;
 }
 
 short PNS::getResult(helper::PLAYER root_player) {
+  node_count_ = 0;
   return solve(root_, root_player);
 }
 
 short PNS::solve(Node* root, helper::PLAYER player) {
+  ++node_count_;
+
   if (root->game().isTerminal()) {
     return -1;
   }
@@ -113,6 +116,7 @@ void PNS::generateChildren(Node* node) {
   auto possible_moves = node->game().getPossibleMoves();
 
   for (auto& pm : possible_moves) {
+    ++node_count_;
     if (node->type() == helper::NODE_TYPE::OR) {
       node->addChild(new Node(node->game(), pm.first, pm.second, helper::NODE_TYPE::AND, node, helper::changePlayer(node->player())));
     } else {
