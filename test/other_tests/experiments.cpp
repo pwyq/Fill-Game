@@ -43,12 +43,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     case hash("minimax_alphabeta"): {
@@ -60,12 +63,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getAlphaBetaResult();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     case hash("minimax_alphabeta_tt"): {
@@ -77,12 +83,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getAlphaBetaTranspositionTableResult();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     case hash("negamax"): {
@@ -94,12 +103,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     case hash("negamax_alphabeta"): {
@@ -111,12 +123,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getAlphaBetaResult();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     case hash("negamax_alphabeta_tt"): {
@@ -128,12 +143,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getAlphaBetaTranspositionTableResult();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     case hash("dfpn"): {
@@ -145,12 +163,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.solve();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     case hash("pns"): {
@@ -162,12 +183,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.getResult();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     case hash("mcts"): {
@@ -179,12 +203,15 @@ int main(int argc, char** argv) {
       timer.start();
       agent.search();
       timer.stop();
-      auto peakRSS  = getPeakRSS();
-      auto duration = toMilliseconds(timer.duration()).count();
+      auto peakRSS    = getPeakRSS();
+      auto duration   = toMilliseconds(timer.duration()).count();
+      auto node_count = agent.getNodeCount();
       std::cout << "Peak RSS: " << peakRSS << std::endl;
       logFile << peakRSS << std::endl;
       std::cout << "Duration: " << duration << std::endl;
       logFile << duration << std::endl;
+      std::cout << "Nodes opened: " << node_count << std::endl;
+      logFile << node_count << std::endl;
       break;
     }
     default:

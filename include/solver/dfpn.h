@@ -30,6 +30,10 @@ class DFPN {
   inline helper::PROOF_VALUE result() const { return result_; }
   inline helper::Move bestMove() const { return best_move_; }
 
+  size_t getNodeCount() const {
+    return g_counter;
+  }
+
  private:
   Node root_;
   helper::PROOF_VALUE result_ = helper::UNKNOWN;
